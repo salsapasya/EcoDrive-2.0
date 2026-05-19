@@ -56,27 +56,3 @@ This project was developed as an implementation of:
 ---
 
 ## 📂 Project Structure
-
-```plaintext
-EcoDrive
-│
-├── Helpers
-│   └── DBHelper.cs
-│
-├── Models
-│   ├── Customer.cs
-│   ├── Vehicle.cs
-│   └── Transaction.cs
-│
-├── Services
-│   ├── AuthService.cs
-│   ├── VehicleService.cs
-│   └── TransactionService.cs
-│
-├── Forms
-│   ├── LoginForm.cs
-│   ├── RegisterForm.cs
-│   ├── AdminDashboard.cs
-│   └── CustomerDashboard.cs
-│
-└── Program.cs
