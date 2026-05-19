@@ -79,7 +79,7 @@ namespace EcoDrive_vol2.Views
             OpenForm(new AdKendaraan());
         }
 
-        // CHARGING
+        // CUSTOMER
         private void btCustomer_Click(object sender, EventArgs e)
         {
             ResetButton();
@@ -89,7 +89,7 @@ namespace EcoDrive_vol2.Views
             OpenForm(new AdCustomer());
         }
 
-        // RIWAYAT
+        // TRANSAKSI
         private void btTransaksi_Click(object sender, EventArgs e)
         {
             ResetButton();
@@ -99,7 +99,7 @@ namespace EcoDrive_vol2.Views
             OpenForm(new AdTransaksi());
         }
 
-        // SALDO
+        // PENDAPATAN
         private void btPendapatan_Click(object sender, EventArgs e)
         {
             ResetButton();
