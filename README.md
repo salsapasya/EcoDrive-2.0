@@ -56,3 +56,16 @@ This project was developed as an implementation of:
 ---
 
 ## 📂 Project Structure
+
+## 👨‍💻 Developer
+
+Developed by:
+
+- EcoDrive Development Team
+
+---
+
+## 📄 License
+
+This project was developed for educational, academic, and learning purposes.  
+All assets, source code, and system designs are intended solely for study and non-commercial use.
