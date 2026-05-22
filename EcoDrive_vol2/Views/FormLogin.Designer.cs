@@ -30,100 +30,70 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources =
-                new System.ComponentModel.ComponentResourceManager(
-                    typeof(FormLogin));
-
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLogin));
             FrmJudul = new Label();
             TxtUsername = new TextBox();
             TxtPassword = new TextBox();
             CmbRole = new ComboBox();
             BtnLogin = new Button();
             linkLabelRegis = new LinkLabel();
-
             SuspendLayout();
-
-            // =========================
+            // 
             // FrmJudul
-            // =========================
+            // 
             FrmJudul.AutoSize = true;
-            FrmJudul.Font = new Font(
-                "Stencil",
-                18F,
-                FontStyle.Italic,
-                GraphicsUnit.Point,
-                0);
-
-            FrmJudul.ForeColor =
-                Color.FromArgb(255, 192, 192);
-
+            FrmJudul.Font = new Font("Stencil", 18F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            FrmJudul.ForeColor = Color.FromArgb(255, 192, 192);
             FrmJudul.Location = new Point(358, 39);
             FrmJudul.Name = "FrmJudul";
             FrmJudul.Size = new Size(82, 29);
             FrmJudul.TabIndex = 0;
             FrmJudul.Text = "LOGIN";
-
-            // =========================
+            // 
             // TxtUsername
-            // =========================
+            // 
             TxtUsername.Location = new Point(284, 85);
             TxtUsername.Name = "TxtUsername";
             TxtUsername.PlaceholderText = "Username";
             TxtUsername.Size = new Size(129, 23);
             TxtUsername.TabIndex = 1;
-
             TxtUsername.Enter += TxtUsername_Enter;
             TxtUsername.Leave += TxtUsername_Leave;
-
-            // =========================
+            // 
             // TxtPassword
-            // =========================
+            // 
             TxtPassword.Location = new Point(284, 127);
             TxtPassword.Name = "TxtPassword";
             TxtPassword.PlaceholderText = "Password";
             TxtPassword.Size = new Size(129, 23);
             TxtPassword.TabIndex = 2;
             TxtPassword.UseSystemPasswordChar = true;
-
             TxtPassword.Enter += TxtPassword_Enter;
             TxtPassword.Leave += TxtPassword_Leave;
-
-            // =========================
+            // 
             // CmbRole
-            // =========================
+            // 
             CmbRole.FormattingEnabled = true;
-
-            CmbRole.Items.AddRange(
-                new object[]
-                {
-                    "Admin",
-                    "Customer"
-                });
-
+            CmbRole.Items.AddRange(new object[] { "Admin", "Customer" });
             CmbRole.Location = new Point(284, 172);
             CmbRole.Name = "CmbRole";
             CmbRole.Size = new Size(129, 23);
             CmbRole.TabIndex = 3;
             CmbRole.Text = "Pilih Role";
-
-            CmbRole.SelectedIndexChanged +=
-                CmbRole_SelectedIndexChanged;
-
-            // =========================
+            CmbRole.SelectedIndexChanged += CmbRole_SelectedIndexChanged;
+            // 
             // BtnLogin
-            // =========================
+            // 
             BtnLogin.Location = new Point(435, 214);
             BtnLogin.Name = "BtnLogin";
             BtnLogin.Size = new Size(78, 30);
             BtnLogin.TabIndex = 4;
             BtnLogin.Text = "LOGIN";
             BtnLogin.UseVisualStyleBackColor = true;
-
             BtnLogin.Click += BtnLogin_Click;
-
-            // =========================
+            // 
             // linkLabelRegis
-            // =========================
+            // 
             linkLabelRegis.AutoSize = true;
             linkLabelRegis.Location = new Point(358, 217);
             linkLabelRegis.Name = "linkLabelRegis";
@@ -131,39 +101,25 @@
             linkLabelRegis.TabIndex = 5;
             linkLabelRegis.TabStop = true;
             linkLabelRegis.Text = "REGISTER";
-
-            linkLabelRegis.LinkClicked +=
-                linkLabelRegis_LinkClicked;
-
-            // =========================
+            linkLabelRegis.LinkClicked += linkLabelRegis_LinkClicked;
+            // 
             // FormLogin
-            // =========================
+            // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-
-            BackgroundImage =
-                (Image)resources.GetObject(
-                    "$this.BackgroundImage");
-
-            BackgroundImageLayout =
-                ImageLayout.Stretch;
-
-            ClientSize = new Size(560, 270);
-
+            BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
+            BackgroundImageLayout = ImageLayout.Stretch;
+            ClientSize = new Size(644, 311);
             Controls.Add(linkLabelRegis);
             Controls.Add(BtnLogin);
             Controls.Add(CmbRole);
             Controls.Add(TxtPassword);
             Controls.Add(TxtUsername);
             Controls.Add(FrmJudul);
-
             DoubleBuffered = true;
-
             Name = "FormLogin";
             Text = "FormLogin";
-
             Load += FormLogin_Load;
-
             ResumeLayout(false);
             PerformLayout();
         }

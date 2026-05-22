@@ -5,26 +5,24 @@ namespace EcoDrive_vol2.Controllers
 {
     public class LoginController
     {
-        public string Login(
-            string username,
-            string password)
+        public string Login(string username, string password)
         {
             try
             {
-                using (var conn =
+                using (NpgsqlConnection conn =
                     DatabaseHelper.GetConnection())
                 {
                     conn.Open();
 
                     string query = @"
-                    SELECT ru.user_role
+                    SELECT ru.user_role::text
                     FROM users u
                     JOIN role_user ru
                     ON u.id_user_role = ru.id_user_role
                     WHERE u.username = @username
                     AND u.password_user = @password";
 
-                    using (var cmd =
+                    using (NpgsqlCommand cmd =
                         new NpgsqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue(
@@ -35,22 +33,24 @@ namespace EcoDrive_vol2.Controllers
                             "@password",
                             password);
 
-                        var result =
+                        object result =
                             cmd.ExecuteScalar();
 
                         if (result != null)
                         {
                             return result.ToString();
                         }
-
-                        return null;
+                        else
+                        {
+                            return null;
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Error: " + ex.Message);
+                    "Login Error : " + ex.Message);
 
                 return null;
             }
