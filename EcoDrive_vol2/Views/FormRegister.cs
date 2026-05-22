@@ -17,17 +17,25 @@ namespace EcoDrive_vol2
 
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
-
+            //Password
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-
+            //Username
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            MessageBox.Show(
+        "Register Berhasil");
 
+            FormLogin login =
+                new FormLogin();
+
+            login.Show();
+
+            this.Hide();
         }
 
         private void FormRegister_Load(object sender, EventArgs e)
@@ -41,6 +49,16 @@ namespace EcoDrive_vol2
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtTelp_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtNama_TextChanged(object sender, EventArgs e)
         {
 
         }

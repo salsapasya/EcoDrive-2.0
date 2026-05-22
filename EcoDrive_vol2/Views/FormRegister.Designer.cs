@@ -29,26 +29,17 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormRegister));
-            txtNama = new TextBox();
             txtUsername = new TextBox();
             txtPassword = new TextBox();
             LblSignUp = new Label();
-            cmbRole = new ComboBox();
             btnSignUp = new Button();
+            txtTelp = new TextBox();
+            txtNama = new TextBox();
             SuspendLayout();
-            // 
-            // txtNama
-            // 
-            txtNama.Location = new Point(401, 130);
-            txtNama.Name = "txtNama";
-            txtNama.PlaceholderText = "Nama";
-            txtNama.Size = new Size(182, 31);
-            txtNama.TabIndex = 0;
-            txtNama.TextChanged += textBox1_TextChanged;
             // 
             // txtUsername
             // 
-            txtUsername.Location = new Point(401, 185);
+            txtUsername.Location = new Point(401, 254);
             txtUsername.Name = "txtUsername";
             txtUsername.PlaceholderText = "Username";
             txtUsername.Size = new Size(182, 31);
@@ -57,7 +48,7 @@
             // 
             // txtPassword
             // 
-            txtPassword.Location = new Point(401, 241);
+            txtPassword.Location = new Point(401, 316);
             txtPassword.Name = "txtPassword";
             txtPassword.PlaceholderText = "Password";
             txtPassword.Size = new Size(182, 31);
@@ -76,16 +67,6 @@
             LblSignUp.Text = "Sign Up";
             LblSignUp.Click += LblSignUp_Click;
             // 
-            // cmbRole
-            // 
-            cmbRole.FormattingEnabled = true;
-            cmbRole.Items.AddRange(new object[] { "Admin", "Customer" });
-            cmbRole.Location = new Point(401, 305);
-            cmbRole.Name = "cmbRole";
-            cmbRole.Size = new Size(182, 33);
-            cmbRole.TabIndex = 4;
-            cmbRole.Text = "Pilih Role";
-            // 
             // btnSignUp
             // 
             btnSignUp.Location = new Point(629, 359);
@@ -96,6 +77,24 @@
             btnSignUp.UseVisualStyleBackColor = true;
             btnSignUp.Click += button1_Click;
             // 
+            // txtTelp
+            // 
+            txtTelp.Location = new Point(401, 190);
+            txtTelp.Name = "txtTelp";
+            txtTelp.PlaceholderText = "No Telp";
+            txtTelp.Size = new Size(182, 31);
+            txtTelp.TabIndex = 6;
+            txtTelp.TextChanged += txtTelp_TextChanged;
+            // 
+            // txtNama
+            // 
+            txtNama.Location = new Point(401, 135);
+            txtNama.Name = "txtNama";
+            txtNama.PlaceholderText = "Nama";
+            txtNama.Size = new Size(182, 31);
+            txtNama.TabIndex = 7;
+            txtNama.TextChanged += txtNama_TextChanged;
+            // 
             // FormRegister
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -103,12 +102,12 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(800, 450);
+            Controls.Add(txtNama);
+            Controls.Add(txtTelp);
             Controls.Add(btnSignUp);
-            Controls.Add(cmbRole);
             Controls.Add(LblSignUp);
             Controls.Add(txtPassword);
             Controls.Add(txtUsername);
-            Controls.Add(txtNama);
             DoubleBuffered = true;
             Name = "FormRegister";
             Text = "FormRegister";
@@ -117,12 +116,11 @@
         }
 
         #endregion
-
-        private TextBox txtNama;
         private TextBox txtUsername;
         private TextBox txtPassword;
         private Label LblSignUp;
-        private ComboBox cmbRole;
         private Button btnSignUp;
+        private TextBox txtTelp;
+        private TextBox txtNama;
     }
 }

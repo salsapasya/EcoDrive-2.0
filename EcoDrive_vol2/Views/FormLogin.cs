@@ -21,18 +21,36 @@ namespace EcoDrive_vol2
 
         private void FormLogin_Load(object sender, EventArgs e)
         {
+            // Password jadi bintang
+            TxtPassword.UseSystemPasswordChar = true;
 
+            // Isi ComboBox Role
+            CmbRole.Items.Add("Admin");
+            CmbRole.Items.Add("Customer");
+
+            CmbRole.SelectedIndex = -1;
+
+            // Cursor Sign Up
+            lblSignUp.Cursor = Cursors.Hand;
+            lblSignUp.ForeColor = Color.Blue;
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
-
+            // Label Username
+            TxtUsername.Focus();
         }
 
         private void linkLabelRegis_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            FormRegister register =
+        new FormRegister();
 
+            register.Show();
+
+            this.Hide();
         }
+
         private void BtnLogin_Click(object sender, EventArgs e)
         {
             try
@@ -85,6 +103,7 @@ namespace EcoDrive_vol2
         }
         private void CmbRole_SelectedIndexChanged(object sender, EventArgs e)
         {
+
         }
         private void TxtPassword_TextChanged(object sender, EventArgs e)
         {
@@ -130,7 +149,24 @@ namespace EcoDrive_vol2
         }
         private void label2_Click(object sender, EventArgs e)
         {
+            // Label Password
+            TxtPassword.Focus();
+        }
+
+        private void label1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void TxtUsername_TextChanged_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FrmJudul_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(
+        "Selamat Datang di EcoDrive");
         }
     }
-
 }
