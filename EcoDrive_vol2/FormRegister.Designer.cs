@@ -110,6 +110,7 @@
             DoubleBuffered = true;
             Name = "FormRegister";
             Text = "FormRegister";
+            Load += FormRegister_Load;
             ResumeLayout(false);
             PerformLayout();
         }

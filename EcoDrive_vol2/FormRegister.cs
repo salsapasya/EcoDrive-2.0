@@ -29,5 +29,10 @@ namespace EcoDrive_vol2
         {
 
         }
+
+        private void FormRegister_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
