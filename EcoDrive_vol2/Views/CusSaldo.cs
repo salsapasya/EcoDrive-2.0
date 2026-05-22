@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EcoDrive_vol2.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,10 +12,29 @@ namespace EcoDrive_vol2.Views
     public partial class CusSaldo : Form
     {
         private Color bgUtama = Color.FromArgb(255, 253, 246);
+        private object txtIdCustomer;
+
         public CusSaldo()
         {
             InitializeComponent();
             this.BackColor = bgUtama;
+
+        }
+        private void btnTopup_Click(
+            object sender,
+            EventArgs e)
+        {
+            try
+            {
+                TopUpSaldo topup = new TopUpSaldo();           
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
 
         }
     }
