@@ -29,42 +29,45 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLogin));
-            LblLogin = new Label();
+            FrmJudul = new Label();
             TxtUsername = new TextBox();
             TxtPassword = new TextBox();
             CmbRole = new ComboBox();
             BtnLogin = new Button();
-            btnRegister = new Button();
+            linkLabelRegis = new LinkLabel();
             SuspendLayout();
             // 
-            // LblLogin
+            // FrmJudul
             // 
-            LblLogin.AutoSize = true;
-            LblLogin.Font = new Font("Stencil", 18F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            LblLogin.ForeColor = Color.FromArgb(255, 192, 192);
-            LblLogin.Location = new Point(511, 65);
-            LblLogin.Name = "LblLogin";
-            LblLogin.Size = new Size(121, 43);
-            LblLogin.TabIndex = 0;
-            LblLogin.Text = "LOGIN";
-            LblLogin.Click += LblLogin_Click;
+            FrmJudul.AutoSize = true;
+            FrmJudul.Font = new Font("Stencil", 18F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            FrmJudul.ForeColor = Color.FromArgb(255, 192, 192);
+            FrmJudul.Location = new Point(358, 39);
+            FrmJudul.Margin = new Padding(2, 0, 2, 0);
+            FrmJudul.Name = "FrmJudul";
+            FrmJudul.Size = new Size(82, 29);
+            FrmJudul.TabIndex = 0;
+            FrmJudul.Text = "LOGIN";
+            FrmJudul.Click += label1_Click;
             // 
             // TxtUsername
             // 
-            TxtUsername.Location = new Point(406, 141);
+            TxtUsername.Location = new Point(284, 85);
+            TxtUsername.Margin = new Padding(2, 2, 2, 2);
             TxtUsername.Name = "TxtUsername";
             TxtUsername.PlaceholderText = "Username";
-            TxtUsername.Size = new Size(182, 31);
+            TxtUsername.Size = new Size(129, 23);
             TxtUsername.TabIndex = 1;
             TxtUsername.Enter += TxtUsername_Enter;
             TxtUsername.Leave += TxtUsername_Leave;
             // 
             // TxtPassword
             // 
-            TxtPassword.Location = new Point(406, 212);
+            TxtPassword.Location = new Point(284, 127);
+            TxtPassword.Margin = new Padding(2, 2, 2, 2);
             TxtPassword.Name = "TxtPassword";
             TxtPassword.PlaceholderText = "Password";
-            TxtPassword.Size = new Size(182, 31);
+            TxtPassword.Size = new Size(129, 23);
             TxtPassword.TabIndex = 2;
             TxtPassword.UseSystemPasswordChar = true;
             TxtPassword.Enter += TxtPassword_Enter;
@@ -74,61 +77,66 @@
             // 
             CmbRole.FormattingEnabled = true;
             CmbRole.Items.AddRange(new object[] { "Admin", "Customer" });
-            CmbRole.Location = new Point(406, 286);
+            CmbRole.Location = new Point(284, 172);
+            CmbRole.Margin = new Padding(2, 2, 2, 2);
             CmbRole.Name = "CmbRole";
-            CmbRole.Size = new Size(182, 33);
+            CmbRole.Size = new Size(129, 23);
             CmbRole.TabIndex = 3;
             CmbRole.Text = "Pilih Role";
             CmbRole.SelectedIndexChanged += CmbRole_SelectedIndexChanged;
             // 
             // BtnLogin
             // 
-            BtnLogin.Location = new Point(621, 356);
+            BtnLogin.Location = new Point(435, 214);
+            BtnLogin.Margin = new Padding(2, 2, 2, 2);
             BtnLogin.Name = "BtnLogin";
-            BtnLogin.Size = new Size(112, 34);
+            BtnLogin.Size = new Size(78, 20);
             BtnLogin.TabIndex = 4;
             BtnLogin.Text = "LOGIN";
             BtnLogin.UseVisualStyleBackColor = true;
             BtnLogin.Click += BtnLogin_Click;
             // 
-            // btnRegister
+            // linkLabelRegis
             // 
-            btnRegister.Location = new Point(476, 356);
-            btnRegister.Name = "btnRegister";
-            btnRegister.Size = new Size(112, 34);
-            btnRegister.TabIndex = 5;
-            btnRegister.Text = "REGISTER";
-            btnRegister.UseVisualStyleBackColor = true;
-            btnRegister.Click += btnRegister_Click;
+            linkLabelRegis.AutoSize = true;
+            linkLabelRegis.Location = new Point(358, 217);
+            linkLabelRegis.Margin = new Padding(2, 0, 2, 0);
+            linkLabelRegis.Name = "linkLabelRegis";
+            linkLabelRegis.Size = new Size(57, 15);
+            linkLabelRegis.TabIndex = 5;
+            linkLabelRegis.TabStop = true;
+            linkLabelRegis.Text = "REGISTER";
+            linkLabelRegis.LinkClicked += linkLabelRegis_LinkClicked;
             // 
             // FormLogin
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(800, 450);
-            Controls.Add(btnRegister);
+            ClientSize = new Size(560, 270);
+            Controls.Add(linkLabelRegis);
             Controls.Add(BtnLogin);
             Controls.Add(CmbRole);
             Controls.Add(TxtPassword);
             Controls.Add(TxtUsername);
-            Controls.Add(LblLogin);
+            Controls.Add(FrmJudul);
             DoubleBuffered = true;
+            Margin = new Padding(2, 2, 2, 2);
             Name = "FormLogin";
             Text = "FormLogin";
-            Load += FormLogin_Load;
+            Load += this.FormLogin_Load;
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Label LblLogin;
+        private Label FrmJudul;
         private TextBox TxtUsername;
         private TextBox TxtPassword;
         private ComboBox CmbRole;
         private Button BtnLogin;
-        private Button btnRegister;
+        private LinkLabel linkLabelRegis;
     }
 }
