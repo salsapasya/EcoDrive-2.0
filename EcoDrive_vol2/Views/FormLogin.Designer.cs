@@ -121,6 +121,7 @@
             lblSignUp.TabIndex = 6;
             lblSignUp.TabStop = true;
             lblSignUp.Text = "Sign up";
+            lblSignUp.LinkClicked += lblSignUp_Click;
             // 
             // FormLogin
             // 

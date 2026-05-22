@@ -17,12 +17,13 @@ namespace EcoDrive_vol2
 
         private void txtPassword_TextChanged(object sender, EventArgs e)
         {
-            //Password
+            // Password jadi bintang
+            txtPassword.PasswordChar = '*';
         }
 
         private void txtUsername_TextChanged(object sender, EventArgs e)
         {
-            //Username
+            // Username
         }
 
         private void btnSignUp_Click(object sender, EventArgs e)
@@ -40,27 +41,48 @@ namespace EcoDrive_vol2
 
         private void FormRegister_Load(object sender, EventArgs e)
         {
+            // Password jadi bintang
+            txtPassword.UseSystemPasswordChar = true;
 
+            // Cursor Login
+            LblSignUp.Cursor = Cursors.Hand;
+            LblSignUp.ForeColor = Color.Blue;
+
+            // Placeholder Nama
+            txtNama.Text = "Nama";
+            txtNama.ForeColor = Color.Gray;
+
+            // Placeholder Telepon
+            txtTelp.Text = "No Telp";
+            txtTelp.ForeColor = Color.Gray;
+
+            // Placeholder Username
+            txtUsername.Text = "Username";
+            txtUsername.ForeColor = Color.Gray;
+
+            // Placeholder Password
+            txtPassword.Text = "Password";
+            txtPassword.ForeColor = Color.Gray;
         }
 
         private void LblSignUp_Click(object sender, EventArgs e)
         {
+            FormLogin login =
+                new FormLogin();
 
-        }
+            login.Show();
 
-        private void txtEmail_TextChanged(object sender, EventArgs e)
-        {
-
+            this.Hide();
         }
 
         private void txtTelp_TextChanged(object sender, EventArgs e)
         {
-
+            //No Telp
         }
 
         private void txtNama_TextChanged(object sender, EventArgs e)
         {
-
+            //Nama
         }
     }
 }

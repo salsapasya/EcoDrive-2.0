@@ -168,5 +168,15 @@ namespace EcoDrive_vol2
             MessageBox.Show(
         "Selamat Datang di EcoDrive");
         }
+
+        private void lblSignUp_Click(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            FormRegister register =
+        new FormRegister();
+
+            register.Show();
+
+            this.Hide();
+        }
     }
 }
