@@ -17,10 +17,26 @@ namespace EcoDrive_vol2
 
         private void FormLogin_Load(object sender, EventArgs e)
         {
+            // Role
+            CmbRole.Items.Add("Admin");
+            CmbRole.Items.Add("Customer");
 
+            CmbRole.SelectedIndex = 0;
+
+            // Password
+            TxtPassword.UseSystemPasswordChar = true;
+
+            // Placeholder Username
+            TxtUsername.Text = "Masukkan Username";
+            TxtUsername.ForeColor = Color.Gray;
+
+            // Placeholder Password
+            TxtPassword.Text = "Masukkan Password";
+            TxtPassword.ForeColor = Color.Gray;
+            TxtPassword.UseSystemPasswordChar = false;
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void LblLogin_Click(object sender, EventArgs e)
         {
 
         }
@@ -28,6 +44,15 @@ namespace EcoDrive_vol2
         private void btnRegister_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void TxtUsername_TextChanged(object sender, EventArgs e)
+        {
+            if (TxtUsername.Text == "Masukkan Username")
+            {
+                TxtUsername.Text = "";
+                TxtUsername.ForeColor = Color.Black;
+            }
         }
     }
 }

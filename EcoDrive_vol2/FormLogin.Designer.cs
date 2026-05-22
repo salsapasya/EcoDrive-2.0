@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormLogin));
-            FrmJudul = new Label();
+            LblLogin = new Label();
             TxtUsername = new TextBox();
             TxtPassword = new TextBox();
             CmbRole = new ComboBox();
@@ -37,17 +37,17 @@
             btnRegister = new Button();
             SuspendLayout();
             // 
-            // FrmJudul
+            // LblLogin
             // 
-            FrmJudul.AutoSize = true;
-            FrmJudul.Font = new Font("Stencil", 18F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            FrmJudul.ForeColor = Color.FromArgb(255, 192, 192);
-            FrmJudul.Location = new Point(511, 65);
-            FrmJudul.Name = "FrmJudul";
-            FrmJudul.Size = new Size(121, 43);
-            FrmJudul.TabIndex = 0;
-            FrmJudul.Text = "LOGIN";
-            FrmJudul.Click += label1_Click;
+            LblLogin.AutoSize = true;
+            LblLogin.Font = new Font("Stencil", 18F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            LblLogin.ForeColor = Color.FromArgb(255, 192, 192);
+            LblLogin.Location = new Point(511, 65);
+            LblLogin.Name = "LblLogin";
+            LblLogin.Size = new Size(121, 43);
+            LblLogin.TabIndex = 0;
+            LblLogin.Text = "LOGIN";
+            LblLogin.Click += LblLogin_Click;
             // 
             // TxtUsername
             // 
@@ -56,6 +56,7 @@
             TxtUsername.PlaceholderText = "Username";
             TxtUsername.Size = new Size(182, 31);
             TxtUsername.TabIndex = 1;
+            TxtUsername.TextChanged += TxtUsername_TextChanged;
             // 
             // TxtPassword
             // 
@@ -107,7 +108,7 @@
             Controls.Add(CmbRole);
             Controls.Add(TxtPassword);
             Controls.Add(TxtUsername);
-            Controls.Add(FrmJudul);
+            Controls.Add(LblLogin);
             DoubleBuffered = true;
             Name = "FormLogin";
             Text = "FormLogin";
@@ -118,7 +119,7 @@
 
         #endregion
 
-        private Label FrmJudul;
+        private Label LblLogin;
         private TextBox TxtUsername;
         private TextBox TxtPassword;
         private ComboBox CmbRole;
