@@ -225,6 +225,7 @@
             btLogout.Text = "           Logout";
             btLogout.TextAlign = ContentAlignment.MiddleLeft;
             btLogout.UseVisualStyleBackColor = false;
+            btLogout.Click += btLogout_Click;
             // 
             // pnContentCustomer
             // 

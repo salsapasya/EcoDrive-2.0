@@ -103,5 +103,24 @@ namespace EcoDrive_vol2
 
             OpenForm(new CusSaldo());
         }
+
+        private void btLogout_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show(
+                "Apakah Anda yakin ingin logout?",
+                "Logout",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                // buka login
+                FormLogin login = new FormLogin();
+                login.Show();
+
+                // tutup dashboard
+                this.Close();
+            }
+        }
     }
 }
