@@ -34,5 +34,15 @@ namespace EcoDrive_vol2
         {
 
         }
+
+        private void LblSignUp_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

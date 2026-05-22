@@ -56,7 +56,8 @@
             TxtUsername.PlaceholderText = "Username";
             TxtUsername.Size = new Size(182, 31);
             TxtUsername.TabIndex = 1;
-            TxtUsername.TextChanged += TxtUsername_TextChanged;
+            TxtUsername.Enter += TxtUsername_Enter;
+            TxtUsername.Leave += TxtUsername_Leave;
             // 
             // TxtPassword
             // 
@@ -66,6 +67,8 @@
             TxtPassword.Size = new Size(182, 31);
             TxtPassword.TabIndex = 2;
             TxtPassword.UseSystemPasswordChar = true;
+            TxtPassword.Enter += TxtPassword_Enter;
+            TxtPassword.Leave += TxtPassword_Leave;
             // 
             // CmbRole
             // 
@@ -76,6 +79,7 @@
             CmbRole.Size = new Size(182, 33);
             CmbRole.TabIndex = 3;
             CmbRole.Text = "Pilih Role";
+            CmbRole.SelectedIndexChanged += CmbRole_SelectedIndexChanged;
             // 
             // BtnLogin
             // 
@@ -85,6 +89,7 @@
             BtnLogin.TabIndex = 4;
             BtnLogin.Text = "LOGIN";
             BtnLogin.UseVisualStyleBackColor = true;
+            BtnLogin.Click += BtnLogin_Click;
             // 
             // btnRegister
             // 

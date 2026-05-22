@@ -29,39 +29,40 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormRegister));
-            textBox1 = new TextBox();
-            textBox2 = new TextBox();
-            textBox3 = new TextBox();
+            txtNama = new TextBox();
+            txtUsername = new TextBox();
+            txtPassword = new TextBox();
             LblSignUp = new Label();
-            comboBox1 = new ComboBox();
-            button1 = new Button();
+            cmbRole = new ComboBox();
+            btnSignUp = new Button();
             SuspendLayout();
             // 
-            // textBox1
+            // txtNama
             // 
-            textBox1.Location = new Point(401, 130);
-            textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = "Nama";
-            textBox1.Size = new Size(182, 31);
-            textBox1.TabIndex = 0;
+            txtNama.Location = new Point(401, 130);
+            txtNama.Name = "txtNama";
+            txtNama.PlaceholderText = "Nama";
+            txtNama.Size = new Size(182, 31);
+            txtNama.TabIndex = 0;
+            txtNama.TextChanged += textBox1_TextChanged;
             // 
-            // textBox2
+            // txtUsername
             // 
-            textBox2.Location = new Point(401, 185);
-            textBox2.Name = "textBox2";
-            textBox2.PlaceholderText = "Username";
-            textBox2.Size = new Size(182, 31);
-            textBox2.TabIndex = 1;
-            textBox2.TextChanged += textBox2_TextChanged;
+            txtUsername.Location = new Point(401, 185);
+            txtUsername.Name = "txtUsername";
+            txtUsername.PlaceholderText = "Username";
+            txtUsername.Size = new Size(182, 31);
+            txtUsername.TabIndex = 1;
+            txtUsername.TextChanged += textBox2_TextChanged;
             // 
-            // textBox3
+            // txtPassword
             // 
-            textBox3.Location = new Point(401, 241);
-            textBox3.Name = "textBox3";
-            textBox3.PlaceholderText = "Password";
-            textBox3.Size = new Size(182, 31);
-            textBox3.TabIndex = 2;
-            textBox3.TextChanged += textBox3_TextChanged;
+            txtPassword.Location = new Point(401, 241);
+            txtPassword.Name = "txtPassword";
+            txtPassword.PlaceholderText = "Password";
+            txtPassword.Size = new Size(182, 31);
+            txtPassword.TabIndex = 2;
+            txtPassword.TextChanged += textBox3_TextChanged;
             // 
             // LblSignUp
             // 
@@ -73,26 +74,27 @@
             LblSignUp.Size = new Size(155, 43);
             LblSignUp.TabIndex = 3;
             LblSignUp.Text = "Sign Up";
+            LblSignUp.Click += LblSignUp_Click;
             // 
-            // comboBox1
+            // cmbRole
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Admin", "Customer" });
-            comboBox1.Location = new Point(401, 305);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(182, 33);
-            comboBox1.TabIndex = 4;
-            comboBox1.Text = "Pilih Role";
+            cmbRole.FormattingEnabled = true;
+            cmbRole.Items.AddRange(new object[] { "Admin", "Customer" });
+            cmbRole.Location = new Point(401, 305);
+            cmbRole.Name = "cmbRole";
+            cmbRole.Size = new Size(182, 33);
+            cmbRole.TabIndex = 4;
+            cmbRole.Text = "Pilih Role";
             // 
-            // button1
+            // btnSignUp
             // 
-            button1.Location = new Point(629, 359);
-            button1.Name = "button1";
-            button1.Size = new Size(112, 34);
-            button1.TabIndex = 5;
-            button1.Text = "Sign Up";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            btnSignUp.Location = new Point(629, 359);
+            btnSignUp.Name = "btnSignUp";
+            btnSignUp.Size = new Size(112, 34);
+            btnSignUp.TabIndex = 5;
+            btnSignUp.Text = "Sign Up";
+            btnSignUp.UseVisualStyleBackColor = true;
+            btnSignUp.Click += button1_Click;
             // 
             // FormRegister
             // 
@@ -101,12 +103,12 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(800, 450);
-            Controls.Add(button1);
-            Controls.Add(comboBox1);
+            Controls.Add(btnSignUp);
+            Controls.Add(cmbRole);
             Controls.Add(LblSignUp);
-            Controls.Add(textBox3);
-            Controls.Add(textBox2);
-            Controls.Add(textBox1);
+            Controls.Add(txtPassword);
+            Controls.Add(txtUsername);
+            Controls.Add(txtNama);
             DoubleBuffered = true;
             Name = "FormRegister";
             Text = "FormRegister";
@@ -117,11 +119,11 @@
 
         #endregion
 
-        private TextBox textBox1;
-        private TextBox textBox2;
-        private TextBox textBox3;
+        private TextBox txtNama;
+        private TextBox txtUsername;
+        private TextBox txtPassword;
         private Label LblSignUp;
-        private ComboBox comboBox1;
-        private Button button1;
+        private ComboBox cmbRole;
+        private Button btnSignUp;
     }
 }
