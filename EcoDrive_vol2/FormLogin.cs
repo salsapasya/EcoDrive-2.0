@@ -24,5 +24,10 @@ namespace EcoDrive_vol2
         {
 
         }
+
+        private void btnRegister_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

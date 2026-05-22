@@ -34,7 +34,7 @@
             TxtPassword = new TextBox();
             CmbRole = new ComboBox();
             BtnLogin = new Button();
-            linkLabelRegis = new LinkLabel();
+            btnRegister = new Button();
             SuspendLayout();
             // 
             // FrmJudul
@@ -85,15 +85,15 @@
             BtnLogin.Text = "LOGIN";
             BtnLogin.UseVisualStyleBackColor = true;
             // 
-            // linkLabelRegis
+            // btnRegister
             // 
-            linkLabelRegis.AutoSize = true;
-            linkLabelRegis.Location = new Point(511, 361);
-            linkLabelRegis.Name = "linkLabelRegis";
-            linkLabelRegis.Size = new Size(88, 25);
-            linkLabelRegis.TabIndex = 5;
-            linkLabelRegis.TabStop = true;
-            linkLabelRegis.Text = "REGISTER";
+            btnRegister.Location = new Point(476, 356);
+            btnRegister.Name = "btnRegister";
+            btnRegister.Size = new Size(112, 34);
+            btnRegister.TabIndex = 5;
+            btnRegister.Text = "REGISTER";
+            btnRegister.UseVisualStyleBackColor = true;
+            btnRegister.Click += btnRegister_Click;
             // 
             // FormLogin
             // 
@@ -102,7 +102,7 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(800, 450);
-            Controls.Add(linkLabelRegis);
+            Controls.Add(btnRegister);
             Controls.Add(BtnLogin);
             Controls.Add(CmbRole);
             Controls.Add(TxtPassword);
@@ -123,6 +123,6 @@
         private TextBox TxtPassword;
         private ComboBox CmbRole;
         private Button BtnLogin;
-        private LinkLabel linkLabelRegis;
+        private Button btnRegister;
     }
 }
