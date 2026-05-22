@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EcoDrive_vol2")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c32cd420981d34f3a3fb36866346942446c953ca")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a139f5efbc9940b820c60c977a09f652d6425e55")]
 [assembly: System.Reflection.AssemblyProductAttribute("EcoDrive_vol2")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EcoDrive_vol2")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

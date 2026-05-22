@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             label1 = new Label();
+            flowLayoutPanel1 = new FlowLayoutPanel();
             SuspendLayout();
             // 
             // label1
@@ -36,18 +37,26 @@
             label1.AutoSize = true;
             label1.Location = new Point(350, 157);
             label1.Name = "label1";
-            label1.Size = new Size(62, 15);
+            label1.Size = new Size(0, 15);
             label1.TabIndex = 0;
-            label1.Text = "kendaraan";
+            // 
+            // flowLayoutPanel1
+            // 
+            flowLayoutPanel1.Location = new Point(12, 12);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(776, 426);
+            flowLayoutPanel1.TabIndex = 1;
             // 
             // CusKendaraan
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(flowLayoutPanel1);
             Controls.Add(label1);
             Name = "CusKendaraan";
             Text = "CusKendaraan";
+            Load += CusKendaraan_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -55,5 +64,6 @@
         #endregion
 
         private Label label1;
+        private FlowLayoutPanel flowLayoutPanel1;
     }
 }
