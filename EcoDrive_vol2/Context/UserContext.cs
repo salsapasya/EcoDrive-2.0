@@ -4,8 +4,9 @@ using System.Text;
 using System.Linq;
 using EcoDrive_vol2.Helpers;
 using Npgsql;
+using EcoDrive_vol2.Models;
 
-namespace EcoDrive_vol2.Models
+namespace EcoDrive_vol2.Context
 {
     class UserContext
     {

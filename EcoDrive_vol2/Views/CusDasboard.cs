@@ -122,5 +122,10 @@ namespace EcoDrive_vol2
                 this.Close();
             }
         }
+
+        private void btKendaraan_Click_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }

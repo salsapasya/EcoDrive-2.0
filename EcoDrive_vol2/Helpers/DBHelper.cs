@@ -10,6 +10,7 @@ namespace EcoDrive_vol2.Helpers
     {
         private static string connString = "Host=localhost;Port=5432;Database=ecodrive;Username=postgres;Password=langgeng847";
         //private static string connString = "Host=localhost;Port=5432;Database=ecodrive;Username=postgres;Password=langgeng847";
+        // ntar punya kalian juga komen gini ya, biar enak kalau mau ganti password atau database, tinggal ganti di satu tempat aja
 
         public static NpgsqlConnection GetConnection()
         {
