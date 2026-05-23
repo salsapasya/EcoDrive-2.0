@@ -39,69 +39,77 @@
             // 
             // txtUsername
             // 
-            txtUsername.Location = new Point(401, 254);
+            txtUsername.Location = new Point(281, 152);
+            txtUsername.Margin = new Padding(2);
             txtUsername.Name = "txtUsername";
             txtUsername.PlaceholderText = "Username";
-            txtUsername.Size = new Size(182, 31);
+            txtUsername.Size = new Size(129, 23);
             txtUsername.TabIndex = 1;
-            txtUsername.TextChanged += textBox2_TextChanged;
+            txtUsername.TextChanged += txtUsername_TextChanged;
             // 
             // txtPassword
             // 
-            txtPassword.Location = new Point(401, 316);
+            txtPassword.AccessibleName = "txtPassowrd";
+            txtPassword.Location = new Point(281, 190);
+            txtPassword.Margin = new Padding(2);
             txtPassword.Name = "txtPassword";
             txtPassword.PlaceholderText = "Password";
-            txtPassword.Size = new Size(182, 31);
+            txtPassword.Size = new Size(129, 23);
             txtPassword.TabIndex = 2;
-            txtPassword.TextChanged += textBox3_TextChanged;
+            txtPassword.TextChanged += txtPassword_TextChanged;
             // 
             // LblSignUp
             // 
             LblSignUp.AutoSize = true;
             LblSignUp.Font = new Font("Stencil", 18F, FontStyle.Italic, GraphicsUnit.Point, 0);
             LblSignUp.ForeColor = Color.FromArgb(255, 192, 192);
-            LblSignUp.Location = new Point(489, 55);
+            LblSignUp.Location = new Point(342, 33);
+            LblSignUp.Margin = new Padding(2, 0, 2, 0);
             LblSignUp.Name = "LblSignUp";
-            LblSignUp.Size = new Size(155, 43);
+            LblSignUp.Size = new Size(104, 29);
             LblSignUp.TabIndex = 3;
             LblSignUp.Text = "Sign Up";
             LblSignUp.Click += LblSignUp_Click;
             // 
             // btnSignUp
             // 
-            btnSignUp.Location = new Point(629, 359);
+            btnSignUp.AccessibleName = "btnSignUp";
+            btnSignUp.Location = new Point(440, 215);
+            btnSignUp.Margin = new Padding(2);
             btnSignUp.Name = "btnSignUp";
-            btnSignUp.Size = new Size(112, 34);
+            btnSignUp.Size = new Size(78, 20);
             btnSignUp.TabIndex = 5;
             btnSignUp.Text = "Sign Up";
             btnSignUp.UseVisualStyleBackColor = true;
-            btnSignUp.Click += button1_Click;
+            btnSignUp.Click += btnSignUp_Click;
             // 
             // txtTelp
             // 
-            txtTelp.Location = new Point(401, 190);
+            txtTelp.Location = new Point(281, 114);
+            txtTelp.Margin = new Padding(2);
             txtTelp.Name = "txtTelp";
             txtTelp.PlaceholderText = "No Telp";
-            txtTelp.Size = new Size(182, 31);
+            txtTelp.Size = new Size(129, 23);
             txtTelp.TabIndex = 6;
             txtTelp.TextChanged += txtTelp_TextChanged;
             // 
             // txtNama
             // 
-            txtNama.Location = new Point(401, 135);
+            txtNama.Location = new Point(281, 81);
+            txtNama.Margin = new Padding(2);
             txtNama.Name = "txtNama";
             txtNama.PlaceholderText = "Nama";
-            txtNama.Size = new Size(182, 31);
+            txtNama.Size = new Size(129, 23);
             txtNama.TabIndex = 7;
             txtNama.TextChanged += txtNama_TextChanged;
             // 
             // FormRegister
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(560, 270);
             Controls.Add(txtNama);
             Controls.Add(txtTelp);
             Controls.Add(btnSignUp);
@@ -109,6 +117,7 @@
             Controls.Add(txtPassword);
             Controls.Add(txtUsername);
             DoubleBuffered = true;
+            Margin = new Padding(2);
             Name = "FormRegister";
             Text = "FormRegister";
             ResumeLayout(false);
