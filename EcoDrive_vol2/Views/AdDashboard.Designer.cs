@@ -150,6 +150,7 @@
             btKendaraan.Text = "           Kendaraan";
             btKendaraan.TextAlign = ContentAlignment.MiddleLeft;
             btKendaraan.UseVisualStyleBackColor = false;
+            btKendaraan.Click += btKendaraan_Click;
             // 
             // pnTransaksi
             // 
