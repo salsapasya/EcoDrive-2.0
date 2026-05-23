@@ -24,9 +24,9 @@ namespace EcoDrive_vol2
             // Password jadi bintang
             TxtPassword.UseSystemPasswordChar = true;
 
-            // Isi ComboBox Role
-            CmbRole.Items.Add("Admin");
-            CmbRole.Items.Add("Customer");
+            //// Isi ComboBox Role
+            //CmbRole.Items.Add("Admin");
+            //CmbRole.Items.Add("Customer");
 
             CmbRole.SelectedIndex = -1;
 
