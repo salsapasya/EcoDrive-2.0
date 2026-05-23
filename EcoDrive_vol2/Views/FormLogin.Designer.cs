@@ -36,7 +36,8 @@
             TxtPassword = new TextBox();
             CmbRole = new ComboBox();
             BtnLogin = new Button();
-            linkLabelRegis = new LinkLabel();
+            label1 = new Label();
+            linkLabel1 = new LinkLabel();
             SuspendLayout();
             // 
             // FrmJudul
@@ -84,7 +85,7 @@
             // 
             // BtnLogin
             // 
-            BtnLogin.Location = new Point(435, 214);
+            BtnLogin.Location = new Point(303, 201);
             BtnLogin.Name = "BtnLogin";
             BtnLogin.Size = new Size(78, 30);
             BtnLogin.TabIndex = 4;
@@ -92,16 +93,24 @@
             BtnLogin.UseVisualStyleBackColor = true;
             BtnLogin.Click += BtnLogin_Click;
             // 
-            // linkLabelRegis
+            // label1
             // 
-            linkLabelRegis.AutoSize = true;
-            linkLabelRegis.Location = new Point(358, 217);
-            linkLabelRegis.Name = "linkLabelRegis";
-            linkLabelRegis.Size = new Size(57, 15);
-            linkLabelRegis.TabIndex = 5;
-            linkLabelRegis.TabStop = true;
-            linkLabelRegis.Text = "REGISTER";
-            linkLabelRegis.LinkClicked += linkLabelRegis_LinkClicked;
+            label1.AutoSize = true;
+            label1.Location = new Point(250, 251);
+            label1.Name = "label1";
+            label1.Size = new Size(131, 15);
+            label1.TabIndex = 5;
+            label1.Text = "Don't have an account?";
+            // 
+            // linkLabel1
+            // 
+            linkLabel1.AutoSize = true;
+            linkLabel1.Location = new Point(387, 251);
+            linkLabel1.Name = "linkLabel1";
+            linkLabel1.Size = new Size(47, 15);
+            linkLabel1.TabIndex = 6;
+            linkLabel1.TabStop = true;
+            linkLabel1.Text = "Sign up";
             // 
             // FormLogin
             // 
@@ -110,7 +119,8 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(644, 311);
-            Controls.Add(linkLabelRegis);
+            Controls.Add(linkLabel1);
+            Controls.Add(label1);
             Controls.Add(BtnLogin);
             Controls.Add(CmbRole);
             Controls.Add(TxtPassword);
@@ -131,6 +141,7 @@
         private TextBox TxtPassword;
         private ComboBox CmbRole;
         private Button BtnLogin;
-        private LinkLabel linkLabelRegis;
+        private Label label1;
+        private LinkLabel linkLabel1;
     }
 }
