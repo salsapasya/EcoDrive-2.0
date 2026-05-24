@@ -1,36 +1,31 @@
-﻿using EcoDrive_vol2.Context;
-using EcoDrive_vol2.Models;
-using System.Collections.Generic;
+﻿using EcoDrive_vol2.Models;
+using EcoDrive_vol2.Services;
 
 namespace EcoDrive_vol2.Controllers.Admin
 {
     public class AdKendaraanController
     {
-        KendaraanContext context = new KendaraanContext();
+        private KendaraanService service =
+            new KendaraanService();
 
-        // GET
         public List<Kendaraan> GetKendaraan()
         {
-            return context.GetAllKendaraan();
+            return service.GetAllKendaraan();
         }
 
-        // ADD
         public void AddKendaraan(Kendaraan kendaraan)
         {
-            context.AddKendaraan(kendaraan);
+            service.AddKendaraan(kendaraan);
         }
 
-        // UPDATE (TAMBAHKAN METHOD INI)
         public void UpdateKendaraan(Kendaraan kendaraan)
         {
-            // Pastikan di dalam KendaraanContext Anda sudah ada method UpdateKendaraan
-            context.UpdateKendaraan(kendaraan);
+            service.UpdateKendaraan(kendaraan);
         }
 
-        // DELETE
         public void DeleteKendaraan(int id)
         {
-            context.DeleteKendaraan(id);
+            service.DeleteKendaraan(id);
         }
     }
 }
