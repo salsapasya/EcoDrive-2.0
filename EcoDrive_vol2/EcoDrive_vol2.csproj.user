@@ -4,40 +4,40 @@
     <Compile Update="UI\RoundedPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="Views\AdKendaraan.cs">
+    <Compile Update="Views\Admin\AdKendaraan.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Views\FormLogin.cs">
+    <Compile Update="Views\Authenticator\FormLogin.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Views\FormRegister.cs">
+    <Compile Update="Views\Authenticator\FormRegister.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Views\AdCustomer.cs">
+    <Compile Update="Views\Admin\AdCustomer.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Views\AdDashboard.cs">
+    <Compile Update="Views\Admin\AdDashboard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Views\AdPendapatan.cs">
+    <Compile Update="Views\Admin\AdPendapatan.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Views\AdTransaksi.cs">
+    <Compile Update="Views\Admin\AdTransaksi.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Views\CusCharging.cs">
+    <Compile Update="Views\Customer\CusCharging.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Views\CusDasboard.cs">
+    <Compile Update="Views\Customer\CusDasboard.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Views\CusKendaraan.cs">
+    <Compile Update="Views\Customer\CusKendaraan.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Views\CusRiwayat.cs">
+    <Compile Update="Views\Customer\CusRiwayat.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Views\CusSaldo.cs">
+    <Compile Update="Views\Customer\CusSaldo.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

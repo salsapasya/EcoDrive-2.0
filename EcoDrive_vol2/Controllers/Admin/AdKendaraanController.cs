@@ -2,7 +2,7 @@
 using EcoDrive_vol2.Models;
 using System.Collections.Generic;
 
-namespace EcoDrive_vol2.Controllers
+namespace EcoDrive_vol2.Controllers.Admin
 {
     public class AdKendaraanController
     {
