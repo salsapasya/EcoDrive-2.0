@@ -1,6 +1,6 @@
 ﻿using EcoDrive_vol2.Context;
-using EcoDrive_vol2.Models;
 using EcoDrive_vol2.Controllers.Admin;
+using EcoDrive_vol2.Models.Kendaraan;
 
 namespace EcoDrive_vol2.Services
 {

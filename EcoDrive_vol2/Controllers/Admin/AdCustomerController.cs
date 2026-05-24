@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using EcoDrive_vol2.Context;
-using EcoDrive_vol2.Models;
+using EcoDrive_vol2.Models.Users;
 
-namespace EcoDrive_vol2.Controllers
+namespace EcoDrive_vol2.Controllers.Admin
 {
-    class UserController
+    class AdCustomerController
     {
         private UserContext userContext = new UserContext();
         public List<Users> GetAllUsers()

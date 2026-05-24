@@ -1,6 +1,6 @@
 ﻿using EcoDrive_vol2.Helpers;
 using Npgsql;
-using EcoDrive_vol2.Models;
+using EcoDrive_vol2.Models.Kendaraan;
 
 namespace EcoDrive_vol2.Context
 {

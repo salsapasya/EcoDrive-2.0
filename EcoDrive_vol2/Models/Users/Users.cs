@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace EcoDrive_vol2.Models
+namespace EcoDrive_vol2.Models.Users
 {
     public class Users
     {

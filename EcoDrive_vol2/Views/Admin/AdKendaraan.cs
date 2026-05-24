@@ -3,8 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using EcoDrive_vol2.Models;      // Hubungkan ke folder Models
-using EcoDrive_vol2.Controllers.Admin; // Hubungkan ke folder Controllers
+using EcoDrive_vol2.Controllers.Admin;
+using EcoDrive_vol2.Models.Kendaraan; // Hubungkan ke folder Controllers
 
 namespace EcoDrive_vol2.Views
 {

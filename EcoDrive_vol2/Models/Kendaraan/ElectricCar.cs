@@ -1,9 +1,9 @@
-﻿using EcoDrive_vol2.AbstractandInterface;
+﻿using EcoDrive_vol2.AbstractandInterface.Interface;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace EcoDrive_vol2.Models
+namespace EcoDrive_vol2.Models.Kendaraan.Kendaraan
 {
     public class ElectricCar : Kendaraan, IChargeable
     {

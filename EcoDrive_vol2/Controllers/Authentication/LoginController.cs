@@ -1,7 +1,7 @@
 ﻿using Npgsql;
 using EcoDrive_vol2.Helpers;
 
-namespace EcoDrive_vol2.Controllers
+namespace EcoDrive_vol2.Controllers.Authentication
 {
     public class LoginController
     {

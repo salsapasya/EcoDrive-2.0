@@ -1,4 +1,4 @@
-﻿using EcoDrive_vol2.Models;
+﻿using EcoDrive_vol2.Models.Transaksi;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

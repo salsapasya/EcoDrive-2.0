@@ -1,4 +1,4 @@
-﻿using EcoDrive_vol2.Models;
+﻿using EcoDrive_vol2.Models.Kendaraan;
 using EcoDrive_vol2.Services;
 
 namespace EcoDrive_vol2.Controllers.Customer

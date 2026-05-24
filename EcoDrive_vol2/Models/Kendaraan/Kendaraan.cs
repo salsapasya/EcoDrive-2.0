@@ -1,5 +1,5 @@
 ﻿// Models/Kendaraan.cs
-namespace EcoDrive_vol2.Models
+namespace EcoDrive_vol2.Models.Kendaraan
 {
     public class Kendaraan
     {
