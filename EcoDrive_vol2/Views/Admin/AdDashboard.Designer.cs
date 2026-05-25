@@ -43,6 +43,8 @@
             btPendapatan = new Button();
             panel1 = new Panel();
             pnContent = new Panel();
+            pnLogout = new Panel();
+            btLogoutAd = new Button();
             btLogout = new Button();
             pnContentAdmin = new Panel();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -52,6 +54,8 @@
             pnTransaksi.SuspendLayout();
             pnPendapatan.SuspendLayout();
             panel1.SuspendLayout();
+            pnContent.SuspendLayout();
+            pnLogout.SuspendLayout();
             SuspendLayout();
             // 
             // pictureBox1
@@ -91,6 +95,7 @@
             btDasboard.Text = "           Dasboard";
             btDasboard.TextAlign = ContentAlignment.MiddleLeft;
             btDasboard.UseVisualStyleBackColor = false;
+            btDasboard.Click += btDasboard_Click_1;
             // 
             // pnDashboard
             // 
@@ -201,6 +206,7 @@
             btPendapatan.Text = "           Pendapatan";
             btPendapatan.TextAlign = ContentAlignment.MiddleLeft;
             btPendapatan.UseVisualStyleBackColor = false;
+            btPendapatan.Click += btPendapatan_Click_1;
             // 
             // panel1
             // 
@@ -215,10 +221,39 @@
             // pnContent
             // 
             pnContent.BackColor = Color.Transparent;
+            pnContent.Controls.Add(pnLogout);
             pnContent.Location = new Point(-336, -294);
             pnContent.Name = "pnContent";
             pnContent.Size = new Size(994, 640);
             pnContent.TabIndex = 11;
+            pnContent.Paint += pnContent_Paint;
+            // 
+            // pnLogout
+            // 
+            pnLogout.BackColor = Color.White;
+            pnLogout.Controls.Add(btLogoutAd);
+            pnLogout.Location = new Point(338, 296);
+            pnLogout.Name = "pnLogout";
+            pnLogout.Size = new Size(318, 48);
+            pnLogout.TabIndex = 10;
+            // 
+            // btLogoutAd
+            // 
+            btLogoutAd.BackColor = Color.MistyRose;
+            btLogoutAd.FlatAppearance.BorderColor = Color.White;
+            btLogoutAd.FlatStyle = FlatStyle.Flat;
+            btLogoutAd.Font = new Font("Segoe UI", 12.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btLogoutAd.ForeColor = Color.Red;
+            btLogoutAd.Image = (Image)resources.GetObject("btLogoutAd.Image");
+            btLogoutAd.ImageAlign = ContentAlignment.MiddleLeft;
+            btLogoutAd.Location = new Point(3, 1);
+            btLogoutAd.Name = "btLogoutAd";
+            btLogoutAd.Size = new Size(312, 44);
+            btLogoutAd.TabIndex = 4;
+            btLogoutAd.Text = "           Logout";
+            btLogoutAd.TextAlign = ContentAlignment.MiddleLeft;
+            btLogoutAd.UseVisualStyleBackColor = false;
+            btLogoutAd.Click += btLogoutAd_Click;
             // 
             // btLogout
             // 
@@ -264,6 +299,7 @@
             DoubleBuffered = true;
             Name = "AdDashboard";
             Text = "AdDashboard";
+            Load += AdDashboard_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             pnDashboard.ResumeLayout(false);
             pnCustomer.ResumeLayout(false);
@@ -271,6 +307,8 @@
             pnTransaksi.ResumeLayout(false);
             pnPendapatan.ResumeLayout(false);
             panel1.ResumeLayout(false);
+            pnContent.ResumeLayout(false);
+            pnLogout.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -293,5 +331,7 @@
         private Button btLogout;
         private Panel pnContent;
         private Panel pnContentAdmin;
+        private Panel pnLogout;
+        private Button btLogoutAd;
     }
 }

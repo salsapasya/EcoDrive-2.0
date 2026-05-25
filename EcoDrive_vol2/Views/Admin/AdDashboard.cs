@@ -25,41 +25,41 @@ namespace EcoDrive_vol2.Views
         }
 
         // --- FUNGSI UTAMA PINDAH FORM (SUDAH DIPERBAIKI) ---
-            private void OpenForm(Form childForm)
+        private void OpenForm(Form childForm)
+        {
+            if (activeForm != null)
             {
-                if (activeForm != null)
-                {
-                    activeForm.Close();
-                    activeForm.Dispose();
-                }
-
-                activeForm = childForm;
-
-                // 1. Matikan semua properti Form yang membuatnya bertingkah seperti 'Window Terpisah'
-                childForm.TopLevel = false;
-                childForm.FormBorderStyle = FormBorderStyle.None;
-    
-                // 2. JURUS PAMUNGKAS: Paksa ukurannya MENYAMAI persis ukuran Panel Kontainer Anda saat itu
-                childForm.Size = pnContentAdmin.ClientSize; 
-    
-                // 3. Pasang Dock Fill agar dia mengunci dan ikut melar kalau layar dibesarkan lagi
-                childForm.Dock = DockStyle.Fill;
-
-                // 4. Bersihkan dan masukkan ke kontainer
-                pnContentAdmin.Controls.Clear();
-                pnContentAdmin.Controls.Add(childForm);
-                pnContentAdmin.Tag = childForm;
-
-                // 5. Reset koordinat ke ujung kiri atas (0,0) agar pas di sebelah sidebar
-                childForm.Location = new Point(0, 0);
-    
-                // 6. Paksa Windows menggambar ulang layout secara realtime
-                pnContentAdmin.PerformLayout();
-                childForm.Refresh();
-
-                childForm.BringToFront();
-                childForm.Show();
+                activeForm.Close();
+                activeForm.Dispose();
             }
+
+            activeForm = childForm;
+
+            // 1. Matikan semua properti Form yang membuatnya bertingkah seperti 'Window Terpisah'
+            childForm.TopLevel = false;
+            childForm.FormBorderStyle = FormBorderStyle.None;
+
+            // 2. JURUS PAMUNGKAS: Paksa ukurannya MENYAMAI persis ukuran Panel Kontainer Anda saat itu
+            childForm.Size = pnContentAdmin.ClientSize;
+
+            // 3. Pasang Dock Fill agar dia mengunci dan ikut melar kalau layar dibesarkan lagi
+            childForm.Dock = DockStyle.Fill;
+
+            // 4. Bersihkan dan masukkan ke kontainer
+            pnContentAdmin.Controls.Clear();
+            pnContentAdmin.Controls.Add(childForm);
+            pnContentAdmin.Tag = childForm;
+
+            // 5. Reset koordinat ke ujung kiri atas (0,0) agar pas di sebelah sidebar
+            childForm.Location = new Point(0, 0);
+
+            // 6. Paksa Windows menggambar ulang layout secara realtime
+            pnContentAdmin.PerformLayout();
+            childForm.Refresh();
+
+            childForm.BringToFront();
+            childForm.Show();
+        }
 
         // RESET WARNA BUTTON SIDEBAR
         private void ResetButton()
@@ -119,6 +119,46 @@ namespace EcoDrive_vol2.Views
             ResetButton();
             btPendapatan.BackColor = Color.FromArgb(191, 219, 120);
             OpenForm(new AdPendapatan());
+        }
+
+        private void pnContent_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void btDasboard_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AdDashboard_Load(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void btPendapatan_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btLogoutAd_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show(
+                "Apakah Anda yakin ingin logout?",
+                "Logout",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                // buka login
+                FormLogin login = new FormLogin();
+                login.Show();
+
+                // tutup dashboard
+                this.Close();
+            }
         }
     }
 }

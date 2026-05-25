@@ -1,10 +1,10 @@
-﻿using EcoDriveUI;
+﻿using EcoDrive_vol2.Controllers.Admin;
+using EcoDrive_vol2.Models.Kendaraan; // Hubungkan ke folder Controllers
+using EcoDriveUI;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
-using EcoDrive_vol2.Controllers.Admin;
-using EcoDrive_vol2.Models.Kendaraan; // Hubungkan ke folder Controllers
 
 namespace EcoDrive_vol2.Views
 {
@@ -12,6 +12,7 @@ namespace EcoDrive_vol2.Views
     {
         private AdKendaraanController controller;
         private List<Kendaraan> listMasterKendaraan;
+        private Action<object, object> btnAddKendaraan_Click;
 
         public AdKendaraan()
         {
@@ -64,7 +65,6 @@ namespace EcoDrive_vol2.Views
                 btnMobil.Text = "Mobil";
             }
 
-            // Kembalikan warna Button Filter "Motor"
             if (btnMotor != null)
             {
                 btnMotor.BackColor = Color.FromArgb(248, 244, 238);
@@ -72,8 +72,6 @@ namespace EcoDrive_vol2.Views
                 btnMotor.Text = "Motor";
             }
 
-            // Kembalikan warna Button "+ Tambah Kendaraan" (Hijau)
-            // *Catatan: Ganti 'btnTambah' dengan nama variabel tombol tambah milik Anda yang asli*
             if (btnTambah != null)
             {
                 btnTambah.BackColor = Color.FromArgb(92, 184, 92);
@@ -81,13 +79,11 @@ namespace EcoDrive_vol2.Views
                 btnTambah.Text = "+ Tambah Kendaraan";
             }
 
-            // 3. Pastikan area kartu kendaraan bisa di-scroll dengan aman
             if (this.flowKendaraan != null)
             {
                 this.flowKendaraan.AutoScroll = true;
             }
 
-            // Jalankan penyusunan ulang grafis
             this.PerformLayout();
             this.Invalidate();
             this.Refresh();
@@ -284,7 +280,7 @@ namespace EcoDrive_vol2.Views
             var hasilFilter = listMasterKendaraan.FindAll(x =>
                 x.Nama.ToLower().Contains(keyword) ||
                 x.Tipe.ToLower().Contains(keyword) ||
-                x.Lokasi.ToLower().Contains(keyword)
+                x.IdKendaraan.ToString().Contains(keyword)
             );
 
             RenderVehicleCards(hasilFilter);
@@ -312,7 +308,8 @@ namespace EcoDrive_vol2.Views
 
         private void btnTambah_Click(object sender, EventArgs e)
         {
-
+            
+           
         }
     }
 }

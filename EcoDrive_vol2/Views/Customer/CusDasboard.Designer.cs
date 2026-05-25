@@ -255,6 +255,7 @@
             DoubleBuffered = true;
             Name = "CusDasboard";
             Text = "CusDasboard";
+            Load += CusDasboard_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             pnDasboard.ResumeLayout(false);
             pnKendaraan.ResumeLayout(false);

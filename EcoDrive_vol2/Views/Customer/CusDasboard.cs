@@ -127,5 +127,10 @@ namespace EcoDrive_vol2
         {
 
         }
+
+        private void CusDasboard_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
