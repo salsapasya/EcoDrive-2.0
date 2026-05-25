@@ -161,17 +161,70 @@ namespace EcoDrive_vol2.Views
 
         private void btnAktif_Click(object sender, EventArgs e)
         {
+            if (dgvCustomer.CurrentRow != null)
+            {
+                dgvCustomer.CurrentRow
+                    .Cells["colStatus"]
+                    .Value = "Aktif";
 
+                MessageBox.Show(
+                    "Status customer berhasil diubah menjadi Aktif");
+            }
+        }
+
+        private void btnNonAktif_Click(object sender, EventArgs e)
+        {
+            if (dgvCustomer.CurrentRow != null)
+            {
+                dgvCustomer.CurrentRow
+                    .Cells["colStatus"]
+                    .Value = "Non Aktif";
+
+                MessageBox.Show(
+                    "Status customer berhasil diubah menjadi Non Aktif");
+            }
         }
 
         private void btnSemua_Click(object sender, EventArgs e)
         {
-
+            // Tampilkan semua customer
+            TampilkanDataKeGrid("");
         }
 
         private void btnFilter_Click(object sender, EventArgs e)
         {
+            // Filter customer non aktif
+            TampilkanDataKeGrid(
+                "Status = 'Non Aktif'");
+        }
 
+        private void lblTitle_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(
+                "Kelola Data Customer EcoDrive");
+        }
+
+        private void btnHapus_Click(object sender, EventArgs e)
+        {
+            if (dgvCustomer.CurrentRow != null)
+            {
+                DialogResult hasil;
+
+                hasil = MessageBox.Show(
+                    "Yakin ingin menghapus customer?",
+                    "Konfirmasi Hapus",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (hasil == DialogResult.Yes)
+                {
+                    dgvCustomer.Rows.Remove(
+                        dgvCustomer.CurrentRow);
+
+                    MessageBox.Show(
+                        "Customer berhasil dihapus");
+                }
+            }
         }
     }
 }
