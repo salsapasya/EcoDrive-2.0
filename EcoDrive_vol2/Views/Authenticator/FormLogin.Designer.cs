@@ -43,23 +43,21 @@
             // FrmJudul
             // 
             FrmJudul.AutoSize = true;
-            FrmJudul.Font = new Font("Stencil", 18F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            FrmJudul.Font = new Font("Stencil", 36F, FontStyle.Italic, GraphicsUnit.Point, 0);
             FrmJudul.ForeColor = Color.FromArgb(255, 192, 192);
-            FrmJudul.Location = new Point(582, 65);
-            FrmJudul.Margin = new Padding(4, 0, 4, 0);
+            FrmJudul.Location = new Point(892, 159);
             FrmJudul.Name = "FrmJudul";
-            FrmJudul.Size = new Size(121, 43);
+            FrmJudul.Size = new Size(162, 57);
             FrmJudul.TabIndex = 0;
             FrmJudul.Text = "LOGIN";
             FrmJudul.Click += FrmJudul_Click;
             // 
             // TxtUsername
             // 
-            TxtUsername.Location = new Point(469, 143);
-            TxtUsername.Margin = new Padding(4, 5, 4, 5);
+            TxtUsername.Location = new Point(910, 265);
             TxtUsername.Name = "TxtUsername";
             TxtUsername.PlaceholderText = "Username";
-            TxtUsername.Size = new Size(183, 31);
+            TxtUsername.Size = new Size(129, 23);
             TxtUsername.TabIndex = 1;
             TxtUsername.TextChanged += TxtUsername_TextChanged_1;
             TxtUsername.Enter += TxtUsername_Enter;
@@ -67,11 +65,10 @@
             // 
             // TxtPassword
             // 
-            TxtPassword.Location = new Point(469, 206);
-            TxtPassword.Margin = new Padding(4, 5, 4, 5);
+            TxtPassword.Location = new Point(908, 318);
             TxtPassword.Name = "TxtPassword";
             TxtPassword.PlaceholderText = "Password";
-            TxtPassword.Size = new Size(183, 31);
+            TxtPassword.Size = new Size(129, 23);
             TxtPassword.TabIndex = 2;
             TxtPassword.UseSystemPasswordChar = true;
             TxtPassword.Enter += TxtPassword_Enter;
@@ -81,20 +78,18 @@
             // 
             CmbRole.FormattingEnabled = true;
             CmbRole.Items.AddRange(new object[] { "Admin", "Customer" });
-            CmbRole.Location = new Point(469, 270);
-            CmbRole.Margin = new Padding(4, 5, 4, 5);
+            CmbRole.Location = new Point(908, 372);
             CmbRole.Name = "CmbRole";
-            CmbRole.Size = new Size(183, 33);
+            CmbRole.Size = new Size(129, 23);
             CmbRole.TabIndex = 3;
             CmbRole.Text = "Pilih Role";
             CmbRole.SelectedIndexChanged += CmbRole_SelectedIndexChanged;
             // 
             // BtnLogin
             // 
-            BtnLogin.Location = new Point(592, 339);
-            BtnLogin.Margin = new Padding(4, 5, 4, 5);
+            BtnLogin.Location = new Point(928, 437);
             BtnLogin.Name = "BtnLogin";
-            BtnLogin.Size = new Size(111, 50);
+            BtnLogin.Size = new Size(78, 30);
             BtnLogin.TabIndex = 4;
             BtnLogin.Text = "LOGIN";
             BtnLogin.UseVisualStyleBackColor = true;
@@ -103,10 +98,9 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(506, 418);
-            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Location = new Point(855, 495);
             label1.Name = "label1";
-            label1.Size = new Size(197, 25);
+            label1.Size = new Size(131, 15);
             label1.TabIndex = 5;
             label1.Text = "Don't have an account?";
             label1.Click += label1_Click_1;
@@ -114,10 +108,9 @@
             // lblSignUp
             // 
             lblSignUp.AutoSize = true;
-            lblSignUp.Location = new Point(711, 418);
-            lblSignUp.Margin = new Padding(4, 0, 4, 0);
+            lblSignUp.Location = new Point(992, 495);
             lblSignUp.Name = "lblSignUp";
-            lblSignUp.Size = new Size(73, 25);
+            lblSignUp.Size = new Size(47, 15);
             lblSignUp.TabIndex = 6;
             lblSignUp.TabStop = true;
             lblSignUp.Text = "Sign up";
@@ -125,11 +118,11 @@
             // 
             // FormLogin
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(920, 518);
+            ClientSize = new Size(1370, 749);
             Controls.Add(lblSignUp);
             Controls.Add(label1);
             Controls.Add(BtnLogin);
@@ -138,7 +131,6 @@
             Controls.Add(TxtUsername);
             Controls.Add(FrmJudul);
             DoubleBuffered = true;
-            Margin = new Padding(4, 5, 4, 5);
             Name = "FormLogin";
             Text = "FormLogin";
             Load += FormLogin_Load;

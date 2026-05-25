@@ -39,7 +39,7 @@
             // 
             // txtUsername
             // 
-            txtUsername.Location = new Point(281, 152);
+            txtUsername.Location = new Point(933, 352);
             txtUsername.Margin = new Padding(2);
             txtUsername.Name = "txtUsername";
             txtUsername.PlaceholderText = "Username";
@@ -50,7 +50,7 @@
             // txtPassword
             // 
             txtPassword.AccessibleName = "txtPassowrd";
-            txtPassword.Location = new Point(281, 190);
+            txtPassword.Location = new Point(933, 390);
             txtPassword.Margin = new Padding(2);
             txtPassword.Name = "txtPassword";
             txtPassword.PlaceholderText = "Password";
@@ -61,12 +61,12 @@
             // LblSignUp
             // 
             LblSignUp.AutoSize = true;
-            LblSignUp.Font = new Font("Stencil", 18F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            LblSignUp.Font = new Font("Stencil", 36F, FontStyle.Italic, GraphicsUnit.Point, 0);
             LblSignUp.ForeColor = Color.FromArgb(255, 192, 192);
-            LblSignUp.Location = new Point(342, 33);
+            LblSignUp.Location = new Point(892, 159);
             LblSignUp.Margin = new Padding(2, 0, 2, 0);
             LblSignUp.Name = "LblSignUp";
-            LblSignUp.Size = new Size(104, 29);
+            LblSignUp.Size = new Size(208, 57);
             LblSignUp.TabIndex = 3;
             LblSignUp.Text = "Sign Up";
             LblSignUp.Click += LblSignUp_Click;
@@ -74,10 +74,10 @@
             // btnSignUp
             // 
             btnSignUp.AccessibleName = "btnSignUp";
-            btnSignUp.Location = new Point(440, 215);
+            btnSignUp.Location = new Point(959, 444);
             btnSignUp.Margin = new Padding(2);
             btnSignUp.Name = "btnSignUp";
-            btnSignUp.Size = new Size(78, 20);
+            btnSignUp.Size = new Size(80, 28);
             btnSignUp.TabIndex = 5;
             btnSignUp.Text = "Sign Up";
             btnSignUp.UseVisualStyleBackColor = true;
@@ -85,7 +85,7 @@
             // 
             // txtTelp
             // 
-            txtTelp.Location = new Point(281, 114);
+            txtTelp.Location = new Point(933, 314);
             txtTelp.Margin = new Padding(2);
             txtTelp.Name = "txtTelp";
             txtTelp.PlaceholderText = "No Telp";
@@ -95,7 +95,7 @@
             // 
             // txtNama
             // 
-            txtNama.Location = new Point(281, 81);
+            txtNama.Location = new Point(933, 273);
             txtNama.Margin = new Padding(2);
             txtNama.Name = "txtNama";
             txtNama.PlaceholderText = "Nama";
@@ -109,7 +109,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
-            ClientSize = new Size(560, 270);
+            ClientSize = new Size(1370, 749);
             Controls.Add(txtNama);
             Controls.Add(txtTelp);
             Controls.Add(btnSignUp);
