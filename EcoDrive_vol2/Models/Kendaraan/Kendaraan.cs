@@ -1,4 +1,4 @@
-﻿// Models/Kendaraan.cs
+﻿// Models/Kendaraan/Kendaraan.cs
 namespace EcoDrive_vol2.Models.Kendaraan
 {
     public class Kendaraan
@@ -12,7 +12,7 @@ namespace EcoDrive_vol2.Models.Kendaraan
         public int IdMerkKendaraan { get; set; }
         public string NamaKendaraan { get; set; }
         public int StokKendaraan { get; set; }
-        public int HargaSewa { get; set; } 
+        public int HargaSewa { get; set; }
         public string StatusKendaraan { get; set; }
 
         // Property dengan validasi
