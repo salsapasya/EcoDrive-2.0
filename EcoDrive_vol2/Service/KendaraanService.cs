@@ -1,6 +1,7 @@
 ﻿using EcoDrive_vol2.Context;
-using EcoDrive_vol2.Controllers.Admin;
-using EcoDrive_vol2.Models.Kendaraan;
+using EcoDrive_vol2.Models;
+using EcoDrive_vol2.Models.Enums;
+using EcoDrive_vol2.Models.Vehicles;
 
 namespace EcoDrive_vol2.Services
 {
@@ -22,8 +23,8 @@ namespace EcoDrive_vol2.Services
                 Kendaraan kendaraan;
 
                 // INHERITANCE
-                if (item.NamaKendaraan.Contains("Tesla") ||
-                    item.NamaKendaraan.Contains("Ioniq"))
+                if (item.TipeKendaraan ==
+                    KendaraanTipe.mobil)
                 {
                     kendaraan = new ElectricCar();
                 }
@@ -32,11 +33,29 @@ namespace EcoDrive_vol2.Services
                     kendaraan = new ElectricMotor();
                 }
 
-                kendaraan.IdKendaraan = item.IdKendaraan;
-                kendaraan.NamaKendaraan = item.NamaKendaraan;
-                kendaraan.HargaSewa = item.HargaSewa;
-                kendaraan.StatusKendaraan = item.StatusKendaraan;
-                kendaraan.BatteryPercentage = item.BatteryPercentage;
+                kendaraan.IdKendaraan =
+                    item.IdKendaraan;
+
+                kendaraan.IdMerkKendaraan =
+                    item.IdMerkKendaraan;
+
+                kendaraan.NomorPlatKendaraan =
+                    item.NomorPlatKendaraan;
+
+                kendaraan.NamaKendaraan =
+                    item.NamaKendaraan;
+
+                kendaraan.StokKendaraan =
+                    item.StokKendaraan;
+
+                kendaraan.HargaSewa =
+                    item.HargaSewa;
+
+                kendaraan.TipeKendaraan =
+                    item.TipeKendaraan;
+
+                kendaraan.StatusKendaraan =
+                    item.StatusKendaraan;
 
                 hasil.Add(kendaraan);
             }
@@ -44,19 +63,27 @@ namespace EcoDrive_vol2.Services
             return hasil;
         }
 
-        public List<Kendaraan> GetAvailableKendaraan()
+        public List<Kendaraan>
+            GetAvailableKendaraan()
         {
             return GetAllKendaraan()
-                .Where(k => k.StatusKendaraan == "Available")
+
+                .Where(k =>
+                    k.StatusKendaraan ==
+                    OptionStatus.tersedia
+                )
+
                 .ToList();
         }
 
-        public void AddKendaraan(Kendaraan kendaraan)
+        public void AddKendaraan(
+            Kendaraan kendaraan)
         {
             context.AddKendaraan(kendaraan);
         }
 
-        public void UpdateKendaraan(Kendaraan kendaraan)
+        public void UpdateKendaraan(
+            Kendaraan kendaraan)
         {
             context.UpdateKendaraan(kendaraan);
         }

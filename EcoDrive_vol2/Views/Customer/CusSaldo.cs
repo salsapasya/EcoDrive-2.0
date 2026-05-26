@@ -26,7 +26,7 @@ namespace EcoDrive_vol2.Views
         {
             try
             {
-                TopUpSaldo topup = new TopUpSaldo();           
+                TopupSaldo topup = new TopupSaldo();           
             }
             catch (Exception ex)
             {

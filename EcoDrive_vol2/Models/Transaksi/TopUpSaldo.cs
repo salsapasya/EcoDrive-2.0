@@ -1,13 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using EcoDrive_vol2.Models.Enums;
 
-namespace EcoDrive_vol2.Models.Transaksi
+namespace EcoDrive_vol2.Models.Transaksi 
 {
-    public class TopUpSaldo
+    public class TopupSaldo
     {
-        public int idSaldo { get; set; }
-        public int idCustomer { get; set; }
-        public decimal JumlahSaldo { get; set; }
+        public int IdTopupSaldo { get; set; }
+
+        public int IdCustomer { get; set; }
+
+        public int JumlahTopup { get; set; }
+
+        public TopupStatus StatusTopup { get; set; }
     }
 }

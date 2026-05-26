@@ -1,28 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using EcoDrive_vol2.Models.Enums;
 
 namespace EcoDrive_vol2.Models.Users
 {
     public class Users
     {
-        public int idUser { get; set; }
-        public string NamaUser { get; set; }
-        public string Email { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public int Saldo { get; set; }
-        public int idUserRole { get; set; }
+        public int IdUser { get; set; }
 
-        public Users(int idUser, string NamaUser, string Email, string Username, string Password, int Saldo, int idUserRole)
+        public Roles RoleUser { get; set; }
+
+        public string NamaUser { get; set; }
+
+        public string NoTelpUser { get; set; }
+
+        public string Username { get; set; }
+
+        public string PasswordUser { get; set; }
+
+        public decimal Saldo { get; set; }
+
+        public StatusAkun StatusAkun { get; set; }
+
+        // CONSTRUCTOR KOSONG
+        public Users()
         {
-            this.idUser = idUser;
-            this.NamaUser = NamaUser;
-            this.Email = Email;
-            this.Username = Username;
-            this.Password = Password;
-            this.Saldo = Saldo;
-            this.idUserRole = idUserRole;
+
+        }
+
+        // CONSTRUCTOR BERPARAMETER
+        public Users(
+            int idUser,
+            Roles roleUser,
+            string namaUser,
+            string noTelpUser,
+            string username,
+            string passwordUser,
+            decimal saldo,
+            StatusAkun statusAkun
+        )
+        {
+            IdUser = idUser;
+            RoleUser = roleUser;
+            NamaUser = namaUser;
+            NoTelpUser = noTelpUser;
+            Username = username;
+            PasswordUser = passwordUser;
+            Saldo = saldo;
+            StatusAkun = statusAkun;
         }
     }
 }

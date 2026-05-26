@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using EcoDrive_vol2.Context;
 using EcoDrive_vol2.Models.Users;
 
@@ -15,15 +13,15 @@ namespace EcoDrive_vol2.Controllers.Admin
         }
         public void DeleteUser(Users user)
         {
-            if (user.idUser <= 0)
+            if (user.IdUser <= 0)
             {
                 throw new Exception("Id tidak valid");
             }
-            userContext.DeleteUser(user.idUser);
+            userContext.DeleteUser(user.IdUser);
         }
         public void AddUser(Users user)
         {
-            if (string.IsNullOrEmpty(user.NamaUser) || string.IsNullOrEmpty(user.Email) || string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
+            if (string.IsNullOrEmpty(user.NamaUser) || string.IsNullOrEmpty(user.NoTelpUser) || string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.PasswordUser))
             {
                 throw new Exception("Data tidak lengkap");
             }
@@ -31,11 +29,11 @@ namespace EcoDrive_vol2.Controllers.Admin
         }
         public void UpdateUser(Users user)
         {
-            if (user.idUser <= 0)
+            if (user.IdUser <= 0)
             {
                 throw new Exception("Id tidak valid");
             }
-            if (string.IsNullOrEmpty(user.NamaUser) || string.IsNullOrEmpty(user.Email) || string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
+            if (string.IsNullOrEmpty(user.NamaUser) || string.IsNullOrEmpty(user.NoTelpUser) || string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.PasswordUser   ))
             {
                 throw new Exception("Data tidak lengkap");
             }

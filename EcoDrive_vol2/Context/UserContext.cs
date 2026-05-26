@@ -1,70 +1,281 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using EcoDrive_vol2.Helpers;
-using Npgsql;
+﻿using EcoDrive_vol2.Helpers;
 using EcoDrive_vol2.Models.Users;
+using EcoDrive_vol2.Models.Enums;
+using Npgsql;
 
 namespace EcoDrive_vol2.Context
 {
-    class UserContext
+    public class UserContext
     {
         public List<Users> GetAllUsers()
         {
-            List<Users> usersList = new List<Users>();
-            using var conn = DatabaseHelper.GetConnection();
-            conn.Open();
-            using var cmd = new NpgsqlCommand("SELECT * FROM users", conn);
-            using var reader = cmd.ExecuteReader();
-            while (reader.Read())
+            List<Users> usersList =
+                new List<Users>();
+
+            using var conn =
+                DatabaseHelper.GetConnection();
+
+            try
             {
-                usersList.Add(new Users(
-                    reader.GetInt32(0),
-                    reader.GetString(1),
-                    reader.GetString(2),
-                    reader.GetString(3),
-                    reader.GetString(4),
-                    reader.GetInt32(5),
-                    reader.GetInt32(6)
-                ));
+                conn.Open();
+
+                string query =
+                    "SELECT * FROM users";
+
+                using var cmd =
+                    new NpgsqlCommand(query, conn);
+
+                using var reader =
+                    cmd.ExecuteReader();
+
+                while (reader.Read())
+                {
+                    Users user = new Users()
+                    {
+                        IdUser =
+                            Convert.ToInt32(
+                                reader["id_user"]
+                            ),
+
+                        RoleUser =
+                            Enum.Parse<Roles>(
+                                reader["role_user"]
+                                    .ToString()
+                            ),
+
+                        NamaUser =
+                            reader["nama_user"]
+                                .ToString(),
+
+                        NoTelpUser =
+                            reader["no_telp_user"]
+                                .ToString(),
+
+                        Username =
+                            reader["username"]
+                                .ToString(),
+
+                        PasswordUser =
+                            reader["password_user"]
+                                .ToString(),
+
+                        Saldo =
+                            Convert.ToDecimal(
+                                reader["saldo"]
+                            ),
+
+                        StatusAkun =
+                            Enum.Parse<StatusAkun>(
+                                reader["status_akun"]
+                                    .ToString()
+                                    .Replace(" ", "_")
+                            )
+                    };
+
+                    usersList.Add(user);
+                }
             }
+            catch (Exception ex)
+            {
+                throw new Exception(
+                    "Error Get Users: "
+                    + ex.Message
+                );
+            }
+
             return usersList;
         }
+
         public void AddUser(Users user)
         {
-            using var conn = DatabaseHelper.GetConnection();
-            conn.Open();
-            using var cmd = new NpgsqlCommand("INSERT INTO users (NamaUser, Email, Username, Password, Saldo, idUserRole) VALUES (@NamaUser, @Email, @Username, @Password, @Saldo, @idUserRole)", conn);
-            cmd.Parameters.AddWithValue("NamaUser", user.NamaUser);
-            cmd.Parameters.AddWithValue("Email", user.Email);
-            cmd.Parameters.AddWithValue("Username", user.Username);
-            cmd.Parameters.AddWithValue("Password", user.Password);
-            cmd.Parameters.AddWithValue("Saldo", user.Saldo);
-            cmd.Parameters.AddWithValue("idUserRole", user.idUserRole);
-            cmd.ExecuteNonQuery();
+            using var conn =
+                DatabaseHelper.GetConnection();
+
+            try
+            {
+                conn.Open();
+
+                string query =
+                @"INSERT INTO users
+                (
+                    role_user,
+                    nama_user,
+                    no_telp_user,
+                    username,
+                    password_user,
+                    saldo,
+                    status_akun
+                )
+                VALUES
+                (
+                    @role_user,
+                    @nama_user,
+                    @no_telp_user,
+                    @username,
+                    @password_user,
+                    @saldo,
+                    @status_akun
+                )";
+
+                using var cmd =
+                    new NpgsqlCommand(query, conn);
+
+                cmd.Parameters.AddWithValue(
+                    "@role_user",
+                    user.RoleUser.ToString()
+                );
+
+                cmd.Parameters.AddWithValue(
+                    "@nama_user",
+                    user.NamaUser
+                );
+
+                cmd.Parameters.AddWithValue(
+                    "@no_telp_user",
+                    user.NoTelpUser
+                );
+
+                cmd.Parameters.AddWithValue(
+                    "@username",
+                    user.Username
+                );
+
+                cmd.Parameters.AddWithValue(
+                    "@password_user",
+                    user.PasswordUser
+                );
+
+                cmd.Parameters.AddWithValue(
+                    "@saldo",
+                    user.Saldo
+                );
+
+                cmd.Parameters.AddWithValue(
+                    "@status_akun",
+                    user.StatusAkun
+                        .ToString()
+                        .Replace("_", " ")
+                );
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(
+                    "Error Add User: "
+                    + ex.Message
+                );
+            }
         }
+
         public void UpdateUser(Users user)
         {
-            using var conn = DatabaseHelper.GetConnection();
-            conn.Open();
-            using var cmd = new NpgsqlCommand("UPDATE users SET NamaUser = @NamaUser, Email = @Email, Username = @Username, Password = @Password, Saldo = @Saldo, idUserRole = @idUserRole WHERE idUser = @idUser", conn);
-            cmd.Parameters.AddWithValue("NamaUser", user.NamaUser);
-            cmd.Parameters.AddWithValue("Email", user.Email);
-            cmd.Parameters.AddWithValue("Username", user.Username);
-            cmd.Parameters.AddWithValue("Password", user.Password);
-            cmd.Parameters.AddWithValue("Saldo", user.Saldo);
-            cmd.Parameters.AddWithValue("idUserRole", user.idUserRole);
-            cmd.Parameters.AddWithValue("idUser", user.idUser);
-            cmd.ExecuteNonQuery();
+            using var conn =
+                DatabaseHelper.GetConnection();
+
+            try
+            {
+                conn.Open();
+
+                string query =
+                @"UPDATE users
+                  SET
+                    role_user = @role_user,
+                    nama_user = @nama_user,
+                    no_telp_user = @no_telp_user,
+                    username = @username,
+                    password_user = @password_user,
+                    saldo = @saldo,
+                    status_akun = @status_akun
+                  WHERE id_user = @id_user";
+
+                using var cmd =
+                    new NpgsqlCommand(query, conn);
+
+                cmd.Parameters.AddWithValue(
+                    "@role_user",
+                    user.RoleUser.ToString()
+                );
+
+                cmd.Parameters.AddWithValue(
+                    "@nama_user",
+                    user.NamaUser
+                );
+
+                cmd.Parameters.AddWithValue(
+                    "@no_telp_user",
+                    user.NoTelpUser
+                );
+
+                cmd.Parameters.AddWithValue(
+                    "@username",
+                    user.Username
+                );
+
+                cmd.Parameters.AddWithValue(
+                    "@password_user",
+                    user.PasswordUser
+                );
+
+                cmd.Parameters.AddWithValue(
+                    "@saldo",
+                    user.Saldo
+                );
+
+                cmd.Parameters.AddWithValue(
+                    "@status_akun",
+                    user.StatusAkun
+                        .ToString()
+                        .Replace("_", " ")
+                );
+
+                cmd.Parameters.AddWithValue(
+                    "@id_user",
+                    user.IdUser
+                );
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(
+                    "Error Update User: "
+                    + ex.Message
+                );
+            }
         }
+
         public void DeleteUser(int idUser)
         {
-            using var conn = DatabaseHelper.GetConnection();
-            conn.Open();
-            using var cmd = new NpgsqlCommand("DELETE FROM users WHERE idUser = @idUser", conn);
-            cmd.Parameters.AddWithValue("idUser", idUser);
-            cmd.ExecuteNonQuery();
+            using var conn =
+                DatabaseHelper.GetConnection();
+
+            try
+            {
+                conn.Open();
+
+                string query =
+                    @"DELETE FROM users
+                      WHERE id_user =
+                      @id_user";
+
+                using var cmd =
+                    new NpgsqlCommand(query, conn);
+
+                cmd.Parameters.AddWithValue(
+                    "@id_user",
+                    idUser
+                );
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(
+                    "Error Delete User: "
+                    + ex.Message
+                );
+            }
         }
     }
 }
