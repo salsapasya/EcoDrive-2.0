@@ -1,5 +1,8 @@
-﻿using EcoDrive_vol2.Controllers.Admin;
-using EcoDrive_vol2.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Windows.Forms;
+using EcoDrive_vol2.Controllers.Admin;
 using EcoDrive_vol2.Models.Enums;
 using EcoDrive_vol2.Models.Vehicles;
 using EcoDriveUI;
@@ -9,77 +12,74 @@ namespace EcoDrive_vol2.Views
     public partial class AdKendaraan : Form
     {
         private AdKendaraanController controller;
-
         private List<Kendaraan> listMasterKendaraan;
+
+        // Menyimpan status filter aktif agar pencarian/search tidak mereset filter kategori
+        private string filterAktif = "Semua";
+        private const string PLACEHOLDER_TEXT = "🔍 Cari kendaraan...";
 
         public AdKendaraan()
         {
             InitializeComponent();
-
             controller = new AdKendaraanController();
 
             this.Load += AdKendaraan_Load;
-
             txtSearch.TextChanged += TxtSearch_TextChanged;
 
             btnSemua.Click += FilterButton_Click;
             btnMobil.Click += FilterButton_Click;
             btnMotor.Click += FilterButton_Click;
+            btnTambah.Click += btnTambah_Click;
         }
 
         private void AdKendaraan_Load(object sender, EventArgs e)
         {
             this.Dock = DockStyle.Fill;
 
-            if (this.Parent != null)
+            // --- STYLE SEARCH TEXTBOX ---
+            txtSearch.BackColor = Color.FromArgb(245, 245, 240);
+            txtSearch.ForeColor = Color.Gray;
+            txtSearch.BorderStyle = BorderStyle.FixedSingle;
+            txtSearch.Text = PLACEHOLDER_TEXT;
+
+            txtSearch.GotFocus += (s, ev) =>
             {
-                this.Size = this.Parent.ClientSize;
-            }
+                if (txtSearch.Text == PLACEHOLDER_TEXT)
+                {
+                    txtSearch.Text = "";
+                    txtSearch.ForeColor = Color.Black;
+                }
+            };
 
-            if (txtSearch != null)
+            txtSearch.LostFocus += (s, ev) =>
             {
-                txtSearch.BackColor = Color.FromArgb(245, 245, 240);
+                if (string.IsNullOrWhiteSpace(txtSearch.Text))
+                {
+                    txtSearch.Text = PLACEHOLDER_TEXT;
+                    txtSearch.ForeColor = Color.Gray;
+                }
+            };
 
-                txtSearch.ForeColor = Color.DimGray;
+            // --- STYLE FILTER BUTTONS ---
+            btnSemua.Text = "Semua";
+            btnMobil.Text = "Mobil";
+            btnMotor.Text = "Motor";
 
-                txtSearch.Text = "🔍 Cari nama, tipe, ID...";
-            }
+            btnSemua.BackColor = Color.FromArgb(92, 184, 92);
+            btnSemua.ForeColor = Color.White;
 
-            if (btnSemua != null)
-            {
-                btnSemua.BackColor = Color.FromArgb(92, 184, 92);
+            btnMobil.BackColor = btnMotor.BackColor = Color.FromArgb(248, 244, 238);
+            btnMobil.ForeColor = btnMotor.ForeColor = Color.FromArgb(35, 35, 35);
 
-                btnSemua.ForeColor = Color.White;
+            btnSemua.FlatStyle = btnMobil.FlatStyle = btnMotor.FlatStyle = FlatStyle.Flat;
+            btnSemua.FlatAppearance.BorderSize = btnMobil.FlatAppearance.BorderSize = btnMotor.FlatAppearance.BorderSize = 0;
 
-                btnSemua.Text = "Semua";
-            }
-
-            if (btnMobil != null)
-            {
-                btnMobil.BackColor = Color.FromArgb(248, 244, 238);
-
-                btnMobil.ForeColor = Color.FromArgb(35, 35, 35);
-
-                btnMobil.Text = "Mobil";
-            }
-
-            if (btnMotor != null)
-            {
-                btnMotor.BackColor = Color.FromArgb(248, 244, 238);
-
-                btnMotor.ForeColor = Color.FromArgb(35, 35, 35);
-
-                btnMotor.Text = "Motor";
-            }
-
-            if (btnTambah != null)
-            {
-                btnTambah.BackColor = Color.FromArgb(92, 184, 92);
-
-                btnTambah.ForeColor = Color.White;
-
-                btnTambah.Text = "+ Tambah Kendaraan";
-            }
+            // --- STYLE BUTTON TAMBAH ---
+            btnTambah.Text = "+ Tambah Kendaraan";
+            btnTambah.BackColor = Color.FromArgb(92, 184, 92);
+            btnTambah.ForeColor = Color.White;
+            btnTambah.FlatStyle = FlatStyle.Flat;
+            btnTambah.FlatAppearance.BorderSize = 0;
 
             if (flowKendaraan != null)
             {
@@ -92,21 +92,49 @@ namespace EcoDrive_vol2.Views
         private void RefreshDataDariDatabase()
         {
             listMasterKendaraan = controller.GetKendaraan();
+            ApplyFilterDanPencarian(); // Terapkan ulang filter & keyword setelah data direfresh
+        }
 
-            RenderVehicleCards(listMasterKendaraan);
+        // FUNGSI BARU: Menggabungkan logika Filter Kategori dan Keyword Pencarian secara sinkron
+        private void ApplyFilterDanPencarian()
+        {
+            if (listMasterKendaraan == null) return;
+
+            // 1. Jalankan Filter Kategori terlebih dahulu
+            List<Kendaraan> dataTerfilter = listMasterKendaraan;
+            if (filterAktif == "Mobil")
+            {
+                dataTerfilter = listMasterKendaraan.FindAll(x => x.TipeKendaraan == KendaraanTipe.mobil);
+            }
+            else if (filterAktif == "Motor")
+            {
+                dataTerfilter = listMasterKendaraan.FindAll(x => x.TipeKendaraan == KendaraanTipe.motor);
+            }
+
+            // 2. Jalankan Filter Pencarian dari hasil kategori tadi
+            string keyword = txtSearch.Text.Trim().ToLower();
+            if (!string.IsNullOrEmpty(keyword) && keyword != PLACEHOLDER_TEXT.ToLower())
+            {
+                dataTerfilter = dataTerfilter.FindAll(x =>
+                    x.NamaKendaraan.ToLower().Contains(keyword) ||
+                    x.TipeKendaraan.ToString().ToLower().Contains(keyword) ||
+                    x.NomorPlatKendaraan.ToLower().Contains(keyword)
+                );
+            }
+
+            RenderVehicleCards(dataTerfilter);
         }
 
         private void RenderVehicleCards(List<Kendaraan> dataKendaraan)
         {
             flowKendaraan.Controls.Clear();
-
             if (dataKendaraan == null) return;
 
             foreach (var vh in dataKendaraan)
             {
                 RoundedPanel card = new RoundedPanel
                 {
-                    Size = new Size(270, 160),
+                    Size = new Size(270, 170),
                     BackColor = Color.White,
                     BorderRadius = 15,
                     Margin = new Padding(12)
@@ -114,450 +142,261 @@ namespace EcoDrive_vol2.Views
 
                 Label lblNama = new Label
                 {
-                    Text = !string.IsNullOrEmpty(vh.NamaKendaraan)
-                        ? vh.NamaKendaraan
-                        : "Tanpa Nama",
-
+                    Text = vh.NamaKendaraan,
                     Font = new Font("Segoe UI", 11F, FontStyle.Bold),
-
                     ForeColor = Color.FromArgb(45, 45, 45),
-
                     Location = new Point(15, 15),
-
                     AutoSize = true
                 };
 
-                string tipeTeks =
-                    vh.TipeKendaraan == KendaraanTipe.mobil
-                    ? "Mobil"
-                    : "Motor";
+                string tipeTeks = vh.TipeKendaraan == KendaraanTipe.mobil ? "Mobil" : "Motor";
 
-                string infoSewa =
-                    $"Rp {vh.HargaSewa:N0}/hari";
-
-                Label lblSubInfo = new Label
+                Label lblInfo = new Label
                 {
-                    Text = $"{tipeTeks} • {infoSewa}",
-
+                    Text = $"{tipeTeks} • Rp {vh.HargaSewa:N0}/hari",
                     Font = new Font("Segoe UI", 9F),
-
                     ForeColor = Color.Gray,
-
-                    Location = new Point(15, 40),
-
+                    Location = new Point(15, 45),
                     AutoSize = true
                 };
 
-                int persenBaterai =
-                    vh.StatusKendaraan ==
-                    OptionStatus.dalam_perbaikan
-                    ? 0
-                    : (vh.NamaKendaraan.Contains("Tesla")
-                        ? 15
-                        : 92);
-
-                Color batteryColor =
-                    persenBaterai > 50
-                    ? Color.FromArgb(67, 160, 71)
-                    : (persenBaterai > 20
-                        ? Color.Orange
-                        : Color.Red);
-
-                Label lblBaterai = new Label
+                Label lblPlat = new Label
                 {
-                    Text = $"🔋 {persenBaterai}%",
-
-                    Font = new Font("Segoe UI", 10F, FontStyle.Bold),
-
-                    ForeColor = batteryColor,
-
-                    Location = new Point(15, 75),
-
+                    Text = $"Plat : {vh.NomorPlatKendaraan}",
+                    Font = new Font("Segoe UI", 9F),
+                    ForeColor = Color.DimGray,
+                    Location = new Point(15, 70),
                     AutoSize = true
                 };
 
-                string statusDb =
-                    vh.StatusKendaraan
-                        .ToString()
-                        .Replace("_", " ")
-                        .ToLower();
-
-                Color bgStatus;
-                Color fgStatus;
-
-                switch (statusDb)
+                Label lblStok = new Label
                 {
-                    case "tersedia":
+                    Text = $"Stok : {vh.StokKendaraan}",
+                    Font = new Font("Segoe UI", 9F),
+                    ForeColor = Color.DimGray,
+                    Location = new Point(15, 92),
+                    AutoSize = true
+                };
 
-                        bgStatus = Color.FromArgb(232, 245, 233);
+                string statusDb = vh.StatusKendaraan.ToString().Replace("_", " ");
 
-                        fgStatus = Color.FromArgb(67, 160, 71);
-
-                        break;
-
-                    case "disewa":
-
-                        bgStatus = Color.FromArgb(255, 243, 224);
-
-                        fgStatus = Color.OrangeRed;
-
-                        break;
-
-                    case "dalam perbaikan":
-
-                    case "rusak":
-
-                        bgStatus = Color.FromArgb(255, 235, 235);
-
-                        fgStatus = Color.Red;
-
-                        break;
-
-                    default:
-
-                        bgStatus = Color.FromArgb(227, 242, 253);
-
-                        fgStatus = Color.FromArgb(30, 136, 229);
-
-                        break;
-                }
-
-                Label lblStatusBadge = new Label
+                Label lblStatus = new Label
                 {
                     Text = statusDb,
-
-                    Font = new Font("Segoe UI", 8.5F, FontStyle.Bold),
-
-                    BackColor = bgStatus,
-
-                    ForeColor = fgStatus,
-
-                    Location = new Point(15, 115),
-
                     Size = new Size(110, 25),
-
-                    TextAlign = ContentAlignment.MiddleCenter
+                    Location = new Point(15, 125),
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Font = new Font("Segoe UI", 8F, FontStyle.Bold),
+                    BackColor = Color.FromArgb(232, 245, 233),
+                    ForeColor = Color.FromArgb(67, 160, 71)
                 };
 
-                Button btnDetailCard = new Button
+                Button btnKelola = new Button
                 {
                     Text = "Kelola ⚙",
-
                     Size = new Size(95, 30),
-
-                    Location = new Point(155, 112),
-
-                    BackColor = Color.FromArgb(245, 245, 242),
-
-                    ForeColor = Color.FromArgb(45, 45, 45),
-
-                    FlatStyle = FlatStyle.Flat,
-
-                    Cursor = Cursors.Hand,
-
-                    Font = new Font("Segoe UI", 8.5F, FontStyle.Bold)
+                    Location = new Point(155, 120),
+                    BackColor = Color.FromArgb(245, 245, 245),
+                    FlatStyle = FlatStyle.Flat
                 };
+                btnKelola.FlatAppearance.BorderSize = 0;
 
-                btnDetailCard.FlatAppearance.BorderSize = 0;
-
-                btnDetailCard.Click += (s, e) =>
+                // --- ACTION KELOLA / EDIT KENDARAAN ---
+                btnKelola.Click += (s, e) =>
                 {
-                    Form frm = new Form();
-
-                    frm.Text = "Kelola Kendaraan";
-
-                    frm.Size = new Size(500, 520);
-
-                    frm.StartPosition = FormStartPosition.CenterScreen;
-
-                    frm.BackColor = Color.White;
-
-                    frm.FormBorderStyle = FormBorderStyle.FixedDialog;
-
-                    frm.MaximizeBox = false;
-
-                    Label lblFormTitle = new Label
+                    Form frm = new Form
                     {
-                        Text = "Informasi Kendaraan",
-
-                        Font = new Font("Segoe UI", 16,
-                        FontStyle.Bold),
-
-                        Location = new Point(25, 20),
-
-                        AutoSize = true
+                        Text = "Kelola Kendaraan",
+                        Size = new Size(480, 600),
+                        StartPosition = FormStartPosition.CenterScreen,
+                        BackColor = Color.White,
+                        FormBorderStyle = FormBorderStyle.FixedDialog,
+                        MaximizeBox = false
                     };
 
-                    Label lblNamaKendaraan = new Label
-                    {
-                        Text = "Nama Kendaraan",
+                    Label lblNamaForm = new Label { Text = "Nama Kendaraan", Location = new Point(30, 20), AutoSize = true };
+                    TextBox txtNama = new TextBox { Location = new Point(30, 45), Size = new Size(400, 30), Text = vh.NamaKendaraan };
 
-                        Location = new Point(30, 80),
+                    Label lblPlatForm = new Label { Text = "Nomor Plat", Location = new Point(30, 90), AutoSize = true };
+                    TextBox txtPlat = new TextBox { Location = new Point(30, 115), Size = new Size(400, 30), Text = vh.NomorPlatKendaraan };
 
-                        Font = new Font("Segoe UI", 9F,
-                        FontStyle.Bold),
+                    Label lblStokForm = new Label { Text = "Stok Kendaraan", Location = new Point(30, 160), AutoSize = true };
+                    NumericUpDown numStok = new NumericUpDown { Location = new Point(30, 185), Size = new Size(400, 30), Minimum = 0, Maximum = 1000, Value = vh.StokKendaraan };
 
-                        AutoSize = true
-                    };
+                    Label lblHarga = new Label { Text = "Harga Sewa (Rp)", Location = new Point(30, 230), AutoSize = true };
+                    NumericUpDown numHarga = new NumericUpDown { Location = new Point(30, 255), Size = new Size(400, 30), Maximum = 100000000, DecimalPlaces = 0, Value = (decimal)vh.HargaSewa };
 
-                    TextBox txtNama = new TextBox
-                    {
-                        Size = new Size(400, 30),
+                    Label lblTipeForm = new Label { Text = "Tipe Kendaraan", Location = new Point(30, 300), AutoSize = true };
+                    ComboBox cbTipe = new ComboBox { Location = new Point(30, 325), Size = new Size(400, 30), DropDownStyle = ComboBoxStyle.DropDownList };
+                    cbTipe.Items.AddRange(Enum.GetNames(typeof(KendaraanTipe)));
+                    cbTipe.SelectedItem = vh.TipeKendaraan.ToString();
 
-                        Location = new Point(30, 105),
-
-                        Text = vh.NamaKendaraan
-                    };
-
-                    Label lblHarga = new Label
-                    {
-                        Text = "Harga Sewa (Rp)",
-
-                        Location = new Point(30, 150),
-
-                        Font = new Font("Segoe UI", 9F,
-                        FontStyle.Bold),
-
-                        AutoSize = true
-                    };
-
-                    NumericUpDown numHarga =
-                        new NumericUpDown
-                        {
-                            Location = new Point(30, 175),
-
-                            Size = new Size(400, 30),
-
-                            Minimum = 0,
-
-                            Maximum = 10000000,
-
-                            DecimalPlaces = 2,
-
-                            Value = vh.HargaSewa
-                        };
-
-                    Label lblStatus = new Label
-                    {
-                        Text = "Status Kendaraan",
-
-                        Location = new Point(30, 220),
-
-                        Font = new Font("Segoe UI", 9F,
-                        FontStyle.Bold),
-
-                        AutoSize = true
-                    };
-
-                    ComboBox cbStatus = new ComboBox
-                    {
-                        Location = new Point(30, 245),
-
-                        Size = new Size(400, 30),
-
-                        DropDownStyle =
-                        ComboBoxStyle.DropDownList
-                    };
-
-                    cbStatus.Items.AddRange(new string[]
-                    {
-                        "tersedia",
-                        "disewa",
-                        "rusak",
-                        "dalam perbaikan"
-                    });
-
-                    cbStatus.SelectedItem = statusDb;
+                    Label lblStatusForm = new Label { Text = "Status Kendaraan", Location = new Point(30, 370), AutoSize = true };
+                    ComboBox cbStatus = new ComboBox { Location = new Point(30, 395), Size = new Size(400, 30), DropDownStyle = ComboBoxStyle.DropDownList };
+                    cbStatus.Items.AddRange(new string[] { "tersedia", "disewa", "rusak", "dalam perbaikan" });
+                    cbStatus.SelectedItem = statusDb.ToLower();
 
                     Button btnSimpan = new Button
                     {
-                        Text = "Simpan",
-
-                        Size = new Size(130, 42),
-
-                        Location = new Point(300, 410),
-
-                        BackColor = Color.FromArgb(123, 201, 111),
-
+                        Text = "Simpan Perubahan",
+                        Size = new Size(180, 40),
+                        Location = new Point(250, 480),
+                        BackColor = Color.FromArgb(92, 184, 92),
                         ForeColor = Color.White,
-
-                        FlatStyle = FlatStyle.Flat,
-
-                        Font = new Font("Segoe UI", 9F,
-                        FontStyle.Bold)
+                        FlatStyle = FlatStyle.Flat
                     };
-
                     btnSimpan.FlatAppearance.BorderSize = 0;
 
                     btnSimpan.Click += (sender2, ev2) =>
                     {
                         try
                         {
-                            vh.NamaKendaraan =
-                                txtNama.Text;
+                            if (string.IsNullOrWhiteSpace(txtNama.Text) || string.IsNullOrWhiteSpace(txtPlat.Text))
+                            {
+                                MessageBox.Show("Nama dan Nomor Plat tidak boleh kosong!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                return;
+                            }
 
-                            vh.HargaSewa =
-                                numHarga.Value;
-
-                            vh.StatusKendaraan =
-                                Enum.Parse<OptionStatus>(
-                                    cbStatus.SelectedItem
-                                        .ToString()
-                                        .Replace(" ", "_")
-                                );
+                            vh.NamaKendaraan = txtNama.Text.Trim();
+                            vh.NomorPlatKendaraan = txtPlat.Text.Trim().ToUpper();
+                            vh.StokKendaraan = (int)numStok.Value;
+                            vh.HargaSewa = (long)numHarga.Value;
+                            vh.TipeKendaraan = Enum.Parse<KendaraanTipe>(cbTipe.SelectedItem.ToString());
+                            vh.StatusKendaraan = Enum.Parse<OptionStatus>(cbStatus.SelectedItem.ToString().Replace(" ", "_"));
 
                             controller.UpdateKendaraan(vh);
-
-                            MessageBox.Show(
-                                "Data berhasil diperbarui!",
-                                "EcoDrive",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Information
-                            );
-
+                            MessageBox.Show("Berhasil update data kendaraan!", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             frm.Close();
-
                             RefreshDataDariDatabase();
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show(
-                                $"Gagal menyimpan data: {ex.Message}",
-                                "Database Error",
-                                MessageBoxButtons.OK,
-                                MessageBoxIcon.Error
-                            );
+                            MessageBox.Show($"Gagal menyimpan: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     };
 
-                    frm.Controls.AddRange(new Control[]
-                    {
-                        lblFormTitle,
-                        lblNamaKendaraan,
-                        txtNama,
-                        lblHarga,
-                        numHarga,
-                        lblStatus,
-                        cbStatus,
-                        btnSimpan
+                    frm.Controls.AddRange(new Control[] {
+                        lblNamaForm, txtNama, lblPlatForm, txtPlat, lblStokForm, numStok,
+                        lblHarga, numHarga, lblTipeForm, cbTipe, lblStatusForm, cbStatus, btnSimpan
                     });
 
                     frm.ShowDialog();
                 };
 
-                card.Controls.AddRange(new Control[]
-                {
-                    lblNama,
-                    lblSubInfo,
-                    lblBaterai,
-                    lblStatusBadge,
-                    btnDetailCard
-                });
-
+                card.Controls.AddRange(new Control[] { lblNama, lblInfo, lblPlat, lblStok, lblStatus, btnKelola });
                 flowKendaraan.Controls.Add(card);
             }
         }
 
-        private void TxtSearch_TextChanged(
-            object sender,
-            EventArgs e)
+        private void TxtSearch_TextChanged(object sender, EventArgs e)
         {
-            string keyword =
-                txtSearch.Text.Trim().ToLower();
-
-            if (keyword ==
-                "🔍 cari nama, tipe, id..."
-                || string.IsNullOrEmpty(keyword))
-            {
-                RenderVehicleCards(listMasterKendaraan);
-
-                return;
-            }
-
-            var hasilFilter =
-                listMasterKendaraan.FindAll(x =>
-
-                    x.NamaKendaraan
-                        .ToLower()
-                        .Contains(keyword)
-
-                    ||
-
-                    x.TipeKendaraan
-                        .ToString()
-                        .ToLower()
-                        .Contains(keyword)
-
-                    ||
-
-                    x.IdKendaraan
-                        .ToString()
-                        .Contains(keyword)
-                );
-
-            RenderVehicleCards(hasilFilter);
+            ApplyFilterDanPencarian();
         }
 
-        private void FilterButton_Click(
-            object sender,
-            EventArgs e)
+        private void FilterButton_Click(object sender, EventArgs e)
         {
-            if (listMasterKendaraan == null)
-                return;
+            Button btn = (Button)sender;
 
-            Button btnKlik = (Button)sender;
+            // Reset All Buttons Style
+            btnSemua.BackColor = btnMobil.BackColor = btnMotor.BackColor = Color.FromArgb(248, 244, 238);
+            btnSemua.ForeColor = btnMobil.ForeColor = btnMotor.ForeColor = Color.FromArgb(35, 35, 35);
 
-            btnSemua.BackColor =
-            btnMobil.BackColor =
-            btnMotor.BackColor =
-                Color.FromArgb(248, 244, 238);
+            // Active Button Style
+            btn.BackColor = Color.FromArgb(92, 184, 92);
+            btn.ForeColor = Color.White;
 
-            btnSemua.ForeColor =
-            btnMobil.ForeColor =
-            btnMotor.ForeColor =
-                Color.FromArgb(35, 35, 35);
+            // Atur status filter aktif berdasarkan tombol yang ditekan
+            if (btn == btnSemua) filterAktif = "Semua";
+            else if (btn == btnMobil) filterAktif = "Mobil";
+            else if (btn == btnMotor) filterAktif = "Motor";
 
-            btnKlik.BackColor =
-                Color.FromArgb(92, 184, 92);
-
-            btnKlik.ForeColor =
-                Color.White;
-
-            if (btnKlik == btnSemua)
-            {
-                RenderVehicleCards(
-                    listMasterKendaraan
-                );
-            }
-
-            else if (btnKlik == btnMobil)
-            {
-                RenderVehicleCards(
-                    listMasterKendaraan.FindAll(
-                        x =>
-                        x.TipeKendaraan ==
-                        KendaraanTipe.mobil
-                    )
-                );
-            }
-
-            else if (btnKlik == btnMotor)
-            {
-                RenderVehicleCards(
-                    listMasterKendaraan.FindAll(
-                        x =>
-                        x.TipeKendaraan ==
-                        KendaraanTipe.motor
-                    )
-                );
-            }
+            ApplyFilterDanPencarian();
         }
 
-        private void btnTambah_Click(
-            object sender,
-            EventArgs e)
+        // --- ACTION TAMBAH KENDARAAN ---
+        private void btnTambah_Click(object sender, EventArgs e)
         {
+            Form frm = new Form
+            {
+                Text = "Tambah Kendaraan",
+                Size = new Size(480, 600),
+                StartPosition = FormStartPosition.CenterScreen,
+                BackColor = Color.White,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                MaximizeBox = false
+            };
 
+            Label lblNama = new Label { Text = "Nama Kendaraan", Location = new Point(30, 20), AutoSize = true };
+            TextBox txtNama = new TextBox { Location = new Point(30, 45), Size = new Size(400, 30) };
+
+            Label lblPlat = new Label { Text = "Nomor Plat", Location = new Point(30, 90), AutoSize = true };
+            TextBox txtPlat = new TextBox { Location = new Point(30, 115), Size = new Size(400, 30), PlaceholderText = "Contoh: B 1234 ABC" };
+
+            Label lblStok = new Label { Text = "Stok Kendaraan", Location = new Point(30, 160), AutoSize = true };
+            NumericUpDown numStok = new NumericUpDown { Location = new Point(30, 185), Size = new Size(400, 30), Minimum = 1, Maximum = 1000, Value = 1 };
+
+            Label lblHarga = new Label { Text = "Harga Sewa (Rp)", Location = new Point(30, 230), AutoSize = true };
+            NumericUpDown numHarga = new NumericUpDown { Location = new Point(30, 255), Size = new Size(400, 30), Maximum = 100000000, DecimalPlaces = 0 };
+
+            Label lblTipe = new Label { Text = "Tipe Kendaraan", Location = new Point(30, 300), AutoSize = true };
+            ComboBox cbTipe = new ComboBox { Location = new Point(30, 325), Size = new Size(400, 30), DropDownStyle = ComboBoxStyle.DropDownList };
+            cbTipe.Items.AddRange(Enum.GetNames(typeof(KendaraanTipe)));
+            cbTipe.SelectedIndex = 0;
+
+            Label lblStatus = new Label { Text = "Status Kendaraan", Location = new Point(30, 370), AutoSize = true };
+            ComboBox cbStatus = new ComboBox { Location = new Point(30, 395), Size = new Size(400, 30), DropDownStyle = ComboBoxStyle.DropDownList };
+            cbStatus.Items.AddRange(new string[] { "tersedia", "disewa", "rusak", "dalam perbaikan" });
+            cbStatus.SelectedIndex = 0;
+
+            Button btnSimpan = new Button
+            {
+                Text = "Tambah Kendaraan",
+                Size = new Size(180, 40),
+                Location = new Point(250, 480),
+                BackColor = Color.FromArgb(92, 184, 92),
+                ForeColor = Color.White,
+                FlatStyle = FlatStyle.Flat
+            };
+            btnSimpan.FlatAppearance.BorderSize = 0;
+
+            btnSimpan.Click += (s, ev) =>
+            {
+                try
+                {
+                    if (string.IsNullOrWhiteSpace(txtNama.Text) || string.IsNullOrWhiteSpace(txtPlat.Text))
+                    {
+                        MessageBox.Show("Semua bidang input wajib diisi!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+
+                    Kendaraan kendaraan = new Kendaraan
+                    {
+                        NamaKendaraan = txtNama.Text.Trim(),
+                        NomorPlatKendaraan = txtPlat.Text.Trim().ToUpper(),
+                        StokKendaraan = (int)numStok.Value,
+                        HargaSewa = (long)numHarga.Value,
+                        TipeKendaraan = Enum.Parse<KendaraanTipe>(cbTipe.SelectedItem.ToString()),
+                        StatusKendaraan = Enum.Parse<OptionStatus>(cbStatus.SelectedItem.ToString().Replace(" ", "_")),
+                        IdMerkKendaraan = 1
+                    };
+
+                    controller.AddKendaraan(kendaraan);
+                    MessageBox.Show("Kendaraan baru berhasil ditambahkan!", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    frm.Close();
+                    RefreshDataDariDatabase();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Gagal menambah data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            };
+
+            frm.Controls.AddRange(new Control[] {
+                lblNama, txtNama, lblPlat, txtPlat, lblStok, numStok,
+                lblHarga, numHarga, lblTipe, cbTipe, lblStatus, cbStatus, btnSimpan
+            });
+
+            frm.ShowDialog();
         }
     }
 }
