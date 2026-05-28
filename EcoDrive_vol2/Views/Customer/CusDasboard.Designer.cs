@@ -175,6 +175,7 @@
             btSaldo.Text = "           Saldo";
             btSaldo.TextAlign = ContentAlignment.MiddleLeft;
             btSaldo.UseVisualStyleBackColor = false;
+            btSaldo.Click += btSaldo_Click_1;
             // 
             // pnRiwayat
             // 

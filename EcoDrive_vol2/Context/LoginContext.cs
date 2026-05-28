@@ -17,11 +17,11 @@ namespace EcoDrive_vol2.Context
 
                 conn.Open();
 
-                string query =
-                @"SELECT role_user::text
-                  FROM users
-                  WHERE username = @username
-                  AND password_user = @password";
+                string query = @"
+                SELECT role_user::text
+                FROM users
+                WHERE username = @username
+                AND password_user = @password";
 
                 using NpgsqlCommand cmd =
                     new NpgsqlCommand(query, conn);
