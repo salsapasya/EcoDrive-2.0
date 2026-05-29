@@ -30,59 +30,80 @@
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            cardPanel = new EcoDriveUI.RoundedPanel();
-            cmbFilter = new ComboBox();
-            lblTitle = new Label();
+            mainPanel = new Panel();
+            dgvTransaksi = new DataGridView();
             lblSubtitle = new Label();
-            btnFilter = new Button();
-            dgvCustomer = new DataGridView();
+            lblTitle = new Label();
+            btnSemua = new Button();
+            btnSewa = new Button();
+            btnCharging = new Button();
+            cardPanel = new EcoDriveUI.RoundedPanel();
             colId = new DataGridViewTextBoxColumn();
-            colCustomer = new DataGridViewTextBoxColumn();
+            colKategori = new DataGridViewTextBoxColumn();
+            colUsername = new DataGridViewTextBoxColumn();
+            colNama = new DataGridViewTextBoxColumn();
             colKontak = new DataGridViewTextBoxColumn();
-            colBergabung = new DataGridViewTextBoxColumn();
-            colTrip = new DataGridViewTextBoxColumn();
+            colKendaraan = new DataGridViewTextBoxColumn();
+            colTipe = new DataGridViewTextBoxColumn();
+            colPlat = new DataGridViewTextBoxColumn();
+            colTglSewa = new DataGridViewTextBoxColumn();
+            colTglKembali = new DataGridViewTextBoxColumn();
+            colTglCharging = new DataGridViewTextBoxColumn();
+            colNamaStation = new DataGridViewTextBoxColumn();
+            colDurasi = new DataGridViewTextBoxColumn();
             colStatus = new DataGridViewTextBoxColumn();
-            colAksi = new DataGridViewTextBoxColumn();
+            colBiaya = new DataGridViewTextBoxColumn();
+            mainPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvTransaksi).BeginInit();
             cardPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvCustomer).BeginInit();
             SuspendLayout();
             // 
-            // cardPanel
+            // mainPanel
             // 
-            cardPanel.BackColor = Color.White;
-            cardPanel.Controls.Add(cmbFilter);
-            cardPanel.Controls.Add(lblTitle);
-            cardPanel.Controls.Add(lblSubtitle);
-            cardPanel.Controls.Add(btnFilter);
-            cardPanel.Controls.Add(dgvCustomer);
-            cardPanel.Dock = DockStyle.Fill;
-            cardPanel.Location = new Point(0, 0);
-            cardPanel.Name = "cardPanel";
-            cardPanel.Padding = new Padding(25);
-            cardPanel.Size = new Size(1001, 450);
-            cardPanel.TabIndex = 1;
-            cardPanel.Paint += cardPanel_Paint;
+            mainPanel.BackColor = Color.Transparent;
+            mainPanel.Controls.Add(dgvTransaksi);
+            mainPanel.Dock = DockStyle.Fill;
+            mainPanel.Location = new Point(25, 25);
+            mainPanel.Name = "mainPanel";
+            mainPanel.Size = new Size(989, 499);
+            mainPanel.TabIndex = 12;
             // 
-            // cmbFilter
+            // dgvTransaksi
             // 
-            cmbFilter.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbFilter.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            cmbFilter.FormattingEnabled = true;
-            cmbFilter.Location = new Point(59, 114);
-            cmbFilter.Name = "cmbFilter";
-            cmbFilter.Size = new Size(121, 25);
-            cmbFilter.TabIndex = 9;
-            // 
-            // lblTitle
-            // 
-            lblTitle.AutoSize = true;
-            lblTitle.Font = new Font("Segoe UI", 22F, FontStyle.Bold);
-            lblTitle.ForeColor = Color.FromArgb(47, 47, 47);
-            lblTitle.Location = new Point(50, 50);
-            lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(243, 41);
-            lblTitle.TabIndex = 0;
-            lblTitle.Text = "Kelola Transaksi";
+            dgvTransaksi.AllowUserToAddRows = false;
+            dgvTransaksi.AllowUserToResizeRows = false;
+            dgvTransaksi.BackgroundColor = Color.White;
+            dgvTransaksi.BorderStyle = BorderStyle.None;
+            dgvTransaksi.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvTransaksi.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(232, 245, 233);
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = Color.FromArgb(47, 47, 47);
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(232, 245, 233);
+            dgvTransaksi.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dgvTransaksi.ColumnHeadersHeight = 45;
+            dgvTransaksi.Columns.AddRange(new DataGridViewColumn[] { colId, colKategori, colUsername, colNama, colKontak, colKendaraan, colTipe, colPlat, colTglSewa, colTglKembali, colTglCharging, colNamaStation, colDurasi, colStatus, colBiaya });
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.White;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle2.ForeColor = Color.FromArgb(47, 47, 47);
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(242, 249, 242);
+            dataGridViewCellStyle2.SelectionForeColor = Color.FromArgb(47, 47, 47);
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvTransaksi.DefaultCellStyle = dataGridViewCellStyle2;
+            dgvTransaksi.EnableHeadersVisualStyles = false;
+            dgvTransaksi.GridColor = Color.FromArgb(240, 242, 240);
+            dgvTransaksi.Location = new Point(34, 136);
+            dgvTransaksi.MultiSelect = false;
+            dgvTransaksi.Name = "dgvTransaksi";
+            dgvTransaksi.RowHeadersVisible = false;
+            dgvTransaksi.RowHeadersWidth = 62;
+            dgvTransaksi.RowTemplate.Height = 65;
+            dgvTransaksi.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvTransaksi.Size = new Size(919, 376);
+            dgvTransaksi.TabIndex = 8;
+            dgvTransaksi.CellContentClick += dgvTransaksi_CellContentClick;
             // 
             // lblSubtitle
             // 
@@ -95,129 +116,222 @@
             lblSubtitle.TabIndex = 1;
             lblSubtitle.Text = "Manajemen Transaksi EcoDrive";
             // 
-            // btnFilter
+            // lblTitle
             // 
-            btnFilter.FlatAppearance.BorderColor = Color.Gainsboro;
-            btnFilter.Location = new Point(1105, 107);
-            btnFilter.Name = "btnFilter";
-            btnFilter.Size = new Size(85, 38);
-            btnFilter.TabIndex = 6;
+            lblTitle.AutoSize = true;
+            lblTitle.Font = new Font("Segoe UI", 22F, FontStyle.Bold);
+            lblTitle.ForeColor = Color.FromArgb(47, 47, 47);
+            lblTitle.Location = new Point(50, 50);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(243, 41);
+            lblTitle.TabIndex = 0;
+            lblTitle.Text = "Kelola Transaksi";
             // 
-            // dgvCustomer
+            // btnSemua
             // 
-            dgvCustomer.AllowUserToAddRows = false;
-            dgvCustomer.AllowUserToResizeRows = false;
-            dgvCustomer.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dgvCustomer.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvCustomer.BackgroundColor = Color.White;
-            dgvCustomer.BorderStyle = BorderStyle.None;
-            dgvCustomer.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgvCustomer.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(232, 245, 233);
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            dataGridViewCellStyle1.ForeColor = Color.FromArgb(47, 47, 47);
-            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(232, 245, 233);
-            dgvCustomer.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            dgvCustomer.ColumnHeadersHeight = 45;
-            dgvCustomer.Columns.AddRange(new DataGridViewColumn[] { colId, colCustomer, colKontak, colBergabung, colTrip, colStatus, colAksi });
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.White;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle2.ForeColor = Color.FromArgb(47, 47, 47);
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(242, 249, 242);
-            dataGridViewCellStyle2.SelectionForeColor = Color.FromArgb(47, 47, 47);
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dgvCustomer.DefaultCellStyle = dataGridViewCellStyle2;
-            dgvCustomer.EnableHeadersVisualStyles = false;
-            dgvCustomer.GridColor = Color.FromArgb(240, 242, 240);
-            dgvCustomer.Location = new Point(50, 145);
-            dgvCustomer.MultiSelect = false;
-            dgvCustomer.Name = "dgvCustomer";
-            dgvCustomer.RowHeadersVisible = false;
-            dgvCustomer.RowHeadersWidth = 62;
-            dgvCustomer.RowTemplate.Height = 65;
-            dgvCustomer.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvCustomer.Size = new Size(939, 479);
-            dgvCustomer.TabIndex = 8;
+            btnSemua.Location = new Point(59, 132);
+            btnSemua.Name = "btnSemua";
+            btnSemua.Size = new Size(75, 23);
+            btnSemua.TabIndex = 9;
+            btnSemua.Text = "Semua";
+            btnSemua.UseVisualStyleBackColor = true;
+            // 
+            // btnSewa
+            // 
+            btnSewa.Location = new Point(155, 132);
+            btnSewa.Name = "btnSewa";
+            btnSewa.Size = new Size(75, 23);
+            btnSewa.TabIndex = 10;
+            btnSewa.Text = "Sewa";
+            btnSewa.UseVisualStyleBackColor = true;
+            // 
+            // btnCharging
+            // 
+            btnCharging.Location = new Point(255, 132);
+            btnCharging.Name = "btnCharging";
+            btnCharging.Size = new Size(75, 23);
+            btnCharging.TabIndex = 11;
+            btnCharging.Text = "Charging";
+            btnCharging.UseVisualStyleBackColor = true;
+            // 
+            // cardPanel
+            // 
+            cardPanel.BackColor = Color.White;
+            cardPanel.Controls.Add(btnCharging);
+            cardPanel.Controls.Add(btnSewa);
+            cardPanel.Controls.Add(btnSemua);
+            cardPanel.Controls.Add(lblTitle);
+            cardPanel.Controls.Add(lblSubtitle);
+            cardPanel.Controls.Add(mainPanel);
+            cardPanel.Dock = DockStyle.Fill;
+            cardPanel.Location = new Point(0, 0);
+            cardPanel.Name = "cardPanel";
+            cardPanel.Padding = new Padding(25);
+            cardPanel.Size = new Size(1039, 549);
+            cardPanel.TabIndex = 1;
             // 
             // colId
             // 
+            colId.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             colId.FillWeight = 50F;
             colId.HeaderText = "ID";
             colId.MinimumWidth = 8;
             colId.Name = "colId";
+            colId.Width = 80;
             // 
-            // colCustomer
+            // colKategori
             // 
-            colCustomer.FillWeight = 140F;
-            colCustomer.HeaderText = "Customer";
-            colCustomer.MinimumWidth = 8;
-            colCustomer.Name = "colCustomer";
+            colKategori.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            colKategori.HeaderText = "Kategori";
+            colKategori.Name = "colKategori";
+            colKategori.Visible = false;
+            colKategori.Width = 90;
+            // 
+            // colUsername
+            // 
+            colUsername.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            colUsername.HeaderText = "Username";
+            colUsername.Name = "colUsername";
+            colUsername.Width = 120;
+            // 
+            // colNama
+            // 
+            colNama.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            colNama.FillWeight = 140F;
+            colNama.HeaderText = "Nama";
+            colNama.MinimumWidth = 8;
+            colNama.Name = "colNama";
+            colNama.Width = 120;
             // 
             // colKontak
             // 
+            colKontak.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             colKontak.FillWeight = 90F;
             colKontak.HeaderText = "Kontak";
             colKontak.MinimumWidth = 8;
             colKontak.Name = "colKontak";
+            colKontak.Width = 120;
             // 
-            // colBergabung
+            // colKendaraan
             // 
-            colBergabung.FillWeight = 90F;
-            colBergabung.HeaderText = "Bergabung";
-            colBergabung.MinimumWidth = 8;
-            colBergabung.Name = "colBergabung";
+            colKendaraan.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            colKendaraan.HeaderText = "Kendaraan";
+            colKendaraan.MinimumWidth = 8;
+            colKendaraan.Name = "colKendaraan";
+            colKendaraan.Width = 120;
             // 
-            // colTrip
+            // colTipe
             // 
-            colTrip.FillWeight = 70F;
-            colTrip.HeaderText = "Total Sewa";
-            colTrip.MinimumWidth = 8;
-            colTrip.Name = "colTrip";
+            colTipe.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            colTipe.HeaderText = "Tipe";
+            colTipe.MinimumWidth = 8;
+            colTipe.Name = "colTipe";
+            // 
+            // colPlat
+            // 
+            colPlat.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            colPlat.HeaderText = "Plat Nomor";
+            colPlat.MinimumWidth = 8;
+            colPlat.Name = "colPlat";
+            // 
+            // colTglSewa
+            // 
+            colTglSewa.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            colTglSewa.FillWeight = 70F;
+            colTglSewa.HeaderText = "Tgl Sewa";
+            colTglSewa.MinimumWidth = 8;
+            colTglSewa.Name = "colTglSewa";
+            colTglSewa.Width = 110;
+            // 
+            // colTglKembali
+            // 
+            colTglKembali.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            colTglKembali.HeaderText = "Tgl Kembali";
+            colTglKembali.MinimumWidth = 8;
+            colTglKembali.Name = "colTglKembali";
+            colTglKembali.Width = 110;
+            // 
+            // colTglCharging
+            // 
+            colTglCharging.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            colTglCharging.FillWeight = 70F;
+            colTglCharging.HeaderText = "Tgl Charging";
+            colTglCharging.MinimumWidth = 8;
+            colTglCharging.Name = "colTglCharging";
+            colTglCharging.Width = 150;
+            // 
+            // colNamaStation
+            // 
+            colNamaStation.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            colNamaStation.HeaderText = "Nama Station";
+            colNamaStation.MinimumWidth = 8;
+            colNamaStation.Name = "colNamaStation";
+            colNamaStation.Width = 140;
+            // 
+            // colDurasi
+            // 
+            colDurasi.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            colDurasi.FillWeight = 70F;
+            colDurasi.HeaderText = "Durasi";
+            colDurasi.MinimumWidth = 8;
+            colDurasi.Name = "colDurasi";
+            colDurasi.Width = 90;
             // 
             // colStatus
             // 
+            colStatus.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             colStatus.FillWeight = 70F;
             colStatus.HeaderText = "Status";
             colStatus.MinimumWidth = 8;
             colStatus.Name = "colStatus";
             // 
-            // colAksi
+            // colBiaya
             // 
-            colAksi.FillWeight = 70F;
-            colAksi.HeaderText = "Aksi";
-            colAksi.MinimumWidth = 8;
-            colAksi.Name = "colAksi";
+            colBiaya.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            colBiaya.HeaderText = "Biaya";
+            colBiaya.MinimumWidth = 8;
+            colBiaya.Name = "colBiaya";
+            colBiaya.Width = 120;
             // 
             // AdTransaksi
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1001, 450);
+            ClientSize = new Size(1039, 549);
             Controls.Add(cardPanel);
             Name = "AdTransaksi";
             Text = "AdTransaksi";
+            mainPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvTransaksi).EndInit();
             cardPanel.ResumeLayout(false);
             cardPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvCustomer).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private EcoDriveUI.RoundedPanel cardPanel;
-        private Label lblTitle;
+        private Panel mainPanel;
+        private DataGridView dgvTransaksi;
         private Label lblSubtitle;
-        private Button btnFilter;
-        private DataGridView dgvCustomer;
+        private Label lblTitle;
+        private Button btnSemua;
+        private Button btnSewa;
+        private Button btnCharging;
+        private EcoDriveUI.RoundedPanel cardPanel;
         private DataGridViewTextBoxColumn colId;
-        private DataGridViewTextBoxColumn colCustomer;
+        private DataGridViewTextBoxColumn colKategori;
+        private DataGridViewTextBoxColumn colUsername;
+        private DataGridViewTextBoxColumn colNama;
         private DataGridViewTextBoxColumn colKontak;
-        private DataGridViewTextBoxColumn colBergabung;
-        private DataGridViewTextBoxColumn colTrip;
+        private DataGridViewTextBoxColumn colKendaraan;
+        private DataGridViewTextBoxColumn colTipe;
+        private DataGridViewTextBoxColumn colPlat;
+        private DataGridViewTextBoxColumn colTglSewa;
+        private DataGridViewTextBoxColumn colTglKembali;
+        private DataGridViewTextBoxColumn colTglCharging;
+        private DataGridViewTextBoxColumn colNamaStation;
+        private DataGridViewTextBoxColumn colDurasi;
         private DataGridViewTextBoxColumn colStatus;
-        private DataGridViewTextBoxColumn colAksi;
-        private ComboBox cmbFilter;
+        private DataGridViewTextBoxColumn colBiaya;
     }
 }

@@ -4,7 +4,8 @@ using System.Text;
 
 namespace EcoDrive_vol2.AbstractandInterface.Abstract
 {
-    internal class AbsTransaksi
+    public abstract class AbsTransaksi
     {
+        public abstract decimal HitungBiaya();
     }
 }

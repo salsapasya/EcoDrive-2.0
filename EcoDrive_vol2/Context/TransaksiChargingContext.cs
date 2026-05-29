@@ -55,7 +55,7 @@ namespace EcoDrive_vol2.Context
             {
                 conn.Open();
                 string query = @"UPDATE transaksi_charging 
-                                 SET status_charging = @statusCharging 
+                                 SET status_charging = @statusCharging::charging_status 
                                  WHERE id_transaksi_charging = @idTransaksiCharging";
                 using var cmd = new NpgsqlCommand(query, conn);
 

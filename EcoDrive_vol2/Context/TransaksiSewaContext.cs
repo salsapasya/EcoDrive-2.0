@@ -48,5 +48,31 @@ namespace EcoDrive_vol2.Context
             }
             return transaksiSewaList;
         }
+
+        public void UpdateStatusPengembalian(int idTransaksiSewa)
+        {
+            using var conn = DatabaseHelper.GetConnection();
+
+            try
+            {
+                conn.Open();
+                string query = @"UPDATE transaksi_sewa 
+                                 SET status_pengembalian = @statusPengembalian::status_kembali 
+                                 WHERE id_transaksi_sewa = @idTransaksiSewa";
+                using var cmd = new NpgsqlCommand(query, conn);
+
+                cmd.Parameters.AddWithValue("statusPengembalian", StatusKembali.sudah_kembali.ToString().Replace("_", " "));
+                cmd.Parameters.AddWithValue("idTransaksiSewa", idTransaksiSewa);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error Update Status Pengembalian : " + ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
     }
 }
