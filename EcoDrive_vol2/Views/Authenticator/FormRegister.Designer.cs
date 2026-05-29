@@ -61,6 +61,7 @@
             // LblSignUp
             // 
             LblSignUp.AutoSize = true;
+            LblSignUp.BackColor = Color.Transparent;
             LblSignUp.Font = new Font("Stencil", 36F, FontStyle.Italic, GraphicsUnit.Point, 0);
             LblSignUp.ForeColor = Color.FromArgb(255, 192, 192);
             LblSignUp.Location = new Point(892, 159);

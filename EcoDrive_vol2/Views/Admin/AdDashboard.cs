@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EcoDrive_vol2.Views.Admin;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -22,6 +23,7 @@ namespace EcoDrive_vol2.Views
             btCustomer.Click += btCustomer_Click;
             btTransaksi.Click += btTransaksi_Click;
             btPendapatan.Click += btPendapatan_Click;
+            btTopUp.Click += btTopUp_Click;
         }
 
         // --- FUNGSI UTAMA PINDAH FORM (SUDAH DIPERBAIKI) ---
@@ -69,6 +71,7 @@ namespace EcoDrive_vol2.Views
             btTransaksi.BackColor = Color.White;
             btPendapatan.BackColor = Color.White;
             btCustomer.BackColor = Color.White;
+            btTopUp.BackColor = Color.White;
         }
 
         // DASHBOARD MENU
@@ -159,6 +162,13 @@ namespace EcoDrive_vol2.Views
                 // tutup dashboard
                 this.Close();
             }
+        }
+
+        private void btTopUp_Click(object sender, EventArgs e)
+        {
+            ResetButton();
+            btTopUp.BackColor = Color.FromArgb(191, 219, 120);
+            OpenForm(new AdTopUpCustomer());
         }
     }
 }

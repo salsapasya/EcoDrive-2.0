@@ -43,6 +43,7 @@
             // FrmJudul
             // 
             FrmJudul.AutoSize = true;
+            FrmJudul.BackColor = Color.Transparent;
             FrmJudul.Font = new Font("Stencil", 36F, FontStyle.Italic, GraphicsUnit.Point, 0);
             FrmJudul.ForeColor = Color.FromArgb(255, 192, 192);
             FrmJudul.Location = new Point(892, 159);
@@ -76,13 +77,14 @@
             // 
             // CmbRole
             // 
+            CmbRole.BackColor = SystemColors.Window;
+            CmbRole.DropDownStyle = ComboBoxStyle.DropDownList;
             CmbRole.FormattingEnabled = true;
             CmbRole.Items.AddRange(new object[] { "Admin", "Customer" });
             CmbRole.Location = new Point(908, 372);
             CmbRole.Name = "CmbRole";
             CmbRole.Size = new Size(129, 23);
             CmbRole.TabIndex = 3;
-            CmbRole.Text = "Pilih Role";
             CmbRole.SelectedIndexChanged += CmbRole_SelectedIndexChanged;
             // 
             // BtnLogin

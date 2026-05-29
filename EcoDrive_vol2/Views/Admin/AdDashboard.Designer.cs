@@ -47,6 +47,8 @@
             btLogoutAd = new Button();
             btLogout = new Button();
             pnContentAdmin = new Panel();
+            pnTopUp = new Panel();
+            btTopUp = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             pnDashboard.SuspendLayout();
             pnCustomer.SuspendLayout();
@@ -56,6 +58,7 @@
             panel1.SuspendLayout();
             pnContent.SuspendLayout();
             pnLogout.SuspendLayout();
+            pnTopUp.SuspendLayout();
             SuspendLayout();
             // 
             // pictureBox1
@@ -110,7 +113,7 @@
             // 
             pnCustomer.BackColor = Color.Transparent;
             pnCustomer.Controls.Add(btCustomer);
-            pnCustomer.Location = new Point(23, 263);
+            pnCustomer.Location = new Point(23, 255);
             pnCustomer.Name = "pnCustomer";
             pnCustomer.Size = new Size(322, 53);
             pnCustomer.TabIndex = 7;
@@ -135,7 +138,7 @@
             // 
             pnKendaraan.BackColor = Color.Transparent;
             pnKendaraan.Controls.Add(btKendaraan);
-            pnKendaraan.Location = new Point(23, 347);
+            pnKendaraan.Location = new Point(23, 335);
             pnKendaraan.Name = "pnKendaraan";
             pnKendaraan.Size = new Size(322, 53);
             pnKendaraan.TabIndex = 8;
@@ -161,7 +164,7 @@
             // 
             pnTransaksi.BackColor = Color.Transparent;
             pnTransaksi.Controls.Add(btTransaksi);
-            pnTransaksi.Location = new Point(23, 429);
+            pnTransaksi.Location = new Point(23, 416);
             pnTransaksi.Name = "pnTransaksi";
             pnTransaksi.Size = new Size(322, 53);
             pnTransaksi.TabIndex = 9;
@@ -186,7 +189,7 @@
             // 
             pnPendapatan.BackColor = Color.Transparent;
             pnPendapatan.Controls.Add(btPendapatan);
-            pnPendapatan.Location = new Point(23, 510);
+            pnPendapatan.Location = new Point(23, 575);
             pnPendapatan.Name = "pnPendapatan";
             pnPendapatan.Size = new Size(322, 53);
             pnPendapatan.TabIndex = 10;
@@ -280,6 +283,31 @@
             pnContentAdmin.Size = new Size(994, 640);
             pnContentAdmin.TabIndex = 12;
             // 
+            // pnTopUp
+            // 
+            pnTopUp.BackColor = Color.Transparent;
+            pnTopUp.Controls.Add(btTopUp);
+            pnTopUp.Location = new Point(23, 496);
+            pnTopUp.Name = "pnTopUp";
+            pnTopUp.Size = new Size(322, 53);
+            pnTopUp.TabIndex = 13;
+            // 
+            // btTopUp
+            // 
+            btTopUp.BackColor = Color.White;
+            btTopUp.FlatAppearance.BorderColor = Color.White;
+            btTopUp.FlatStyle = FlatStyle.Flat;
+            btTopUp.Font = new Font("Segoe UI", 12.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btTopUp.Image = (Image)resources.GetObject("btTopUp.Image");
+            btTopUp.ImageAlign = ContentAlignment.MiddleLeft;
+            btTopUp.Location = new Point(3, 3);
+            btTopUp.Name = "btTopUp";
+            btTopUp.Size = new Size(312, 44);
+            btTopUp.TabIndex = 5;
+            btTopUp.Text = "           Top Up Customer";
+            btTopUp.TextAlign = ContentAlignment.MiddleLeft;
+            btTopUp.UseVisualStyleBackColor = false;
+            // 
             // AdDashboard
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -287,6 +315,7 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1370, 749);
+            Controls.Add(pnTopUp);
             Controls.Add(pnContentAdmin);
             Controls.Add(panel1);
             Controls.Add(pnPendapatan);
@@ -309,6 +338,7 @@
             panel1.ResumeLayout(false);
             pnContent.ResumeLayout(false);
             pnLogout.ResumeLayout(false);
+            pnTopUp.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -333,5 +363,7 @@
         private Panel pnContentAdmin;
         private Panel pnLogout;
         private Button btLogoutAd;
+        private Panel pnTopUp;
+        private Button btTopUp;
     }
 }
