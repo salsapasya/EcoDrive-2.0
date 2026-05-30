@@ -49,6 +49,66 @@ namespace EcoDrive_vol2.Context
             return transaksiSewaList;
         }
 
+        public List<TransaksiSewa>
+        GetRiwayatByUser(int idUser)
+        {
+            List<TransaksiSewa> list =
+                new List<TransaksiSewa>();
+
+            using var conn =
+                DatabaseHelper.GetConnection();
+
+            conn.Open();
+
+            string query =
+            @"SELECT *
+          FROM transaksi_sewa
+          WHERE id_user = @idUser";
+
+            using var cmd =
+                new NpgsqlCommand(query, conn);
+
+            cmd.Parameters.AddWithValue(
+                "@idUser",
+                idUser);
+
+            using var reader =
+            cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                TransaksiSewa sewa =
+                    new TransaksiSewa
+                    {
+                        IdTransaksiSewa =
+                            reader.GetInt32(0),
+
+                        IdUser =
+                            reader.GetInt32(1),
+
+                        IdKendaraan =
+                            reader.GetInt32(2),
+
+                        TanggalSewa =
+                            reader.GetDateTime(3),
+
+                        TanggalKembali =
+                            reader.GetDateTime(4),
+
+                        DurasiSewa =
+                        reader.GetInt32(5),
+
+                        StatusPengembalian =
+                        Enum.Parse<StatusKembali>(
+                            reader.GetString(6)
+                            .Replace(" ", "_"))
+                    };
+                list.Add(sewa);
+            }
+
+            return list;
+        }
+
         public void UpdateStatusPengembalian(int idTransaksiSewa)
         {
             using var conn = DatabaseHelper.GetConnection();

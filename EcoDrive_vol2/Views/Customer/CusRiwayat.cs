@@ -12,6 +12,9 @@ namespace EcoDrive_vol2.Views
     public partial class CusRiwayat : Form
     {
         private Color bgUtama = Color.FromArgb(255, 253, 246);
+
+        private Controllers.Customer.CusRiwayatController controller =
+        new Controllers.Customer.CusRiwayatController();
         public CusRiwayat()
         {
             InitializeComponent();
@@ -39,30 +42,21 @@ namespace EcoDrive_vol2.Views
             dgvRiwayat.GridColor =
                 Color.Black;
 
-            // Dummy Data Riwayat
-            dgvRiwayat.Rows.Add(
-                "TRX001",
-                "Tesla Model 3",
-                "27 Mei 2026",
-                "2 Hari",
-                "Rp 800.000",
-                "Selesai");
+            dgvRiwayat.Rows.Clear();
 
-            dgvRiwayat.Rows.Add(
-                "TRX002",
-                "Ioniq 5",
-                "20 Mei 2026",
-                "1 Hari",
-                "Rp 400.000",
-                "Selesai");
+            var dataRiwayat =
+                controller.GetRiwayat(2);
 
-            dgvRiwayat.Rows.Add(
-                "TRX003",
-                "Motor Gesits",
-                "15 Mei 2026",
-                "3 Hari",
-                "Rp 300.000",
-                "Selesai");
+            foreach (var item in dataRiwayat)
+            {
+                dgvRiwayat.Rows.Add(
+                    item.IdTransaksiSewa,
+                    item.IdKendaraan,
+                    item.TanggalSewa.ToString("dd/MM/yyyy"),
+                    item.DurasiSewa + " Hari",
+                    "-",
+                    item.StatusPengembalian);
+            }
         }
 
         private void dgvRiwayat_CellContentClick(object sender, DataGridViewCellEventArgs e)

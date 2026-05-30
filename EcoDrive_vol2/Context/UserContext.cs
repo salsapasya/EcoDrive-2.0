@@ -277,5 +277,77 @@ namespace EcoDrive_vol2.Context
                 );
             }
         }
+        public decimal GetSaldo(int idUser)
+        {
+            using var conn =
+                DatabaseHelper.GetConnection();
+
+            conn.Open();
+
+            string query =
+                @"SELECT saldo
+                FROM users
+                WHERE id_user = @idUser";
+
+            using var cmd =
+                new NpgsqlCommand(query, conn);
+
+            cmd.Parameters.AddWithValue(
+                "@idUser",
+                idUser);
+
+            object result =
+                cmd.ExecuteScalar();
+
+            return Convert.ToDecimal(result);
+        }
+        public void TopupSaldo(int idUser,decimal jumlah)
+        {
+            using var conn =
+                DatabaseHelper.GetConnection();
+
+            conn.Open();
+
+            string query =
+            @"UPDATE users
+              SET saldo = saldo + @jumlah
+              WHERE id_user = @idUser";
+
+            using var cmd =
+                new NpgsqlCommand(query, conn);
+
+            cmd.Parameters.AddWithValue(
+                "@jumlah",
+                jumlah);
+
+            cmd.Parameters.AddWithValue(
+                "@idUser",
+                idUser);
+
+            cmd.ExecuteNonQuery();
+        }
+
+        public int GetIdUser(string username)
+        {
+            using var conn =
+                DatabaseHelper.GetConnection();
+
+            conn.Open();
+
+            string query =
+                @"SELECT id_user
+          FROM users
+          WHERE username = @username";
+
+            using var cmd =
+                new NpgsqlCommand(query, conn);
+
+            cmd.Parameters.AddWithValue(
+                "@username",
+                username);
+
+            return Convert.ToInt32(
+                cmd.ExecuteScalar());
+        }
     }
 }

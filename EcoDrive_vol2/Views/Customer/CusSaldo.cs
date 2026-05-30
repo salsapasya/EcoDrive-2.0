@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using EcoDrive_vol2.Controllers.Customer;
 
 namespace EcoDrive_vol2.Views
 {
@@ -14,7 +15,11 @@ namespace EcoDrive_vol2.Views
         private Color bgUtama = Color.FromArgb(255, 253, 246);
         private object txtIdCustomer;
 
-        private int saldo = 0;
+        private int idUser = 2;
+        private decimal saldo = 0;
+
+        private CusSaldoController controller =
+            new CusSaldoController();
 
         public CusSaldo()
         {
@@ -30,31 +35,29 @@ namespace EcoDrive_vol2.Views
             {
                 if (txtTopUp.Text == "")
                 {
-                    MessageBox.Show(
-                        "Masukkan jumlah top up");
+                    MessageBox.Show("Masukkan jumlah top up");
 
                     return;
                 }
 
-                int jumlahTopUp =
-                    Convert.ToInt32(
-                        txtTopUp.Text);
+                decimal jumlahTopUp = 
+                    Convert.ToDecimal(txtTopUp.Text);
 
-                saldo += jumlahTopUp;
+                controller.TopupSaldo(idUser,jumlahTopUp);
+
+                saldo =
+                    controller.GetSaldo(idUser);
 
                 lblSaldo.Text =
-                    "Rp " +
-                    saldo.ToString("N0");
+                    "Rp " + saldo.ToString("N0");
 
-                MessageBox.Show(
-                    "Top Up Berhasil");
+                MessageBox.Show("Top Up Berhasil");
 
                 txtTopUp.Clear();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(
-                    "Error: " +
                     ex.Message);
             }
         }
@@ -71,7 +74,9 @@ namespace EcoDrive_vol2.Views
 
         private void CusSaldo_Load(object sender, EventArgs e)
         {
-            lblSaldo.Text ="Rp 0";
+            saldo = controller.GetSaldo(idUser);
+
+            lblSaldo.Text = "Rp " + saldo.ToString("N0");
         }
 
         private void lblSaldo_Click(object sender, EventArgs e)
