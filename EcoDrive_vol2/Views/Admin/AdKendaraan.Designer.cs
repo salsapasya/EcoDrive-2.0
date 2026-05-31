@@ -38,11 +38,11 @@ namespace EcoDrive_vol2.Views
             cardPanel = new RoundedPanel();
             flowKendaraan = new FlowLayoutPanel();
             filterTableLayout = new TableLayoutPanel();
+            txtSearch = new RoundedTextBox();
             leftFilterFlow = new FlowLayoutPanel();
             btnSemua = new Button();
             btnMobil = new Button();
             btnMotor = new Button();
-            txtSearch = new RoundedTextBox();
             btnTambah = new Button();
             lblSubtitle = new Label();
             lblTitle = new Label();
@@ -93,11 +93,11 @@ namespace EcoDrive_vol2.Views
             // filterTableLayout
             // 
             filterTableLayout.ColumnCount = 3;
-            filterTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 240F));
             filterTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            filterTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 240F));
             filterTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 195F));
-            filterTableLayout.Controls.Add(leftFilterFlow, 0, 0);
-            filterTableLayout.Controls.Add(txtSearch, 1, 0);
+            filterTableLayout.Controls.Add(txtSearch, 0, 0);
+            filterTableLayout.Controls.Add(leftFilterFlow, 1, 0);
             filterTableLayout.Controls.Add(btnTambah, 2, 0);
             filterTableLayout.Dock = DockStyle.Top;
             filterTableLayout.Location = new Point(25, 99);
@@ -107,17 +107,28 @@ namespace EcoDrive_vol2.Views
             filterTableLayout.Size = new Size(1010, 45);
             filterTableLayout.TabIndex = 1;
             // 
+            // txtSearch
+            // 
+            txtSearch.BackColor = Color.FromArgb(248, 244, 238);
+            txtSearch.Dock = DockStyle.Fill;
+            txtSearch.Location = new Point(0, 2);
+            txtSearch.Margin = new Padding(0, 2, 15, 2);
+            txtSearch.Name = "txtSearch";
+            txtSearch.Padding = new Padding(15, 8, 15, 8);
+            txtSearch.Size = new Size(560, 41);
+            txtSearch.TabIndex = 0;
+            // 
             // leftFilterFlow
             // 
             leftFilterFlow.Controls.Add(btnSemua);
             leftFilterFlow.Controls.Add(btnMobil);
             leftFilterFlow.Controls.Add(btnMotor);
             leftFilterFlow.Dock = DockStyle.Fill;
-            leftFilterFlow.Location = new Point(0, 0);
+            leftFilterFlow.Location = new Point(575, 0);
             leftFilterFlow.Margin = new Padding(0);
             leftFilterFlow.Name = "leftFilterFlow";
             leftFilterFlow.Size = new Size(240, 45);
-            leftFilterFlow.TabIndex = 0;
+            leftFilterFlow.TabIndex = 1;
             // 
             // btnSemua
             // 
@@ -143,17 +154,6 @@ namespace EcoDrive_vol2.Views
             btnMotor.Size = new Size(70, 36);
             btnMotor.TabIndex = 3;
             // 
-            // txtSearch
-            // 
-            txtSearch.BackColor = Color.FromArgb(248, 244, 238);
-            txtSearch.Dock = DockStyle.Fill;
-            txtSearch.Location = new Point(245, 2);
-            txtSearch.Margin = new Padding(5, 2, 10, 2);
-            txtSearch.Name = "txtSearch";
-            txtSearch.Padding = new Padding(15, 8, 15, 8);
-            txtSearch.Size = new Size(560, 41);
-            txtSearch.TabIndex = 0;
-            // 
             // btnTambah
             // 
             btnTambah.Anchor = AnchorStyles.Top | AnchorStyles.Right;
@@ -161,7 +161,7 @@ namespace EcoDrive_vol2.Views
             btnTambah.Margin = new Padding(10, 2, 0, 2);
             btnTambah.Name = "btnTambah";
             btnTambah.Size = new Size(185, 36);
-            btnTambah.TabIndex = 1;
+            btnTambah.TabIndex = 2;
             btnTambah.Click += btnTambah_Click;
             // 
             // lblSubtitle
