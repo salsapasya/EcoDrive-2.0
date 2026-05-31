@@ -16,8 +16,6 @@ namespace EcoDrive_vol2.Views
 
         // Menyimpan status filter aktif agar pencarian/search tidak mereset filter kategori
         private string filterAktif = "Semua";
-        private const string PLACEHOLDER_TEXT = "🔍 Cari kendaraan...";
-
         public AdKendaraan()
         {
             InitializeComponent();
@@ -38,27 +36,10 @@ namespace EcoDrive_vol2.Views
 
             // --- STYLE SEARCH TEXTBOX ---
             txtSearch.BackColor = Color.FromArgb(245, 245, 240);
-            txtSearch.ForeColor = Color.Gray;
-            txtSearch.BorderStyle = BorderStyle.FixedSingle;
-            txtSearch.Text = PLACEHOLDER_TEXT;
+            txtSearch.ForeColor = Color.Black; // Biarkan hitam, warna placeholder otomatis diatur sistem jadi abu-abu
+            txtSearch.BorderStyle = BorderStyle.None;
 
-            txtSearch.GotFocus += (s, ev) =>
-            {
-                if (txtSearch.Text == PLACEHOLDER_TEXT)
-                {
-                    txtSearch.Text = "";
-                    txtSearch.ForeColor = Color.Black;
-                }
-            };
-
-            txtSearch.LostFocus += (s, ev) =>
-            {
-                if (string.IsNullOrWhiteSpace(txtSearch.Text))
-                {
-                    txtSearch.Text = PLACEHOLDER_TEXT;
-                    txtSearch.ForeColor = Color.Gray;
-                }
-            };
+            txtSearch.PlaceholderText = "🔍 Cari kendaraan...";
 
             // --- STYLE FILTER BUTTONS ---
             btnSemua.Text = "Semua";
@@ -113,7 +94,7 @@ namespace EcoDrive_vol2.Views
 
             // 2. Jalankan Filter Pencarian dari hasil kategori tadi
             string keyword = txtSearch.Text.Trim().ToLower();
-            if (!string.IsNullOrEmpty(keyword) && keyword != PLACEHOLDER_TEXT.ToLower())
+            if (!string.IsNullOrEmpty(keyword))
             {
                 dataTerfilter = dataTerfilter.FindAll(x =>
                     x.NamaKendaraan.ToLower().Contains(keyword) ||
@@ -180,6 +161,25 @@ namespace EcoDrive_vol2.Views
 
                 string statusDb = vh.StatusKendaraan.ToString().Replace("_", " ");
 
+                Color bgStatus = Color.FromArgb(232, 245, 233); // Default: hijau muda untuk "tersedia"
+                Color fgStatus = Color.FromArgb(67, 160, 71); 
+
+                switch (statusDb.ToLower())
+                {
+                    case "disewa":
+                        bgStatus = Color.FromArgb(255, 244, 229); // oranye muda
+                        fgStatus = Color.FromArgb(255, 152, 0);
+                        break;
+                    case "rusak":
+                        bgStatus = Color.FromArgb(255, 235, 238); // merah muda
+                        fgStatus = Color.FromArgb(244, 67, 54);
+                        break;
+                    case "dalam perbaikan":
+                        bgStatus = Color.FromArgb(227, 242, 253); // biru muda
+                        fgStatus = Color.FromArgb(30, 136, 229);
+                        break;
+                }
+
                 Label lblStatus = new Label
                 {
                     Text = statusDb,
@@ -187,8 +187,8 @@ namespace EcoDrive_vol2.Views
                     Location = new Point(15, 125),
                     TextAlign = ContentAlignment.MiddleCenter,
                     Font = new Font("Segoe UI", 8F, FontStyle.Bold),
-                    BackColor = Color.FromArgb(232, 245, 233),
-                    ForeColor = Color.FromArgb(67, 160, 71)
+                    BackColor = bgStatus,
+                    ForeColor = fgStatus
                 };
 
                 Button btnKelola = new Button
@@ -397,6 +397,11 @@ namespace EcoDrive_vol2.Views
             });
 
             frm.ShowDialog();
+        }
+
+        private void flowKendaraan_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

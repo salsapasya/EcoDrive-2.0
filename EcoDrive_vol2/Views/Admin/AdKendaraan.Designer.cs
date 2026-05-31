@@ -2,14 +2,13 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-
 namespace EcoDrive_vol2.Views
 {
     partial class AdKendaraan
     {
         private System.ComponentModel.IContainer components = null;
         private Panel mainPanel;
-        private RoundedPanel cardPanel; // Menggunakan RoundedPanel kustom Anda
+        private RoundedPanel cardPanel;
         private Label lblTitle;
         private Label lblSubtitle;
 
@@ -20,8 +19,9 @@ namespace EcoDrive_vol2.Views
         private Button btnMotor;
         private Button btnTambah;
 
-        // Kontainer utama untuk menampung card-card kendaraan secara dinamis
         private FlowLayoutPanel flowKendaraan;
+        private TableLayoutPanel filterTableLayout;
+        private FlowLayoutPanel leftFilterFlow;
 
         protected override void Dispose(bool disposing)
         {
@@ -39,10 +39,10 @@ namespace EcoDrive_vol2.Views
             flowKendaraan = new FlowLayoutPanel();
             filterTableLayout = new TableLayoutPanel();
             leftFilterFlow = new FlowLayoutPanel();
-            txtSearch = new RoundedTextBox();
             btnSemua = new Button();
             btnMobil = new Button();
             btnMotor = new Button();
+            txtSearch = new RoundedTextBox();
             btnTambah = new Button();
             lblSubtitle = new Label();
             lblTitle = new Label();
@@ -88,14 +88,17 @@ namespace EcoDrive_vol2.Views
             flowKendaraan.Padding = new Padding(10);
             flowKendaraan.Size = new Size(1010, 451);
             flowKendaraan.TabIndex = 0;
+            flowKendaraan.Paint += flowKendaraan_Paint;
             // 
             // filterTableLayout
             // 
-            filterTableLayout.ColumnCount = 2;
-            filterTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 75F));
-            filterTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            filterTableLayout.ColumnCount = 3;
+            filterTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 240F));
+            filterTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            filterTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 195F));
             filterTableLayout.Controls.Add(leftFilterFlow, 0, 0);
-            filterTableLayout.Controls.Add(btnTambah, 1, 0);
+            filterTableLayout.Controls.Add(txtSearch, 1, 0);
+            filterTableLayout.Controls.Add(btnTambah, 2, 0);
             filterTableLayout.Dock = DockStyle.Top;
             filterTableLayout.Location = new Point(25, 99);
             filterTableLayout.Name = "filterTableLayout";
@@ -106,7 +109,6 @@ namespace EcoDrive_vol2.Views
             // 
             // leftFilterFlow
             // 
-            leftFilterFlow.Controls.Add(txtSearch);
             leftFilterFlow.Controls.Add(btnSemua);
             leftFilterFlow.Controls.Add(btnMobil);
             leftFilterFlow.Controls.Add(btnMotor);
@@ -114,22 +116,12 @@ namespace EcoDrive_vol2.Views
             leftFilterFlow.Location = new Point(0, 0);
             leftFilterFlow.Margin = new Padding(0);
             leftFilterFlow.Name = "leftFilterFlow";
-            leftFilterFlow.Size = new Size(757, 45);
+            leftFilterFlow.Size = new Size(240, 45);
             leftFilterFlow.TabIndex = 0;
-            // 
-            // txtSearch
-            // 
-            txtSearch.BackColor = Color.FromArgb(248, 244, 238);
-            txtSearch.Location = new Point(0, 2);
-            txtSearch.Margin = new Padding(0, 2, 10, 0);
-            txtSearch.Name = "txtSearch";
-            txtSearch.Padding = new Padding(15, 8, 15, 8);
-            txtSearch.Size = new Size(300, 36);
-            txtSearch.TabIndex = 0;
             // 
             // btnSemua
             // 
-            btnSemua.Location = new Point(310, 2);
+            btnSemua.Location = new Point(0, 2);
             btnSemua.Margin = new Padding(0, 2, 6, 0);
             btnSemua.Name = "btnSemua";
             btnSemua.Size = new Size(75, 36);
@@ -137,7 +129,7 @@ namespace EcoDrive_vol2.Views
             // 
             // btnMobil
             // 
-            btnMobil.Location = new Point(391, 2);
+            btnMobil.Location = new Point(81, 2);
             btnMobil.Margin = new Padding(0, 2, 6, 0);
             btnMobil.Name = "btnMobil";
             btnMobil.Size = new Size(70, 36);
@@ -145,17 +137,28 @@ namespace EcoDrive_vol2.Views
             // 
             // btnMotor
             // 
-            btnMotor.Location = new Point(467, 2);
+            btnMotor.Location = new Point(157, 2);
             btnMotor.Margin = new Padding(0, 2, 0, 0);
             btnMotor.Name = "btnMotor";
             btnMotor.Size = new Size(70, 36);
             btnMotor.TabIndex = 3;
             // 
+            // txtSearch
+            // 
+            txtSearch.BackColor = Color.FromArgb(248, 244, 238);
+            txtSearch.Dock = DockStyle.Fill;
+            txtSearch.Location = new Point(245, 2);
+            txtSearch.Margin = new Padding(5, 2, 10, 2);
+            txtSearch.Name = "txtSearch";
+            txtSearch.Padding = new Padding(15, 8, 15, 8);
+            txtSearch.Size = new Size(560, 41);
+            txtSearch.TabIndex = 0;
+            // 
             // btnTambah
             // 
             btnTambah.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             btnTambah.Location = new Point(825, 2);
-            btnTambah.Margin = new Padding(0, 2, 0, 0);
+            btnTambah.Margin = new Padding(10, 2, 0, 2);
             btnTambah.Name = "btnTambah";
             btnTambah.Size = new Size(185, 36);
             btnTambah.TabIndex = 1;
@@ -205,7 +208,6 @@ namespace EcoDrive_vol2.Views
             ResumeLayout(false);
         }
 
-        // Fungsi pembantu dekorasi tombol (Mengurangi redundansi parameter lokasi Point)
         private void SetupButton(Button btn, string text, Color bg, Color fg)
         {
             btn.Text = text;
@@ -228,8 +230,5 @@ namespace EcoDrive_vol2.Views
             btn.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
             btn.Cursor = Cursors.Hand;
         }
-
-        private TableLayoutPanel filterTableLayout;
-        private FlowLayoutPanel leftFilterFlow;
     }
 }
