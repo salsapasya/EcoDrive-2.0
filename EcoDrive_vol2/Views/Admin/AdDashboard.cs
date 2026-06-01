@@ -26,7 +26,7 @@ namespace EcoDrive_vol2.Views
             btTopUp.Click += btTopUp_Click;
         }
 
-        // --- FUNGSI UTAMA PINDAH FORM (SUDAH DIPERBAIKI) ---
+        // --- FUNGSI UTAMA PINDAH FORM ---
         private void OpenForm(Form childForm)
         {
             if (activeForm != null)
@@ -37,25 +37,19 @@ namespace EcoDrive_vol2.Views
 
             activeForm = childForm;
 
-            // 1. Matikan semua properti Form yang membuatnya bertingkah seperti 'Window Terpisah'
             childForm.TopLevel = false;
             childForm.FormBorderStyle = FormBorderStyle.None;
 
-            // 2. JURUS PAMUNGKAS: Paksa ukurannya MENYAMAI persis ukuran Panel Kontainer Anda saat itu
             childForm.Size = pnContentAdmin.ClientSize;
 
-            // 3. Pasang Dock Fill agar dia mengunci dan ikut melar kalau layar dibesarkan lagi
             childForm.Dock = DockStyle.Fill;
 
-            // 4. Bersihkan dan masukkan ke kontainer
             pnContentAdmin.Controls.Clear();
             pnContentAdmin.Controls.Add(childForm);
             pnContentAdmin.Tag = childForm;
 
-            // 5. Reset koordinat ke ujung kiri atas (0,0) agar pas di sebelah sidebar
             childForm.Location = new Point(0, 0);
 
-            // 6. Paksa Windows menggambar ulang layout secara realtime
             pnContentAdmin.PerformLayout();
             childForm.Refresh();
 
@@ -80,9 +74,6 @@ namespace EcoDrive_vol2.Views
             ResetButton();
             btDasboard.BackColor = Color.FromArgb(191, 219, 120);
 
-            // Perbaikan: Jangan panggil 'new AdDashboard()' lagi di sini agar tidak infinite loop.
-            // Cukup kosongkan panel kontainer untuk kembali ke tampilan home dashboard awal Anda,
-            // atau panggil form sub-dashboard khusus (misal: AdHomeDashboard).
             if (activeForm != null)
             {
                 activeForm.Close();

@@ -124,7 +124,7 @@
             btKendaraan.Text = "           Kendaraan";
             btKendaraan.TextAlign = ContentAlignment.MiddleLeft;
             btKendaraan.UseVisualStyleBackColor = false;
-            btKendaraan.Click += btKendaraan_Click_1;
+            btKendaraan.Click += btKendaraan_Click;
             // 
             // pnCharging
             // 
@@ -175,7 +175,7 @@
             btSaldo.Text = "           Saldo";
             btSaldo.TextAlign = ContentAlignment.MiddleLeft;
             btSaldo.UseVisualStyleBackColor = false;
-            btSaldo.Click += btSaldo_Click_1;
+            btSaldo.Click += btSaldo_Click;
             // 
             // pnRiwayat
             // 

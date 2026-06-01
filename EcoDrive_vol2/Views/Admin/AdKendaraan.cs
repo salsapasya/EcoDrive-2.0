@@ -36,7 +36,7 @@ namespace EcoDrive_vol2.Views
 
             // --- STYLE SEARCH TEXTBOX ---
             txtSearch.BackColor = Color.FromArgb(245, 245, 240);
-            txtSearch.ForeColor = Color.Black; // Biarkan hitam, warna placeholder otomatis diatur sistem jadi abu-abu
+            txtSearch.ForeColor = Color.Black;
             txtSearch.BorderStyle = BorderStyle.None;
 
             txtSearch.PlaceholderText = "🔍 Cari kendaraan...";
@@ -76,12 +76,11 @@ namespace EcoDrive_vol2.Views
             ApplyFilterDanPencarian(); // Terapkan ulang filter & keyword setelah data direfresh
         }
 
-        // FUNGSI BARU: Menggabungkan logika Filter Kategori dan Keyword Pencarian secara sinkron
+        // Menggabungkan logika Filter Kategori dan Keyword Pencarian secara sinkron
         private void ApplyFilterDanPencarian()
         {
             if (listMasterKendaraan == null) return;
 
-            // 1. Jalankan Filter Kategori terlebih dahulu
             List<Kendaraan> dataTerfilter = listMasterKendaraan;
             if (filterAktif == "Mobil")
             {
@@ -92,7 +91,6 @@ namespace EcoDrive_vol2.Views
                 dataTerfilter = listMasterKendaraan.FindAll(x => x.TipeKendaraan == KendaraanTipe.motor);
             }
 
-            // 2. Jalankan Filter Pencarian dari hasil kategori tadi
             string keyword = txtSearch.Text.Trim().ToLower();
             if (!string.IsNullOrEmpty(keyword))
             {
@@ -201,7 +199,7 @@ namespace EcoDrive_vol2.Views
                 };
                 btnKelola.FlatAppearance.BorderSize = 0;
 
-                // --- ACTION KELOLA / EDIT KENDARAAN ---
+                // --- ACTION KELOLA KENDARAAN ---
                 btnKelola.Click += (s, e) =>
                 {
                     Form frm = new Form

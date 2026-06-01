@@ -1,18 +1,14 @@
-﻿using EcoDrive_vol2.Views;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using System;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using EcoDrive_vol2.Controllers.Authentication;
+using EcoDrive_vol2.Views;
 
 namespace EcoDrive_vol2
 {
     public partial class FormLogin : Form
     {
-        private LoginController controller = new LoginController();
+        private readonly LoginController controller = new LoginController();
 
         public FormLogin()
         {
@@ -21,106 +17,80 @@ namespace EcoDrive_vol2
 
         private void FormLogin_Load(object sender, EventArgs e)
         {
-            // Password jadi bintang
             TxtPassword.UseSystemPasswordChar = true;
 
-            //// Isi ComboBox Role
-            //CmbRole.Items.Add("Admin");
-            //CmbRole.Items.Add("Customer");
+            if (CmbRole != null)
+            {
+                CmbRole.SelectedIndex = -1;
+            }
 
-            CmbRole.SelectedIndex = -1;
-
-            // Cursor Sign Up
             lblSignUp.Cursor = Cursors.Hand;
             lblSignUp.ForeColor = Color.Blue;
+
+            btnTogglePassword.Click += BtnTogglePassword_Click;
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void BtnTogglePassword_Click(object sender, EventArgs e)
         {
-            // Label Username
-            TxtUsername.Focus();
-        }
 
-        private void linkLabelRegis_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            FormRegister register =
-        new FormRegister();
-
-            register.Show();
-
-            this.Hide();
+            TxtPassword.UseSystemPasswordChar = !TxtPassword.UseSystemPasswordChar;
+            btnTogglePassword.Text = TxtPassword.UseSystemPasswordChar ? "SHOW" : "HIDE";
         }
 
         private void BtnLogin_Click(object sender, EventArgs e)
         {
             try
             {
-                string username =
-                    TxtUsername.Text;
+                string username = TxtUsername.Text;
+                string password = TxtPassword.Text;
 
-                string password =
-                    TxtPassword.Text;
-
-                string role =
-                    controller.Login(
-                        username,
-                        password);
+                // Meminta role dari controller login
+                string role = controller.Login(username, password);
 
                 if (role == "admin")
                 {
-                    MessageBox.Show(
-                        "Login Admin Berhasil");
+                    MessageBox.Show("Login Admin Berhasil", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    AdDashboard admin =
-                        new AdDashboard();
-
+                    AdDashboard admin = new AdDashboard();
                     admin.Show();
-
                     this.Hide();
                 }
                 else if (role == "customer")
                 {
-                    MessageBox.Show(
-                        "Login Customer Berhasil");
+                    MessageBox.Show("Login Customer Berhasil", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    CusDasboard customer =
-                        new CusDasboard();
-
+                    // Berhasil mengirim nama/username pengguna ke form dashboard
+                    CusDasboard customer = new CusDasboard(username);
                     customer.Show();
-
                     this.Hide();
                 }
                 else
                 {
-                    MessageBox.Show(
-                        "Username atau Password Salah");
+                    MessageBox.Show("Username atau Password Salah!", "Gagal Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message, "Error System", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-        private void CmbRole_SelectedIndexChanged(object sender, EventArgs e)
-        {
 
-        }
-        private void TxtPassword_TextChanged(object sender, EventArgs e)
+        // NAVIGATION: Buka Form Registrasi
+        private void linkLabelRegis_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            TxtPassword.PasswordChar = '*';
+            FormRegister register = new FormRegister();
+            register.Show();
+            this.Hide();
         }
-        private void TxtUsername_TextChanged(object sender, EventArgs e)
+
+        private void lblSignUp_Click(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            TxtUsername_TextChanged(sender, e);
+            FormRegister register = new FormRegister();
+            register.Show();
+            this.Hide();
         }
-        private void TxtUsername_Leave(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(TxtUsername.Text))
-            {
-                TxtUsername.Text = "Username";
-                TxtUsername.ForeColor = Color.Gray;
-            }
-        }
+
+        // PLACEHOLDER SYSTEM: USERNAME
         private void TxtUsername_Enter(object sender, EventArgs e)
         {
             if (TxtUsername.Text == "Username")
@@ -129,15 +99,17 @@ namespace EcoDrive_vol2
                 TxtUsername.ForeColor = Color.Black;
             }
         }
-        private void TxtPassword_Leave(object sender, EventArgs e)
+
+        private void TxtUsername_Leave(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(TxtPassword.Text))
+            if (string.IsNullOrWhiteSpace(TxtUsername.Text))
             {
-                TxtPassword.Text = "Password";
-                TxtPassword.ForeColor = Color.Gray;
-                TxtPassword.PasswordChar = '\0';
+                TxtUsername.Text = "Username";
+                TxtUsername.ForeColor = Color.Gray;
             }
         }
+
+        // PLACEHOLDER SYSTEM: PASSWORD
         private void TxtPassword_Enter(object sender, EventArgs e)
         {
             if (TxtPassword.Text == "Password")
@@ -147,36 +119,30 @@ namespace EcoDrive_vol2
                 TxtPassword.PasswordChar = '*';
             }
         }
+
+        private void TxtPassword_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(TxtPassword.Text))
+            {
+                TxtPassword.Text = "Password";
+                TxtPassword.ForeColor = Color.Gray;
+                TxtPassword.PasswordChar = '\0';
+            }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            TxtUsername.Focus();
+        }
+
         private void label2_Click(object sender, EventArgs e)
         {
-            // Label Password
             TxtPassword.Focus();
-        }
-
-        private void label1_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void TxtUsername_TextChanged_1(object sender, EventArgs e)
-        {
-
         }
 
         private void FrmJudul_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(
-        "Selamat Datang di EcoDrive");
-        }
-
-        private void lblSignUp_Click(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            FormRegister register =
-        new FormRegister();
-
-            register.Show();
-
-            this.Hide();
+            MessageBox.Show("Selamat Datang di EcoDrive", "Apps Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

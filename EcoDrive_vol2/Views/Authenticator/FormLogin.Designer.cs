@@ -10,23 +10,21 @@
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
-        /// <param name="disposing">
-        /// true if managed resources should be disposed; otherwise, false.
-        /// </param>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
             {
                 components.Dispose();
             }
-
             base.Dispose(disposing);
         }
 
         #region Windows Form Designer generated code
 
         /// <summary>
-        /// Required method for Designer support
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
@@ -38,6 +36,7 @@
             BtnLogin = new Button();
             label1 = new Label();
             lblSignUp = new LinkLabel();
+            btnTogglePassword = new Button();
             SuspendLayout();
             // 
             // FrmJudul
@@ -60,7 +59,6 @@
             TxtUsername.PlaceholderText = "Username";
             TxtUsername.Size = new Size(129, 23);
             TxtUsername.TabIndex = 1;
-            TxtUsername.TextChanged += TxtUsername_TextChanged_1;
             TxtUsername.Enter += TxtUsername_Enter;
             TxtUsername.Leave += TxtUsername_Leave;
             // 
@@ -75,6 +73,19 @@
             TxtPassword.Enter += TxtPassword_Enter;
             TxtPassword.Leave += TxtPassword_Leave;
             // 
+            // btnTogglePassword
+            // 
+            btnTogglePassword.Text = "SHOW";
+            btnTogglePassword.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
+            btnTogglePassword.Location = new Point(988, 319); // Sudah digeser ke 988
+            btnTogglePassword.Name = "btnTogglePassword";
+            btnTogglePassword.Size = new Size(48, 21); // Sudah dilebarkan ke 48
+            btnTogglePassword.TabIndex = 7;
+            btnTogglePassword.FlatStyle = FlatStyle.Flat;
+            btnTogglePassword.FlatAppearance.BorderSize = 0;
+            btnTogglePassword.BackColor = Color.White;
+            btnTogglePassword.Cursor = Cursors.Hand;
+            // 
             // CmbRole
             // 
             CmbRole.BackColor = SystemColors.Window;
@@ -85,7 +96,6 @@
             CmbRole.Name = "CmbRole";
             CmbRole.Size = new Size(129, 23);
             CmbRole.TabIndex = 3;
-            CmbRole.SelectedIndexChanged += CmbRole_SelectedIndexChanged;
             // 
             // BtnLogin
             // 
@@ -105,7 +115,7 @@
             label1.Size = new Size(131, 15);
             label1.TabIndex = 5;
             label1.Text = "Don't have an account?";
-            label1.Click += label1_Click_1;
+            label1.Click += label1_Click;
             // 
             // lblSignUp
             // 
@@ -125,6 +135,12 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1370, 749);
+
+            // Masukkan komponen mata, lalu bawa ke baris paling depan layar
+            Controls.Add(btnTogglePassword);
+            btnTogglePassword.BringToFront();
+
+            // Masukkan sisa komponen kontrol lainnya (Cukup 1 kali saja)
             Controls.Add(lblSignUp);
             Controls.Add(label1);
             Controls.Add(BtnLogin);
@@ -132,6 +148,7 @@
             Controls.Add(TxtPassword);
             Controls.Add(TxtUsername);
             Controls.Add(FrmJudul);
+
             DoubleBuffered = true;
             Name = "FormLogin";
             Text = "FormLogin";
@@ -149,5 +166,6 @@
         private Button BtnLogin;
         private Label label1;
         private LinkLabel lblSignUp;
+        private Button btnTogglePassword;
     }
 }
