@@ -57,6 +57,9 @@ namespace EcoDrive_vol2.Views
             childForm.Show();
         }
 
+        // Di dalam file Form UI Admin Anda
+        private Controllers.Admin.AdTransaksiController _controller = new Controllers.Admin.AdTransaksiController();
+
         // RESET WARNA BUTTON SIDEBAR
         private void ResetButton()
         {

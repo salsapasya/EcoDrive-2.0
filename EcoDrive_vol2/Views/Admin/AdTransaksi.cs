@@ -15,18 +15,14 @@ namespace EcoDrive_vol2.Views
     {
         private Color bgUtama = Color.FromArgb(255, 253, 246);
         private bool _isProcessing = false;
-        private AdTransaksiContext _transaksiContext;
-        private TransaksiChargingContext _chargingContext;
-        private TransaksiSewaContext _sewaContext;
+        private Controllers.Admin.AdTransaksiController _transaksiController;
 
         public AdTransaksi()
         {
             InitializeComponent();
             this.BackColor = bgUtama;
 
-            _transaksiContext = new AdTransaksiContext();
-            _chargingContext = new TransaksiChargingContext();
-            _sewaContext = new TransaksiSewaContext();
+            _transaksiController = new Controllers.Admin.AdTransaksiController();
 
             // Binding Event Filter Tombol Atas
             btnSemua.Click += FilterButton_Click;
@@ -34,34 +30,46 @@ namespace EcoDrive_vol2.Views
             btnCharging.Click += FilterButton_Click;
 
             // =======================================================
-            // 🟩 1. BUAT DUA KOLOM BUTTON DENGAN HEADER "AKSI"
+            // 🟩 DUA KOLOM BUTTON AKSI (Dibuat Unique Agar Tidak Duplikat)
             // =======================================================
-            var btnKonfirmasi = new DataGridViewButtonColumn
+            if (!dgvTransaksi.Columns.Contains("btnKonfirmasi"))
             {
-                HeaderText = "Aksi",       // Judul atas kolom tetap Aksi
-                Name = "btnKonfirmasi",    // Nama ID Kolom untuk dibaca saat diklik
-                Text = "Konfirmasi",       // Tulisan di dalam tombol
-                UseColumnTextForButtonValue = true, // Kunci teks agar muncul di tombol
-                FlatStyle = FlatStyle.Flat,
-                Width = 90
-            };
-            dgvTransaksi.Columns.Add(btnKonfirmasi);
+                var btnKonfirmasi = new DataGridViewButtonColumn
+                {
+                    HeaderText = "Aksi Konfirmasi",
+                    Name = "btnKonfirmasi",
+                    Text = "Konfirmasi",
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Flat,
+                    Width = 90
+                };
+                dgvTransaksi.Columns.Add(btnKonfirmasi);
+            }
 
-            var btnSelesai = new DataGridViewButtonColumn
+            if (!dgvTransaksi.Columns.Contains("btnSelesai"))
             {
-                HeaderText = "Aksi",       // Judul atas kolom tetap Aksi
-                Name = "btnSelesai",       // Nama ID Kolom untuk dibaca saat diklik
-                Text = "Selesaikan",       // Tulisan di dalam tombol
-                UseColumnTextForButtonValue = true, // Kunci teks agar muncul di tombol
-                FlatStyle = FlatStyle.Flat,
-                Width = 90
-            };
-            dgvTransaksi.Columns.Add(btnSelesai);
+                var btnSelesai = new DataGridViewButtonColumn
+                {
+                    HeaderText = "Aksi Selesai",
+                    Name = "btnSelesai",
+                    Text = "Selesaikan",
+                    UseColumnTextForButtonValue = true,
+                    FlatStyle = FlatStyle.Flat,
+                    Width = 90
+                };
+                dgvTransaksi.Columns.Add(btnSelesai);
+            }
 
             // Daftarkan Event ke Grid
             dgvTransaksi.CellFormatting += DgvTransaksi_CellFormatting;
-            dgvTransaksi.CellContentClick += dgvTransaksi_CellContentClick; // Menggunakan CellContentClick pas sesuai contohmu
+            dgvTransaksi.CellContentClick += dgvTransaksi_CellContentClick;
 
+            // Jalankan load data awal
+            this.Load += AdTransaksi_Load;
+        }
+
+        private void AdTransaksi_Load(object sender, EventArgs e)
+        {
             TampilkanData("Semua");
         }
 
@@ -86,40 +94,50 @@ namespace EcoDrive_vol2.Views
             btnCharging.BackColor = defaultBg; btnCharging.ForeColor = defaultFg;
         }
 
+        // ====================================================================
+        // FUNGSI UTAMA: MENAMPILKAN DATA LAPORAN (FIX URUTAN KOLOM)
+        // ====================================================================
         private void TampilkanData(string filterMode)
         {
             try
             {
                 dgvTransaksi.Rows.Clear();
-                List<TransaksiModel> dataList = _transaksiContext.GetTransaksiBerdasarkanFilter(filterMode);
+                List<TransaksiModel> dataList = _transaksiController.AmbilLaporanKeuanganAdmin(filterMode);
+
+                if (dataList == null) return;
 
                 foreach (var item in dataList)
                 {
-                    dgvTransaksi.Rows.Add(
-                        item.IdTransaksi,
-                        item.Kategori,
-                        item.Username,
-                        item.Nama,
-                        item.Kontak,
-                        item.NamaKendaraan,
-                        item.TipeKendaraan,
-                        item.NomorPlat,
-                        item.TanggalSewa,
-                        item.TanggalKembali,
-                        item.TanggalCharging,
-                        item.NamaStation,
-                        item.DurasiTransaksi,
-                        item.Status,
-                        item.TotalBiaya.ToString("C0", new System.Globalization.CultureInfo("id-ID"))
-                    );
+                    // Membuat baris baru kosong terlebih dahulu untuk menghindari bentrokan indeks kolom desainer
+                    int rowIndex = dgvTransaksi.Rows.Add();
+                    DataGridViewRow row = dgvTransaksi.Rows[rowIndex];
 
-                    // Simpan objek model data ke dalam Tag baris (Sama fungsinya seperti DataBoundItem di contohmu)
-                    dgvTransaksi.Rows[dgvTransaksi.Rows.Count - 1].Tag = item;
+                    // Pemetaan data secara eksplisit menggunakan Name Kolom / Indeks demi mencegah error "Field not found"
+                    row.Cells[0].Value = item.IdTransaksi;
+
+                    // Mengamankan pengisian sel bertahap jika jumlah kolom desainer Anda dinamis
+                    if (row.Cells.Count > 1) row.Cells[1].Value = item.Kategori;
+                    if (row.Cells.Count > 2) row.Cells[2].Value = item.Username;
+                    if (row.Cells.Count > 3) row.Cells[3].Value = item.Nama;
+                    if (row.Cells.Count > 4) row.Cells[4].Value = item.Kontak;
+                    if (row.Cells.Count > 5) row.Cells[5].Value = item.NamaKendaraan;
+                    if (row.Cells.Count > 6) row.Cells[6].Value = item.TipeKendaraan;
+                    if (row.Cells.Count > 7) row.Cells[7].Value = item.NomorPlat;
+                    if (row.Cells.Count > 8) row.Cells[8].Value = item.TanggalSewa;
+                    if (row.Cells.Count > 9) row.Cells[9].Value = item.TanggalKembali;
+                    if (row.Cells.Count > 10) row.Cells[10].Value = item.TanggalCharging;
+                    if (row.Cells.Count > 11) row.Cells[11].Value = item.NamaStation;
+                    if (row.Cells.Count > 12) row.Cells[12].Value = item.DurasiTransaksi;
+                    if (row.Cells.Count > 13) row.Cells[13].Value = item.Status;
+                    if (row.Cells.Count > 14) row.Cells[14].Value = item.TotalBiaya.ToString("C0", new System.Globalization.CultureInfo("id-ID"));
+
+                    // Simpan data aslinya ke dalam properti Tag baris
+                    row.Tag = item;
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error Memuat Data : " + ex.Message);
+                MessageBox.Show("Error Memuat Data : " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -127,36 +145,38 @@ namespace EcoDrive_vol2.Views
         {
             if (e.RowIndex < 0) return;
 
-            // Logika mewarnai status (Misal kolom status ada di indeks 13)
+            // Mewarnai teks status pada kolom indeks ke-13
             if (e.ColumnIndex == 13 && e.Value != null)
             {
-                string status = e.Value.ToString().ToLower();
+                // Menetralkan string: mengubah underscore menjadi spasi dan huruf kecil semua
+                string status = e.Value.ToString().ToLower().Replace("_", " ").Trim();
                 e.CellStyle.Font = new Font("Segoe UI", 9, FontStyle.Bold);
 
-                if (status == "selesai" || status == "sudah_kembali")
-                    e.CellStyle.ForeColor = Color.FromArgb(92, 184, 92);
-                else if (status == "pending" || status == "belum_kembali")
-                    e.CellStyle.ForeColor = Color.Orange;
+                if (status == "selesai" || status == "sudah kembali" || status == "berhasil")
+                    e.CellStyle.ForeColor = Color.FromArgb(92, 184, 92); // Hijau
+                else if (status == "pending" || status == "belum kembali" || status == "mengisi daya")
+                    e.CellStyle.ForeColor = Color.Orange; // Oranye
                 else
-                    e.CellStyle.ForeColor = Color.Blue;
+                    e.CellStyle.ForeColor = Color.Red; // Merah jika gagal
             }
         }
 
         private void dgvTransaksi_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0) return;
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
             if (_isProcessing) return;
 
             try
             {
+                _isProcessing = true;
                 var colName = dgvTransaksi.Columns[e.ColumnIndex].Name;
                 var p = dgvTransaksi.Rows[e.RowIndex].Tag as TransaksiModel;
+
                 if (p == null) return;
 
-                // JIKA YANG DIKLIK ADALAH TOMBOL KONFIRMASI
+                // 1. EVENT TOMBOL KONFIRMASI (PROSES CHARGING)
                 if (colName == "btnKonfirmasi")
                 {
-                    // Netralkan teks: ubah underscore menjadi spasi agar aman
                     string statusBersih = p.Status.ToLower().Replace("_", " ");
 
                     if (statusBersih != "pending")
@@ -170,26 +190,18 @@ namespace EcoDrive_vol2.Views
 
                     if (konfirmasi == DialogResult.Yes)
                     {
-                        try
-                        {
-                            _chargingContext.UpdateStatusCharging(p.RawId);
-                            MessageBox.Show($"Status Charging berhasil diperbarui!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            RefreshDataSesuaiFilterAktif();
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("Error updating status: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        _transaksiController.ProsesKonfirmasiCharging(p.RawId);
+                        MessageBox.Show($"Status Charging berhasil diperbarui!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        RefreshDataSesuaiFilterAktif();
                     }
                 }
 
-                // JIKA YANG DIKLIK ADALAH TOMBOL SELESAI
+                // 2. EVENT TOMBOL SELESAI (PROSES PENGEMBALIAN SEWA)
                 if (colName == "btnSelesai")
                 {
-                    // PERBAIKAN DI SINI: Ubah underscore menjadi spasi, lalu bandingkan dengan "belum kembali"
                     string statusBersih = p.Status.ToLower().Replace("_", " ");
 
-                    if (statusBersih != "belum kembali")
+                    if (statusBersih != "belum kembali" && statusBersih != "belum")
                     {
                         MessageBox.Show("Tombol ini hanya untuk transaksi Sewa yang berstatus 'Belum Kembali'!", "EcoDrive Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         return;
@@ -200,16 +212,9 @@ namespace EcoDrive_vol2.Views
 
                     if (konfirmasi == DialogResult.Yes)
                     {
-                        try
-                        {
-                            _sewaContext.UpdateStatusPengembalian(p.RawId);
-                            MessageBox.Show($"Status Pengembalian berhasil diperbarui!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            RefreshDataSesuaiFilterAktif();
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("Error updating status: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        _transaksiController.ProsesPenyelesaianSewa(p.RawId);
+                        MessageBox.Show($"Status Pengembalian berhasil diperbarui!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        RefreshDataSesuaiFilterAktif();
                     }
                 }
             }
@@ -219,10 +224,8 @@ namespace EcoDrive_vol2.Views
             }
             finally
             {
-                // 🔓 Buka kembali gerbang hanya jika MessageBox sudah tertutup dan dgv sukses ter-refresh
                 _isProcessing = false;
             }
-
         }
 
         private void RefreshDataSesuaiFilterAktif()

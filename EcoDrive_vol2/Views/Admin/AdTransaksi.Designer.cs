@@ -32,12 +32,6 @@
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             mainPanel = new Panel();
             dgvTransaksi = new DataGridView();
-            lblSubtitle = new Label();
-            lblTitle = new Label();
-            btnSemua = new Button();
-            btnSewa = new Button();
-            btnCharging = new Button();
-            cardPanel = new EcoDriveUI.RoundedPanel();
             colId = new DataGridViewTextBoxColumn();
             colKategori = new DataGridViewTextBoxColumn();
             colUsername = new DataGridViewTextBoxColumn();
@@ -53,9 +47,13 @@
             colDurasi = new DataGridViewTextBoxColumn();
             colStatus = new DataGridViewTextBoxColumn();
             colBiaya = new DataGridViewTextBoxColumn();
+            lblSubtitle = new Label();
+            lblTitle = new Label();
+            btnSemua = new Button();
+            btnSewa = new Button();
+            btnCharging = new Button();
             mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvTransaksi).BeginInit();
-            cardPanel.SuspendLayout();
             SuspendLayout();
             // 
             // mainPanel
@@ -104,71 +102,6 @@
             dgvTransaksi.Size = new Size(919, 376);
             dgvTransaksi.TabIndex = 8;
             dgvTransaksi.CellContentClick += dgvTransaksi_CellContentClick;
-            // 
-            // lblSubtitle
-            // 
-            lblSubtitle.AutoSize = true;
-            lblSubtitle.Font = new Font("Segoe UI", 9.5F);
-            lblSubtitle.ForeColor = Color.DarkGray;
-            lblSubtitle.Location = new Point(59, 94);
-            lblSubtitle.Name = "lblSubtitle";
-            lblSubtitle.Size = new Size(188, 17);
-            lblSubtitle.TabIndex = 1;
-            lblSubtitle.Text = "Manajemen Transaksi EcoDrive";
-            // 
-            // lblTitle
-            // 
-            lblTitle.AutoSize = true;
-            lblTitle.Font = new Font("Segoe UI", 22F, FontStyle.Bold);
-            lblTitle.ForeColor = Color.FromArgb(47, 47, 47);
-            lblTitle.Location = new Point(50, 50);
-            lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(243, 41);
-            lblTitle.TabIndex = 0;
-            lblTitle.Text = "Kelola Transaksi";
-            // 
-            // btnSemua
-            // 
-            btnSemua.Location = new Point(59, 132);
-            btnSemua.Name = "btnSemua";
-            btnSemua.Size = new Size(75, 23);
-            btnSemua.TabIndex = 9;
-            btnSemua.Text = "Semua";
-            btnSemua.UseVisualStyleBackColor = true;
-            // 
-            // btnSewa
-            // 
-            btnSewa.Location = new Point(155, 132);
-            btnSewa.Name = "btnSewa";
-            btnSewa.Size = new Size(75, 23);
-            btnSewa.TabIndex = 10;
-            btnSewa.Text = "Sewa";
-            btnSewa.UseVisualStyleBackColor = true;
-            // 
-            // btnCharging
-            // 
-            btnCharging.Location = new Point(255, 132);
-            btnCharging.Name = "btnCharging";
-            btnCharging.Size = new Size(75, 23);
-            btnCharging.TabIndex = 11;
-            btnCharging.Text = "Charging";
-            btnCharging.UseVisualStyleBackColor = true;
-            // 
-            // cardPanel
-            // 
-            cardPanel.BackColor = Color.White;
-            cardPanel.Controls.Add(btnCharging);
-            cardPanel.Controls.Add(btnSewa);
-            cardPanel.Controls.Add(btnSemua);
-            cardPanel.Controls.Add(lblTitle);
-            cardPanel.Controls.Add(lblSubtitle);
-            cardPanel.Controls.Add(mainPanel);
-            cardPanel.Dock = DockStyle.Fill;
-            cardPanel.Location = new Point(0, 0);
-            cardPanel.Name = "cardPanel";
-            cardPanel.Padding = new Padding(25);
-            cardPanel.Size = new Size(1039, 549);
-            cardPanel.TabIndex = 1;
             // 
             // colId
             // 
@@ -293,18 +226,65 @@
             colBiaya.Name = "colBiaya";
             colBiaya.Width = 120;
             // 
+            // lblSubtitle
+            // 
+            lblSubtitle.AutoSize = true;
+            lblSubtitle.Font = new Font("Segoe UI", 9.5F);
+            lblSubtitle.ForeColor = Color.DarkGray;
+            lblSubtitle.Location = new Point(59, 94);
+            lblSubtitle.Name = "lblSubtitle";
+            lblSubtitle.Size = new Size(188, 17);
+            lblSubtitle.TabIndex = 1;
+            lblSubtitle.Text = "Manajemen Transaksi EcoDrive";
+            // 
+            // lblTitle
+            // 
+            lblTitle.AutoSize = true;
+            lblTitle.Font = new Font("Segoe UI", 22F, FontStyle.Bold);
+            lblTitle.ForeColor = Color.FromArgb(47, 47, 47);
+            lblTitle.Location = new Point(50, 50);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(243, 41);
+            lblTitle.TabIndex = 0;
+            lblTitle.Text = "Kelola Transaksi";
+            // 
+            // btnSemua
+            // 
+            btnSemua.Location = new Point(59, 132);
+            btnSemua.Name = "btnSemua";
+            btnSemua.Size = new Size(75, 23);
+            btnSemua.TabIndex = 9;
+            btnSemua.Text = "Semua";
+            btnSemua.UseVisualStyleBackColor = true;
+            // 
+            // btnSewa
+            // 
+            btnSewa.Location = new Point(155, 132);
+            btnSewa.Name = "btnSewa";
+            btnSewa.Size = new Size(75, 23);
+            btnSewa.TabIndex = 10;
+            btnSewa.Text = "Sewa";
+            btnSewa.UseVisualStyleBackColor = true;
+            // 
+            // btnCharging
+            // 
+            btnCharging.Location = new Point(255, 132);
+            btnCharging.Name = "btnCharging";
+            btnCharging.Size = new Size(75, 23);
+            btnCharging.TabIndex = 11;
+            btnCharging.Text = "Charging";
+            btnCharging.UseVisualStyleBackColor = true;
+            // 
             // AdTransaksi
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1039, 549);
-            Controls.Add(cardPanel);
             Name = "AdTransaksi";
             Text = "AdTransaksi";
+            Load += AdTransaksi_Load;
             mainPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvTransaksi).EndInit();
-            cardPanel.ResumeLayout(false);
-            cardPanel.PerformLayout();
             ResumeLayout(false);
         }
 

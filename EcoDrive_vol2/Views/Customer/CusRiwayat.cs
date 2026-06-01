@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+// Pastikan namespace controller customer sudah dipanggil dengan benar
 using EcoDrive_vol2.Controllers.Customer;
 
 namespace EcoDrive_vol2.Views
@@ -8,7 +9,9 @@ namespace EcoDrive_vol2.Views
     public partial class CusRiwayat : Form
     {
         private readonly Color bgUtama = Color.FromArgb(255, 253, 246);
-        private readonly CusRiwayatController controller = new CusRiwayatController();
+
+        // SESUAIKAN DI SINI: Gunakan CusTransaksiController yang baru kita buat
+        private readonly CusTransaksiController _transaksiController = new CusTransaksiController();
 
         public CusRiwayat()
         {
@@ -24,7 +27,7 @@ namespace EcoDrive_vol2.Views
             dgvRiwayat.RowHeadersVisible = false;
             dgvRiwayat.ReadOnly = true;
             dgvRiwayat.CellBorderStyle = DataGridViewCellBorderStyle.Single;
-            dgvRiwayat.GridColor = Color.LightGray; // Diubah ke abu-abu terang agar lebih modern
+            dgvRiwayat.GridColor = Color.LightGray;
 
             LoadDataRiwayat();
         }
@@ -35,18 +38,20 @@ namespace EcoDrive_vol2.Views
             {
                 dgvRiwayat.Rows.Clear();
 
-                // Hardcoded ID Customer 2 untuk sementara
-                var dataRiwayat = controller.GetRiwayat(2);
+                // Hubungkan ke fungsi baru di controller (AmbilRiwayatSewaSaya)
+                // Sementara masih hardcoded ID Customer = 2
+                var dataRiwayat = _transaksiController.AmbilRiwayatSewaSaya(2);
 
                 foreach (var item in dataRiwayat)
                 {
+                    // Menampilkan data model TransaksiSewa ke dalam baris DataGridView
                     dgvRiwayat.Rows.Add(
                         item.IdTransaksiSewa,
                         item.IdKendaraan,
-                        item.TanggalSewa.ToString("dd/MM/yyyy"),
+                        item.TanggalSewa.ToString("dd MMM yyyy"), // Menggunakan format teks bulan agar lebih rapi
+                        item.TanggalKembali.ToString("dd MMM yyyy"), // Masukkan tanggal kembali asli dari DB (menggantikan tanda "-")
                         item.DurasiSewa + " Hari",
-                        "-",
-                        item.StatusPengembalian
+                        item.StatusPengembalian.ToString().Replace("_", " ") // Format Enum agar tulisan '_' hilang saat di UI
                     );
                 }
             }
@@ -56,11 +61,9 @@ namespace EcoDrive_vol2.Views
             }
         }
 
-        // SOLUSI: Mengikuti sistem arsitektur panel induk
         private void btnKembali_Click(object sender, EventArgs e)
         {
-            // Karena form ini menempel di panel konten CusDasboard, 
-            // kita cukup menutup form ini saja untuk kembali ke halaman utama dashboard.
+            // Menutup form riwayat untuk kembali ke tampilan utama panel dashboard
             this.Close();
         }
 

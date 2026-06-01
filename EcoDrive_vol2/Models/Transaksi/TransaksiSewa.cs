@@ -17,6 +17,10 @@ namespace EcoDrive_vol2.Models.Transaksi
 
         public int DurasiSewa { get; set; }
 
+        public decimal HargaPerHari { get; set; }
+
+        public decimal TotalBiaya { get; set; }
+
         public StatusKembali StatusPengembalian { get; set; }
     }
 }

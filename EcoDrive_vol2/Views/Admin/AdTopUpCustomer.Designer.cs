@@ -2,15 +2,8 @@
 {
     partial class AdTopUpCustomer
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -22,256 +15,317 @@
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            cardPanel = new EcoDriveUI.RoundedPanel();
-            mainPanel = new Panel();
-            btnGagal = new Button();
-            btnBerhasil = new Button();
-            dgvTransaksi = new DataGridView();
-            colId = new DataGridViewTextBoxColumn();
-            colKode = new DataGridViewTextBoxColumn();
-            colUsername = new DataGridViewTextBoxColumn();
-            colNama = new DataGridViewTextBoxColumn();
-            colKontak = new DataGridViewTextBoxColumn();
-            colJumlah = new DataGridViewTextBoxColumn();
-            colStatus = new DataGridViewTextBoxColumn();
-            colSaldo = new DataGridViewTextBoxColumn();
-            btnPending = new Button();
-            lblTitle = new Label();
-            btnSemua = new Button();
-            lblSubtitle = new Label();
-            cardPanel.SuspendLayout();
-            mainPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvTransaksi).BeginInit();
-            SuspendLayout();
-            // 
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+
+            this.cardPanel = new EcoDriveUI.RoundedPanel();
+            this.mainPanel = new System.Windows.Forms.Panel();
+
+            // Dashboard Summary Cards
+            this.panelCard1 = new EcoDriveUI.RoundedPanel();
+            this.lblCardTitle1 = new System.Windows.Forms.Label();
+            this.lblCardValue1 = new System.Windows.Forms.Label();
+
+            this.panelCard2 = new EcoDriveUI.RoundedPanel();
+            this.lblCardTitle2 = new System.Windows.Forms.Label();
+            this.lblCardValue2 = new System.Windows.Forms.Label();
+
+            this.panelCard3 = new EcoDriveUI.RoundedPanel();
+            this.lblCardTitle3 = new System.Windows.Forms.Label();
+            this.lblCardValue3 = new System.Windows.Forms.Label();
+
+            // Elemen Kontrol Filter
+            this.btnGagal = new System.Windows.Forms.Button();
+            this.btnBerhasil = new System.Windows.Forms.Button();
+            this.btnPending = new System.Windows.Forms.Button();
+            this.btnSemua = new System.Windows.Forms.Button();
+
+            // Sisi Pencarian & Aksi Top Up (Fix CS0103)
+            this.txtUsernameCari = new System.Windows.Forms.TextBox();
+            this.lblNamaCustomer = new System.Windows.Forms.Label();
+            this.lblSaldoAktif = new System.Windows.Forms.Label();
+            this.txtNominalTopUp = new System.Windows.Forms.TextBox();
+            this.btnKonfirmasiTopUp = new System.Windows.Forms.Button();
+
+            // Data Grid
+            this.dgvTransaksi = new System.Windows.Forms.DataGridView();
+            this.colId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colKode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colUsername = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colNama = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colKontak = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colJumlah = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colSaldo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+
+            this.lblTitle = new System.Windows.Forms.Label();
+            this.lblSubtitle = new System.Windows.Forms.Label();
+
+            this.cardPanel.SuspendLayout();
+            this.mainPanel.SuspendLayout();
+            this.panelCard1.SuspendLayout();
+            this.panelCard2.SuspendLayout();
+            this.panelCard3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTransaksi)).BeginInit();
+            this.SuspendLayout();
+
             // cardPanel
-            // 
-            cardPanel.BackColor = Color.White;
-            cardPanel.Controls.Add(mainPanel);
-            cardPanel.Dock = DockStyle.Fill;
-            cardPanel.Location = new Point(0, 0);
-            cardPanel.Name = "cardPanel";
-            cardPanel.Padding = new Padding(25);
-            cardPanel.Size = new Size(953, 503);
-            cardPanel.TabIndex = 2;
-            // 
+            this.cardPanel.BackColor = System.Drawing.Color.FromArgb(250, 252, 250);
+            this.cardPanel.Controls.Add(this.mainPanel);
+            this.cardPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cardPanel.Location = new System.Drawing.Point(0, 0);
+            this.cardPanel.Name = "cardPanel";
+            this.cardPanel.Padding = new System.Windows.Forms.Padding(30);
+            this.cardPanel.Size = new System.Drawing.Size(1100, 700);
+            this.cardPanel.TabIndex = 2;
+
             // mainPanel
-            // 
-            mainPanel.BackColor = Color.Transparent;
-            mainPanel.Controls.Add(btnGagal);
-            mainPanel.Controls.Add(btnBerhasil);
-            mainPanel.Controls.Add(dgvTransaksi);
-            mainPanel.Controls.Add(btnPending);
-            mainPanel.Controls.Add(lblTitle);
-            mainPanel.Controls.Add(btnSemua);
-            mainPanel.Controls.Add(lblSubtitle);
-            mainPanel.Dock = DockStyle.Fill;
-            mainPanel.Location = new Point(25, 25);
-            mainPanel.Name = "mainPanel";
-            mainPanel.Size = new Size(903, 453);
-            mainPanel.TabIndex = 12;
-            // 
-            // btnGagal
-            // 
-            btnGagal.Location = new Point(321, 107);
-            btnGagal.Name = "btnGagal";
-            btnGagal.Size = new Size(75, 23);
-            btnGagal.TabIndex = 12;
-            btnGagal.Text = "Gagal";
-            btnGagal.UseVisualStyleBackColor = true;
-            // 
-            // btnBerhasil
-            // 
-            btnBerhasil.Location = new Point(231, 107);
-            btnBerhasil.Name = "btnBerhasil";
-            btnBerhasil.Size = new Size(75, 23);
-            btnBerhasil.TabIndex = 11;
-            btnBerhasil.Text = "Berhasil";
-            btnBerhasil.UseVisualStyleBackColor = true;
-            // 
+            this.mainPanel.BackColor = System.Drawing.Color.Transparent;
+            this.mainPanel.Controls.Add(this.panelCard1);
+            this.mainPanel.Controls.Add(this.panelCard2);
+            this.mainPanel.Controls.Add(this.panelCard3);
+            this.mainPanel.Controls.Add(this.btnGagal);
+            this.mainPanel.Controls.Add(this.btnBerhasil);
+            this.mainPanel.Controls.Add(this.dgvTransaksi);
+            this.mainPanel.Controls.Add(this.btnPending);
+            this.mainPanel.Controls.Add(this.lblTitle);
+            this.mainPanel.Controls.Add(this.btnSemua);
+            this.mainPanel.Controls.Add(this.lblSubtitle);
+            // Tambahkan kontrol tersembunyi/aksi agar terbaca backend
+            this.mainPanel.Controls.Add(this.txtUsernameCari);
+            this.mainPanel.Controls.Add(this.lblNamaCustomer);
+            this.mainPanel.Controls.Add(this.lblSaldoAktif);
+            this.mainPanel.Controls.Add(this.txtNominalTopUp);
+            this.mainPanel.Controls.Add(this.btnKonfirmasiTopUp);
+            this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mainPanel.Location = new System.Drawing.Point(30, 30);
+            this.mainPanel.Name = "mainPanel";
+            this.mainPanel.Size = new System.Drawing.Size(1040, 640);
+
+            // Menyembunyikan kontrol aksi lama di luar area pandang visual agar tidak merusak layout baru
+            this.txtUsernameCari.Location = new System.Drawing.Point(-500, 0);
+            this.txtUsernameCari.Name = "txtUsernameCari";
+            this.lblNamaCustomer.Location = new System.Drawing.Point(-500, 30);
+            this.lblNamaCustomer.Name = "lblNamaCustomer";
+            this.lblSaldoAktif.Location = new System.Drawing.Point(-500, 60);
+            this.lblSaldoAktif.Name = "lblSaldoAktif";
+            this.txtNominalTopUp.Location = new System.Drawing.Point(-500, 90);
+            this.txtNominalTopUp.Name = "txtNominalTopUp";
+            this.btnKonfirmasiTopUp.Location = new System.Drawing.Point(-500, 120);
+            this.btnKonfirmasiTopUp.Name = "btnKonfirmasiTopUp";
+
+            // Card 1
+            this.panelCard1.BackColor = System.Drawing.Color.White;
+            this.panelCard1.Controls.Add(this.lblCardTitle1);
+            this.panelCard1.Controls.Add(this.lblCardValue1);
+            this.panelCard1.Location = new System.Drawing.Point(45, 100);
+            this.panelCard1.Size = new System.Drawing.Size(240, 95);
+
+            this.lblCardTitle1.Text = "Top Up Hari Ini";
+            this.lblCardTitle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular);
+            this.lblCardTitle1.ForeColor = System.Drawing.Color.Gray;
+            this.lblCardTitle1.Location = new System.Drawing.Point(15, 15);
+            this.lblCardTitle1.AutoSize = true;
+
+            this.lblCardValue1.Text = "Rp 4.8M";
+            this.lblCardValue1.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
+            this.lblCardValue1.ForeColor = System.Drawing.Color.FromArgb(47, 47, 47);
+            this.lblCardValue1.Location = new System.Drawing.Point(13, 40);
+            this.lblCardValue1.AutoSize = true;
+
+            // Card 2
+            this.panelCard2.BackColor = System.Drawing.Color.White;
+            this.panelCard2.Controls.Add(this.lblCardTitle2);
+            this.panelCard2.Controls.Add(this.lblCardValue2);
+            this.panelCard2.Location = new System.Drawing.Point(305, 100);
+            this.panelCard2.Size = new System.Drawing.Size(240, 95);
+
+            this.lblCardTitle2.Text = "Permintaan Pending";
+            this.lblCardTitle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular);
+            this.lblCardTitle2.ForeColor = System.Drawing.Color.Gray;
+            this.lblCardTitle2.Location = new System.Drawing.Point(15, 15);
+            this.lblCardTitle2.AutoSize = true;
+
+            this.lblCardValue2.Text = "14";
+            this.lblCardValue2.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
+            this.lblCardValue2.ForeColor = System.Drawing.Color.FromArgb(47, 47, 47);
+            this.lblCardValue2.Location = new System.Drawing.Point(13, 40);
+            this.lblCardValue2.AutoSize = true;
+
+            // Card 3
+            this.panelCard3.BackColor = System.Drawing.Color.White;
+            this.panelCard3.Controls.Add(this.lblCardTitle3);
+            this.panelCard3.Controls.Add(this.lblCardValue3);
+            this.panelCard3.Location = new System.Drawing.Point(565, 100);
+            this.panelCard3.Size = new System.Drawing.Size(240, 95);
+
+            this.lblCardTitle3.Text = "Transaksi Sukses";
+            this.lblCardTitle3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular);
+            this.lblCardTitle3.ForeColor = System.Drawing.Color.Gray;
+            this.lblCardTitle3.Location = new System.Drawing.Point(15, 15);
+            this.lblCardTitle3.AutoSize = true;
+
+            this.lblCardValue3.Text = "128";
+            this.lblCardValue3.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
+            this.lblCardValue3.ForeColor = System.Drawing.Color.FromArgb(46, 125, 50);
+            this.lblCardValue3.Location = new System.Drawing.Point(13, 40);
+            this.lblCardValue3.AutoSize = true;
+
+            // Navigation Button Filter
+            int btnY = 220;
+            this.btnSemua.BackColor = System.Drawing.Color.FromArgb(46, 125, 50);
+            this.btnSemua.ForeColor = System.Drawing.Color.White;
+            this.btnSemua.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnSemua.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSemua.FlatAppearance.BorderSize = 0;
+            this.btnSemua.Location = new System.Drawing.Point(45, btnY);
+            this.btnSemua.Size = new System.Drawing.Size(90, 32);
+            this.btnSemua.Text = "Semua";
+
+            this.btnPending.BackColor = System.Drawing.Color.White;
+            this.btnPending.ForeColor = System.Drawing.Color.FromArgb(100, 100, 100);
+            this.btnPending.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular);
+            this.btnPending.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPending.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(230, 230, 230);
+            this.btnPending.Location = new System.Drawing.Point(145, btnY);
+            this.btnPending.Size = new System.Drawing.Size(95, 32);
+            this.btnPending.Text = "⏳ Pending";
+
+            this.btnBerhasil.BackColor = System.Drawing.Color.White;
+            this.btnBerhasil.ForeColor = System.Drawing.Color.FromArgb(100, 100, 100);
+            this.btnBerhasil.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular);
+            this.btnBerhasil.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBerhasil.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(230, 230, 230);
+            this.btnBerhasil.Location = new System.Drawing.Point(250, btnY);
+            this.btnBerhasil.Size = new System.Drawing.Size(95, 32);
+            this.btnBerhasil.Text = "✅ Berhasil";
+
+            this.btnGagal.BackColor = System.Drawing.Color.White;
+            this.btnGagal.ForeColor = System.Drawing.Color.FromArgb(100, 100, 100);
+            this.btnGagal.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular);
+            this.btnGagal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnGagal.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(230, 230, 230);
+            this.btnGagal.Location = new System.Drawing.Point(355, btnY);
+            this.btnGagal.Size = new System.Drawing.Size(95, 32);
+            this.btnGagal.Text = "❌ Gagal";
+
             // dgvTransaksi
-            // 
-            dgvTransaksi.AllowUserToAddRows = false;
-            dgvTransaksi.AllowUserToResizeRows = false;
-            dgvTransaksi.BackgroundColor = Color.White;
-            dgvTransaksi.BorderStyle = BorderStyle.None;
-            dgvTransaksi.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgvTransaksi.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(232, 245, 233);
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            dataGridViewCellStyle1.ForeColor = Color.FromArgb(47, 47, 47);
-            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(232, 245, 233);
-            dgvTransaksi.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            dgvTransaksi.ColumnHeadersHeight = 45;
-            dgvTransaksi.Columns.AddRange(new DataGridViewColumn[] { colId, colKode, colUsername, colNama, colKontak, colJumlah, colStatus, colSaldo });
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.White;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle2.ForeColor = Color.FromArgb(47, 47, 47);
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(242, 249, 242);
-            dataGridViewCellStyle2.SelectionForeColor = Color.FromArgb(47, 47, 47);
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            dgvTransaksi.DefaultCellStyle = dataGridViewCellStyle2;
-            dgvTransaksi.EnableHeadersVisualStyles = false;
-            dgvTransaksi.GridColor = Color.FromArgb(240, 242, 240);
-            dgvTransaksi.Location = new Point(31, 150);
-            dgvTransaksi.MultiSelect = false;
-            dgvTransaksi.Name = "dgvTransaksi";
-            dgvTransaksi.RowHeadersVisible = false;
-            dgvTransaksi.RowHeadersWidth = 62;
-            dgvTransaksi.RowTemplate.Height = 65;
-            dgvTransaksi.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvTransaksi.Size = new Size(869, 300);
-            dgvTransaksi.TabIndex = 8;
-            // 
-            // colId
-            // 
-            colId.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            colId.FillWeight = 50F;
-            colId.HeaderText = "ID";
-            colId.MinimumWidth = 8;
-            colId.Name = "colId";
-            colId.Width = 80;
-            // 
-            // colKode
-            // 
-            colKode.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            colKode.HeaderText = "Kode";
-            colKode.Name = "colKode";
-            colKode.Width = 90;
-            // 
-            // colUsername
-            // 
-            colUsername.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            colUsername.HeaderText = "Username";
-            colUsername.Name = "colUsername";
-            colUsername.Width = 120;
-            // 
-            // colNama
-            // 
-            colNama.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            colNama.FillWeight = 140F;
-            colNama.HeaderText = "Nama";
-            colNama.MinimumWidth = 8;
-            colNama.Name = "colNama";
-            colNama.Width = 120;
-            // 
-            // colKontak
-            // 
-            colKontak.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            colKontak.FillWeight = 90F;
-            colKontak.HeaderText = "Kontak";
-            colKontak.MinimumWidth = 8;
-            colKontak.Name = "colKontak";
-            colKontak.Width = 120;
-            // 
-            // colJumlah
-            // 
-            colJumlah.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            colJumlah.HeaderText = "Jumlah Top Up";
-            colJumlah.MinimumWidth = 8;
-            colJumlah.Name = "colJumlah";
-            colJumlah.Width = 120;
-            // 
-            // colStatus
-            // 
-            colStatus.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            colStatus.FillWeight = 70F;
-            colStatus.HeaderText = "Status";
-            colStatus.MinimumWidth = 8;
-            colStatus.Name = "colStatus";
-            // 
-            // colSaldo
-            // 
-            colSaldo.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-            colSaldo.HeaderText = "Saldo";
-            colSaldo.MinimumWidth = 8;
-            colSaldo.Name = "colSaldo";
-            colSaldo.Width = 120;
-            // 
-            // btnPending
-            // 
-            btnPending.Location = new Point(140, 107);
-            btnPending.Name = "btnPending";
-            btnPending.Size = new Size(75, 23);
-            btnPending.TabIndex = 10;
-            btnPending.Text = "Pending";
-            btnPending.UseVisualStyleBackColor = true;
-            // 
-            // lblTitle
-            // 
-            lblTitle.AutoSize = true;
-            lblTitle.Font = new Font("Segoe UI", 22F, FontStyle.Bold);
-            lblTitle.ForeColor = Color.FromArgb(47, 47, 47);
-            lblTitle.Location = new Point(49, 25);
-            lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(495, 41);
-            lblTitle.TabIndex = 0;
-            lblTitle.Text = "Kelola Transaksi Top Up Customer";
-            lblTitle.Click += lblTitle_Click;
-            // 
-            // btnSemua
-            // 
-            btnSemua.Location = new Point(49, 107);
-            btnSemua.Name = "btnSemua";
-            btnSemua.Size = new Size(75, 23);
-            btnSemua.TabIndex = 9;
-            btnSemua.Text = "Semua";
-            btnSemua.UseVisualStyleBackColor = true;
-            // 
-            // lblSubtitle
-            // 
-            lblSubtitle.AutoSize = true;
-            lblSubtitle.Font = new Font("Segoe UI", 9.5F);
-            lblSubtitle.ForeColor = Color.DarkGray;
-            lblSubtitle.Location = new Point(49, 75);
-            lblSubtitle.Name = "lblSubtitle";
-            lblSubtitle.Size = new Size(188, 17);
-            lblSubtitle.TabIndex = 1;
-            lblSubtitle.Text = "Manajemen Transaksi EcoDrive";
-            // 
-            // AdTopUpCustomer
-            // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
-            AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(953, 503);
-            Controls.Add(cardPanel);
-            Name = "AdTopUpCustomer";
-            Text = "AdTopUpCustomer";
-            cardPanel.ResumeLayout(false);
-            mainPanel.ResumeLayout(false);
-            mainPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dgvTransaksi).EndInit();
-            ResumeLayout(false);
+            this.dgvTransaksi.AllowUserToAddRows = false;
+            this.dgvTransaksi.AllowUserToResizeRows = false;
+            this.dgvTransaksi.BackgroundColor = System.Drawing.Color.White;
+            this.dgvTransaksi.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.dgvTransaksi.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
+            this.dgvTransaksi.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(244, 249, 244);
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(46, 125, 50);
+            this.dgvTransaksi.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvTransaksi.ColumnHeadersHeight = 45;
+            this.dgvTransaksi.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] { this.colId, this.colKode, this.colUsername, this.colNama, this.colKontak, this.colJumlah, this.colStatus, this.colSaldo });
+
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(50, 50, 50);
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(242, 248, 242);
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(46, 125, 50);
+            this.dgvTransaksi.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dgvTransaksi.EnableHeadersVisualStyles = false;
+            this.dgvTransaksi.GridColor = System.Drawing.Color.FromArgb(242, 242, 242);
+            this.dgvTransaksi.Location = new System.Drawing.Point(45, 270);
+            this.dgvTransaksi.Name = "dgvTransaksi";
+            this.dgvTransaksi.ReadOnly = true;
+            this.dgvTransaksi.RowHeadersVisible = false;
+            this.dgvTransaksi.RowTemplate.Height = 52;
+            this.dgvTransaksi.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvTransaksi.Size = new System.Drawing.Size(950, 340);
+
+            // Kolom Setup
+            this.colId.HeaderText = "ID"; this.colId.Width = 55;
+            this.colKode.HeaderText = "Kode Trx"; this.colKode.Width = 110;
+            this.colUsername.HeaderText = "Username"; this.colUsername.Width = 110;
+            this.colNama.HeaderText = "Customer"; this.colNama.Width = 150;
+            this.colKontak.HeaderText = "Kontak"; this.colKontak.Width = 120;
+            this.colJumlah.HeaderText = "Jumlah Top Up"; this.colJumlah.Width = 130;
+            this.colStatus.HeaderText = "Status"; this.colStatus.Width = 100;
+            this.colSaldo.HeaderText = "Sisa Wallet"; this.colSaldo.Width = 120;
+
+            // Typography Header
+            this.lblTitle.AutoSize = true;
+            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 22F, System.Drawing.FontStyle.Bold);
+            this.lblTitle.ForeColor = System.Drawing.Color.FromArgb(40, 42, 40);
+            this.lblTitle.Location = new System.Drawing.Point(40, 15);
+            this.lblTitle.Text = "Transaksi";
+
+            this.lblSubtitle.AutoSize = true;
+            this.lblSubtitle.Font = new System.Drawing.Font("Segoe UI", 9.5F);
+            this.lblSubtitle.ForeColor = System.Drawing.Color.DarkGray;
+            this.lblSubtitle.Location = new System.Drawing.Point(44, 58);
+            this.lblSubtitle.Text = "Riwayat dan status konfirmasi top up saldo rental";
+
+            // Form Setup Final
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1100, 700);
+            this.Controls.Add(this.cardPanel);
+            this.Name = "AdTopUpCustomer";
+            this.Text = "EcoDrive Admin Portal";
+
+            this.cardPanel.ResumeLayout(false);
+            this.mainPanel.ResumeLayout(false);
+            this.mainPanel.PerformLayout();
+            this.panelCard1.ResumeLayout(false);
+            this.panelCard1.PerformLayout();
+            this.panelCard2.ResumeLayout(false);
+            this.panelCard2.PerformLayout();
+            this.panelCard3.ResumeLayout(false);
+            this.panelCard3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTransaksi)).EndInit();
+            this.ResumeLayout(false);
         }
 
         #endregion
 
         private EcoDriveUI.RoundedPanel cardPanel;
-        private Button btnBerhasil;
-        private Button btnPending;
-        private Panel mainPanel;
-        private DataGridView dgvTransaksi;
-        private Label lblTitle;
-        private Button btnSemua;
-        private Label lblSubtitle;
-        private Button btnGagal;
-        private DataGridViewTextBoxColumn colId;
-        private DataGridViewTextBoxColumn colKode;
-        private DataGridViewTextBoxColumn colUsername;
-        private DataGridViewTextBoxColumn colNama;
-        private DataGridViewTextBoxColumn colKontak;
-        private DataGridViewTextBoxColumn colJumlah;
-        private DataGridViewTextBoxColumn colStatus;
-        private DataGridViewTextBoxColumn colSaldo;
+        private System.Windows.Forms.Panel mainPanel;
+        private System.Windows.Forms.Button btnGagal;
+        private System.Windows.Forms.Button btnBerhasil;
+        private System.Windows.Forms.Button btnPending;
+        private System.Windows.Forms.Button btnSemua;
+        private System.Windows.Forms.DataGridView dgvTransaksi;
+        private System.Windows.Forms.Label lblTitle;
+        private System.Windows.Forms.Label lblSubtitle;
+
+        private System.Windows.Forms.DataGridViewTextBoxColumn colId;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colKode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colUsername;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colNama;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colKontak;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colJumlah;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colStatus;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colSaldo;
+
+        private EcoDriveUI.RoundedPanel panelCard1;
+        private System.Windows.Forms.Label lblCardTitle1;
+        private System.Windows.Forms.Label lblCardValue1;
+
+        private EcoDriveUI.RoundedPanel panelCard2;
+        private System.Windows.Forms.Label lblCardTitle2;
+        private System.Windows.Forms.Label lblCardValue2;
+
+        private EcoDriveUI.RoundedPanel panelCard3;
+        private System.Windows.Forms.Label lblCardTitle3;
+        private System.Windows.Forms.Label lblCardValue3;
+
+        // Deklarasi Komponen Lama agar Backend Tidak Error
+        private System.Windows.Forms.TextBox txtUsernameCari;
+        private System.Windows.Forms.Label lblNamaCustomer;
+        private System.Windows.Forms.Label lblSaldoAktif;
+        private System.Windows.Forms.TextBox txtNominalTopUp;
+        private System.Windows.Forms.Button btnKonfirmasiTopUp;
     }
 }
