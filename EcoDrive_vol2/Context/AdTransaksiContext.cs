@@ -5,7 +5,7 @@ using EcoDrive_vol2.Models.Transaksi;
 using Npgsql;
 using System;
 using System.Collections.Generic;
-using System.Windows.Forms; // Pastikan namespace ini ada untuk MessageBox
+using System.Windows.Forms; 
 
 namespace EcoDrive_vol2.Context
 {
@@ -113,12 +113,26 @@ namespace EcoDrive_vol2.Context
 
         public void UpdateStatusPengembalian(int rawId)
         {
-            using var conn = DatabaseHelper.GetConnection();
-            conn.Open();
-            string query = "UPDATE transaksi_sewa SET status_pengembalian = 'sudah kembali'::status_kembali WHERE id_transaksi_sewa = @id";
-            using var cmd = new NpgsqlCommand(query, conn);
-            cmd.Parameters.AddWithValue("@id", rawId);
-            cmd.ExecuteNonQuery();
+            try
+            {
+                using var conn = DatabaseHelper.GetConnection();
+                conn.Open();
+
+                string query = @"
+                UPDATE transaksi_sewa
+                SET status_pengembalian = 'sudah kembali'::status_kembali
+                WHERE id_transaksi_sewa = @id";
+
+                using var cmd = new NpgsqlCommand(query, conn);
+
+                cmd.Parameters.AddWithValue("@id", rawId);
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

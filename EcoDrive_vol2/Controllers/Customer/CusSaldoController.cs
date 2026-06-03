@@ -1,6 +1,7 @@
 ﻿using System;
-using System.Data; // WAJIB DITAMBAHKAN untuk menggunakan DataTable
+using System.Data;
 using EcoDrive_vol2.Service;
+using EcoDrive_vol2.Views.Admin;
 
 namespace EcoDrive_vol2.Controllers.Customer
 {
@@ -32,19 +33,42 @@ namespace EcoDrive_vol2.Controllers.Customer
             }
         }
 
-        // ====================================================================
-        // TAMBAHKAN FUNGSI BARU INI DI SINI
-        // ====================================================================
         public DataTable GetDaftarTransaksiTopUp(string status = "")
         {
             try
             {
-                // Meneruskan request dari UI ke LoginService yang bertugas mengambil data dari database
                 return _loginService.AmbilDaftarTopUpAdmin(status);
             }
             catch (Exception ex)
             {
                 throw new Exception("Error di Controller saat mengambil daftar transaksi: " + ex.Message);
+            }
+        }
+
+        public void KonfirmasiTopUp(int idTopup, int idUser)
+        {
+            try
+            {
+                _loginService.KonfirmasiTopUp(idTopup, idUser);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error di Controller saat konfirmasi top up: " + ex.Message);
+            }
+        }
+
+        // ====================================================================
+        // PENYESUAIAN: Fungsi baru agar View tidak langsung akses ke Service
+        // ====================================================================
+        public int GetIdUserByUsername(string username)
+        {
+            try
+            {
+                return _loginService.AmbilIdUser(username);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error di Controller saat mencari ID User: " + ex.Message);
             }
         }
     }

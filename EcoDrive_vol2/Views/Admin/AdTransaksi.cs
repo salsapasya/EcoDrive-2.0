@@ -29,9 +29,6 @@ namespace EcoDrive_vol2.Views
             btnSewa.Click += FilterButton_Click;
             btnCharging.Click += FilterButton_Click;
 
-            // =======================================================
-            // 🟩 DUA KOLOM BUTTON AKSI (Dibuat Unique Agar Tidak Duplikat)
-            // =======================================================
             if (!dgvTransaksi.Columns.Contains("btnKonfirmasi"))
             {
                 var btnKonfirmasi = new DataGridViewButtonColumn
@@ -60,11 +57,9 @@ namespace EcoDrive_vol2.Views
                 dgvTransaksi.Columns.Add(btnSelesai);
             }
 
-            // Daftarkan Event ke Grid
             dgvTransaksi.CellFormatting += DgvTransaksi_CellFormatting;
             dgvTransaksi.CellContentClick += dgvTransaksi_CellContentClick;
 
-            // Jalankan load data awal
             this.Load += AdTransaksi_Load;
         }
 
@@ -95,7 +90,7 @@ namespace EcoDrive_vol2.Views
         }
 
         // ====================================================================
-        // FUNGSI UTAMA: MENAMPILKAN DATA LAPORAN (FIX URUTAN KOLOM)
+        // FUNGSI UTAMA: MENAMPILKAN DATA LAPORAN 
         // ====================================================================
         private void TampilkanData(string filterMode)
         {
@@ -108,14 +103,11 @@ namespace EcoDrive_vol2.Views
 
                 foreach (var item in dataList)
                 {
-                    // Membuat baris baru kosong terlebih dahulu untuk menghindari bentrokan indeks kolom desainer
                     int rowIndex = dgvTransaksi.Rows.Add();
                     DataGridViewRow row = dgvTransaksi.Rows[rowIndex];
 
-                    // Pemetaan data secara eksplisit menggunakan Name Kolom / Indeks demi mencegah error "Field not found"
                     row.Cells[0].Value = item.IdTransaksi;
 
-                    // Mengamankan pengisian sel bertahap jika jumlah kolom desainer Anda dinamis
                     if (row.Cells.Count > 1) row.Cells[1].Value = item.Kategori;
                     if (row.Cells.Count > 2) row.Cells[2].Value = item.Username;
                     if (row.Cells.Count > 3) row.Cells[3].Value = item.Nama;
@@ -145,10 +137,8 @@ namespace EcoDrive_vol2.Views
         {
             if (e.RowIndex < 0) return;
 
-            // Mewarnai teks status pada kolom indeks ke-13
             if (e.ColumnIndex == 13 && e.Value != null)
             {
-                // Menetralkan string: mengubah underscore menjadi spasi dan huruf kecil semua
                 string status = e.Value.ToString().ToLower().Replace("_", " ").Trim();
                 e.CellStyle.Font = new Font("Segoe UI", 9, FontStyle.Bold);
 

@@ -26,13 +26,18 @@ namespace EcoDrive_vol2.Service
             return _userContext.GetIdUser(username);
         }
 
-        // ====================================================================
-        // FUNGSI BARU: Meneruskan perintah dari Controller ke UserContext
-        // ====================================================================
         public DataTable AmbilDaftarTopUpAdmin(string statusFilter = "")
         {
             // Diarahkan ke UserContext yang bertugas mengambil data dari SQL View
             return _userContext.GetDaftarTopUpFromView(statusFilter);
+        }
+        public void KonfirmasiTopUp(int idTopup, int idUser)
+        {
+            if (idTopup <= 0) throw new ArgumentException("ID Top Up tidak valid!");
+            if (idUser <= 0) throw new ArgumentException("ID User tidak valid!");
+
+            // Meneruskan perintah eksekusi ke UserContext
+            _userContext.KonfirmasiTopUp(idTopup, idUser);
         }
 
         public string Login(string username, string password)
