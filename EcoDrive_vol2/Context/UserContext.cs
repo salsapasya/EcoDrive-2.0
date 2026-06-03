@@ -49,14 +49,14 @@ namespace EcoDrive_vol2.Context
 
         public void AddUser(Users user)
         {
-            using var conn = DatabaseHelper.GetConnection();
+            using var conn =
+                DatabaseHelper.GetConnection();
 
             try
             {
                 conn.Open();
 
-                string query =
-                @"INSERT INTO users
+                string query = @"INSERT INTO users
                 (
                     id_user_role,
                     nama_user,
@@ -77,21 +77,23 @@ namespace EcoDrive_vol2.Context
                     @status_akun
                 )";
 
-                using var cmd = new NpgsqlCommand(query, conn);
+                using var cmd =
+                    new NpgsqlCommand(query, conn);
 
-                cmd.Parameters.AddWithValue("@id_user_role", user.RoleUser == Roles.admin ? 1 : 2);
-                cmd.Parameters.AddWithValue("@nama_user", user.NamaUser);
-                cmd.Parameters.AddWithValue("@no_telp_user", user.NoTelpUser);
-                cmd.Parameters.AddWithValue("@username", user.Username);
-                cmd.Parameters.AddWithValue("@password_user", user.PasswordUser);
-                cmd.Parameters.AddWithValue("@saldo", user.Saldo);
-                cmd.Parameters.AddWithValue("@status_akun", user.StatusAkun.ToString().Replace("_", " "));
-
+                cmd.Parameters.AddWithValue("@id_user_role",2); // customer
+                cmd.Parameters.AddWithValue("@nama_user",user.NamaUser);
+                cmd.Parameters.AddWithValue("@no_telp_user",user.NoTelpUser);
+                cmd.Parameters.AddWithValue("@username",user.Username);
+                cmd.Parameters.AddWithValue("@password_user",user.PasswordUser);
+                cmd.Parameters.AddWithValue("@saldo",user.Saldo);
+                cmd.Parameters.AddWithValue("@status_akun",user.StatusAkun.ToString());
                 cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
-                throw new Exception("Error Add User: " + ex.Message);
+                throw new Exception(
+                    "Error Add User: "
+                    + ex.Message);
             }
         }
 
@@ -193,6 +195,32 @@ namespace EcoDrive_vol2.Context
             cmd.Parameters.AddWithValue("@username", username);
 
             return Convert.ToInt32(cmd.ExecuteScalar());
+        }
+
+        public bool UsernameExists(string username)
+        {
+            using var conn =
+                DatabaseHelper.GetConnection();
+
+            conn.Open();
+
+            string query =
+                @"SELECT COUNT(*)
+                  FROM users
+                  WHERE username = @username";
+
+            using var cmd =
+                new NpgsqlCommand(query, conn);
+
+            cmd.Parameters.AddWithValue(
+                "@username",
+                username);
+
+            int count =
+                Convert.ToInt32(
+                    cmd.ExecuteScalar());
+
+            return count > 0;
         }
 
         // ====================================================================

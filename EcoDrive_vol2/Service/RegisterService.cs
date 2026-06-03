@@ -13,5 +13,12 @@ namespace EcoDrive_vol2.Service
         {
             context.AddUser(user);
         }
+
+        public bool UsernameExists(
+            string username)
+        {
+            return context
+                .UsernameExists(username);
+        }
     }
 }

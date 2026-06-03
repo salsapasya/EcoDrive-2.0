@@ -31,49 +31,79 @@ namespace EcoDrive_vol2
 
         }
 
-        private void btnSignUp_Click(object sender,EventArgs e)
+        private void btnSignUp_Click(object sender, EventArgs e)
         {
             try
             {
-                Users user =
-                    new Users();
+                // Validasi Nama
+                if (string.IsNullOrWhiteSpace(txtNama.Text))
+                {
+                    MessageBox.Show("Nama tidak boleh kosong");
+                    return;
+                }
 
-                user.RoleUser =
-                    Roles.customer;
+                // Validasi Nomor Telepon
+                if (string.IsNullOrWhiteSpace(txtTelp.Text))
+                {
+                    MessageBox.Show("Nomor telepon tidak boleh kosong");
+                    return;
+                }
 
-                user.NamaUser =
-                    txtNama.Text;
+                if (!long.TryParse(txtTelp.Text, out _))
+                {
+                    MessageBox.Show("Nomor telepon harus berupa angka");
+                    return;
+                }
 
-                user.NoTelpUser =
-                    txtTelp.Text;
+                if (txtTelp.Text.Length > 20)
+                {
+                    MessageBox.Show("Nomor telepon maksimal 20 digit");
+                    return;
+                }
 
-                user.Username =
-                    txtUsername.Text;
+                // Validasi Username
+                if (string.IsNullOrWhiteSpace(txtUsername.Text))
+                {
+                    MessageBox.Show("Username tidak boleh kosong");
+                    return;
+                }
 
-                user.PasswordUser =
-                    txtPassword.Text;
+                // Validasi Password
+                if (string.IsNullOrWhiteSpace(txtPassword.Text))
+                {
+                    MessageBox.Show("Password tidak boleh kosong");
+                    return;
+                }
 
+                if (controller.UsernameExists(txtUsername.Text))
+                {
+                    MessageBox.Show("Username sudah digunakan, gunakan username lain");
+                    return;
+                }
+
+                Users user = new Users();
+
+                // Role otomatis customer
+                user.RoleUser = Roles.customer;
+
+                user.NamaUser = txtNama.Text;
+                user.NoTelpUser = txtTelp.Text;
+                user.Username = txtUsername.Text;
+                user.PasswordUser = txtPassword.Text;
                 user.Saldo = 0;
-
-                user.StatusAkun =
-                    StatusAkun.aktif;
+                user.StatusAkun = StatusAkun.aktif;
 
                 controller.Register(user);
 
-                MessageBox.Show(
-                    "Register Berhasil");
+                MessageBox.Show("Register Berhasil");
 
-                FormLogin login =
-                    new FormLogin();
-
+                FormLogin login = new FormLogin();
                 login.Show();
-
                 this.Hide();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
-                    ex.Message);
+                MessageBox.Show(ex.Message);
             }
         }
 

@@ -13,5 +13,12 @@ namespace EcoDrive_vol2.Controllers.Authentication
         {
             service.Register(user);
         }
+
+        public bool UsernameExists(
+            string username)
+        {
+            return service
+                .UsernameExists(username);
+        }
     }
 }
