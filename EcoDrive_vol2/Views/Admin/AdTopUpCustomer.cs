@@ -34,6 +34,8 @@ namespace EcoDrive_vol2.Views.Admin
             // Registrasi event
             this.Load += AdTopUpCustomer_Load;
             dgvTransaksi.CellClick += dgvTransaksi_CellClick;
+            btnKonfirmasiTopUp.Click += btnKonfirmasiTopUp_Click;
+            btnTolakTopUp.Click+= btnTolakTopUp_Click; 
 
             btnSemua.Click += (s, e) => { _currentFilter = ""; LoadDataTransaksi(); };
             btnPending.Click += (s, e) => { _currentFilter = "pending"; LoadDataTransaksi(); };
@@ -136,12 +138,20 @@ namespace EcoDrive_vol2.Views.Admin
                     btnKonfirmasiTopUp.Enabled = false;
                     btnKonfirmasiTopUp.BackColor = Color.DarkGray; // Berubah warna menjadi abu-abu tanda terkunci
                     btnKonfirmasiTopUp.Text = $"✔ {status} (DIKUNCI)";
+
+                    btnTolakTopUp.Enabled = false;
+                    btnTolakTopUp.BackColor = Color.DarkGray;
+                    btnTolakTopUp.Text = $"✖ {status} (DIKUNCI)";
                 }
                 else
                 {
                     btnKonfirmasiTopUp.Enabled = true;
                     btnKonfirmasiTopUp.BackColor = Color.FromArgb(46, 125, 50); // Kembalikan ke warna hijau EcoDrive
                     btnKonfirmasiTopUp.Text = "✔ SETUJUI TOP UP";
+
+                    btnTolakTopUp.Enabled = true;
+                    btnTolakTopUp.BackColor = Color.FromArgb(211, 47, 47); // Merah
+                    btnTolakTopUp.Text = "✖ TOLAK TOP UP";
                 }
             }
             catch (Exception ex)
@@ -236,6 +246,40 @@ namespace EcoDrive_vol2.Views.Admin
             btnKonfirmasiTopUp.Enabled = false;
             btnKonfirmasiTopUp.BackColor = Color.DarkGray;
             btnKonfirmasiTopUp.Text = "✔ SETUJUI TOP UP";
+
+            btnTolakTopUp.Enabled = false;
+            btnTolakTopUp.BackColor = Color.DarkGray;
+            btnTolakTopUp.Text = "✖ TOLAK TOP UP";
+        }
+
+        private void btnTolakTopUp_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (_idTopupDipilih <= 0)
+                {
+                    MessageBox.Show("Data transaksi atau customer tidak valid!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                DialogResult result = MessageBox.Show(
+                    $"Apakah Anda yakin ingin MENOLAK permintaan top up sebesar {_nominalTopupDipilih.ToString("C0", _idCulture)} dari {lblNamaCustomer.Text}?",
+                    "Konfirmasi Penolakan", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (result != DialogResult.Yes) return;
+
+                _saldoController.TolakTopUp(_idTopupDipilih);
+
+                MessageBox.Show("Top up berhasil DITOLAK. Saldo user tidak ditambahkan.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                ResetFormTampilan();
+                txtUsernameCari.Clear();
+                LoadDataTransaksi();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Peringatan Sistem", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
     }
 }

@@ -40,6 +40,14 @@ namespace EcoDrive_vol2.Service
             _userContext.KonfirmasiTopUp(idTopup, idUser);
         }
 
+        public void TolakTopUp(int idTopup)
+        {
+            if (idTopup <= 0) throw new ArgumentException("ID Top Up tidak valid!");
+
+            // Meneruskan ke UserContext
+            _userContext.TolakTopUp(idTopup);
+        }
+
         public string Login(string username, string password)
         {
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))

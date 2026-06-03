@@ -5,6 +5,7 @@ using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using Npgsql.Replication;
 
 namespace EcoDrive_vol2.Context
 {
@@ -265,55 +266,45 @@ namespace EcoDrive_vol2.Context
         public void KonfirmasiTopUp(int idTopup, int idUser)
         {
             using var conn = DatabaseHelper.GetConnection();
-            conn.Open();
-
-            // Menggunakan transaksi agar jika query pertama berhasil tetapi query kedua gagal, data di-rollback otomatis
-            using var transaction = conn.BeginTransaction();
 
             try
             {
-                // 1. Ambil jumlah nominal top up dari id_transaksi tersebut terlebih dahulu
-                string queryGetJumlah = "SELECT jumlah_topup FROM transaksi_topup WHERE id_transaksi = @idTopup";
-                decimal jumlahTopup = 0;
+                conn.Open();
 
-                using (var cmdGet = new NpgsqlCommand(queryGetJumlah, conn, transaction))
-                {
-                    cmdGet.Parameters.AddWithValue("@idTopup", idTopup);
-                    object res = cmdGet.ExecuteScalar();
-                    if (res == null || res == DBNull.Value)
-                    {
-                        throw new Exception("Transaksi top up tidak ditemukan!");
-                    }
-                    jumlahTopup = Convert.ToDecimal(res);
-                }
+                string query = "SELECT fn_konfirmasi_topup(@idTopup, @idUser)";
 
-                // 2. Update status transaksi top-up menjadi 'berhasil'
-                string queryUpdateStatus = "UPDATE transaksi_topup SET status = 'berhasil' WHERE id_transaksi = @idTopup";
-                using (var cmdUpdateTrans = new NpgsqlCommand(queryUpdateStatus, conn, transaction))
-                {
-                    cmdUpdateTrans.Parameters.AddWithValue("@idTopup", idTopup);
-                    cmdUpdateTrans.ExecuteNonQuery();
-                }
+                using var cmd = new NpgsqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@idTopup", idTopup);
+                cmd.Parameters.AddWithValue("@idUser", idUser);
 
-                // 3. Tambahkan nominal tersebut ke saldo akun user
-                string queryUpdateSaldo = "UPDATE users SET saldo = saldo + @jumlah WHERE id_user = @idUser";
-                using (var cmdUpdateSaldo = new NpgsqlCommand(queryUpdateSaldo, conn, transaction))
-                {
-                    cmdUpdateSaldo.Parameters.AddWithValue("@jumlah", jumlahTopup);
-                    cmdUpdateSaldo.Parameters.AddWithValue("@idUser", idUser);
-                    cmdUpdateSaldo.ExecuteNonQuery();
-                }
-
-                // Jika semua langkah di atas aman tanpa error, kunci perubahan ke database
-                transaction.Commit();
+                cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
-                // Jika di tengah jalan ada yang gagal, batalkan semua perubahan demi keamanan data
-                transaction.Rollback();
-                throw new Exception("Gagal memproses konfirmasi top up di database: " + ex.Message);
+                throw new Exception("Gagal memnproses konfirmasi top up di database" + ex.Message);
             }
         }
+
+        public void TolakTopUp(int idTopup)
+        {
+            using var conn = DatabaseHelper.GetConnection();
+
+            try
+            {
+                conn.Open();
+
+                string query = "SELECT fn_tolak_topup(@idTopup)";
+
+                using var cmd = new NpgsqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@idTopup", idTopup);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Gagal memproses penolakan top up di database: " + ex.Message);
+            }
+        }
+
         public Dictionary<string, string> GetTopUpSummary()
         {
             var summary = new Dictionary<string, string>

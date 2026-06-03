@@ -17,366 +17,471 @@
 
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-
-            this.cardPanel = new EcoDriveUI.RoundedPanel();
-            this.mainPanel = new System.Windows.Forms.Panel();
-
-            // Dashboard Summary Cards
-            this.panelCard1 = new EcoDriveUI.RoundedPanel();
-            this.lblCardTitle1 = new System.Windows.Forms.Label();
-            this.lblCardValue1 = new System.Windows.Forms.Label();
-
-            this.panelCard2 = new EcoDriveUI.RoundedPanel();
-            this.lblCardTitle2 = new System.Windows.Forms.Label();
-            this.lblCardValue2 = new System.Windows.Forms.Label();
-
-            this.panelCard3 = new EcoDriveUI.RoundedPanel();
-            this.lblCardTitle3 = new System.Windows.Forms.Label();
-            this.lblCardValue3 = new System.Windows.Forms.Label();
-
-            // Elemen Kontrol Filter
-            this.btnGagal = new System.Windows.Forms.Button();
-            this.btnBerhasil = new System.Windows.Forms.Button();
-            this.btnPending = new System.Windows.Forms.Button();
-            this.btnSemua = new System.Windows.Forms.Button();
-
-            // Data Grid (Sisi Kiri)
-            this.dgvTransaksi = new System.Windows.Forms.DataGridView();
-            this.colIdTransaksi = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colUsername = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colNama = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colKontak = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colJumlahTopup = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-
-            // Sisi Kanan: Panel Aksi Konfirmasi (Layout Tetap Cantik & Terbaca)
-            this.panelAksiSide = new EcoDriveUI.RoundedPanel();
-            this.lblAksiTitle = new System.Windows.Forms.Label();
-            this.lblHintCari = new System.Windows.Forms.Label();
-            this.txtUsernameCari = new System.Windows.Forms.TextBox();
-            this.lblNamaCustomerHeader = new System.Windows.Forms.Label();
-            this.lblNamaCustomer = new System.Windows.Forms.Label();
-            this.lblSaldoAktifHeader = new System.Windows.Forms.Label();
-            this.lblSaldoAktif = new System.Windows.Forms.Label();
-            this.btnKonfirmasiTopUp = new System.Windows.Forms.Button();
-
-            this.lblTitle = new System.Windows.Forms.Label();
-            this.lblSubtitle = new System.Windows.Forms.Label();
-
-            this.cardPanel.SuspendLayout();
-            this.mainPanel.SuspendLayout();
-            this.panelCard1.SuspendLayout();
-            this.panelCard2.SuspendLayout();
-            this.panelCard3.SuspendLayout();
-            this.panelAksiSide.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvTransaksi)).BeginInit();
-            this.SuspendLayout();
-
-            // ==========================================
-            // cardPanel & mainPanel CONTAINER
-            // ==========================================
-            this.cardPanel.BackColor = System.Drawing.Color.FromArgb(250, 252, 250);
-            this.cardPanel.Controls.Add(this.mainPanel);
-            this.cardPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cardPanel.Location = new System.Drawing.Point(0, 0);
-            this.cardPanel.Name = "cardPanel";
-            this.cardPanel.Padding = new System.Windows.Forms.Padding(30);
-            this.cardPanel.Size = new System.Drawing.Size(1100, 700);
-            this.cardPanel.TabIndex = 2;
-
-            this.mainPanel.BackColor = System.Drawing.Color.Transparent;
-            this.mainPanel.Controls.Add(this.panelCard1);
-            this.mainPanel.Controls.Add(this.panelCard2);
-            this.mainPanel.Controls.Add(this.panelCard3);
-            this.mainPanel.Controls.Add(this.btnGagal);
-            this.mainPanel.Controls.Add(this.btnBerhasil);
-            this.mainPanel.Controls.Add(this.dgvTransaksi);
-            this.mainPanel.Controls.Add(this.btnPending);
-            this.mainPanel.Controls.Add(this.lblTitle);
-            this.mainPanel.Controls.Add(this.btnSemua);
-            this.mainPanel.Controls.Add(this.lblSubtitle);
-            this.mainPanel.Controls.Add(this.panelAksiSide); // Memasukkan Panel Kanan
-            this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainPanel.Location = new System.Drawing.Point(30, 30);
-            this.mainPanel.Name = "mainPanel";
-            this.mainPanel.Size = new System.Drawing.Size(1040, 640);
-
-            // ==========================================
-            // TYPOGRAPHY HEADER
-            // ==========================================
-            this.lblTitle.AutoSize = true;
-            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 22F, System.Drawing.FontStyle.Bold);
-            this.lblTitle.ForeColor = System.Drawing.Color.FromArgb(40, 42, 40);
-            this.lblTitle.Location = new System.Drawing.Point(40, 15);
-            this.lblTitle.Text = "Transaksi";
-
-            this.lblSubtitle.AutoSize = true;
-            this.lblSubtitle.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            this.lblSubtitle.ForeColor = System.Drawing.Color.DarkGray;
-            this.lblSubtitle.Location = new System.Drawing.Point(44, 58);
-            this.lblSubtitle.Text = "Riwayat dan status konfirmasi top up saldo rental";
-
-            // ==========================================
-            // DASHBOARD SUMMARY CARDS (ATAS)
-            // ==========================================
-            // Card 1
-            this.panelCard1.BackColor = System.Drawing.Color.White;
-            this.panelCard1.Controls.Add(this.lblCardTitle1);
-            this.panelCard1.Controls.Add(this.lblCardValue1);
-            this.panelCard1.Location = new System.Drawing.Point(45, 100);
-            this.panelCard1.Size = new System.Drawing.Size(220, 95);
-
-            this.lblCardTitle1.Text = "Top Up Hari Ini";
-            this.lblCardTitle1.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular);
-            this.lblCardTitle1.ForeColor = System.Drawing.Color.Gray;
-            this.lblCardTitle1.Location = new System.Drawing.Point(15, 15);
-            this.lblCardTitle1.AutoSize = true;
-
-            this.lblCardValue1.Text = "Rp 4.8M";
-            this.lblCardValue1.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
-            this.lblCardValue1.ForeColor = System.Drawing.Color.FromArgb(47, 47, 47);
-            this.lblCardValue1.Location = new System.Drawing.Point(13, 40);
-            this.lblCardValue1.AutoSize = true;
-
-            // Card 2
-            this.panelCard2.BackColor = System.Drawing.Color.White;
-            this.panelCard2.Controls.Add(this.lblCardTitle2);
-            this.panelCard2.Controls.Add(this.lblCardValue2);
-            this.panelCard2.Location = new System.Drawing.Point(285, 100);
-            this.panelCard2.Size = new System.Drawing.Size(220, 95);
-
-            this.lblCardTitle2.Text = "Permintaan Pending";
-            this.lblCardTitle2.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular);
-            this.lblCardTitle2.ForeColor = System.Drawing.Color.Gray;
-            this.lblCardTitle2.Location = new System.Drawing.Point(15, 15);
-            this.lblCardTitle2.AutoSize = true;
-
-            this.lblCardValue2.Text = "14";
-            this.lblCardValue2.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
-            this.lblCardValue2.ForeColor = System.Drawing.Color.FromArgb(47, 47, 47);
-            this.lblCardValue2.Location = new System.Drawing.Point(13, 40);
-            this.lblCardValue2.AutoSize = true;
-
-            // Card 3
-            this.panelCard3.BackColor = System.Drawing.Color.White;
-            this.panelCard3.Controls.Add(this.lblCardTitle3);
-            this.panelCard3.Controls.Add(this.lblCardValue3);
-            this.panelCard3.Location = new System.Drawing.Point(525, 100);
-            this.panelCard3.Size = new System.Drawing.Size(220, 95);
-
-            this.lblCardTitle3.Text = "Transaksi Sukses";
-            this.lblCardTitle3.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular);
-            this.lblCardTitle3.ForeColor = System.Drawing.Color.Gray;
-            this.lblCardTitle3.Location = new System.Drawing.Point(15, 15);
-            this.lblCardTitle3.AutoSize = true;
-
-            this.lblCardValue3.Text = "128";
-            this.lblCardValue3.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
-            this.lblCardValue3.ForeColor = System.Drawing.Color.FromArgb(46, 125, 50);
-            this.lblCardValue3.Location = new System.Drawing.Point(13, 40);
-            this.lblCardValue3.AutoSize = true;
-
-            // ==========================================
-            // NAVIGATION FILTER BUTTONS
-            // ==========================================
-            int btnY = 220;
-            this.btnSemua.BackColor = System.Drawing.Color.FromArgb(46, 125, 50);
-            this.btnSemua.ForeColor = System.Drawing.Color.White;
-            this.btnSemua.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.btnSemua.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSemua.FlatAppearance.BorderSize = 0;
-            this.btnSemua.Location = new System.Drawing.Point(45, btnY);
-            this.btnSemua.Size = new System.Drawing.Size(90, 32);
-            this.btnSemua.Text = "Semua";
-
-            this.btnPending.BackColor = System.Drawing.Color.White;
-            this.btnPending.ForeColor = System.Drawing.Color.FromArgb(100, 100, 100);
-            this.btnPending.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular);
-            this.btnPending.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnPending.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(230, 230, 230);
-            this.btnPending.Location = new System.Drawing.Point(145, btnY);
-            this.btnPending.Size = new System.Drawing.Size(95, 32);
-            this.btnPending.Text = "⏳ Pending";
-
-            this.btnBerhasil.BackColor = System.Drawing.Color.White;
-            this.btnBerhasil.ForeColor = System.Drawing.Color.FromArgb(100, 100, 100);
-            this.btnBerhasil.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular);
-            this.btnBerhasil.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnBerhasil.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(230, 230, 230);
-            this.btnBerhasil.Location = new System.Drawing.Point(250, btnY);
-            this.btnBerhasil.Size = new System.Drawing.Size(95, 32);
-            this.btnBerhasil.Text = "✅ Berhasil";
-
-            this.btnGagal.BackColor = System.Drawing.Color.White;
-            this.btnGagal.ForeColor = System.Drawing.Color.FromArgb(100, 100, 100);
-            this.btnGagal.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular);
-            this.btnGagal.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnGagal.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(230, 230, 230);
-            this.btnGagal.Location = new System.Drawing.Point(355, btnY);
-            this.btnGagal.Size = new System.Drawing.Size(95, 32);
-            this.btnGagal.Text = "❌ Gagal";
-
-            // ==========================================
-            // DATA GRID VIEW (Tabel Riwayat Sisi Kiri)
-            // ==========================================
-            this.dgvTransaksi.AllowUserToAddRows = false;
-            this.dgvTransaksi.AllowUserToResizeRows = false;
-            this.dgvTransaksi.BackgroundColor = System.Drawing.Color.White;
-            this.dgvTransaksi.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.dgvTransaksi.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.SingleHorizontal;
-            this.dgvTransaksi.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(244, 249, 244);
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.FromArgb(46, 125, 50);
-            this.dgvTransaksi.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvTransaksi.ColumnHeadersHeight = 45;
-            this.dgvTransaksi.Columns.AddRange(new DataGridViewColumn[] {
-                this.colIdTransaksi,
-                this.colUsername,
-                this.colNama,
-                this.colKontak,
-                this.colJumlahTopup,
-                this.colStatus
-            });
-
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 9.5F);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(50, 50, 50);
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(242, 248, 242);
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.FromArgb(46, 125, 50);
-            this.dgvTransaksi.DefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvTransaksi.EnableHeadersVisualStyles = false;
-            this.dgvTransaksi.GridColor = System.Drawing.Color.FromArgb(242, 242, 242);
-            this.dgvTransaksi.Location = new System.Drawing.Point(45, 270);
-            this.dgvTransaksi.Name = "dgvTransaksi";
-            this.dgvTransaksi.ReadOnly = true;
-            this.dgvTransaksi.RowHeadersVisible = false;
-            this.dgvTransaksi.RowTemplate.Height = 52;
-            this.dgvTransaksi.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvTransaksi.Size = new System.Drawing.Size(700, 340); // Ukuran disesuaikan agar panel kanan muat
-
-            // Definisi Struktur Kolom Grid
-            this.colIdTransaksi.Name = "colIdTransaksi";
-            this.colIdTransaksi.HeaderText = "ID";
-            this.colIdTransaksi.Width = 50;
-
-            this.colUsername.Name = "colUsername";
-            this.colUsername.HeaderText = "Username";
-            this.colUsername.Width = 100;
-
-            this.colNama.Name = "colNama";
-            this.colNama.HeaderText = "Customer";
-            this.colNama.Width = 140;
-
-            this.colKontak.Name = "colKontak";
-            this.colKontak.HeaderText = "Kontak";
-            this.colKontak.Width = 110;
-
-            this.colJumlahTopup.Name = "colJumlahTopup";
-            this.colJumlahTopup.HeaderText = "Nominal";
-            this.colJumlahTopup.Width = 110;
-
-            this.colStatus.Name = "colStatus";
-            this.colStatus.HeaderText = "Status";
-            this.colStatus.Width = 90;
-
-            // ==========================================
-            // SISI KANAN: PANEL STRUK KONFIRMASI AKSI
-            // ==========================================
-            this.panelAksiSide.BackColor = System.Drawing.Color.White;
-            this.panelAksiSide.Controls.Add(this.lblAksiTitle);
-            this.panelAksiSide.Controls.Add(this.lblHintCari);
-            this.panelAksiSide.Controls.Add(this.txtUsernameCari);
-            this.panelAksiSide.Controls.Add(this.lblNamaCustomerHeader);
-            this.panelAksiSide.Controls.Add(this.lblNamaCustomer);
-            this.panelAksiSide.Controls.Add(this.lblSaldoAktifHeader);
-            this.panelAksiSide.Controls.Add(this.lblSaldoAktif);
-            this.panelAksiSide.Controls.Add(this.btnKonfirmasiTopUp);
-            this.panelAksiSide.Location = new System.Drawing.Point(765, 100);
-            this.panelAksiSide.Name = "panelAksiSide";
-            this.panelAksiSide.Size = new System.Drawing.Size(230, 510);
-
-            this.lblAksiTitle.Text = "Detail Konfirmasi";
-            this.lblAksiTitle.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.lblAksiTitle.ForeColor = System.Drawing.Color.FromArgb(47, 47, 47);
-            this.lblAksiTitle.Location = new System.Drawing.Point(15, 15);
-            this.lblAksiTitle.AutoSize = true;
-
-            this.lblHintCari.Text = "Username Terpilih:";
-            this.lblHintCari.Font = new System.Drawing.Font("Segoe UI", 8.5F);
-            this.lblHintCari.ForeColor = System.Drawing.Color.Gray;
-            this.lblHintCari.Location = new System.Drawing.Point(15, 55);
-            this.lblHintCari.AutoSize = true;
-
-            this.txtUsernameCari.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtUsernameCari.Location = new System.Drawing.Point(18, 75);
-            this.txtUsernameCari.Name = "txtUsernameCari";
-            this.txtUsernameCari.Size = new System.Drawing.Size(194, 25);
-            this.txtUsernameCari.ReadOnly = true; // Otomatis terisi saat baris tabel di-klik
-
-            this.lblNamaCustomerHeader.Text = "Nama Akun Customer";
-            this.lblNamaCustomerHeader.Font = new System.Drawing.Font("Segoe UI", 8.5F);
-            this.lblNamaCustomerHeader.ForeColor = System.Drawing.Color.Gray;
-            this.lblNamaCustomerHeader.Location = new System.Drawing.Point(15, 125);
-            this.lblNamaCustomerHeader.AutoSize = true;
-
-            this.lblNamaCustomer.Text = "-";
-            this.lblNamaCustomer.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
-            this.lblNamaCustomer.ForeColor = System.Drawing.Color.FromArgb(50, 50, 50);
-            this.lblNamaCustomer.Location = new System.Drawing.Point(15, 145);
-            this.lblNamaCustomer.Size = new System.Drawing.Size(194, 20);
-
-            this.lblSaldoAktifHeader.Text = "Saldo Aktif Saat Ini";
-            this.lblSaldoAktifHeader.Font = new System.Drawing.Font("Segoe UI", 8.5F);
-            this.lblSaldoAktifHeader.ForeColor = System.Drawing.Color.Gray;
-            this.lblSaldoAktifHeader.Location = new System.Drawing.Point(15, 195);
-            this.lblSaldoAktifHeader.AutoSize = true;
-
-            this.lblSaldoAktif.Text = "Rp 0";
-            this.lblSaldoAktif.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.lblSaldoAktif.ForeColor = System.Drawing.Color.FromArgb(46, 125, 50);
-            this.lblSaldoAktif.Location = new System.Drawing.Point(13, 215);
-            this.lblSaldoAktif.Size = new System.Drawing.Size(194, 25);
-
-            this.btnKonfirmasiTopUp.BackColor = System.Drawing.Color.FromArgb(46, 125, 50);
-            this.btnKonfirmasiTopUp.ForeColor = System.Drawing.Color.White;
-            this.btnKonfirmasiTopUp.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.btnKonfirmasiTopUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnKonfirmasiTopUp.FlatAppearance.BorderSize = 0;
-            this.btnKonfirmasiTopUp.Location = new System.Drawing.Point(18, 445);
-            this.btnKonfirmasiTopUp.Name = "btnKonfirmasiTopUp";
-            this.btnKonfirmasiTopUp.Size = new System.Drawing.Size(194, 45);
-            this.btnKonfirmasiTopUp.Text = "✔ SETUJUI TOP UP";
-            this.btnKonfirmasiTopUp.UseVisualStyleBackColor = false;
-
-            // ==========================================
-            // FORM SETUP FINAL
-            // ==========================================
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1100, 700);
-            this.Controls.Add(this.cardPanel);
-            this.Name = "AdTopUpCustomer";
-            this.Text = "EcoDrive Admin Portal";
-
-            this.cardPanel.ResumeLayout(false);
-            this.mainPanel.ResumeLayout(false);
-            this.mainPanel.PerformLayout();
-            this.panelCard1.ResumeLayout(false);
-            this.panelCard1.PerformLayout();
-            this.panelCard2.ResumeLayout(false);
-            this.panelCard2.PerformLayout();
-            this.panelCard3.ResumeLayout(false);
-            this.panelCard3.PerformLayout();
-            this.panelAksiSide.ResumeLayout(false);
-            this.panelAksiSide.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvTransaksi)).EndInit();
-            this.ResumeLayout(false);
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            cardPanel = new EcoDriveUI.RoundedPanel();
+            mainPanel = new Panel();
+            panelCard1 = new EcoDriveUI.RoundedPanel();
+            lblCardTitle1 = new Label();
+            lblCardValue1 = new Label();
+            panelCard2 = new EcoDriveUI.RoundedPanel();
+            lblCardTitle2 = new Label();
+            lblCardValue2 = new Label();
+            panelCard3 = new EcoDriveUI.RoundedPanel();
+            lblCardTitle3 = new Label();
+            lblCardValue3 = new Label();
+            btnGagal = new Button();
+            btnBerhasil = new Button();
+            dgvTransaksi = new DataGridView();
+            colIdTransaksi = new DataGridViewTextBoxColumn();
+            colUsername = new DataGridViewTextBoxColumn();
+            colNama = new DataGridViewTextBoxColumn();
+            colKontak = new DataGridViewTextBoxColumn();
+            colJumlahTopup = new DataGridViewTextBoxColumn();
+            colStatus = new DataGridViewTextBoxColumn();
+            btnPending = new Button();
+            lblTitle = new Label();
+            btnSemua = new Button();
+            lblSubtitle = new Label();
+            panelAksiSide = new EcoDriveUI.RoundedPanel();
+            lblAksiTitle = new Label();
+            lblHintCari = new Label();
+            txtUsernameCari = new TextBox();
+            lblNamaCustomerHeader = new Label();
+            lblNamaCustomer = new Label();
+            lblSaldoAktifHeader = new Label();
+            lblSaldoAktif = new Label();
+            btnKonfirmasiTopUp = new Button();
+            btnTolakTopUp = new Button();
+            cardPanel.SuspendLayout();
+            mainPanel.SuspendLayout();
+            panelCard1.SuspendLayout();
+            panelCard2.SuspendLayout();
+            panelCard3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvTransaksi).BeginInit();
+            panelAksiSide.SuspendLayout();
+            SuspendLayout();
+            // 
+            // cardPanel
+            // 
+            cardPanel.BackColor = Color.FromArgb(250, 252, 250);
+            cardPanel.Controls.Add(mainPanel);
+            cardPanel.Dock = DockStyle.Fill;
+            cardPanel.Location = new Point(0, 0);
+            cardPanel.Name = "cardPanel";
+            cardPanel.Padding = new Padding(30);
+            cardPanel.Size = new Size(1100, 700);
+            cardPanel.TabIndex = 2;
+            // 
+            // mainPanel
+            // 
+            mainPanel.BackColor = Color.Transparent;
+            mainPanel.Controls.Add(panelCard1);
+            mainPanel.Controls.Add(panelCard2);
+            mainPanel.Controls.Add(panelCard3);
+            mainPanel.Controls.Add(btnGagal);
+            mainPanel.Controls.Add(btnBerhasil);
+            mainPanel.Controls.Add(dgvTransaksi);
+            mainPanel.Controls.Add(btnPending);
+            mainPanel.Controls.Add(lblTitle);
+            mainPanel.Controls.Add(btnSemua);
+            mainPanel.Controls.Add(lblSubtitle);
+            mainPanel.Controls.Add(panelAksiSide);
+            mainPanel.Dock = DockStyle.Fill;
+            mainPanel.Location = new Point(30, 30);
+            mainPanel.Name = "mainPanel";
+            mainPanel.Size = new Size(1040, 640);
+            mainPanel.TabIndex = 0;
+            // 
+            // panelCard1
+            // 
+            panelCard1.BackColor = Color.White;
+            panelCard1.Controls.Add(lblCardTitle1);
+            panelCard1.Controls.Add(lblCardValue1);
+            panelCard1.Location = new Point(45, 100);
+            panelCard1.Name = "panelCard1";
+            panelCard1.Size = new Size(220, 95);
+            panelCard1.TabIndex = 0;
+            // 
+            // lblCardTitle1
+            // 
+            lblCardTitle1.AutoSize = true;
+            lblCardTitle1.Font = new Font("Segoe UI", 9F);
+            lblCardTitle1.ForeColor = Color.Gray;
+            lblCardTitle1.Location = new Point(15, 15);
+            lblCardTitle1.Name = "lblCardTitle1";
+            lblCardTitle1.Size = new Size(85, 15);
+            lblCardTitle1.TabIndex = 0;
+            lblCardTitle1.Text = "Top Up Hari Ini";
+            // 
+            // lblCardValue1
+            // 
+            lblCardValue1.AutoSize = true;
+            lblCardValue1.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            lblCardValue1.ForeColor = Color.FromArgb(47, 47, 47);
+            lblCardValue1.Location = new Point(13, 40);
+            lblCardValue1.Name = "lblCardValue1";
+            lblCardValue1.Size = new Size(110, 32);
+            lblCardValue1.TabIndex = 1;
+            lblCardValue1.Text = "Rp 4.8M";
+            // 
+            // panelCard2
+            // 
+            panelCard2.BackColor = Color.White;
+            panelCard2.Controls.Add(lblCardTitle2);
+            panelCard2.Controls.Add(lblCardValue2);
+            panelCard2.Location = new Point(285, 100);
+            panelCard2.Name = "panelCard2";
+            panelCard2.Size = new Size(220, 95);
+            panelCard2.TabIndex = 1;
+            // 
+            // lblCardTitle2
+            // 
+            lblCardTitle2.AutoSize = true;
+            lblCardTitle2.Font = new Font("Segoe UI", 9F);
+            lblCardTitle2.ForeColor = Color.Gray;
+            lblCardTitle2.Location = new Point(15, 15);
+            lblCardTitle2.Name = "lblCardTitle2";
+            lblCardTitle2.Size = new Size(115, 15);
+            lblCardTitle2.TabIndex = 0;
+            lblCardTitle2.Text = "Permintaan Pending";
+            // 
+            // lblCardValue2
+            // 
+            lblCardValue2.AutoSize = true;
+            lblCardValue2.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            lblCardValue2.ForeColor = Color.FromArgb(47, 47, 47);
+            lblCardValue2.Location = new Point(13, 40);
+            lblCardValue2.Name = "lblCardValue2";
+            lblCardValue2.Size = new Size(42, 32);
+            lblCardValue2.TabIndex = 1;
+            lblCardValue2.Text = "14";
+            // 
+            // panelCard3
+            // 
+            panelCard3.BackColor = Color.White;
+            panelCard3.Controls.Add(lblCardTitle3);
+            panelCard3.Controls.Add(lblCardValue3);
+            panelCard3.Location = new Point(525, 100);
+            panelCard3.Name = "panelCard3";
+            panelCard3.Size = new Size(220, 95);
+            panelCard3.TabIndex = 2;
+            // 
+            // lblCardTitle3
+            // 
+            lblCardTitle3.AutoSize = true;
+            lblCardTitle3.Font = new Font("Segoe UI", 9F);
+            lblCardTitle3.ForeColor = Color.Gray;
+            lblCardTitle3.Location = new Point(15, 15);
+            lblCardTitle3.Name = "lblCardTitle3";
+            lblCardTitle3.Size = new Size(92, 15);
+            lblCardTitle3.TabIndex = 0;
+            lblCardTitle3.Text = "Transaksi Sukses";
+            // 
+            // lblCardValue3
+            // 
+            lblCardValue3.AutoSize = true;
+            lblCardValue3.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            lblCardValue3.ForeColor = Color.FromArgb(46, 125, 50);
+            lblCardValue3.Location = new Point(13, 40);
+            lblCardValue3.Name = "lblCardValue3";
+            lblCardValue3.Size = new Size(56, 32);
+            lblCardValue3.TabIndex = 1;
+            lblCardValue3.Text = "128";
+            // 
+            // btnGagal
+            // 
+            btnGagal.BackColor = Color.White;
+            btnGagal.FlatAppearance.BorderColor = Color.FromArgb(230, 230, 230);
+            btnGagal.FlatStyle = FlatStyle.Flat;
+            btnGagal.Font = new Font("Segoe UI", 9F);
+            btnGagal.ForeColor = Color.FromArgb(100, 100, 100);
+            btnGagal.Location = new Point(355, 220);
+            btnGagal.Name = "btnGagal";
+            btnGagal.Size = new Size(95, 32);
+            btnGagal.TabIndex = 3;
+            btnGagal.Text = "❌ Gagal";
+            btnGagal.UseVisualStyleBackColor = false;
+            // 
+            // btnBerhasil
+            // 
+            btnBerhasil.BackColor = Color.White;
+            btnBerhasil.FlatAppearance.BorderColor = Color.FromArgb(230, 230, 230);
+            btnBerhasil.FlatStyle = FlatStyle.Flat;
+            btnBerhasil.Font = new Font("Segoe UI", 9F);
+            btnBerhasil.ForeColor = Color.FromArgb(100, 100, 100);
+            btnBerhasil.Location = new Point(250, 220);
+            btnBerhasil.Name = "btnBerhasil";
+            btnBerhasil.Size = new Size(95, 32);
+            btnBerhasil.TabIndex = 4;
+            btnBerhasil.Text = "✅ Berhasil";
+            btnBerhasil.UseVisualStyleBackColor = false;
+            // 
+            // dgvTransaksi
+            // 
+            dgvTransaksi.AllowUserToAddRows = false;
+            dgvTransaksi.AllowUserToResizeRows = false;
+            dgvTransaksi.BackgroundColor = Color.White;
+            dgvTransaksi.BorderStyle = BorderStyle.None;
+            dgvTransaksi.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvTransaksi.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(244, 249, 244);
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            dataGridViewCellStyle3.ForeColor = Color.FromArgb(46, 125, 50);
+            dgvTransaksi.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dgvTransaksi.ColumnHeadersHeight = 45;
+            dgvTransaksi.Columns.AddRange(new DataGridViewColumn[] { colIdTransaksi, colUsername, colNama, colKontak, colJumlahTopup, colStatus });
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9.5F);
+            dataGridViewCellStyle4.ForeColor = Color.FromArgb(50, 50, 50);
+            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(242, 248, 242);
+            dataGridViewCellStyle4.SelectionForeColor = Color.FromArgb(46, 125, 50);
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+            dgvTransaksi.DefaultCellStyle = dataGridViewCellStyle4;
+            dgvTransaksi.EnableHeadersVisualStyles = false;
+            dgvTransaksi.GridColor = Color.FromArgb(242, 242, 242);
+            dgvTransaksi.Location = new Point(45, 270);
+            dgvTransaksi.Name = "dgvTransaksi";
+            dgvTransaksi.ReadOnly = true;
+            dgvTransaksi.RowHeadersVisible = false;
+            dgvTransaksi.RowTemplate.Height = 52;
+            dgvTransaksi.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvTransaksi.Size = new Size(700, 340);
+            dgvTransaksi.TabIndex = 5;
+            // 
+            // colIdTransaksi
+            // 
+            colIdTransaksi.HeaderText = "ID";
+            colIdTransaksi.Name = "colIdTransaksi";
+            colIdTransaksi.ReadOnly = true;
+            colIdTransaksi.Width = 50;
+            // 
+            // colUsername
+            // 
+            colUsername.HeaderText = "Username";
+            colUsername.Name = "colUsername";
+            colUsername.ReadOnly = true;
+            // 
+            // colNama
+            // 
+            colNama.HeaderText = "Customer";
+            colNama.Name = "colNama";
+            colNama.ReadOnly = true;
+            colNama.Width = 140;
+            // 
+            // colKontak
+            // 
+            colKontak.HeaderText = "Kontak";
+            colKontak.Name = "colKontak";
+            colKontak.ReadOnly = true;
+            colKontak.Width = 110;
+            // 
+            // colJumlahTopup
+            // 
+            colJumlahTopup.HeaderText = "Nominal";
+            colJumlahTopup.Name = "colJumlahTopup";
+            colJumlahTopup.ReadOnly = true;
+            colJumlahTopup.Width = 110;
+            // 
+            // colStatus
+            // 
+            colStatus.HeaderText = "Status";
+            colStatus.Name = "colStatus";
+            colStatus.ReadOnly = true;
+            colStatus.Width = 90;
+            // 
+            // btnPending
+            // 
+            btnPending.BackColor = Color.White;
+            btnPending.FlatAppearance.BorderColor = Color.FromArgb(230, 230, 230);
+            btnPending.FlatStyle = FlatStyle.Flat;
+            btnPending.Font = new Font("Segoe UI", 9F);
+            btnPending.ForeColor = Color.FromArgb(100, 100, 100);
+            btnPending.Location = new Point(145, 220);
+            btnPending.Name = "btnPending";
+            btnPending.Size = new Size(95, 32);
+            btnPending.TabIndex = 6;
+            btnPending.Text = "⏳ Pending";
+            btnPending.UseVisualStyleBackColor = false;
+            // 
+            // lblTitle
+            // 
+            lblTitle.AutoSize = true;
+            lblTitle.Font = new Font("Segoe UI", 22F, FontStyle.Bold);
+            lblTitle.ForeColor = Color.FromArgb(40, 42, 40);
+            lblTitle.Location = new Point(40, 15);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(148, 41);
+            lblTitle.TabIndex = 7;
+            lblTitle.Text = "Transaksi";
+            // 
+            // btnSemua
+            // 
+            btnSemua.BackColor = Color.FromArgb(46, 125, 50);
+            btnSemua.FlatAppearance.BorderSize = 0;
+            btnSemua.FlatStyle = FlatStyle.Flat;
+            btnSemua.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnSemua.ForeColor = Color.White;
+            btnSemua.Location = new Point(45, 220);
+            btnSemua.Name = "btnSemua";
+            btnSemua.Size = new Size(90, 32);
+            btnSemua.TabIndex = 8;
+            btnSemua.Text = "Semua";
+            btnSemua.UseVisualStyleBackColor = false;
+            // 
+            // lblSubtitle
+            // 
+            lblSubtitle.AutoSize = true;
+            lblSubtitle.Font = new Font("Segoe UI", 9.5F);
+            lblSubtitle.ForeColor = Color.DarkGray;
+            lblSubtitle.Location = new Point(44, 58);
+            lblSubtitle.Name = "lblSubtitle";
+            lblSubtitle.Size = new Size(296, 17);
+            lblSubtitle.TabIndex = 9;
+            lblSubtitle.Text = "Riwayat dan status konfirmasi top up saldo rental";
+            // 
+            // panelAksiSide
+            // 
+            panelAksiSide.BackColor = Color.White;
+            panelAksiSide.Controls.Add(btnTolakTopUp);
+            panelAksiSide.Controls.Add(lblAksiTitle);
+            panelAksiSide.Controls.Add(lblHintCari);
+            panelAksiSide.Controls.Add(txtUsernameCari);
+            panelAksiSide.Controls.Add(lblNamaCustomerHeader);
+            panelAksiSide.Controls.Add(lblNamaCustomer);
+            panelAksiSide.Controls.Add(lblSaldoAktifHeader);
+            panelAksiSide.Controls.Add(lblSaldoAktif);
+            panelAksiSide.Controls.Add(btnKonfirmasiTopUp);
+            panelAksiSide.Location = new Point(765, 100);
+            panelAksiSide.Name = "panelAksiSide";
+            panelAksiSide.Size = new Size(230, 510);
+            panelAksiSide.TabIndex = 10;
+            // 
+            // lblAksiTitle
+            // 
+            lblAksiTitle.AutoSize = true;
+            lblAksiTitle.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lblAksiTitle.ForeColor = Color.FromArgb(47, 47, 47);
+            lblAksiTitle.Location = new Point(15, 15);
+            lblAksiTitle.Name = "lblAksiTitle";
+            lblAksiTitle.Size = new Size(143, 21);
+            lblAksiTitle.TabIndex = 0;
+            lblAksiTitle.Text = "Detail Konfirmasi";
+            // 
+            // lblHintCari
+            // 
+            lblHintCari.AutoSize = true;
+            lblHintCari.Font = new Font("Segoe UI", 8.5F);
+            lblHintCari.ForeColor = Color.Gray;
+            lblHintCari.Location = new Point(15, 55);
+            lblHintCari.Name = "lblHintCari";
+            lblHintCari.Size = new Size(104, 15);
+            lblHintCari.TabIndex = 1;
+            lblHintCari.Text = "Username Terpilih:";
+            // 
+            // txtUsernameCari
+            // 
+            txtUsernameCari.Font = new Font("Segoe UI", 10F);
+            txtUsernameCari.Location = new Point(18, 75);
+            txtUsernameCari.Name = "txtUsernameCari";
+            txtUsernameCari.ReadOnly = true;
+            txtUsernameCari.Size = new Size(194, 25);
+            txtUsernameCari.TabIndex = 2;
+            // 
+            // lblNamaCustomerHeader
+            // 
+            lblNamaCustomerHeader.AutoSize = true;
+            lblNamaCustomerHeader.Font = new Font("Segoe UI", 8.5F);
+            lblNamaCustomerHeader.ForeColor = Color.Gray;
+            lblNamaCustomerHeader.Location = new Point(15, 125);
+            lblNamaCustomerHeader.Name = "lblNamaCustomerHeader";
+            lblNamaCustomerHeader.Size = new Size(125, 15);
+            lblNamaCustomerHeader.TabIndex = 3;
+            lblNamaCustomerHeader.Text = "Nama Akun Customer";
+            // 
+            // lblNamaCustomer
+            // 
+            lblNamaCustomer.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            lblNamaCustomer.ForeColor = Color.FromArgb(50, 50, 50);
+            lblNamaCustomer.Location = new Point(15, 145);
+            lblNamaCustomer.Name = "lblNamaCustomer";
+            lblNamaCustomer.Size = new Size(194, 20);
+            lblNamaCustomer.TabIndex = 4;
+            lblNamaCustomer.Text = "-";
+            // 
+            // lblSaldoAktifHeader
+            // 
+            lblSaldoAktifHeader.AutoSize = true;
+            lblSaldoAktifHeader.Font = new Font("Segoe UI", 8.5F);
+            lblSaldoAktifHeader.ForeColor = Color.Gray;
+            lblSaldoAktifHeader.Location = new Point(15, 195);
+            lblSaldoAktifHeader.Name = "lblSaldoAktifHeader";
+            lblSaldoAktifHeader.Size = new Size(105, 15);
+            lblSaldoAktifHeader.TabIndex = 5;
+            lblSaldoAktifHeader.Text = "Saldo Aktif Saat Ini";
+            // 
+            // lblSaldoAktif
+            // 
+            lblSaldoAktif.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            lblSaldoAktif.ForeColor = Color.FromArgb(46, 125, 50);
+            lblSaldoAktif.Location = new Point(13, 215);
+            lblSaldoAktif.Name = "lblSaldoAktif";
+            lblSaldoAktif.Size = new Size(194, 25);
+            lblSaldoAktif.TabIndex = 6;
+            lblSaldoAktif.Text = "Rp 0";
+            // 
+            // btnKonfirmasiTopUp
+            // 
+            btnKonfirmasiTopUp.BackColor = Color.FromArgb(46, 125, 50);
+            btnKonfirmasiTopUp.FlatAppearance.BorderSize = 0;
+            btnKonfirmasiTopUp.FlatStyle = FlatStyle.Flat;
+            btnKonfirmasiTopUp.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnKonfirmasiTopUp.ForeColor = Color.White;
+            btnKonfirmasiTopUp.Location = new Point(18, 374);
+            btnKonfirmasiTopUp.Name = "btnKonfirmasiTopUp";
+            btnKonfirmasiTopUp.Size = new Size(194, 45);
+            btnKonfirmasiTopUp.TabIndex = 7;
+            btnKonfirmasiTopUp.Text = "✔ SETUJUI TOP UP";
+            btnKonfirmasiTopUp.UseVisualStyleBackColor = false;
+            // 
+            // btnTolakTopUp
+            // 
+            btnTolakTopUp.BackColor = Color.Firebrick;
+            btnTolakTopUp.FlatAppearance.BorderSize = 0;
+            btnTolakTopUp.FlatStyle = FlatStyle.Flat;
+            btnTolakTopUp.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnTolakTopUp.ForeColor = Color.White;
+            btnTolakTopUp.Location = new Point(18, 425);
+            btnTolakTopUp.Name = "btnTolakTopUp";
+            btnTolakTopUp.Size = new Size(194, 45);
+            btnTolakTopUp.TabIndex = 8;
+            btnTolakTopUp.Text = "✖ TOLAK TOP UP";
+            btnTolakTopUp.UseVisualStyleBackColor = false;
+            btnTolakTopUp.Click += btnTolakTopUp_Click;
+            // 
+            // AdTopUpCustomer
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1100, 700);
+            Controls.Add(cardPanel);
+            Name = "AdTopUpCustomer";
+            Text = "EcoDrive Admin Portal";
+            cardPanel.ResumeLayout(false);
+            mainPanel.ResumeLayout(false);
+            mainPanel.PerformLayout();
+            panelCard1.ResumeLayout(false);
+            panelCard1.PerformLayout();
+            panelCard2.ResumeLayout(false);
+            panelCard2.PerformLayout();
+            panelCard3.ResumeLayout(false);
+            panelCard3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvTransaksi).EndInit();
+            panelAksiSide.ResumeLayout(false);
+            panelAksiSide.PerformLayout();
+            ResumeLayout(false);
         }
 
         #endregion
@@ -419,5 +524,6 @@
         private System.Windows.Forms.Label lblSaldoAktifHeader;
         private System.Windows.Forms.Label lblSaldoAktif;
         private System.Windows.Forms.Button btnKonfirmasiTopUp;
+        private Button btnTolakTopUp;
     }
 }
