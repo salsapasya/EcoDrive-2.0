@@ -1,5 +1,6 @@
 ﻿using EcoDrive_vol2.Context;
 using EcoDrive_vol2.Models.Admin;
+using EcoDrive_vol2.Service;
 using EcoDrive_vol2.Views;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,8 @@ namespace EcoDrive_vol2.Views
     {
         private Color bgUtama = Color.FromArgb(255, 253, 246);
         private bool _isProcessing = false;
+
+        private TransaksiService _transaksiService;
         private AdTransaksiContext _transaksiContext;
         private TransaksiChargingContext _chargingContext;
         private TransaksiSewaContext _sewaContext;
@@ -27,7 +30,7 @@ namespace EcoDrive_vol2.Views
             _transaksiContext = new AdTransaksiContext();
             _chargingContext = new TransaksiChargingContext();
             _sewaContext = new TransaksiSewaContext();
-
+            _transaksiService = new TransaksiService();
             _transaksiController = new Controllers.Admin.AdTransaksiController();
 
             // Binding Event Filter Tombol Atas
@@ -162,14 +165,14 @@ namespace EcoDrive_vol2.Views
             {
                 _isProcessing = true;
                 var colName = dgvTransaksi.Columns[e.ColumnIndex].Name;
-                var p = dgvTransaksi.Rows[e.RowIndex].Tag as TransaksiModel;
+                var itemSewa = dgvTransaksi.Rows[e.RowIndex].Tag as TransaksiModel;
 
-                if (p == null) return;
+                if (itemSewa == null) return;
 
                 // 1. EVENT TOMBOL KONFIRMASI (PROSES CHARGING)
                 if (colName == "btnKonfirmasi")
                 {
-                    string statusBersih = p.Status.ToLower().Replace("_", " ");
+                    string statusBersih = itemSewa.Status.ToLower().Replace("_", " ");
 
                     if (statusBersih != "pending")
                     {
@@ -177,12 +180,12 @@ namespace EcoDrive_vol2.Views
                         return;
                     }
 
-                    DialogResult konfirmasi = MessageBox.Show($"Konfirmasi transaksi charging ini menjadi 'Mengisi Daya' untuk ID {p.IdTransaksi}?",
+                    DialogResult konfirmasi = MessageBox.Show($"Konfirmasi transaksi charging ini menjadi 'Mengisi Daya' untuk ID {itemSewa.IdTransaksi}?",
                         "EcoDrive Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                     if (konfirmasi == DialogResult.Yes)
                     {
-                        _transaksiController.ProsesKonfirmasiCharging(p.RawId);
+                        _transaksiService.EksekusiKonfirmasiPengisianDaya(itemSewa);
                         MessageBox.Show($"Status Charging berhasil diperbarui!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         RefreshDataSesuaiFilterAktif();
                     }
@@ -191,7 +194,7 @@ namespace EcoDrive_vol2.Views
                 // 2. EVENT TOMBOL SELESAI (PROSES PENGEMBALIAN SEWA)
                 if (colName == "btnSelesai")
                 {
-                    string statusBersih = p.Status.ToLower().Replace("_", " ");
+                    string statusBersih = itemSewa.Status.ToLower().Replace("_", " ");
 
                     if (statusBersih != "belum kembali" && statusBersih != "belum")
                     {
@@ -199,12 +202,12 @@ namespace EcoDrive_vol2.Views
                         return;
                     }
 
-                    DialogResult konfirmasi = MessageBox.Show($"Selesaikan transaksi sewa ini menjadi 'Sudah Kembali' untuk ID {p.IdTransaksi}?",
+                    DialogResult konfirmasi = MessageBox.Show($"Selesaikan transaksi sewa ini menjadi 'Sudah Kembali' untuk ID {itemSewa.IdTransaksi}?",
                         "EcoDrive Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                     if (konfirmasi == DialogResult.Yes)
                     {
-                        _transaksiController.ProsesPenyelesaianSewa(p.RawId);
+                        _transaksiService.EksekusiPenyelesaianSewa(itemSewa);
                         MessageBox.Show($"Status Pengembalian berhasil diperbarui!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         RefreshDataSesuaiFilterAktif();
                     }

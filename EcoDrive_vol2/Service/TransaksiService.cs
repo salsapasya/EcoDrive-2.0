@@ -2,6 +2,7 @@
 using EcoDrive_vol2.Context;
 using EcoDrive_vol2.Models.Admin;
 using EcoDrive_vol2.Models.Transaksi;
+using EcoDrive_vol2.Views;
 using System;
 using System.Collections.Generic;
 
@@ -12,14 +13,18 @@ namespace EcoDrive_vol2.Service
         // ==========================================
         // DEKLARASI CONTEXT / REPOSITORY
         // ==========================================
-        private readonly ITransaksi _transaksiContext;
-        private readonly TransaksiChargingContext _chargingContext = new TransaksiChargingContext();
-        private readonly TransaksiSewaContext _sewaContext = new TransaksiSewaContext();
+        private readonly ITransaksi _interfaceTransaksi;
+        private readonly TransaksiChargingContext _chargingContext;
+        private readonly TransaksiSewaContext _sewaContext;
+        private readonly AdTransaksiContext _adTransaksiContext;
 
         public TransaksiService()
         {
-            // Instansiasi Context admin menggunakan Interface
-            _transaksiContext = new AdTransaksiContext();
+            _chargingContext = new TransaksiChargingContext();
+            _sewaContext = new TransaksiSewaContext();
+            _adTransaksiContext = new AdTransaksiContext();
+
+            _interfaceTransaksi = _adTransaksiContext;
         }
 
         // ==========================================
@@ -40,22 +45,37 @@ namespace EcoDrive_vol2.Service
             // Amankan pencocokan filter dengan mengabaikan huruf besar/kecil (Case-Insensitive)
             if (string.IsNullOrEmpty(filterMode) || filterMode.Equals("Semua", StringComparison.OrdinalIgnoreCase))
             {
-                return _transaksiContext.GetAllTransaksi();
+                return _adTransaksiContext.GetAllTransaksi();
             }
 
-            return _transaksiContext.GetTransaksiBerdasarkanFilter(filterMode);
+            return _adTransaksiContext.GetTransaksiBerdasarkanFilter(filterMode);
         }
 
-        public void KonfirmasiPengisianDaya(int rawId)
+        public void EksekusiKonfirmasiPengisianDaya(TransaksiModel dataTransaksi)
         {
-            if (rawId <= 0) throw new ArgumentException("ID Transaksi tidak valid!");
-            _transaksiContext.UpdateStatusCharging(rawId);
+            if (dataTransaksi == null)
+                throw new ArgumentNullException("Data transaksi tidak valid.");
+
+            string statusBersih = dataTransaksi.Status.ToLower().Replace("_", " ").Trim();
+            if (statusBersih != "pending")
+            {
+                throw new Exception("Transaksi ini sudah dikonfirmasi sebelumnya!");
+            }
+            // Jika lolos pengecekan, tembak method update database di Context kamu
+            _adTransaksiContext.UpdateStatusCharging(dataTransaksi.RawId);
         }
 
-        public void SelesaikanPenyewaan(int rawId)
+        public void EksekusiPenyelesaianSewa(TransaksiModel dataTransaksi)
         {
-            if (rawId <= 0) throw new ArgumentException("ID Transaksi tidak valid!");
-            _transaksiContext.UpdateStatusPengembalian(rawId);
+            if (dataTransaksi == null)
+                throw new ArgumentNullException("Data transaksi tidak valid.");
+
+            string statusBersih = dataTransaksi.Status.ToLower().Replace("_", " ").Trim();
+            if (statusBersih != "belum kembali" && statusBersih != "belum")
+            {
+                throw new Exception("Tombol ini hanya untuk transaksi Sewa yang berstatus 'Belum Kembali'!");
+            }
+            _adTransaksiContext.UpdateStatusPengembalian(dataTransaksi.RawId);
         }
 
         // ==========================================
