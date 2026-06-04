@@ -1,6 +1,7 @@
 ﻿using EcoDrive_vol2.Context;
 using System;
 using System.Data; // WAJIB untuk menggunakan DataTable
+using EcoDrive_vol2.Models.Users;
 
 namespace EcoDrive_vol2.Service
 {
@@ -48,7 +49,7 @@ namespace EcoDrive_vol2.Service
             _userContext.TolakTopUp(idTopup);
         }
 
-        public string Login(string username, string password)
+        public Users Login(string username, string password)
         {
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {

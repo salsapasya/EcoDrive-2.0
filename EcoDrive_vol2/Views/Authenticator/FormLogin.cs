@@ -1,14 +1,17 @@
-﻿using System;
+﻿using EcoDrive_vol2.Controllers.Authentication;
+using EcoDrive_vol2.Helpers;
+using EcoDrive_vol2.Models.Enums;
+using EcoDrive_vol2.Models.Users;
+using EcoDrive_vol2.Views;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
-using EcoDrive_vol2.Controllers.Authentication;
-using EcoDrive_vol2.Views;
 
 namespace EcoDrive_vol2
 {
     public partial class FormLogin : Form
     {
-        private readonly LoginController controller = new LoginController();
+        private readonly LoginController _loginController = new LoginController();
 
         public FormLogin()
         {
@@ -44,25 +47,28 @@ namespace EcoDrive_vol2
                 string username = TxtUsername.Text;
                 string password = TxtPassword.Text;
 
-                // Meminta role dari controller login
-                string role = controller.Login(username, password);
+                Users userLogin = _loginController.Login(username, password);
 
-                if (role == "admin")
+                if (userLogin != null)
                 {
-                    MessageBox.Show("Login Admin Berhasil", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    // SIMPAN ID KE SESSION GLOBAL SEKARANG
+                    UserSession.IdUserAktif = userLogin.IdUser;
+                    UserSession.UsernameAktif = userLogin.Username;
+                    UserSession.Role = userLogin.RoleUser.ToString();
 
-                    AdDashboard admin = new AdDashboard();
-                    admin.Show();
-                    this.Hide();
-                }
-                else if (role == "customer")
-                {
-                    MessageBox.Show("Login Customer Berhasil", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    // Berhasil mengirim nama/username pengguna ke form dashboard
-                    CusDasboard customer = new CusDasboard(username);
-                    customer.Show();
-                    this.Hide();
+                    MessageBox.Show($"Selamat datang, {userLogin.Username}!", "Login Berhasil", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (userLogin.RoleUser == Roles.admin)
+                    {
+                        AdDashboard admin = new AdDashboard();
+                        admin.Show();
+                        this.Hide();
+                    }
+                    else if (userLogin.RoleUser == Roles.customer)
+                    {
+                        CusDasboard customer = new CusDasboard(username);
+                        customer.Show();
+                        this.Hide();
+                    }
                 }
                 else
                 {

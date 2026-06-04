@@ -6,6 +6,20 @@ namespace EcoDrive_vol2.AbstractandInterface.Abstract
 {
     public abstract class AbsTransaksi
     {
-        public abstract decimal HitungBiaya();
+        // 2. ENCAPSULATION: Menggunakan get dan set untuk melindungi data.
+        // (Misal: TotalBiaya hanya bisa di-set dari dalam class ini atau turunannya)
+        public int IdUser { get; set; }
+        public DateTime TanggalTransaksi { get; set; }
+        public decimal TotalBiaya { get; protected set; }
+
+        // Method abstrak wajib dibuat ulang oleh class turunannya
+        public abstract void HitungBiaya();
+
+        // 3. POLYMORPHISM (Virtual): Method ini punya aksi default, 
+        // tapi class turunannya boleh menggantinya jika mau.
+        public virtual string DapatkanInfoTransaksi()
+        {
+            return $"Transaksi User: {IdUser}, Total: Rp {TotalBiaya:N0}";
+        }
     }
 }

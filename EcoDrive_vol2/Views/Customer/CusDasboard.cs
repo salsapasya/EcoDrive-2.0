@@ -33,7 +33,15 @@ namespace EcoDrive_vol2
             btRiwayat.Click += btRiwayat_Click;
             btSaldo.Click += btSaldo_Click;
         }
+        public void BukaHalamanSaldo()
+        {
+            btSaldo_Click(btSaldo, EventArgs.Empty);
+        }
 
+        public void BukaHalamanKendaraan()
+        {
+            btKendaraan_Click(btKendaraan, EventArgs.Empty);
+        }
         private void OpenForm(Form childForm)
         {
             if (activeForm != null)

@@ -4,7 +4,9 @@ using System.Text;
 
 namespace EcoDrive_vol2.AbstractandInterface.Interface
 {
-    internal interface IRental
+    public interface IRental
     {
+        decimal DapatkanEstimasiBiaya(int idKendaraan, int durasi);
+        void ProsesSewaKendaraan(int idUser, int idKendaraan, int durasi, decimal totalBiaya);
     }
 }

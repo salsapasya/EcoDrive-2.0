@@ -1,11 +1,13 @@
-﻿using System;
+﻿using EcoDrive_vol2.Controllers.Customer;
+using EcoDrive_vol2.Helpers;
+using EcoDrive_vol2.Models.Users;
+using EcoDrive_vol2.Models.Vehicles;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using EcoDrive_vol2.Models.Vehicles;
-using EcoDrive_vol2.Controllers.Customer;
 
 namespace EcoDrive_vol2.Views
 {
@@ -13,6 +15,7 @@ namespace EcoDrive_vol2.Views
     {
         private readonly Color _bgUtama = Color.FromArgb(255, 253, 246);
         private readonly CusKendaraanController _controller = new CusKendaraanController();
+        private readonly CusRentalController _cusRentalController = new CusRentalController();
 
         private List<Kendaraan> _masterListKendaraan = new List<Kendaraan>();
         private List<Kendaraan> _filteredListKendaraan = new List<Kendaraan>();
@@ -216,7 +219,7 @@ namespace EcoDrive_vol2.Views
             Form detailForm = new Form
             {
                 Text = "Informasi Detail Spesifikasi",
-                Size = new Size(460, 480),
+                Size = new Size(460, 560), 
                 StartPosition = FormStartPosition.CenterParent,
                 FormBorderStyle = FormBorderStyle.FixedDialog,
                 MaximizeBox = false,
@@ -226,7 +229,7 @@ namespace EcoDrive_vol2.Views
 
             Panel innerCard = new Panel
             {
-                Size = new Size(400, 380),
+                Size = new Size(400, 460), 
                 Location = new Point(22, 25),
                 BackColor = Color.White,
                 Padding = new Padding(20)
@@ -262,41 +265,135 @@ namespace EcoDrive_vol2.Views
             {
                 Text = $" Nomor Registrasi Plat  :  {dataKendaraan.NomorPlatKendaraan}\n\n" +
                        $" Kapasitas Unit Ready   :  {dataKendaraan.StokKendaraan} Unit\n\n" +
-                       $" Tarif Dasar Sewa         :  Rp {dataKendaraan.HargaSewa:N0} / Hari\n\n" +
-                       $" Simulasi 24 Jam Penuh :  Rp {dataKendaraan.BiayaRental(24):N0}",
+                       $" Tarif Dasar Sewa       :  Rp {dataKendaraan.HargaSewa:N0} / Hari\n\n",
                 Font = new Font("Segoe UI", 10.5F),
                 ForeColor = Color.FromArgb(60, 60, 60),
-                Location = new Point(20, 100),
-                Size = new Size(360, 150)
+                Location = new Point(20, 85),
+                Size = new Size(360, 110)
+            };
+
+            Label lblDurasiSewa = new Label
+            {
+                Text = "Durasi Sewa (Hari):",
+                Font = new Font("Segoe UI", 10F, FontStyle.Bold),
+                Location = new Point(20, 210),
+                AutoSize = true
+            };
+
+            NumericUpDown numDurasi = new NumericUpDown
+            {
+                Location = new Point(170, 207),
+                Size = new Size(70, 25),
+                Font = new Font("Segoe UI", 10F),
+                Minimum = 1,
+                Maximum = 30,
+                Value = 1
+            };
+
+            Label lblInfoTanggal = new Label
+            {
+                Text = "Tanggal Sewa   : -\nTanggal Kembali: -",
+                Font = new Font("Segoe UI", 9.5F, FontStyle.Italic),
+                ForeColor = Color.DimGray,
+                Location = new Point(20, 255), 
+                Size = new Size(360, 40)
+            };
+
+            Label lblTotalEstimasi = new Label
+            {
+                Text = "Estimasi Pembayaran Sewa",
+                Font = new Font("Segoe UI", 12F, FontStyle.Bold),
+                ForeColor = Color.FromArgb(46, 139, 87),
+                Location = new Point(20, 315), 
+                AutoSize = true
             };
 
             Button btnBooking = new Button
             {
-                Text = "Konfirmasi Pemesanan Kendaraan",
+                Text = "Konfirmasi & Bayar Sekarang",
                 Font = new Font("Segoe UI", 10.5F, FontStyle.Bold),
                 BackColor = Color.FromArgb(76, 175, 80),
                 ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat,
                 Size = new Size(360, 48),
-                Location = new Point(20, 280),
+                Location = new Point(20, 360), 
                 Cursor = Cursors.Hand
             };
             btnBooking.FlatAppearance.BorderSize = 0;
 
+            decimal totalBiayaFix = 0; // Variabel penyimpan harga final
+            void UpdateEstimasiBiaya()
+            {
+                try
+                {
+                    int durasiInput = (int)numDurasi.Value;
+
+                    DateTime tanggalSewa = DateTime.Now;
+                    DateTime tanggalKembali = tanggalSewa.AddDays(durasiInput);
+
+                    lblInfoTanggal.Text = $"Tanggal Sewa   : {tanggalSewa:dd MMMM yyyy}\nTanggal Kembali: {tanggalKembali:dd MMMM yyyy}";
+                    
+                    totalBiayaFix = _cusRentalController.DapatkanEstimasiBiaya(dataKendaraan.IdKendaraan, durasiInput);
+                    lblTotalEstimasi.Text = $"Total Estimasi: Rp {totalBiayaFix:N0}";
+                }
+                catch (Exception ex)
+                {
+                    lblTotalEstimasi.Text = "Error menghitung estimasi.";
+                }
+            }
+
+            // MENGHUBUNGKAN PERUBAHAN ANGKA DENGAN FUNGSI MENGHITUNG
+            numDurasi.ValueChanged += (s, ev) => UpdateEstimasiBiaya();
+            UpdateEstimasiBiaya(); // Panggil sekali saat form muncul
+            
             btnBooking.Click += (s, ev) =>
             {
-                detailForm.Close();
-                MessageBox.Show($"Booking {dataKendaraan.Nama} berhasil dicatat! Lanjutkan ke pembayaran.", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                try
+                {
+                    int durasiSewa = (int)numDurasi.Value;
+
+                    // MENGAMBIL ID CUSTOMER DARI CLASS SESSION GLOBAL
+                    int idCustomerLogin = UserSession.IdUserAktif;
+
+                    _cusRentalController.KonfirmasiSewa(idCustomerLogin, dataKendaraan.IdKendaraan, durasiSewa, totalBiayaFix);
+
+                    detailForm.Close();
+                    MessageBox.Show($"Pembayaran Berhasil!\n\nSaldo Anda telah dipotong sebesar Rp {totalBiayaFix:N0}.\nKendaraan {dataKendaraan.Nama} siap digunakan.", "Transaksi Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    LoadDataProduk();
+                    ApplyFilterDanPencarian();
+                }
+                catch (Exception ex)
+                {
+                    if (ex.Message == "SALDO_KURANG")
+                    {
+                        DialogResult response = MessageBox.Show("Saldo Anda tidak mencukupi untuk melakukan transaksi ini.\nApakah Anda ingin mengisi saldo (Top Up) sekarang?", "Saldo Tidak Cukup", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                        if (response == DialogResult.Yes)
+                        {
+                            detailForm.Close();
+                            if (Application.OpenForms["CusDasboard"] is CusDasboard dashboard)
+                            {
+                                dashboard.BukaHalamanSaldo();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Terjadi kesalahan sistem: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             };
 
-            innerCard.Controls.AddRange(new Control[] { btnBooking, lblGridSpesifikasi, lineSeparator, lblPopSub, lblPopTitle });
+            innerCard.Controls.AddRange(new Control[] { btnBooking, lblTotalEstimasi, lblInfoTanggal, numDurasi, lblGridSpesifikasi, lineSeparator, lblPopSub, lblPopTitle });
+            
             detailForm.Controls.Add(innerCard);
-
             detailForm.ShowDialog();
         }
 
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
         }
+
     }
 }
