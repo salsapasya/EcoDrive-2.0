@@ -52,8 +52,10 @@
             btnSemua = new Button();
             btnSewa = new Button();
             btnCharging = new Button();
+            cardPanel = new EcoDriveUI.RoundedPanel();
             mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvTransaksi).BeginInit();
+            cardPanel.SuspendLayout();
             SuspendLayout();
             // 
             // mainPanel
@@ -63,7 +65,7 @@
             mainPanel.Dock = DockStyle.Fill;
             mainPanel.Location = new Point(25, 25);
             mainPanel.Name = "mainPanel";
-            mainPanel.Size = new Size(989, 499);
+            mainPanel.Size = new Size(998, 517);
             mainPanel.TabIndex = 12;
             // 
             // dgvTransaksi
@@ -92,7 +94,7 @@
             dgvTransaksi.DefaultCellStyle = dataGridViewCellStyle2;
             dgvTransaksi.EnableHeadersVisualStyles = false;
             dgvTransaksi.GridColor = Color.FromArgb(240, 242, 240);
-            dgvTransaksi.Location = new Point(34, 136);
+            dgvTransaksi.Location = new Point(34, 123);
             dgvTransaksi.MultiSelect = false;
             dgvTransaksi.Name = "dgvTransaksi";
             dgvTransaksi.RowHeadersVisible = false;
@@ -231,7 +233,7 @@
             lblSubtitle.AutoSize = true;
             lblSubtitle.Font = new Font("Segoe UI", 9.5F);
             lblSubtitle.ForeColor = Color.DarkGray;
-            lblSubtitle.Location = new Point(59, 94);
+            lblSubtitle.Location = new Point(62, 89);
             lblSubtitle.Name = "lblSubtitle";
             lblSubtitle.Size = new Size(188, 17);
             lblSubtitle.TabIndex = 1;
@@ -242,7 +244,7 @@
             lblTitle.AutoSize = true;
             lblTitle.Font = new Font("Segoe UI", 22F, FontStyle.Bold);
             lblTitle.ForeColor = Color.FromArgb(47, 47, 47);
-            lblTitle.Location = new Point(50, 50);
+            lblTitle.Location = new Point(53, 45);
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new Size(243, 41);
             lblTitle.TabIndex = 0;
@@ -250,7 +252,7 @@
             // 
             // btnSemua
             // 
-            btnSemua.Location = new Point(59, 132);
+            btnSemua.Location = new Point(59, 117);
             btnSemua.Name = "btnSemua";
             btnSemua.Size = new Size(75, 23);
             btnSemua.TabIndex = 9;
@@ -259,7 +261,7 @@
             // 
             // btnSewa
             // 
-            btnSewa.Location = new Point(155, 132);
+            btnSewa.Location = new Point(155, 117);
             btnSewa.Name = "btnSewa";
             btnSewa.Size = new Size(75, 23);
             btnSewa.TabIndex = 10;
@@ -268,23 +270,42 @@
             // 
             // btnCharging
             // 
-            btnCharging.Location = new Point(255, 132);
+            btnCharging.Location = new Point(255, 117);
             btnCharging.Name = "btnCharging";
             btnCharging.Size = new Size(75, 23);
             btnCharging.TabIndex = 11;
             btnCharging.Text = "Charging";
             btnCharging.UseVisualStyleBackColor = true;
             // 
+            // cardPanel
+            // 
+            cardPanel.BackColor = Color.White;
+            cardPanel.Controls.Add(btnCharging);
+            cardPanel.Controls.Add(btnSewa);
+            cardPanel.Controls.Add(btnSemua);
+            cardPanel.Controls.Add(lblTitle);
+            cardPanel.Controls.Add(lblSubtitle);
+            cardPanel.Controls.Add(mainPanel);
+            cardPanel.Dock = DockStyle.Fill;
+            cardPanel.Location = new Point(0, 0);
+            cardPanel.Name = "cardPanel";
+            cardPanel.Padding = new Padding(25);
+            cardPanel.Size = new Size(1048, 567);
+            cardPanel.TabIndex = 1;
+            // 
             // AdTransaksi
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1039, 549);
+            ClientSize = new Size(1048, 567);
+            Controls.Add(cardPanel);
             Name = "AdTransaksi";
             Text = "AdTransaksi";
             Load += AdTransaksi_Load;
             mainPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvTransaksi).EndInit();
+            cardPanel.ResumeLayout(false);
+            cardPanel.PerformLayout();
             ResumeLayout(false);
         }
 

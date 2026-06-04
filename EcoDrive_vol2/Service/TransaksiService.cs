@@ -49,13 +49,13 @@ namespace EcoDrive_vol2.Service
         public void KonfirmasiPengisianDaya(int rawId)
         {
             if (rawId <= 0) throw new ArgumentException("ID Transaksi tidak valid!");
-            _chargingContext.UpdateStatusCharging(rawId);
+            _transaksiContext.UpdateStatusCharging(rawId);
         }
 
         public void SelesaikanPenyewaan(int rawId)
         {
             if (rawId <= 0) throw new ArgumentException("ID Transaksi tidak valid!");
-            _sewaContext.UpdateStatusPengembalian(rawId);
+            _transaksiContext.UpdateStatusPengembalian(rawId);
         }
 
         // ==========================================

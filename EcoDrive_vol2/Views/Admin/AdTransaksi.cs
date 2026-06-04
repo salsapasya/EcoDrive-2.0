@@ -15,12 +15,18 @@ namespace EcoDrive_vol2.Views
     {
         private Color bgUtama = Color.FromArgb(255, 253, 246);
         private bool _isProcessing = false;
+        private AdTransaksiContext _transaksiContext;
+        private TransaksiChargingContext _chargingContext;
+        private TransaksiSewaContext _sewaContext;
         private Controllers.Admin.AdTransaksiController _transaksiController;
 
         public AdTransaksi()
         {
             InitializeComponent();
             this.BackColor = bgUtama;
+            _transaksiContext = new AdTransaksiContext();
+            _chargingContext = new TransaksiChargingContext();
+            _sewaContext = new TransaksiSewaContext();
 
             _transaksiController = new Controllers.Admin.AdTransaksiController();
 
@@ -99,32 +105,28 @@ namespace EcoDrive_vol2.Views
                 dgvTransaksi.Rows.Clear();
                 List<TransaksiModel> dataList = _transaksiController.AmbilLaporanKeuanganAdmin(filterMode);
 
-                if (dataList == null) return;
-
                 foreach (var item in dataList)
                 {
-                    int rowIndex = dgvTransaksi.Rows.Add();
-                    DataGridViewRow row = dgvTransaksi.Rows[rowIndex];
+                    dgvTransaksi.Rows.Add(
+                        item.IdTransaksi,
+                        item.Kategori,
+                        item.Username,
+                        item.Nama,
+                        item.Kontak,
+                        item.NamaKendaraan,
+                        item.TipeKendaraan,
+                        item.NomorPlat,
+                        item.TanggalSewa,
+                        item.TanggalKembali,
+                        item.TanggalCharging,
+                        item.NamaStation,
+                        item.DurasiTransaksi,
+                        item.Status,
+                        item.TotalBiaya.ToString("C0", new System.Globalization.CultureInfo("id-ID"))
+                    );
 
-                    row.Cells[0].Value = item.IdTransaksi;
-
-                    if (row.Cells.Count > 1) row.Cells[1].Value = item.Kategori;
-                    if (row.Cells.Count > 2) row.Cells[2].Value = item.Username;
-                    if (row.Cells.Count > 3) row.Cells[3].Value = item.Nama;
-                    if (row.Cells.Count > 4) row.Cells[4].Value = item.Kontak;
-                    if (row.Cells.Count > 5) row.Cells[5].Value = item.NamaKendaraan;
-                    if (row.Cells.Count > 6) row.Cells[6].Value = item.TipeKendaraan;
-                    if (row.Cells.Count > 7) row.Cells[7].Value = item.NomorPlat;
-                    if (row.Cells.Count > 8) row.Cells[8].Value = item.TanggalSewa;
-                    if (row.Cells.Count > 9) row.Cells[9].Value = item.TanggalKembali;
-                    if (row.Cells.Count > 10) row.Cells[10].Value = item.TanggalCharging;
-                    if (row.Cells.Count > 11) row.Cells[11].Value = item.NamaStation;
-                    if (row.Cells.Count > 12) row.Cells[12].Value = item.DurasiTransaksi;
-                    if (row.Cells.Count > 13) row.Cells[13].Value = item.Status;
-                    if (row.Cells.Count > 14) row.Cells[14].Value = item.TotalBiaya.ToString("C0", new System.Globalization.CultureInfo("id-ID"));
-
-                    // Simpan data aslinya ke dalam properti Tag baris
-                    row.Tag = item;
+                    // Simpan objek model data ke dalam Tag baris (Sama fungsinya seperti DataBoundItem di contohmu)
+                    dgvTransaksi.Rows[dgvTransaksi.Rows.Count - 1].Tag = item;
                 }
             }
             catch (Exception ex)

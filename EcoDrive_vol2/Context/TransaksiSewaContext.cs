@@ -4,15 +4,12 @@ using EcoDrive_vol2.Models.Transaksi;
 using Npgsql;
 using System;
 using System.Collections.Generic;
-using System.Data; // WAJIB untuk menggunakan DataTable / DBType jika diperlukan
+using System.Data; 
 
 namespace EcoDrive_vol2.Context
 {
     public class TransaksiSewaContext
     {
-        // ====================================================================
-        // DIPAKAI ADMIN: Melihat seluruh transaksi sewa lengkap dengan JOIN
-        // ====================================================================
         public DataTable GetAllTransaksiSewaAdmin()
         {
             DataTable dt = new DataTable();
