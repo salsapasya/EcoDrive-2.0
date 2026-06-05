@@ -2,6 +2,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using EcoDrive_vol2.Views;
+using EcoDrive_vol2.Views.Customer;
 
 namespace EcoDrive_vol2
 {
@@ -32,7 +33,9 @@ namespace EcoDrive_vol2
             btCharging.Click += btCharging_Click;
             btRiwayat.Click += btRiwayat_Click;
             btSaldo.Click += btSaldo_Click;
+            btKembalikanSewa.Click += btKembalikanSewa_Click_1;
         }
+
         public void BukaHalamanSaldo()
         {
             btSaldo_Click(btSaldo, EventArgs.Empty);
@@ -69,6 +72,7 @@ namespace EcoDrive_vol2
             btCharging.BackColor = warnaDefault;
             btRiwayat.BackColor = warnaDefault;
             btSaldo.BackColor = warnaDefault;
+            btKembalikanSewa.BackColor = warnaDefault;
         }
 
         private void SetActiveButton(Button btn)
@@ -229,6 +233,12 @@ namespace EcoDrive_vol2
                 login.Show();
                 this.Close();
             }
+        }
+
+        private void btKembalikanSewa_Click_1(object sender, EventArgs e)
+        {
+            SetActiveButton(btKembalikanSewa);
+            OpenForm(new CusKembalikanSewa());
         }
     }
 }

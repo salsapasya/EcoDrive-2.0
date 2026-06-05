@@ -34,6 +34,9 @@
     <Compile Update="Views\Customer\CusDasboard.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Views\Customer\CusKembalikanSewa.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Views\Customer\CusKendaraan.cs">
       <SubType>Form</SubType>
     </Compile>

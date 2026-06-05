@@ -7,6 +7,7 @@ namespace EcoDrive_vol2.Models.Enums
     public enum StatusKembali
     {
         sudah_kembali,
-        belum_kembali
+        belum_kembali,
+        menunggu_konfirmasi,
     }
 }

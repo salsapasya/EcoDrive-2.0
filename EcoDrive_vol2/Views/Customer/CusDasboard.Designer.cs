@@ -44,6 +44,8 @@
             pnLogout = new Panel();
             btLogout = new Button();
             pnContentCustomer = new Panel();
+            panel1 = new Panel();
+            btKembalikanSewa = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             pnDasboard.SuspendLayout();
             pnKendaraan.SuspendLayout();
@@ -51,6 +53,7 @@
             pnSaldo.SuspendLayout();
             pnRiwayat.SuspendLayout();
             pnLogout.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // pictureBox1
@@ -79,7 +82,7 @@
             // 
             pnDasboard.BackColor = Color.White;
             pnDasboard.Controls.Add(btDasboard);
-            pnDasboard.Location = new Point(30, 186);
+            pnDasboard.Location = new Point(30, 189);
             pnDasboard.Name = "pnDasboard";
             pnDasboard.Size = new Size(318, 48);
             pnDasboard.TabIndex = 4;
@@ -130,7 +133,7 @@
             // 
             pnCharging.BackColor = Color.White;
             pnCharging.Controls.Add(btCharging);
-            pnCharging.Location = new Point(30, 349);
+            pnCharging.Location = new Point(30, 411);
             pnCharging.Name = "pnCharging";
             pnCharging.Size = new Size(318, 48);
             pnCharging.TabIndex = 6;
@@ -155,7 +158,7 @@
             // 
             pnSaldo.BackColor = Color.White;
             pnSaldo.Controls.Add(btSaldo);
-            pnSaldo.Location = new Point(30, 428);
+            pnSaldo.Location = new Point(30, 493);
             pnSaldo.Name = "pnSaldo";
             pnSaldo.Size = new Size(318, 48);
             pnSaldo.TabIndex = 7;
@@ -181,7 +184,7 @@
             // 
             pnRiwayat.BackColor = Color.White;
             pnRiwayat.Controls.Add(btRiwayat);
-            pnRiwayat.Location = new Point(30, 505);
+            pnRiwayat.Location = new Point(30, 569);
             pnRiwayat.Name = "pnRiwayat";
             pnRiwayat.Size = new Size(318, 48);
             pnRiwayat.TabIndex = 8;
@@ -237,6 +240,32 @@
             pnContentCustomer.Size = new Size(994, 640);
             pnContentCustomer.TabIndex = 10;
             // 
+            // panel1
+            // 
+            panel1.BackColor = Color.White;
+            panel1.Controls.Add(btKembalikanSewa);
+            panel1.Location = new Point(30, 339);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(318, 48);
+            panel1.TabIndex = 11;
+            // 
+            // btKembalikanSewa
+            // 
+            btKembalikanSewa.BackColor = Color.White;
+            btKembalikanSewa.FlatAppearance.BorderColor = Color.White;
+            btKembalikanSewa.FlatStyle = FlatStyle.Flat;
+            btKembalikanSewa.Font = new Font("Segoe UI", 12.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btKembalikanSewa.Image = (Image)resources.GetObject("btKembalikanSewa.Image");
+            btKembalikanSewa.ImageAlign = ContentAlignment.MiddleLeft;
+            btKembalikanSewa.Location = new Point(3, 1);
+            btKembalikanSewa.Name = "btKembalikanSewa";
+            btKembalikanSewa.Size = new Size(312, 44);
+            btKembalikanSewa.TabIndex = 4;
+            btKembalikanSewa.Text = "           Kembalikan Sewa";
+            btKembalikanSewa.TextAlign = ContentAlignment.MiddleLeft;
+            btKembalikanSewa.UseVisualStyleBackColor = false;
+            btKembalikanSewa.Click += btKembalikanSewa_Click_1;
+            // 
             // CusDasboard
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -244,6 +273,7 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1370, 749);
+            Controls.Add(panel1);
             Controls.Add(pnContentCustomer);
             Controls.Add(pnLogout);
             Controls.Add(pnRiwayat);
@@ -264,6 +294,7 @@
             pnSaldo.ResumeLayout(false);
             pnRiwayat.ResumeLayout(false);
             pnLogout.ResumeLayout(false);
+            panel1.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -284,5 +315,7 @@
         private Panel pnLogout;
         private Button btLogout;
         private Panel pnContentCustomer;
+        private Panel panel1;
+        private Button btKembalikanSewa;
     }
 }

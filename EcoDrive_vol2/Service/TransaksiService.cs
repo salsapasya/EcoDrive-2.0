@@ -71,9 +71,9 @@ namespace EcoDrive_vol2.Service
                 throw new ArgumentNullException("Data transaksi tidak valid.");
 
             string statusBersih = dataTransaksi.Status.ToLower().Replace("_", " ").Trim();
-            if (statusBersih != "belum kembali" && statusBersih != "belum")
+            if (statusBersih != "menunggu konfirmasi")
             {
-                throw new Exception("Tombol ini hanya untuk transaksi Sewa yang berstatus 'Belum Kembali'!");
+                throw new Exception("Tombol ini hanya untuk transaksi Sewa yang berstatus 'Menunggu Konfirmasi'!");
             }
             _adTransaksiContext.UpdateStatusPengembalian(dataTransaksi.RawId);
         }

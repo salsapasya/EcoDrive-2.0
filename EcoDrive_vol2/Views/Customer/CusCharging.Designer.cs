@@ -118,7 +118,7 @@
             // flpChargingContainer
             // 
             flpChargingContainer.AutoScroll = true;
-            flpChargingContainer.BackColor = Color.Transparent;
+            flpChargingContainer.BackColor = Color.FromArgb(252, 252, 250);
             flpChargingContainer.Dock = DockStyle.Fill;
             flpChargingContainer.Location = new Point(3, 48);
             flpChargingContainer.Name = "flpChargingContainer";

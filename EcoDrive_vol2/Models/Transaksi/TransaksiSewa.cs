@@ -24,6 +24,10 @@ namespace EcoDrive_vol2.Models.Transaksi
 
         public StatusKembali StatusPengembalian { get; set; }
 
+        // tambahan buat di pengembalian kendaraan
+        public string NamaKendaraan { get; set; }
+        public string NomorPlatKendaraan { get; set; }
+
         public override void HitungBiaya()
         {
             DurasiSewa = (TanggalKembali - TanggalSewa).Days;

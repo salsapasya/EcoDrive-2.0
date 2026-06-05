@@ -142,17 +142,74 @@ namespace EcoDrive_vol2.Views
         {
             if (e.RowIndex < 0) return;
 
+            var item = dgvTransaksi.Rows[e.RowIndex].Tag as TransaksiModel;
+            if (item == null) return;
+
+            string status = item.Status.ToLower().Replace("_", " ").Trim();
+
             if (e.ColumnIndex == 13 && e.Value != null)
             {
-                string status = e.Value.ToString().ToLower().Replace("_", " ").Trim();
                 e.CellStyle.Font = new Font("Segoe UI", 9, FontStyle.Bold);
 
                 if (status == "selesai" || status == "sudah kembali" || status == "berhasil")
+                {
                     e.CellStyle.ForeColor = Color.FromArgb(92, 184, 92); // Hijau
-                else if (status == "pending" || status == "belum kembali" || status == "mengisi daya")
-                    e.CellStyle.ForeColor = Color.Orange; // Oranye
+                }
+
+                else if (status == "pending" || status == "menunggu konfirmasi")
+                {
+                    e.CellStyle.ForeColor = Color.Blue; // blue
+                }
+                else if (status == "mengisi daya" || status == "belum kembali")
+                {
+                    e.CellStyle.ForeColor = Color.Orange;
+                }
                 else
                     e.CellStyle.ForeColor = Color.Red; // Merah jika gagal
+            }
+            if (dgvTransaksi.Columns[e.ColumnIndex].Name == "btnKonfirmasi")
+            {
+                var cell = dgvTransaksi.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewButtonCell;
+                if (cell != null)
+                {
+                    cell.FlatStyle = FlatStyle.Flat;
+                    if (status == "pending")
+                    {
+                        e.CellStyle.BackColor = Color.FromArgb(0, 123, 255); // Blue
+                        e.CellStyle.ForeColor = Color.White;
+                        e.CellStyle.SelectionBackColor = Color.FromArgb(0, 105, 217);
+                        e.CellStyle.SelectionForeColor = Color.White;
+                    }
+                    else
+                    {
+                        e.CellStyle.BackColor = Color.LightGray;
+                        e.CellStyle.ForeColor = Color.DarkGray;
+                        e.CellStyle.SelectionBackColor = Color.LightGray;
+                        e.CellStyle.SelectionForeColor = Color.DarkGray;
+                    }
+                }
+            }
+            if (dgvTransaksi.Columns[e.ColumnIndex].Name == "btnSelesai")
+            {
+                var cell = dgvTransaksi.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewButtonCell;
+                if (cell != null)
+                {
+                    cell.FlatStyle = FlatStyle.Flat;
+                    if (status == "menunggu konfirmasi")
+                    {
+                        e.CellStyle.BackColor = Color.FromArgb(92, 184, 92); // ijo
+                        e.CellStyle.ForeColor = Color.White;
+                        e.CellStyle.SelectionBackColor = Color.FromArgb(68, 157, 68);
+                        e.CellStyle.SelectionForeColor = Color.White;
+                    }
+                    else
+                    {
+                        e.CellStyle.BackColor = Color.LightGray;
+                        e.CellStyle.ForeColor = Color.DarkGray;
+                        e.CellStyle.SelectionBackColor = Color.LightGray;
+                        e.CellStyle.SelectionForeColor = Color.DarkGray;
+                    }
+                }
             }
         }
 
@@ -196,9 +253,9 @@ namespace EcoDrive_vol2.Views
                 {
                     string statusBersih = itemSewa.Status.ToLower().Replace("_", " ");
 
-                    if (statusBersih != "belum kembali" && statusBersih != "belum")
+                    if (statusBersih != "menunggu konfirmasi")
                     {
-                        MessageBox.Show("Tombol ini hanya untuk transaksi Sewa yang berstatus 'Belum Kembali'!", "EcoDrive Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Tombol ini hanya untuk transaksi Sewa yang berstatus 'Menunggu Konfirmasi'!", "EcoDrive Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         return;
                     }
 

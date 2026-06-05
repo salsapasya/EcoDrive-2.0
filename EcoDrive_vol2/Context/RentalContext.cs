@@ -40,7 +40,7 @@ namespace EcoDrive_vol2.Context
                 DateTime tanggalKembali = tanggalSewa.AddDays(durasi);
 
                 string insertTransaks = @"INSERT INTO transaksi_sewa (id_user, id_kendaraan, durasi_sewa, tanggal_sewa, tanggal_kembali, status_pengembalian) 
-                                   VALUES (@idUser, @idKendaraan, @durasi, @tanggal_sewa, @tanggal_kembali, 'belum kembali'::status_kembali)";
+                                   VALUES (@idUser, @idKendaraan, @durasi, @tanggal_sewa, @tanggal_kembali, 'belum kembali'::status_pengembalian)";
                 using (var cmdInsert = new NpgsqlCommand(insertTransaks, conn, transaction))
                 {
                     cmdInsert.Parameters.AddWithValue("@idUser", idUser);
