@@ -20,5 +20,10 @@ namespace EcoDrive_vol2.Models.Transaksi
         public ChargingStatus StatusCharging { get; set; }
 
         public int DurasiCharging { get; set; }
+
+        // kolom tambahan untuk menampilkan data di customer charging
+        public string NamaStation { get; set; }
+        public string NamaKendaraan { get; set; }
+        public string NomorPlat { get; set; }
     }
 }

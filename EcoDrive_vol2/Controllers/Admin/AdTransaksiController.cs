@@ -14,14 +14,14 @@ namespace EcoDrive_vol2.Controllers.Admin
         {
             _transaksiService = new TransaksiService();
         }
-        public void ProsesKonfirmasiCharging(int rawId)
+        public void ProsesKonfirmasiCharging(TransaksiModel dataTransaksi)
         {
-            _transaksiService.KonfirmasiPengisianDaya(rawId);
+            _transaksiService.EksekusiKonfirmasiPengisianDaya(dataTransaksi);
         }
 
-        public void ProsesPenyelesaianSewa(int rawId)
+        public void ProsesPenyelesaianSewa(TransaksiModel dataTransaksi)
         {
-            _transaksiService.SelesaikanPenyewaan(rawId);
+            _transaksiService.EksekusiPenyelesaianSewa(dataTransaksi);
         }
         public List<TransaksiModel> AmbilLaporanKeuanganAdmin(string filter)
         {
