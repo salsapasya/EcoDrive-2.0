@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using EcoDrive_vol2.Controllers.Customer;
+using EcoDrive_vol2.Helpers;
 
 namespace EcoDrive_vol2.Views
 {
@@ -15,7 +16,7 @@ namespace EcoDrive_vol2.Views
         private Color bgUtama = Color.FromArgb(255, 253, 246);
         private object txtIdCustomer;
 
-        private int idUser = 2;
+        private int idUser = UserSession.IdUserAktif;
         private decimal saldo = 0;
 
         private CusSaldoController controller =
@@ -40,18 +41,16 @@ namespace EcoDrive_vol2.Views
                     return;
                 }
 
-                decimal jumlahTopUp = 
-                    Convert.ToDecimal(txtTopUp.Text);
+                decimal jumlahTopUp = Convert.ToDecimal(txtTopUp.Text);
 
                 controller.TopupSaldo(idUser,jumlahTopUp);
 
-                saldo =
-                    controller.GetSaldo(idUser);
+                saldo = controller.GetSaldo(idUser);
 
                 lblSaldo.Text =
                     "Rp " + saldo.ToString("N0");
 
-                MessageBox.Show("Top Up Berhasil");
+                MessageBox.Show("Top Up Berhasil! Menunggu Konfirmasi Admin");
 
                 txtTopUp.Clear();
             }
@@ -74,6 +73,7 @@ namespace EcoDrive_vol2.Views
 
         private void CusSaldo_Load(object sender, EventArgs e)
         {
+            idUser = UserSession.IdUserAktif;
             saldo = controller.GetSaldo(idUser);
 
             lblSaldo.Text = "Rp " + saldo.ToString("N0");
