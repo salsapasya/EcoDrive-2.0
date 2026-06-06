@@ -7,6 +7,6 @@ namespace EcoDrive_vol2.AbstractandInterface.Interface
 {
     public interface ITopup
     {
-        List<TopUpModel> GetAllTopup();
+        List<TopUp> GetAllTopup();
     }
 }

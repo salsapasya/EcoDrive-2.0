@@ -6,7 +6,7 @@ using EcoDrive_vol2.Models.Transaksi;
 using EcoDrive_vol2.Models.Enums;
 using Npgsql;
 
-namespace EcoDrive_vol2.Context
+namespace EcoDrive_vol2.Context.Customer
 {
     public class TransaksiChargingContext
     {

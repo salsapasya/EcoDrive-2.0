@@ -17,8 +17,8 @@
 
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             cardPanel = new EcoDriveUI.RoundedPanel();
             mainPanel = new Panel();
             panelCard1 = new EcoDriveUI.RoundedPanel();
@@ -44,6 +44,7 @@
             btnSemua = new Button();
             lblSubtitle = new Label();
             panelAksiSide = new EcoDriveUI.RoundedPanel();
+            btnTolakTopUp = new Button();
             lblAksiTitle = new Label();
             lblHintCari = new Label();
             txtUsernameCari = new TextBox();
@@ -52,7 +53,6 @@
             lblSaldoAktifHeader = new Label();
             lblSaldoAktif = new Label();
             btnKonfirmasiTopUp = new Button();
-            btnTolakTopUp = new Button();
             cardPanel.SuspendLayout();
             mainPanel.SuspendLayout();
             panelCard1.SuspendLayout();
@@ -225,21 +225,21 @@
             dgvTransaksi.BorderStyle = BorderStyle.None;
             dgvTransaksi.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
             dgvTransaksi.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.FromArgb(244, 249, 244);
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
-            dataGridViewCellStyle3.ForeColor = Color.FromArgb(46, 125, 50);
-            dgvTransaksi.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(244, 249, 244);
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = Color.FromArgb(46, 125, 50);
+            dgvTransaksi.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvTransaksi.ColumnHeadersHeight = 45;
             dgvTransaksi.Columns.AddRange(new DataGridViewColumn[] { colIdTransaksi, colUsername, colNama, colKontak, colJumlahTopup, colStatus });
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = Color.White;
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9.5F);
-            dataGridViewCellStyle4.ForeColor = Color.FromArgb(50, 50, 50);
-            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(242, 248, 242);
-            dataGridViewCellStyle4.SelectionForeColor = Color.FromArgb(46, 125, 50);
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
-            dgvTransaksi.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.White;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9.5F);
+            dataGridViewCellStyle2.ForeColor = Color.FromArgb(50, 50, 50);
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(242, 248, 242);
+            dataGridViewCellStyle2.SelectionForeColor = Color.FromArgb(46, 125, 50);
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvTransaksi.DefaultCellStyle = dataGridViewCellStyle2;
             dgvTransaksi.EnableHeadersVisualStyles = false;
             dgvTransaksi.GridColor = Color.FromArgb(242, 242, 242);
             dgvTransaksi.Location = new Point(45, 270);
@@ -359,6 +359,21 @@
             panelAksiSide.Size = new Size(230, 510);
             panelAksiSide.TabIndex = 10;
             // 
+            // btnTolakTopUp
+            // 
+            btnTolakTopUp.BackColor = Color.Firebrick;
+            btnTolakTopUp.FlatAppearance.BorderSize = 0;
+            btnTolakTopUp.FlatStyle = FlatStyle.Flat;
+            btnTolakTopUp.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnTolakTopUp.ForeColor = Color.White;
+            btnTolakTopUp.Location = new Point(18, 425);
+            btnTolakTopUp.Name = "btnTolakTopUp";
+            btnTolakTopUp.Size = new Size(194, 45);
+            btnTolakTopUp.TabIndex = 8;
+            btnTolakTopUp.Text = "✖ TOLAK TOP UP";
+            btnTolakTopUp.UseVisualStyleBackColor = false;
+            btnTolakTopUp.Click += btnTolakTopUp_Click;
+            // 
             // lblAksiTitle
             // 
             lblAksiTitle.AutoSize = true;
@@ -445,21 +460,6 @@
             btnKonfirmasiTopUp.TabIndex = 7;
             btnKonfirmasiTopUp.Text = "✔ SETUJUI TOP UP";
             btnKonfirmasiTopUp.UseVisualStyleBackColor = false;
-            // 
-            // btnTolakTopUp
-            // 
-            btnTolakTopUp.BackColor = Color.Firebrick;
-            btnTolakTopUp.FlatAppearance.BorderSize = 0;
-            btnTolakTopUp.FlatStyle = FlatStyle.Flat;
-            btnTolakTopUp.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            btnTolakTopUp.ForeColor = Color.White;
-            btnTolakTopUp.Location = new Point(18, 425);
-            btnTolakTopUp.Name = "btnTolakTopUp";
-            btnTolakTopUp.Size = new Size(194, 45);
-            btnTolakTopUp.TabIndex = 8;
-            btnTolakTopUp.Text = "✖ TOLAK TOP UP";
-            btnTolakTopUp.UseVisualStyleBackColor = false;
-            btnTolakTopUp.Click += btnTolakTopUp_Click;
             // 
             // AdTopUpCustomer
             // 

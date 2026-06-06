@@ -9,9 +9,9 @@ namespace EcoDrive_vol2.AbstractandInterface.Interface
         void UpdateStatusCharging(int rawId);
         void UpdateStatusPengembalian(int rawId);
 
-        List<TransaksiModel> GetAllTransaksi();
+        List<Transaksi> GetAllTransaksi();
 
         // TAMBAHKAN BARIS INI AGAR SERVICE BISA MEMANGGILNYA
-        List<TransaksiModel> GetTransaksiBerdasarkanFilter(string filterMode);
+        List<Transaksi> GetTransaksiBerdasarkanFilter(string filterMode);
     }
 }

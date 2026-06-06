@@ -14,16 +14,16 @@ namespace EcoDrive_vol2.Controllers.Admin
         {
             _transaksiService = new TransaksiService();
         }
-        public void ProsesKonfirmasiCharging(TransaksiModel dataTransaksi)
+        public void ProsesKonfirmasiCharging(Transaksi dataTransaksi)
         {
             _transaksiService.EksekusiKonfirmasiPengisianDaya(dataTransaksi);
         }
 
-        public void ProsesPenyelesaianSewa(TransaksiModel dataTransaksi)
+        public void ProsesPenyelesaianSewa(Transaksi dataTransaksi)
         {
             _transaksiService.EksekusiPenyelesaianSewa(dataTransaksi);
         }
-        public List<TransaksiModel> AmbilLaporanKeuanganAdmin(string filter)
+        public List<Transaksi> AmbilLaporanKeuanganAdmin(string filter)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace EcoDrive_vol2.Controllers.Admin
                 throw new Exception("Gagal memproses data di tingkat Controller: " + ex.Message);
             }
         }
-        public decimal AmbilRingkasanOmset(List<TransaksiModel> list)
+        public decimal AmbilRingkasanOmset(List<Transaksi> list)
         {
             return _transaksiService.HitungTotalOmset(list);
         }

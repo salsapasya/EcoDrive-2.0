@@ -28,15 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultLegend skDefaultLegend1 = new LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultLegend();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultLegend skDefaultLegend2 = new LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultLegend();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AdPendapatan));
-            LiveChartsCore.Drawing.Padding padding1 = new LiveChartsCore.Drawing.Padding();
-            LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultTooltip skDefaultTooltip1 = new LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultTooltip();
-            LiveChartsCore.Drawing.Padding padding2 = new LiveChartsCore.Drawing.Padding();
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            LiveChartsCore.Drawing.Padding padding3 = new LiveChartsCore.Drawing.Padding();
+            LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultTooltip skDefaultTooltip2 = new LiveChartsCore.SkiaSharpView.SKCharts.SKDefaultTooltip();
+            LiveChartsCore.Drawing.Padding padding4 = new LiveChartsCore.Drawing.Padding();
             cardPanel = new EcoDriveUI.RoundedPanel();
             mainPanel = new Panel();
             tableLayoutPanel1 = new TableLayoutPanel();
+            dgvPendapatan = new DataGridView();
+            colTanggal = new DataGridViewTextBoxColumn();
+            colSewa = new DataGridViewTextBoxColumn();
+            colCharging = new DataGridViewTextBoxColumn();
+            colTotal = new DataGridViewTextBoxColumn();
+            cartesianChart1 = new LiveChartsCore.SkiaSharpView.WinForms.CartesianChart();
+            cmbBulan = new ComboBox();
             flowLayoutPanel1 = new FlowLayoutPanel();
             pnTotalPendapatan = new EcoDriveUI.RoundedPanel();
             lblCardTitle1 = new Label();
@@ -56,15 +64,11 @@
             topPanel = new Panel();
             lblTitle = new Label();
             lblSubtitle = new Label();
-            cartesianChart1 = new LiveChartsCore.SkiaSharpView.WinForms.CartesianChart();
-            dataGridView1 = new DataGridView();
-            colBulan = new DataGridViewTextBoxColumn();
-            colSewa = new DataGridViewTextBoxColumn();
-            colCharging = new DataGridViewTextBoxColumn();
-            colTotal = new DataGridViewTextBoxColumn();
+            dtpTahun = new DateTimePicker();
             cardPanel.SuspendLayout();
             mainPanel.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvPendapatan).BeginInit();
             flowLayoutPanel1.SuspendLayout();
             pnTotalPendapatan.SuspendLayout();
             pnPendapatanSewa.SuspendLayout();
@@ -72,7 +76,6 @@
             pnTotalUnitSewa.SuspendLayout();
             pnTotalTransaksiCharging.SuspendLayout();
             topPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // cardPanel
@@ -83,7 +86,7 @@
             cardPanel.Location = new Point(0, 0);
             cardPanel.Name = "cardPanel";
             cardPanel.Padding = new Padding(30);
-            cardPanel.Size = new Size(893, 570);
+            cardPanel.Size = new Size(893, 610);
             cardPanel.TabIndex = 3;
             // 
             // mainPanel
@@ -94,7 +97,7 @@
             mainPanel.Dock = DockStyle.Fill;
             mainPanel.Location = new Point(30, 30);
             mainPanel.Name = "mainPanel";
-            mainPanel.Size = new Size(833, 510);
+            mainPanel.Size = new Size(833, 550);
             mainPanel.TabIndex = 0;
             // 
             // tableLayoutPanel1
@@ -102,15 +105,141 @@
             tableLayoutPanel1.ColumnCount = 2;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 55F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 45F));
-            tableLayoutPanel1.Controls.Add(cartesianChart1, 0, 0);
-            tableLayoutPanel1.Controls.Add(dataGridView1, 1, 0);
+            tableLayoutPanel1.Controls.Add(dgvPendapatan, 1, 1);
+            tableLayoutPanel1.Controls.Add(cartesianChart1, 0, 1);
+            tableLayoutPanel1.Controls.Add(cmbBulan, 0, 0);
             tableLayoutPanel1.Dock = DockStyle.Fill;
-            tableLayoutPanel1.Location = new Point(0, 322);
+            tableLayoutPanel1.Location = new Point(0, 355);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 1;
+            tableLayoutPanel1.RowCount = 2;
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel1.Size = new Size(833, 188);
+            tableLayoutPanel1.Size = new Size(833, 195);
             tableLayoutPanel1.TabIndex = 15;
+            // 
+            // dgvPendapatan
+            // 
+            dgvPendapatan.AllowUserToAddRows = false;
+            dgvPendapatan.AllowUserToResizeRows = false;
+            dgvPendapatan.BackgroundColor = Color.White;
+            dgvPendapatan.BorderStyle = BorderStyle.None;
+            dgvPendapatan.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvPendapatan.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(244, 249, 244);
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            dataGridViewCellStyle3.ForeColor = Color.FromArgb(46, 125, 50);
+            dgvPendapatan.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dgvPendapatan.ColumnHeadersHeight = 45;
+            dgvPendapatan.Columns.AddRange(new DataGridViewColumn[] { colTanggal, colSewa, colCharging, colTotal });
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.Font = new Font("Segoe UI", 9.5F);
+            dataGridViewCellStyle4.ForeColor = Color.FromArgb(50, 50, 50);
+            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(242, 248, 242);
+            dataGridViewCellStyle4.SelectionForeColor = Color.FromArgb(46, 125, 50);
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
+            dgvPendapatan.DefaultCellStyle = dataGridViewCellStyle4;
+            dgvPendapatan.Dock = DockStyle.Fill;
+            dgvPendapatan.EnableHeadersVisualStyles = false;
+            dgvPendapatan.GridColor = Color.FromArgb(242, 242, 242);
+            dgvPendapatan.Location = new Point(461, 38);
+            dgvPendapatan.Name = "dgvPendapatan";
+            dgvPendapatan.ReadOnly = true;
+            dgvPendapatan.RowHeadersVisible = false;
+            dgvPendapatan.RowTemplate.Height = 52;
+            dgvPendapatan.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvPendapatan.Size = new Size(369, 154);
+            dgvPendapatan.TabIndex = 6;
+            // 
+            // colTanggal
+            // 
+            colTanggal.DataPropertyName = "TanggalHari";
+            colTanggal.HeaderText = "Tanggal";
+            colTanggal.Name = "colTanggal";
+            colTanggal.ReadOnly = true;
+            colTanggal.Width = 140;
+            // 
+            // colSewa
+            // 
+            colSewa.DataPropertyName = "PendapatanSewa";
+            colSewa.HeaderText = "Sewa";
+            colSewa.Name = "colSewa";
+            colSewa.ReadOnly = true;
+            colSewa.Width = 140;
+            // 
+            // colCharging
+            // 
+            colCharging.DataPropertyName = "PendapatanCharging";
+            colCharging.HeaderText = "Charging";
+            colCharging.Name = "colCharging";
+            colCharging.ReadOnly = true;
+            colCharging.Width = 140;
+            // 
+            // colTotal
+            // 
+            colTotal.DataPropertyName = "TotalHarian";
+            colTotal.HeaderText = "Total";
+            colTotal.Name = "colTotal";
+            colTotal.ReadOnly = true;
+            colTotal.Width = 140;
+            // 
+            // cartesianChart1
+            // 
+            cartesianChart1.AutoUpdateEnabled = true;
+            cartesianChart1.ChartTheme = null;
+            cartesianChart1.Dock = DockStyle.Fill;
+            skDefaultLegend2.AnimationsSpeed = TimeSpan.Parse("00:00:00.1500000");
+            skDefaultLegend2.Content = null;
+            skDefaultLegend2.IsValid = false;
+            skDefaultLegend2.Opacity = 1F;
+            padding3.Bottom = 0F;
+            padding3.Left = 0F;
+            padding3.Right = 0F;
+            padding3.Top = 0F;
+            skDefaultLegend2.Padding = padding3;
+            skDefaultLegend2.RemoveOnCompleted = false;
+            skDefaultLegend2.RotateTransform = 0F;
+            skDefaultLegend2.X = 0F;
+            skDefaultLegend2.Y = 0F;
+            cartesianChart1.Legend = skDefaultLegend2;
+            cartesianChart1.Location = new Point(3, 38);
+            cartesianChart1.MatchAxesScreenDataRatio = false;
+            cartesianChart1.Name = "cartesianChart1";
+            cartesianChart1.Size = new Size(452, 154);
+            cartesianChart1.TabIndex = 0;
+            skDefaultTooltip2.AnimationsSpeed = TimeSpan.Parse("00:00:00.1500000");
+            skDefaultTooltip2.Content = null;
+            skDefaultTooltip2.IsValid = false;
+            skDefaultTooltip2.Opacity = 1F;
+            padding4.Bottom = 0F;
+            padding4.Left = 0F;
+            padding4.Right = 0F;
+            padding4.Top = 0F;
+            skDefaultTooltip2.Padding = padding4;
+            skDefaultTooltip2.RemoveOnCompleted = false;
+            skDefaultTooltip2.RotateTransform = 0F;
+            skDefaultTooltip2.Wedge = 10;
+            skDefaultTooltip2.X = 0F;
+            skDefaultTooltip2.Y = 0F;
+            cartesianChart1.Tooltip = skDefaultTooltip2;
+            cartesianChart1.TooltipFindingStrategy = LiveChartsCore.Measure.TooltipFindingStrategy.Automatic;
+            cartesianChart1.UpdaterThrottler = TimeSpan.Parse("00:00:00.0500000");
+            // 
+            // cmbBulan
+            // 
+            cmbBulan.BackColor = Color.White;
+            cmbBulan.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbBulan.FlatStyle = FlatStyle.Flat;
+            cmbBulan.FormattingEnabled = true;
+            cmbBulan.Items.AddRange(new object[] { "Pilih Bulan", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember" });
+            cmbBulan.Location = new Point(5, 5);
+            cmbBulan.Margin = new Padding(5);
+            cmbBulan.Name = "cmbBulan";
+            cmbBulan.Size = new Size(174, 23);
+            cmbBulan.TabIndex = 12;
+            cmbBulan.SelectedIndexChanged += cmbBulan_SelectedIndexChanged;
+            cmbBulan.Click += cmbBulan_SelectedIndexChanged;
             // 
             // flowLayoutPanel1
             // 
@@ -121,7 +250,7 @@
             flowLayoutPanel1.Controls.Add(pnTotalUnitSewa);
             flowLayoutPanel1.Controls.Add(pnTotalTransaksiCharging);
             flowLayoutPanel1.Dock = DockStyle.Top;
-            flowLayoutPanel1.Location = new Point(0, 83);
+            flowLayoutPanel1.Location = new Point(0, 116);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(833, 239);
             flowLayoutPanel1.TabIndex = 14;
@@ -152,7 +281,7 @@
             lblCardTotalPendapatan.AutoSize = true;
             lblCardTotalPendapatan.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
             lblCardTotalPendapatan.ForeColor = Color.FromArgb(47, 47, 47);
-            lblCardTotalPendapatan.Location = new Point(58, 45);
+            lblCardTotalPendapatan.Location = new Point(21, 45);
             lblCardTotalPendapatan.Name = "lblCardTotalPendapatan";
             lblCardTotalPendapatan.Size = new Size(110, 32);
             lblCardTotalPendapatan.TabIndex = 3;
@@ -184,7 +313,7 @@
             lblCardPendapatanSewa.AutoSize = true;
             lblCardPendapatanSewa.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
             lblCardPendapatanSewa.ForeColor = Color.FromArgb(47, 47, 47);
-            lblCardPendapatanSewa.Location = new Point(52, 45);
+            lblCardPendapatanSewa.Location = new Point(24, 45);
             lblCardPendapatanSewa.Name = "lblCardPendapatanSewa";
             lblCardPendapatanSewa.Size = new Size(110, 32);
             lblCardPendapatanSewa.TabIndex = 5;
@@ -217,7 +346,7 @@
             lblCardPendapatanCharging.AutoSize = true;
             lblCardPendapatanCharging.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
             lblCardPendapatanCharging.ForeColor = Color.FromArgb(47, 47, 47);
-            lblCardPendapatanCharging.Location = new Point(54, 45);
+            lblCardPendapatanCharging.Location = new Point(18, 45);
             lblCardPendapatanCharging.Name = "lblCardPendapatanCharging";
             lblCardPendapatanCharging.Size = new Size(110, 32);
             lblCardPendapatanCharging.TabIndex = 5;
@@ -289,12 +418,13 @@
             // 
             // topPanel
             // 
+            topPanel.Controls.Add(dtpTahun);
             topPanel.Controls.Add(lblTitle);
             topPanel.Controls.Add(lblSubtitle);
             topPanel.Dock = DockStyle.Top;
             topPanel.Location = new Point(0, 0);
             topPanel.Name = "topPanel";
-            topPanel.Size = new Size(833, 83);
+            topPanel.Size = new Size(833, 116);
             topPanel.TabIndex = 13;
             // 
             // lblTitle
@@ -302,7 +432,7 @@
             lblTitle.AutoSize = true;
             lblTitle.Font = new Font("Segoe UI", 22F, FontStyle.Bold);
             lblTitle.ForeColor = Color.FromArgb(40, 42, 40);
-            lblTitle.Location = new Point(14, 10);
+            lblTitle.Location = new Point(4, 10);
             lblTitle.Name = "lblTitle";
             lblTitle.Size = new Size(280, 41);
             lblTitle.TabIndex = 10;
@@ -313,105 +443,36 @@
             lblSubtitle.AutoSize = true;
             lblSubtitle.Font = new Font("Segoe UI", 9.5F);
             lblSubtitle.ForeColor = Color.DarkGray;
-            lblSubtitle.Location = new Point(18, 53);
+            lblSubtitle.Location = new Point(8, 53);
             lblSubtitle.Name = "lblSubtitle";
             lblSubtitle.Size = new Size(330, 17);
             lblSubtitle.TabIndex = 11;
             lblSubtitle.Text = "Pengelolaan Pendapatan Rental dan Charging EcoDrive";
             // 
-            // cartesianChart1
+            // dtpTahun
             // 
-            cartesianChart1.AutoUpdateEnabled = true;
-            cartesianChart1.ChartTheme = null;
-            cartesianChart1.Dock = DockStyle.Fill;
-            skDefaultLegend1.AnimationsSpeed = TimeSpan.Parse("00:00:00.1500000");
-            skDefaultLegend1.Content = null;
-            skDefaultLegend1.IsValid = true;
-            skDefaultLegend1.Opacity = 1F;
-            padding1.Bottom = 0F;
-            padding1.Left = 0F;
-            padding1.Right = 0F;
-            padding1.Top = 0F;
-            skDefaultLegend1.Padding = padding1;
-            skDefaultLegend1.RemoveOnCompleted = false;
-            skDefaultLegend1.RotateTransform = 0F;
-            skDefaultLegend1.X = 0F;
-            skDefaultLegend1.Y = 0F;
-            cartesianChart1.Legend = skDefaultLegend1;
-            cartesianChart1.Location = new Point(3, 3);
-            cartesianChart1.MatchAxesScreenDataRatio = false;
-            cartesianChart1.Name = "cartesianChart1";
-            cartesianChart1.Size = new Size(452, 182);
-            cartesianChart1.TabIndex = 0;
-            skDefaultTooltip1.AnimationsSpeed = TimeSpan.Parse("00:00:00.1500000");
-            skDefaultTooltip1.Content = null;
-            skDefaultTooltip1.IsValid = true;
-            skDefaultTooltip1.Opacity = 1F;
-            padding2.Bottom = 0F;
-            padding2.Left = 0F;
-            padding2.Right = 0F;
-            padding2.Top = 0F;
-            skDefaultTooltip1.Padding = padding2;
-            skDefaultTooltip1.RemoveOnCompleted = false;
-            skDefaultTooltip1.RotateTransform = 0F;
-            skDefaultTooltip1.Wedge = 10;
-            skDefaultTooltip1.X = 0F;
-            skDefaultTooltip1.Y = 0F;
-            cartesianChart1.Tooltip = skDefaultTooltip1;
-            cartesianChart1.TooltipFindingStrategy = LiveChartsCore.Measure.TooltipFindingStrategy.Automatic;
-            cartesianChart1.UpdaterThrottler = TimeSpan.Parse("00:00:00.0500000");
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(192, 255, 192);
-            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle1.ForeColor = Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { colBulan, colSewa, colCharging, colTotal });
-            dataGridView1.EnableHeadersVisualStyles = false;
-            dataGridView1.Location = new Point(461, 3);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersVisible = false;
-            dataGridView1.Size = new Size(369, 182);
-            dataGridView1.TabIndex = 1;
-            // 
-            // colBulan
-            // 
-            colBulan.HeaderText = "Bulan";
-            colBulan.Name = "colBulan";
-            // 
-            // colSewa
-            // 
-            colSewa.HeaderText = "Sewa";
-            colSewa.Name = "colSewa";
-            // 
-            // colCharging
-            // 
-            colCharging.HeaderText = "Charging";
-            colCharging.Name = "colCharging";
-            // 
-            // colTotal
-            // 
-            colTotal.HeaderText = "Total";
-            colTotal.Name = "colTotal";
+            dtpTahun.CustomFormat = "yyyy";
+            dtpTahun.Format = DateTimePickerFormat.Custom;
+            dtpTahun.Location = new Point(8, 87);
+            dtpTahun.Name = "dtpTahun";
+            dtpTahun.ShowUpDown = true;
+            dtpTahun.Size = new Size(171, 23);
+            dtpTahun.TabIndex = 14;
+            dtpTahun.ValueChanged += dtpTahun_ValueChanged;
             // 
             // AdPendapatan
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(893, 570);
+            ClientSize = new Size(893, 610);
             Controls.Add(cardPanel);
             Name = "AdPendapatan";
             Text = "AdPendapatan";
+            Load += AdPendapatan_Load;
             cardPanel.ResumeLayout(false);
             mainPanel.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvPendapatan).EndInit();
             flowLayoutPanel1.ResumeLayout(false);
             pnTotalPendapatan.ResumeLayout(false);
             pnTotalPendapatan.PerformLayout();
@@ -425,7 +486,6 @@
             pnTotalTransaksiCharging.PerformLayout();
             topPanel.ResumeLayout(false);
             topPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
 
@@ -454,10 +514,12 @@
         private Label lblTotalTransaksicharging;
         private TableLayoutPanel tableLayoutPanel1;
         private LiveChartsCore.SkiaSharpView.WinForms.CartesianChart cartesianChart1;
-        private DataGridView dataGridView1;
-        private DataGridViewTextBoxColumn colBulan;
+        private DataGridView dgvPendapatan;
+        private ComboBox cmbBulan;
+        private DataGridViewTextBoxColumn colTanggal;
         private DataGridViewTextBoxColumn colSewa;
         private DataGridViewTextBoxColumn colCharging;
         private DataGridViewTextBoxColumn colTotal;
+        private DateTimePicker dtpTahun;
     }
 }

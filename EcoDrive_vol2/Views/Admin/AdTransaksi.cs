@@ -1,4 +1,5 @@
-﻿using EcoDrive_vol2.Context;
+﻿using EcoDrive_vol2.Context.Admin;
+using EcoDrive_vol2.Context.Customer;
 using EcoDrive_vol2.Models.Admin;
 using EcoDrive_vol2.Service;
 using EcoDrive_vol2.Views;
@@ -106,7 +107,7 @@ namespace EcoDrive_vol2.Views
             try
             {
                 dgvTransaksi.Rows.Clear();
-                List<TransaksiModel> dataList = _transaksiController.AmbilLaporanKeuanganAdmin(filterMode);
+                List<Transaksi> dataList = _transaksiController.AmbilLaporanKeuanganAdmin(filterMode);
 
                 foreach (var item in dataList)
                 {
@@ -142,7 +143,7 @@ namespace EcoDrive_vol2.Views
         {
             if (e.RowIndex < 0) return;
 
-            var item = dgvTransaksi.Rows[e.RowIndex].Tag as TransaksiModel;
+            var item = dgvTransaksi.Rows[e.RowIndex].Tag as Transaksi;
             if (item == null) return;
 
             string status = item.Status.ToLower().Replace("_", " ").Trim();
@@ -222,7 +223,7 @@ namespace EcoDrive_vol2.Views
             {
                 _isProcessing = true;
                 var colName = dgvTransaksi.Columns[e.ColumnIndex].Name;
-                var itemSewa = dgvTransaksi.Rows[e.RowIndex].Tag as TransaksiModel;
+                var itemSewa = dgvTransaksi.Rows[e.RowIndex].Tag as Transaksi;
 
                 if (itemSewa == null) return;
 

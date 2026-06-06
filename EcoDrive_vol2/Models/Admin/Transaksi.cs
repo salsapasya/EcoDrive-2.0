@@ -4,7 +4,7 @@ using System.Text;
 
 namespace EcoDrive_vol2.Models.Admin
 {
-    public class TransaksiModel
+    public class Transaksi
     {
         public string IdTransaksi { get; set; }
         public string Kategori { get; set; }

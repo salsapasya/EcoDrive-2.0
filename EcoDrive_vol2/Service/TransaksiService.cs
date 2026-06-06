@@ -1,5 +1,6 @@
 ﻿using EcoDrive_vol2.AbstractandInterface.Interface;
-using EcoDrive_vol2.Context;
+using EcoDrive_vol2.Context.Admin;
+using EcoDrive_vol2.Context.Customer;
 using EcoDrive_vol2.Models.Admin;
 using EcoDrive_vol2.Models.Transaksi;
 using EcoDrive_vol2.Views;
@@ -40,7 +41,7 @@ namespace EcoDrive_vol2.Service
         // LOGIKA UNTUK ADMIN
         // ==========================================
 
-        public List<TransaksiModel> AmbilDaftarTransaksi(string filterMode)
+        public List<Transaksi> AmbilDaftarTransaksi(string filterMode)
         {
             // Amankan pencocokan filter dengan mengabaikan huruf besar/kecil (Case-Insensitive)
             if (string.IsNullOrEmpty(filterMode) || filterMode.Equals("Semua", StringComparison.OrdinalIgnoreCase))
@@ -51,7 +52,7 @@ namespace EcoDrive_vol2.Service
             return _adTransaksiContext.GetTransaksiBerdasarkanFilter(filterMode);
         }
 
-        public void EksekusiKonfirmasiPengisianDaya(TransaksiModel dataTransaksi)
+        public void EksekusiKonfirmasiPengisianDaya(Transaksi dataTransaksi)
         {
             if (dataTransaksi == null)
                 throw new ArgumentNullException("Data transaksi tidak valid.");
@@ -65,7 +66,7 @@ namespace EcoDrive_vol2.Service
             _adTransaksiContext.UpdateStatusCharging(dataTransaksi.RawId);
         }
 
-        public void EksekusiPenyelesaianSewa(TransaksiModel dataTransaksi)
+        public void EksekusiPenyelesaianSewa(Transaksi dataTransaksi)
         {
             if (dataTransaksi == null)
                 throw new ArgumentNullException("Data transaksi tidak valid.");
@@ -81,7 +82,7 @@ namespace EcoDrive_vol2.Service
         // ==========================================
         // 🟩 PERBAIKAN: DISINKRONKAN DENGAN ENUM DATABASE
         // ==========================================
-        public decimal HitungTotalOmset(List<TransaksiModel> daftarTransaksi)
+        public decimal HitungTotalOmset(List<Transaksi> daftarTransaksi)
         {
             if (daftarTransaksi == null) return 0;
 

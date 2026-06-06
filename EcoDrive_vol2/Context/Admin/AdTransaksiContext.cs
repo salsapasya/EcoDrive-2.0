@@ -6,20 +6,20 @@ using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Windows.Forms; 
+using System.Windows.Forms;
 
-namespace EcoDrive_vol2.Context
+namespace EcoDrive_vol2.Context.Admin
 {
     public class AdTransaksiContext : ITransaksi
     {
-        public List<TransaksiModel> GetAllTransaksi()
+        public List<Transaksi> GetAllTransaksi()
         {
             return GetTransaksiBerdasarkanFilter("Semua");
         }
 
-        public List<TransaksiModel> GetTransaksiBerdasarkanFilter(string filterMode)
+        public List<Transaksi> GetTransaksiBerdasarkanFilter(string filterMode)
         {
-            List<TransaksiModel> listTransaksi = new List<TransaksiModel>();
+            List<Transaksi> listTransaksi = new List<Transaksi>();
             using var conn = DatabaseHelper.GetConnection();
 
             try
@@ -39,7 +39,7 @@ namespace EcoDrive_vol2.Context
 
                 while (reader.Read())
                 {
-                    TransaksiModel model = new TransaksiModel();
+                    Transaksi model = new Transaksi();
                     model.Kategori = reader["kategori"].ToString();
                     model.IdTransaksi = model.Kategori + "-" + reader["id_transaksi"].ToString();
                     model.Username = reader["username"].ToString();

@@ -4,7 +4,7 @@ using EcoDrive_vol2.Models.Enums;
 using EcoDrive_vol2.Models.Vehicles;
 using Npgsql;
 
-namespace EcoDrive_vol2.Context
+namespace EcoDrive_vol2.Context.Admin
 {
     class KendaraanContext
     {
