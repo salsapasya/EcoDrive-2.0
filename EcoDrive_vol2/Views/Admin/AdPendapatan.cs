@@ -17,5 +17,10 @@ namespace EcoDrive_vol2.Views
             InitializeComponent();
             this.BackColor = bgUtama;
         }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
