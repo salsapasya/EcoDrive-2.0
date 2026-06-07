@@ -37,7 +37,6 @@ namespace EcoDrive_vol2.Views
             txtSearch.BackColor = Color.FromArgb(245, 245, 240);
             txtSearch.ForeColor = Color.Black;
             txtSearch.BorderStyle = BorderStyle.None;
-
             txtSearch.PlaceholderText = "🔍 Cari kendaraan...";
 
             // --- STYLE FILTER BUTTONS ---
@@ -64,7 +63,6 @@ namespace EcoDrive_vol2.Views
             if (flowKendaraan != null)
             {
                 flowKendaraan.AutoScroll = true;
-
                 flowKendaraan.FlowDirection = FlowDirection.LeftToRight;
                 flowKendaraan.WrapContents = true;
             }
@@ -75,7 +73,7 @@ namespace EcoDrive_vol2.Views
         private void RefreshDataDariDatabase()
         {
             listMasterKendaraan = controller.GetKendaraan();
-            ApplyFilterDanPencarian(); // Terapkan ulang filter & keyword setelah data direfresh
+            ApplyFilterDanPencarian();
         }
 
         private void ApplyFilterDanPencarian()
@@ -165,21 +163,21 @@ namespace EcoDrive_vol2.Views
 
                 string statusDb = vh.StatusKendaraan.ToString().Replace("_", " ");
 
-                Color bgStatus = Color.FromArgb(232, 245, 233); // Default: hijau muda untuk "tersedia"
-                Color fgStatus = Color.FromArgb(67, 160, 71); 
+                Color bgStatus = Color.FromArgb(232, 245, 233);
+                Color fgStatus = Color.FromArgb(67, 160, 71);
 
                 switch (statusDb.ToLower())
                 {
                     case "disewa":
-                        bgStatus = Color.FromArgb(255, 244, 229); // oranye muda
+                        bgStatus = Color.FromArgb(255, 244, 229);
                         fgStatus = Color.FromArgb(255, 152, 0);
                         break;
                     case "rusak":
-                        bgStatus = Color.FromArgb(255, 235, 238); // merah muda
+                        bgStatus = Color.FromArgb(255, 235, 238);
                         fgStatus = Color.FromArgb(244, 67, 54);
                         break;
                     case "dalam perbaikan":
-                        bgStatus = Color.FromArgb(227, 242, 253); // biru muda
+                        bgStatus = Color.FromArgb(227, 242, 253);
                         fgStatus = Color.FromArgb(30, 136, 229);
                         break;
                 }
@@ -240,6 +238,44 @@ namespace EcoDrive_vol2.Views
                     cbStatus.Items.AddRange(new string[] { "tersedia", "disewa", "rusak", "dalam perbaikan" });
                     cbStatus.SelectedItem = statusDb.ToLower();
 
+                    // 🛠️ SEKARANG DI SINI: Tombol Hapus diletakkan pada Form Kelola
+                    Button btnHapus = new Button
+                    {
+                        Text = "Hapus Kendaraan",
+                        Size = new Size(150, 40),
+                        Location = new Point(30, 480),
+                        BackColor = Color.FromArgb(244, 67, 54),
+                        ForeColor = Color.White,
+                        FlatStyle = FlatStyle.Flat,
+                        Font = new Font("Segoe UI", 9F, FontStyle.Bold)
+                    };
+                    btnHapus.FlatAppearance.BorderSize = 0;
+
+                    btnHapus.Click += (senderHapus, evHapus) =>
+                    {
+                        DialogResult result = MessageBox.Show(
+                            $"Apakah Anda yakin ingin menghapus {vh.NamaKendaraan} dengan Plat [{vh.NomorPlatKendaraan}]?",
+                            "Konfirmasi Hapus",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Warning
+                        );
+
+                        if (result == DialogResult.Yes)
+                        {
+                            try
+                            {
+                                controller.DeleteKendaraan(vh.IdKendaraan); // vh aman terbaca di sini!
+                                MessageBox.Show("Kendaraan berhasil dihapus!", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                frm.Close();
+                                RefreshDataDariDatabase();
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show($"Gagal menghapus data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+                    };
+
                     Button btnSimpan = new Button
                     {
                         Text = "Simpan Perubahan",
@@ -281,7 +317,7 @@ namespace EcoDrive_vol2.Views
 
                     frm.Controls.AddRange(new Control[] {
                         lblNamaForm, txtNama, lblPlatForm, txtPlat, lblStokForm, numStok,
-                        lblHarga, numHarga, lblTipeForm, cbTipe, lblStatusForm, cbStatus, btnSimpan
+                        lblHarga, numHarga, lblTipeForm, cbTipe, lblStatusForm, cbStatus, btnHapus, btnSimpan
                     });
 
                     frm.ShowDialog();
@@ -301,15 +337,12 @@ namespace EcoDrive_vol2.Views
         {
             Button btn = (Button)sender;
 
-            // Reset All Buttons Style
             btnSemua.BackColor = btnMobil.BackColor = btnMotor.BackColor = Color.FromArgb(248, 244, 238);
             btnSemua.ForeColor = btnMobil.ForeColor = btnMotor.ForeColor = Color.FromArgb(35, 35, 35);
 
-            // Active Button Style
             btn.BackColor = Color.FromArgb(92, 184, 92);
             btn.ForeColor = Color.White;
 
-            // Atur status filter aktif berdasarkan tombol yang ditekan
             if (btn == btnSemua) filterAktif = "Semua";
             else if (btn == btnMobil) filterAktif = "Mobil";
             else if (btn == btnMotor) filterAktif = "Motor";
@@ -317,7 +350,7 @@ namespace EcoDrive_vol2.Views
             ApplyFilterDanPencarian();
         }
 
-        // --- ACTION TAMBAH KENDARAAN ---
+        // --- ACTION TAMBAH KENDARAAN (Sekarang Bersih dari btnHapus) ---
         private void btnTambah_Click(object sender, EventArgs e)
         {
             Form frm = new Form

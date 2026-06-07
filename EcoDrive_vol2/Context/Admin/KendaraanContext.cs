@@ -20,7 +20,11 @@ namespace EcoDrive_vol2.Context.Admin
             {
                 conn.Open();
 
-                string query = "SELECT id_kendaraan, id_merk_kendaraan, nomor_plat_kendaraan, nama_kendaraan, stok_kendaraan, harga_sewa, tipe_kendaraan, status_kendaraan FROM kendaraan";
+                // 🛠️ PERBAIKAN: Menambahkan kondisi WHERE is_deleted = false agar data soft-deleted tidak ikut ketarik
+                string query = @"SELECT id_kendaraan, id_merk_kendaraan, nomor_plat_kendaraan, nama_kendaraan, 
+                                        stok_kendaraan, harga_sewa, tipe_kendaraan, status_kendaraan 
+                                 FROM kendaraan 
+                                 WHERE is_deleted = false";
 
                 using var cmd = new NpgsqlCommand(query, conn);
                 using var reader = cmd.ExecuteReader();
@@ -144,7 +148,8 @@ namespace EcoDrive_vol2.Context.Admin
             {
                 conn.Open();
 
-                string query = "DELETE FROM kendaraan WHERE id_kendaraan = @id_kendaraan";
+                // 🛠️ PERBAIKAN: Mengubah query DELETE menjadi UPDATE status is_deleted
+                string query = "UPDATE kendaraan SET is_deleted = true WHERE id_kendaraan = @id_kendaraan";
 
                 using var cmd = new NpgsqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@id_kendaraan", idKendaraan);
@@ -153,12 +158,8 @@ namespace EcoDrive_vol2.Context.Admin
             }
             catch (Exception ex)
             {
-                throw new Exception("Error Delete Kendaraan: " + ex.Message);
+                throw new Exception("Error Delete Kendaraan (Soft Delete): " + ex.Message);
             }
         }
     }
 }
-
-
-// halooo heheh
-// mau coba lagi heheh
