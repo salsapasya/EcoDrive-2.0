@@ -11,7 +11,7 @@ namespace EcoDrive_vol2.Views
         private System.ComponentModel.IContainer components = null;
 
         private Panel mainPanel;
-        private RoundedPanel cardPanel; // Menggunakan RoundedPanel agar sudut melengkung halus
+        private RoundedPanel cardPanel;
 
         private Label lblTitle;
         private Label lblSubtitle;
@@ -21,18 +21,11 @@ namespace EcoDrive_vol2.Views
         private Button btnSemua;
         private Button btnAktif;
         private Button btnNonAktif;
-        private Button btnFilter;
         private Button btnTambah;
 
         private DataGridView dgvCustomer;
-
         private DataGridViewTextBoxColumn colId;
-        private DataGridViewTextBoxColumn colCustomer;
-        private DataGridViewTextBoxColumn colKontak;
-        private DataGridViewTextBoxColumn colBergabung;
-        private DataGridViewTextBoxColumn colTrip;
-        private DataGridViewTextBoxColumn colStatus;
-        private DataGridViewTextBoxColumn colAksi;
+        private DataGridViewTextBoxColumn colCard;
 
         protected override void Dispose(bool disposing)
         {
@@ -43,32 +36,42 @@ namespace EcoDrive_vol2.Views
             base.Dispose(disposing);
         }
 
+        /// <summary>
+        /// Metode pembantu untuk mengonfigurasi gaya visual tombol filter atas secara dinamis
+        /// </summary>
+        private void SetupButton(Button button, string text, Point location, Color backColor, Color foreColor)
+        {
+            button.Text = text;
+            button.Location = location;
+            button.BackColor = backColor;
+            button.ForeColor = foreColor;
+            button.FlatStyle = FlatStyle.Flat;
+            button.FlatAppearance.BorderSize = 0;
+            button.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            button.Cursor = Cursors.Hand;
+        }
+
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             mainPanel = new Panel();
             cardPanel = new RoundedPanel();
-            btnAktif = new Button();
             lblTitle = new Label();
             lblSubtitle = new Label();
             txtSearch = new TextBox();
             btnSemua = new Button();
+            btnAktif = new Button();
             btnNonAktif = new Button();
-            btnFilter = new Button();
             btnTambah = new Button();
             dgvCustomer = new DataGridView();
             colId = new DataGridViewTextBoxColumn();
-            colCustomer = new DataGridViewTextBoxColumn();
-            colKontak = new DataGridViewTextBoxColumn();
-            colBergabung = new DataGridViewTextBoxColumn();
-            colTrip = new DataGridViewTextBoxColumn();
-            colStatus = new DataGridViewTextBoxColumn();
-            colAksi = new DataGridViewTextBoxColumn();
+            colCard = new DataGridViewTextBoxColumn();
+
             mainPanel.SuspendLayout();
             cardPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCustomer).BeginInit();
             SuspendLayout();
+
             // 
             // mainPanel
             // 
@@ -81,17 +84,17 @@ namespace EcoDrive_vol2.Views
             mainPanel.Padding = new Padding(43, 33, 43, 50);
             mainPanel.Size = new Size(1829, 1200);
             mainPanel.TabIndex = 0;
+
             // 
             // cardPanel
             // 
             cardPanel.BackColor = Color.White;
-            cardPanel.Controls.Add(btnAktif);
             cardPanel.Controls.Add(lblTitle);
             cardPanel.Controls.Add(lblSubtitle);
             cardPanel.Controls.Add(txtSearch);
             cardPanel.Controls.Add(btnSemua);
+            cardPanel.Controls.Add(btnAktif);
             cardPanel.Controls.Add(btnNonAktif);
-            cardPanel.Controls.Add(btnFilter);
             cardPanel.Controls.Add(btnTambah);
             cardPanel.Controls.Add(dgvCustomer);
             cardPanel.Dock = DockStyle.Fill;
@@ -101,15 +104,7 @@ namespace EcoDrive_vol2.Views
             cardPanel.Padding = new Padding(36, 42, 36, 42);
             cardPanel.Size = new Size(1743, 1117);
             cardPanel.TabIndex = 0;
-            // 
-            // btnAktif
-            // 
-            btnAktif.Location = new Point(1067, 178);
-            btnAktif.Margin = new Padding(4, 5, 4, 5);
-            btnAktif.Name = "btnAktif";
-            btnAktif.Size = new Size(100, 63);
-            btnAktif.TabIndex = 4;
-            btnAktif.Click += FilterButton_Click; // 🛠️ FIX: Dialihkan ke event filter yang benar
+
             // 
             // lblTitle
             // 
@@ -122,7 +117,7 @@ namespace EcoDrive_vol2.Views
             lblTitle.Size = new Size(366, 60);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "Kelola Customer";
-            lblTitle.Click += lblTitle_Click;
+
             // 
             // lblSubtitle
             // 
@@ -135,140 +130,86 @@ namespace EcoDrive_vol2.Views
             lblSubtitle.Size = new Size(324, 25);
             lblSubtitle.TabIndex = 1;
             lblSubtitle.Text = "Manajemen data pengguna EcoDrive";
+
             // 
             // txtSearch
             // 
-            txtSearch.BackColor = Color.FromArgb(248, 246, 242);
+            txtSearch.BackColor = Color.FromArgb(245, 245, 245);
             txtSearch.BorderStyle = BorderStyle.None;
             txtSearch.Font = new Font("Segoe UI", 11F);
-            txtSearch.Location = new Point(43, 192);
-            txtSearch.Margin = new Padding(4, 5, 4, 5);
+            txtSearch.Location = new Point(36, 155);
             txtSearch.Name = "txtSearch";
+            txtSearch.Multiline = true; // 🛠️ FIX: Mengaktifkan multiline agar Box mengikuti instruksi tinggi Size
             txtSearch.PlaceholderText = "   🔍 Cari nama, email, ID...";
-            txtSearch.Size = new Size(600, 30);
+            txtSearch.Size = new Size(320, 35);
             txtSearch.TabIndex = 2;
+
             // 
-            // btnSemua
+            // Konfigurasi Filter & Aksi via SetupButton
             // 
-            btnSemua.Location = new Point(951, 178);
-            btnSemua.Margin = new Padding(4, 5, 4, 5);
+            SetupButton(btnSemua, "Semua", new Point(380, 155), Color.FromArgb(76, 175, 80), Color.White);
+            btnSemua.Size = new Size(90, 35);
             btnSemua.Name = "btnSemua";
-            btnSemua.Size = new Size(107, 63);
             btnSemua.TabIndex = 3;
-            // 
-            // btnNonAktif
-            // 
-            btnNonAktif.Location = new Point(1393, 178);
-            btnNonAktif.Margin = new Padding(4, 5, 4, 5);
+            btnSemua.Click += FilterButton_Click;
+
+            SetupButton(btnAktif, "Aktif", new Point(480, 155), Color.FromArgb(245, 245, 245), Color.FromArgb(47, 47, 47));
+            btnAktif.Size = new Size(90, 35);
+            btnAktif.Name = "btnAktif";
+            btnAktif.TabIndex = 4;
+            btnAktif.Click += FilterButton_Click;
+
+            SetupButton(btnNonAktif, "Non Aktif", new Point(580, 155), Color.FromArgb(245, 245, 245), Color.FromArgb(47, 47, 47));
+            btnNonAktif.Size = new Size(110, 35);
             btnNonAktif.Name = "btnNonAktif";
-            btnNonAktif.Size = new Size(136, 63);
             btnNonAktif.TabIndex = 5;
-            // 
-            // btnFilter
-            // 
-            btnFilter.FlatAppearance.BorderColor = Color.Gainsboro;
-            btnFilter.Location = new Point(1579, 178);
-            btnFilter.Margin = new Padding(4, 5, 4, 5);
-            btnFilter.Name = "btnFilter";
-            btnFilter.Size = new Size(121, 63);
-            btnFilter.TabIndex = 6;
-            // 
-            // btnTambah
-            // 
-            btnTambah.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnTambah.Location = new Point(679, 178);
-            btnTambah.Margin = new Padding(4, 5, 4, 5);
+            btnNonAktif.Click += FilterButton_Click;
+
+            SetupButton(btnTambah, "+ Tambah Customer", new Point(1480, 155), Color.FromArgb(76, 175, 80), Color.White);
+            btnTambah.Size = new Size(220, 35);
             btnTambah.Name = "btnTambah";
-            btnTambah.Size = new Size(264, 63);
-            btnTambah.TabIndex = 7;
+            btnTambah.TabIndex = 6;
+
             // 
             // dgvCustomer
             // 
             dgvCustomer.AllowUserToAddRows = false;
+            dgvCustomer.AllowUserToDeleteRows = false;
+            dgvCustomer.AllowUserToResizeColumns = false;
             dgvCustomer.AllowUserToResizeRows = false;
-            dgvCustomer.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dgvCustomer.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvCustomer.BackgroundColor = Color.White;
             dgvCustomer.BorderStyle = BorderStyle.None;
-            dgvCustomer.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-            dgvCustomer.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.FromArgb(232, 245, 233);
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            dataGridViewCellStyle3.ForeColor = Color.FromArgb(47, 47, 47);
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(232, 245, 233);
-            dgvCustomer.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            dgvCustomer.ColumnHeadersHeight = 45;
-            dgvCustomer.Columns.AddRange(new DataGridViewColumn[] { colId, colCustomer, colKontak, colBergabung, colTrip, colStatus, colAksi });
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = Color.White;
-            dataGridViewCellStyle4.Font = new Font("Segoe UI", 10F);
-            dataGridViewCellStyle4.ForeColor = Color.FromArgb(47, 47, 47);
-            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(242, 249, 242);
-            dataGridViewCellStyle4.SelectionForeColor = Color.FromArgb(47, 47, 47);
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.False;
-            dgvCustomer.DefaultCellStyle = dataGridViewCellStyle4;
-            dgvCustomer.EnableHeadersVisualStyles = false;
-            dgvCustomer.GridColor = Color.FromArgb(240, 242, 240);
-            dgvCustomer.Location = new Point(36, 300);
-            dgvCustomer.Margin = new Padding(4, 5, 4, 5);
-            dgvCustomer.MultiSelect = false;
-            dgvCustomer.Name = "dgvCustomer";
+            dgvCustomer.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            dgvCustomer.ColumnHeadersVisible = false;
             dgvCustomer.RowHeadersVisible = false;
-            dgvCustomer.RowHeadersWidth = 62;
-            dgvCustomer.RowTemplate.Height = 65;
-            dgvCustomer.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvCustomer.Size = new Size(1664, 750);
-            dgvCustomer.TabIndex = 8;
+
+            dgvCustomer.Columns.Clear();
+            dgvCustomer.Columns.AddRange(new DataGridViewColumn[] { colId, colCard });
+
+            dataGridViewCellStyle4.BackColor = Color.White;
+            dataGridViewCellStyle4.SelectionBackColor = Color.White;
+            dgvCustomer.DefaultCellStyle = dataGridViewCellStyle4;
+
+            dgvCustomer.Location = new Point(36, 220);
+            dgvCustomer.RowTemplate.Height = 115;
+            dgvCustomer.Size = new Size(1680, 850);
+            dgvCustomer.TabIndex = 7;
+            dgvCustomer.CellPainting += DgvCustomer_CellPainting;
+
             // 
             // colId
             // 
-            colId.FillWeight = 50F;
             colId.HeaderText = "ID";
-            colId.MinimumWidth = 8;
             colId.Name = "colId";
+            colId.Visible = false;
+
             // 
-            // colCustomer
+            // colCard
             // 
-            colCustomer.FillWeight = 140F;
-            colCustomer.HeaderText = "Customer";
-            colCustomer.MinimumWidth = 8;
-            colCustomer.Name = "colCustomer";
-            // 
-            // colKontak
-            // 
-            colKontak.FillWeight = 90F;
-            colKontak.HeaderText = "Kontak";
-            colKontak.MinimumWidth = 8;
-            colKontak.Name = "colKontak";
-            // 
-            // colBergabung
-            // 
-            colBergabung.FillWeight = 90F;
-            colBergabung.HeaderText = "Bergabung";
-            colBergabung.MinimumWidth = 8;
-            colBergabung.Name = "colBergabung";
-            // 
-            // colTrip
-            // 
-            colTrip.FillWeight = 70F;
-            colTrip.HeaderText = "Total Sewa";
-            colTrip.MinimumWidth = 8;
-            colTrip.Name = "colTrip";
-            // 
-            // colStatus
-            // 
-            colStatus.FillWeight = 70F;
-            colStatus.HeaderText = "Status";
-            colStatus.MinimumWidth = 8;
-            colStatus.Name = "colStatus";
-            // 
-            // colAksi
-            // 
-            colAksi.FillWeight = 70F;
-            colAksi.HeaderText = "Aksi";
-            colAksi.MinimumWidth = 8;
-            colAksi.Name = "colAksi";
+            colCard.HeaderText = "Customer";
+            colCard.Name = "colCard";
+            colCard.Width = 1650;
+
             // 
             // AdCustomer
             // 
@@ -280,6 +221,7 @@ namespace EcoDrive_vol2.Views
             Margin = new Padding(4, 5, 4, 5);
             Name = "AdCustomer";
             Text = "EcoDrive Management – Data Customer";
+
             mainPanel.ResumeLayout(false);
             cardPanel.ResumeLayout(false);
             cardPanel.PerformLayout();
@@ -291,72 +233,109 @@ namespace EcoDrive_vol2.Views
         {
             if (e.RowIndex < 0) return;
 
-            if (e.ColumnIndex == 1 && e.Value != null)
+            if (e.ColumnIndex == 1)
             {
-                e.Paint(e.CellBounds, DataGridViewPaintParts.All & ~DataGridViewPaintParts.ContentForeground);
-
-                string[] data = e.Value.ToString().Split('|');
-                string nama = data[0];
-                string email = data.Length > 1 ? data[1] : "";
-                string inisial = nama.Length >= 2 ? nama.Substring(0, 2).ToUpper() : "CS";
-
-                int avatarSize = 38;
-                int avatarX = e.CellBounds.X + 10;
-                int avatarY = e.CellBounds.Y + (e.CellBounds.Height - avatarSize) / 2;
+                Rectangle rowBounds = dgvCustomer.GetRowDisplayRectangle(e.RowIndex, true);
+                int paddingBaris = 8;
 
                 e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
-                using (SolidBrush avBrush = new SolidBrush(Color.FromArgb(248, 215, 218)))
+                using (SolidBrush bgBrush = new SolidBrush(dgvCustomer.BackgroundColor))
                 {
-                    e.Graphics.FillEllipse(avBrush, avatarX, avatarY, avatarSize, avatarSize);
+                    e.Graphics.FillRectangle(bgBrush, e.CellBounds);
                 }
 
-                TextRenderer.DrawText(e.Graphics, inisial, new Font("Segoe UI", 9F, FontStyle.Bold),
-                    new Rectangle(avatarX, avatarY, avatarSize, avatarSize), Color.FromArgb(180, 80, 90),
-                    TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+                Rectangle cardRect = new Rectangle(
+                    rowBounds.X + 10,
+                    rowBounds.Y + paddingBaris,
+                    dgvCustomer.Width - 35,
+                    rowBounds.Height - (paddingBaris * 2)
+                );
 
-                TextRenderer.DrawText(e.Graphics, nama, new Font("Segoe UI", 10F, FontStyle.Bold), new Point(avatarX + 48, e.CellBounds.Y + 12), Color.FromArgb(47, 47, 47));
-                TextRenderer.DrawText(e.Graphics, email, new Font("Segoe UI", 8.5F), new Point(avatarX + 48, e.CellBounds.Y + 34), Color.Gray);
+                using (GraphicsPath path = new GraphicsPath())
+                {
+                    int radius = 12;
+                    path.AddArc(cardRect.X, cardRect.Y, radius, radius, 180, 90);
+                    path.AddArc(cardRect.Right - radius, cardRect.Y, radius, radius, 270, 90);
+                    path.AddArc(cardRect.Right - radius, cardRect.Bottom - radius, radius, radius, 0, 90);
+                    path.AddArc(cardRect.X, cardRect.Bottom - radius, radius, radius, 90, 90);
+                    path.CloseFigure();
+
+                    using (SolidBrush cardBg = new SolidBrush(Color.White)) e.Graphics.FillPath(cardBg, path);
+                    using (Pen borderPen = new Pen(Color.FromArgb(235, 235, 235), 1.5f)) e.Graphics.DrawPath(borderPen, path);
+                }
+
+                string rawData = dgvCustomer.Rows[e.RowIndex].Cells[1].Value?.ToString() ?? "||||";
+                string[] split = rawData.Split('|');
+
+                string nama = split.Length > 0 ? split[0] : "Customer";
+                string email = split.Length > 1 ? split[1] : "";
+                string kontak = split.Length > 2 ? split[2] : "-";
+                string tipeMember = split.Length > 3 ? split[3] : "Member";
+                string totalSewa = split.Length > 4 ? split[4] : "0 trip";
+                string status = split.Length > 5 ? split[5] : "Aktif";
+
+                int avSize = 46;
+                int avX = cardRect.X + 25;
+                int avY = cardRect.Y + (cardRect.Height - avSize) / 2;
+
+                using (SolidBrush avBrush = new SolidBrush(Color.FromArgb(240, 244, 241))) e.Graphics.FillEllipse(avBrush, avX, avY, avSize, avSize);
+                string inisial = nama.Length >= 2 ? nama.Substring(0, 2).ToUpper() : "CS";
+                TextRenderer.DrawText(e.Graphics, inisial, new Font("Segoe UI", 10F, FontStyle.Bold),
+                    new Rectangle(avX, avY, avSize, avSize), Color.FromArgb(76, 175, 80), TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+
+                TextRenderer.DrawText(e.Graphics, nama, new Font("Segoe UI", 11F, FontStyle.Bold), new Point(avX + 60, avY + 2), Color.FromArgb(47, 47, 47));
+                TextRenderer.DrawText(e.Graphics, email, new Font("Segoe UI", 8.5F), new Point(avX + 60, avY + 26), Color.Gray);
+
+                int detailX = cardRect.X + 450;
+                TextRenderer.DrawText(e.Graphics, "Kontak & Tipe", new Font("Segoe UI", 8.5F), new Point(detailX, avY + 2), Color.DarkGray);
+                TextRenderer.DrawText(e.Graphics, $"{kontak} • {tipeMember}", new Font("Segoe UI", 9.5F), new Point(detailX, avY + 22), Color.FromArgb(70, 70, 70));
+
+                int sewaX = cardRect.X + 800;
+                TextRenderer.DrawText(e.Graphics, "Total Sewa", new Font("Segoe UI", 8.5F), new Point(sewaX, avY + 2), Color.DarkGray);
+                TextRenderer.DrawText(e.Graphics, totalSewa, new Font("Segoe UI", 9.5F, FontStyle.Bold), new Point(sewaX, avY + 22), Color.FromArgb(47, 47, 47));
+
+                bool isAktif = status.Trim().ToLower() == "aktif";
+                bool isBlokir = status.Trim().ToLower() == "di blokir" || status.Trim().ToLower() == "blokir";
+                Color bgBadge = isAktif ? Color.FromArgb(232, 245, 233) : (isBlokir ? Color.FromArgb(254, 241, 242) : Color.FromArgb(255, 248, 225));
+                Color txtBadge = isAktif ? Color.FromArgb(67, 160, 71) : (isBlokir ? Color.FromArgb(220, 38, 38) : Color.FromArgb(245, 158, 11));
+
+                int bWidth = 95, bHeight = 26;
+                int bX = cardRect.X + 1100;
+                int bY = cardRect.Y + (cardRect.Height - bHeight) / 2;
+
+                using (GraphicsPath bPath = new GraphicsPath())
+                {
+                    int r = bHeight / 2;
+                    bPath.AddArc(bX, bY, r * 2, bHeight, 180, 90);
+                    bPath.AddArc(bX + bWidth - (r * 2), bY, r * 2, bHeight, 270, 90);
+                    bPath.AddArc(bX + bWidth - (r * 2), bY, r * 2, bHeight, 0, 90);
+                    bPath.AddArc(bX, bY, r * 2, bHeight, 90, 90);
+                    bPath.CloseFigure();
+                    using (SolidBrush br = new SolidBrush(bgBadge)) e.Graphics.FillPath(br, bPath);
+                }
+                TextRenderer.DrawText(e.Graphics, status, new Font("Segoe UI", 8.5F, FontStyle.Bold), new Rectangle(bX, bY, bWidth, bHeight), txtBadge, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+
+                int btnW = 110, btnH = 34;
+                int btnX = cardRect.Right - btnW - 25;
+                int btnY = cardRect.Y + (cardRect.Height - btnH) / 2;
+
+                using (GraphicsPath btnPath = new GraphicsPath())
+                {
+                    int r = 6;
+                    btnPath.AddArc(btnX, btnY, r * 2, btnH, 180, 90);
+                    btnPath.AddArc(btnX + btnW - (r * 2), btnY, r * 2, btnH, 270, 90);
+                    btnPath.AddArc(btnX + btnW - (r * 2), btnY, r * 2, btnH, 0, 90);
+                    btnPath.AddArc(btnX, btnY, r * 2, btnH, 90, 90);
+                    btnPath.CloseFigure();
+                    using (SolidBrush btnBr = new SolidBrush(Color.FromArgb(245, 245, 245))) e.Graphics.FillPath(btnBr, btnPath);
+                }
+                TextRenderer.DrawText(e.Graphics, "Kelola ⚙", new Font("Segoe UI", 9F, FontStyle.Bold), new Rectangle(btnX, btnY, btnW, btnH), Color.FromArgb(80, 80, 80), TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
 
                 e.Handled = true;
             }
-
-            if (e.ColumnIndex == 5 && e.Value != null)
+            else
             {
-                e.Paint(e.CellBounds, DataGridViewPaintParts.All & ~DataGridViewPaintParts.ContentForeground);
-
-                string status = e.Value.ToString().Trim();
-
-                // 🛠️ FIX LOGIKA BADGE: Deteksi fleksibel terhadap format 'Aktif' (TitleCase) maupun 'aktif' (lowercase)
-                bool isAktif = string.Equals(status, "aktif", StringComparison.OrdinalIgnoreCase);
-
-                Color bgBadge = isAktif ? Color.FromArgb(232, 245, 233) : Color.FromArgb(254, 241, 242);
-                Color textBadge = isAktif ? Color.FromArgb(67, 160, 71) : Color.FromArgb(220, 38, 38);
-
-                int bw = 85; // Sedikit dilebarkan agar teks 'Non Aktif' tidak terpotong
-                int bh = 26;
-                int bx = e.CellBounds.X + 10;
-                int by = e.CellBounds.Y + (e.CellBounds.Height - bh) / 2;
-
-                e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-                using (GraphicsPath path = new GraphicsPath())
-                {
-                    int r = bh / 2;
-                    path.AddArc(bx, by, r * 2, bh, 180, 90);
-                    path.AddArc(bx + bw - (r * 2), by, r * 2, bh, 270, 90);
-                    path.AddArc(bx + bw - (r * 2), by + bh - bh, r * 2, bh, 0, 90);
-                    path.AddArc(bx, by + bh - bh, r * 2, bh, 90, 90);
-                    path.CloseFigure();
-
-                    using (SolidBrush bBrush = new SolidBrush(bgBadge))
-                    {
-                        e.Graphics.FillPath(bBrush, path);
-                    }
-                }
-
-                TextRenderer.DrawText(e.Graphics, status, new Font("Segoe UI", 8.5F, FontStyle.Bold),
-                    new Rectangle(bx, by, bw, bh), textBadge, TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
-
                 e.Handled = true;
             }
         }
