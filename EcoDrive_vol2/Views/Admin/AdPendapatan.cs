@@ -24,7 +24,6 @@ namespace EcoDrive_vol2.Views
             this.BackColor = bgUtama;
             _controller = new AdPendapatanController(new PendapatanService());
 
-            // ngeset default bulan ke bulan sekarang
             string[] namaBulan = { "Januari", "Februari", "Maret", "April", "Mei", "Juni",
                            "Juli", "Agustus", "September", "Oktober", "November", "Desember" };
             string bulanSekarang = namaBulan[DateTime.Now.Month - 1];
@@ -34,7 +33,6 @@ namespace EcoDrive_vol2.Views
 
         private void AdPendapatan_Load(object sender, EventArgs e)
         {
-            // load data awal
             RefreshSemuaData();
         }
         private void cmbTahun_SelectedIndexChanged(object sender, EventArgs e)
@@ -51,7 +49,6 @@ namespace EcoDrive_vol2.Views
             {
                 int tahun = dtpTahun.Value.Year;
 
-                // update 5 card yg d atas
                 CardPendapatanModel dataCard = _controller.LoadCardTahun(tahun);
                 lblCardTotalPendapatan.Text = $"Rp {dataCard.TotalGabunganTahunan:N0}";
                 lblCardPendapatanSewa.Text = $"Rp {dataCard.TotalSewaTahunan:N0}";
@@ -90,7 +87,6 @@ namespace EcoDrive_vol2.Views
 
                 dgvPendapatan.DataSource = dataRincian;
 
-                // update chart
                 var nilaiSewa = new List<double>();
                 var nilaiCharging = new List<double>();
                 var labelTanggal = new List<string>();
