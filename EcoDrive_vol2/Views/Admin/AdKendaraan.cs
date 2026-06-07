@@ -65,6 +65,9 @@ namespace EcoDrive_vol2.Views
             if (flowKendaraan != null)
             {
                 flowKendaraan.AutoScroll = true;
+
+                flowKendaraan.FlowDirection = FlowDirection.LeftToRight;
+                flowKendaraan.WrapContents = true;
             }
 
             RefreshDataDariDatabase();
@@ -109,6 +112,11 @@ namespace EcoDrive_vol2.Views
             flowKendaraan.Controls.Clear();
             if (dataKendaraan == null) return;
 
+            flowKendaraan.HorizontalScroll.Maximum = 0;
+            flowKendaraan.AutoScroll = false;
+            flowKendaraan.VerticalScroll.Visible = true;
+            flowKendaraan.AutoScroll = true;
+
             foreach (var vh in dataKendaraan)
             {
                 RoundedPanel card = new RoundedPanel
@@ -116,7 +124,7 @@ namespace EcoDrive_vol2.Views
                     Size = new Size(270, 170),
                     BackColor = Color.White,
                     BorderRadius = 15,
-                    Margin = new Padding(12)
+                    Margin = new Padding(6)
                 };
 
                 Label lblNama = new Label

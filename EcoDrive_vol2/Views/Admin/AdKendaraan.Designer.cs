@@ -12,7 +12,6 @@ namespace EcoDrive_vol2.Views
         private Label lblTitle;
         private Label lblSubtitle;
 
-        private Panel filterContainerPanel;
         private RoundedTextBox txtSearch;
         private Button btnSemua;
         private Button btnMobil;
@@ -162,7 +161,8 @@ namespace EcoDrive_vol2.Views
             btnTambah.Name = "btnTambah";
             btnTambah.Size = new Size(185, 36);
             btnTambah.TabIndex = 2;
-            btnTambah.Click += btnTambah_Click;
+            // PERBAIKAN: Baris "this.btnTambah.Click += ..." telah dihapus dari sini 
+            // agar murni dikendalikan oleh kode event manual di file utama (AdKendaraan.cs)
             // 
             // lblSubtitle
             // 

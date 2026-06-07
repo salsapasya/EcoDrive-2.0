@@ -3,6 +3,8 @@ using EcoDrive_vol2.Models;
 using EcoDrive_vol2.Models.Enums;
 using EcoDrive_vol2.Models.Vehicles;
 using Npgsql;
+using System;
+using System.Collections.Generic;
 
 namespace EcoDrive_vol2.Context.Admin
 {
@@ -18,38 +20,31 @@ namespace EcoDrive_vol2.Context.Admin
             {
                 conn.Open();
 
-                string query = "SELECT * FROM kendaraan";
+                // Memanggil kolom secara eksplisit sesuai dengan skema tabel kendaraan Anda
+                string query = "SELECT id_kendaraan, id_merk_kendaraan, nomor_plat_kendaraan, nama_kendaraan, stok_kendaraan, harga_sewa, tipe_kendaraan, status_kendaraan FROM kendaraan";
 
                 using var cmd = new NpgsqlCommand(query, conn);
-
                 using var reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
+                    // Pemetaan data berbasis nama kolom (Safe-Binding)
                     Kendaraan kendaraan = new Kendaraan
                     {
-                        IdKendaraan = reader.GetInt32(0),
+                        IdKendaraan = Convert.ToInt32(reader["id_kendaraan"]),
+                        IdMerkKendaraan = Convert.ToInt32(reader["id_merk_kendaraan"]),
+                        NomorPlatKendaraan = reader["nomor_plat_kendaraan"].ToString(),
+                        NamaKendaraan = reader["nama_kendaraan"].ToString(),
+                        StokKendaraan = Convert.ToInt32(reader["stok_kendaraan"]),
+                        HargaSewa = Convert.ToDecimal(reader["harga_sewa"]),
 
-                        IdMerkKendaraan = reader.GetInt32(1),
+                        TipeKendaraan = Enum.Parse<KendaraanTipe>(
+                            reader["tipe_kendaraan"].ToString(), true
+                        ),
 
-                        NomorPlatKendaraan = reader.GetString(2),
-
-                        NamaKendaraan = reader.GetString(3),
-
-                        StokKendaraan = reader.GetInt32(4),
-
-                        HargaSewa = reader.GetDecimal(5),
-
-                        TipeKendaraan =
-                            Enum.Parse<KendaraanTipe>(
-                                reader.GetString(6)
-                            ),
-
-                        StatusKendaraan =
-                            Enum.Parse<OptionStatus>(
-                                reader.GetString(7)
-                                    .Replace(" ", "_")
-                            )
+                        StatusKendaraan = Enum.Parse<OptionStatus>(
+                            reader["status_kendaraan"].ToString().Replace(" ", "_"), true
+                        )
                     };
 
                     kendaraanList.Add(kendaraan);
@@ -57,12 +52,11 @@ namespace EcoDrive_vol2.Context.Admin
             }
             catch (Exception ex)
             {
-                throw new Exception("Error: " + ex.Message);
+                throw new Exception("Error Ambil Kendaraan: " + ex.Message);
             }
 
             return kendaraanList;
         }
-
 
         public void AddKendaraan(Kendaraan kendaraan)
         {
@@ -72,8 +66,9 @@ namespace EcoDrive_vol2.Context.Admin
             {
                 conn.Open();
 
-                string query =
-                    @"INSERT INTO kendaraan
+                // SESUAIKAN SINKRONISASI: Casting ENUM dikembalikan ke ::tipe_kendaraan sesuai DDL Anda
+                string query = @"
+                    INSERT INTO kendaraan
                     (
                         id_merk_kendaraan,
                         nomor_plat_kendaraan,
@@ -90,55 +85,33 @@ namespace EcoDrive_vol2.Context.Admin
                         @nama_kendaraan,
                         @stok_kendaraan,
                         @harga_sewa,
-                        @tipe_kendaraan,
-                        @status_kendaraan
+                        @tipe_kendaraan::tipe_kendaraan, 
+                        @status_kendaraan::option_status
                     )";
 
                 using var cmd = new NpgsqlCommand(query, conn);
 
-                cmd.Parameters.AddWithValue(
-                    "@id_merk_kendaraan",
-                    kendaraan.IdMerkKendaraan
-                );
+                cmd.Parameters.AddWithValue("@id_merk_kendaraan", kendaraan.IdMerkKendaraan);
+                cmd.Parameters.AddWithValue("@nomor_plat_kendaraan", kendaraan.NomorPlatKendaraan);
+                cmd.Parameters.AddWithValue("@nama_kendaraan", kendaraan.NamaKendaraan);
 
-                cmd.Parameters.AddWithValue(
-                    "@nomor_plat_kendaraan",
-                    kendaraan.NomorPlatKendaraan
-                );
+                // Menghubungkan nilai properti stok dari form C# ke database (bawaan default = 1)
+                cmd.Parameters.AddWithValue("@stok_kendaraan", kendaraan.StokKendaraan);
 
-                cmd.Parameters.AddWithValue(
-                    "@nama_kendaraan",
-                    kendaraan.NamaKendaraan
-                );
+                cmd.Parameters.AddWithValue("@harga_sewa", kendaraan.HargaSewa);
 
-                cmd.Parameters.AddWithValue(
-                    "@stok_kendaraan",
-                    kendaraan.StokKendaraan
-                );
-
-                cmd.Parameters.AddWithValue(
-                    "@harga_sewa",
-                    kendaraan.HargaSewa
-                );
-
-                cmd.Parameters.AddWithValue(
-                    "@tipe_kendaraan",
-                    kendaraan.TipeKendaraan.ToString()
-                );
-
-                cmd.Parameters.AddWithValue(
-                    "@status_kendaraan",
-                    kendaraan.StatusKendaraan.ToString()
-                        .Replace("_", " ")
-                );
+                // Standarisasi string lowercase agar dikenali oleh ENUM PostgreSQL
+                cmd.Parameters.AddWithValue("@tipe_kendaraan", kendaraan.TipeKendaraan.ToString().ToLower());
+                cmd.Parameters.AddWithValue("@status_kendaraan", kendaraan.StatusKendaraan.ToString().ToLower().Replace("_", " "));
 
                 cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
-                throw new Exception("Error: " + ex.Message);
+                throw new Exception("Error Tambah Kendaraan: " + ex.Message);
             }
         }
+
         public void UpdateKendaraan(Kendaraan kendaraan)
         {
             using var conn = DatabaseHelper.GetConnection();
@@ -147,79 +120,47 @@ namespace EcoDrive_vol2.Context.Admin
             {
                 conn.Open();
 
-                string query =
-                @"UPDATE kendaraan
-          SET
-            nama_kendaraan = @nama_kendaraan,
-            harga_sewa = @harga_sewa,
-            status_kendaraan = @status_kendaraan
-          WHERE id_kendaraan = @id_kendaraan";
+                string query = @"
+                    UPDATE kendaraan
+                    SET
+                        nama_kendaraan = @nama_kendaraan,
+                        harga_sewa = @harga_sewa,
+                        status_kendaraan = @status_kendaraan::option_status
+                    WHERE id_kendaraan = @id_kendaraan";
 
-                using var cmd =
-                    new NpgsqlCommand(query, conn);
+                using var cmd = new NpgsqlCommand(query, conn);
 
-                cmd.Parameters.AddWithValue(
-                    "@nama_kendaraan",
-                    kendaraan.NamaKendaraan
-                );
-
-                cmd.Parameters.AddWithValue(
-                    "@harga_sewa",
-                    kendaraan.HargaSewa
-                );
-
-                cmd.Parameters.AddWithValue(
-                    "@status_kendaraan",
-                    kendaraan.StatusKendaraan
-                        .ToString()
-                        .Replace("_", " ")
-                );
-
-                cmd.Parameters.AddWithValue(
-                    "@id_kendaraan",
-                    kendaraan.IdKendaraan
-                );
+                cmd.Parameters.AddWithValue("@nama_kendaraan", kendaraan.NamaKendaraan);
+                cmd.Parameters.AddWithValue("@harga_sewa", kendaraan.HargaSewa);
+                cmd.Parameters.AddWithValue("@status_kendaraan", kendaraan.StatusKendaraan.ToString().ToLower().Replace("_", " "));
+                cmd.Parameters.AddWithValue("@id_kendaraan", kendaraan.IdKendaraan);
 
                 cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
-                throw new Exception(
-                    "Error Update Kendaraan: "
-                    + ex.Message
-                );
+                throw new Exception("Error Update Kendaraan: " + ex.Message);
             }
         }
+
         public void DeleteKendaraan(int idKendaraan)
         {
-            using var conn =
-                DatabaseHelper.GetConnection();
+            using var conn = DatabaseHelper.GetConnection();
 
             try
             {
                 conn.Open();
 
-                string query =
-                    @"DELETE FROM kendaraan
-              WHERE id_kendaraan =
-              @id_kendaraan";
+                string query = "DELETE FROM kendaraan WHERE id_kendaraan = @id_kendaraan";
 
-                using var cmd =
-                    new NpgsqlCommand(query, conn);
-
-                cmd.Parameters.AddWithValue(
-                    "@id_kendaraan",
-                    idKendaraan
-                );
+                using var cmd = new NpgsqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@id_kendaraan", idKendaraan);
 
                 cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
-                throw new Exception(
-                    "Error Delete Kendaraan: "
-                    + ex.Message
-                );
+                throw new Exception("Error Delete Kendaraan: " + ex.Message);
             }
         }
     }
