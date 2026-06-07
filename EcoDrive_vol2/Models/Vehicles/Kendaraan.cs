@@ -21,6 +21,7 @@ namespace EcoDrive_vol2.Models.Vehicles
 
         public OptionStatus StatusKendaraan { get; set; }
 
+        public bool IsDeleted { get; set; }
 
         // Constructor
         public Kendaraan()
@@ -28,15 +29,11 @@ namespace EcoDrive_vol2.Models.Vehicles
 
         }
 
-
-        // Method sederhana milik object kendaraan
         public virtual decimal BiayaRental(int jam)
         {
             return HargaSewa * jam;
         }
 
-
-        // Property tambahan untuk binding UI
         public string Nama
         {
             get => NamaKendaraan;
