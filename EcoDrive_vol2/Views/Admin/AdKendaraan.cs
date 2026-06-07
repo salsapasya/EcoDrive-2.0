@@ -14,7 +14,6 @@ namespace EcoDrive_vol2.Views
         private AdKendaraanController controller;
         private List<Kendaraan> listMasterKendaraan;
 
-        // Menyimpan status filter aktif agar pencarian/search tidak mereset filter kategori
         private string filterAktif = "Semua";
         public AdKendaraan()
         {
@@ -79,7 +78,6 @@ namespace EcoDrive_vol2.Views
             ApplyFilterDanPencarian(); // Terapkan ulang filter & keyword setelah data direfresh
         }
 
-        // Menggabungkan logika Filter Kategori dan Keyword Pencarian secara sinkron
         private void ApplyFilterDanPencarian()
         {
             if (listMasterKendaraan == null) return;
