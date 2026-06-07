@@ -20,7 +20,6 @@ namespace EcoDrive_vol2.Context.Admin
             {
                 conn.Open();
 
-                // Memanggil kolom secara eksplisit sesuai dengan skema tabel kendaraan Anda
                 string query = "SELECT id_kendaraan, id_merk_kendaraan, nomor_plat_kendaraan, nama_kendaraan, stok_kendaraan, harga_sewa, tipe_kendaraan, status_kendaraan FROM kendaraan";
 
                 using var cmd = new NpgsqlCommand(query, conn);
@@ -28,7 +27,6 @@ namespace EcoDrive_vol2.Context.Admin
 
                 while (reader.Read())
                 {
-                    // Pemetaan data berbasis nama kolom (Safe-Binding)
                     Kendaraan kendaraan = new Kendaraan
                     {
                         IdKendaraan = Convert.ToInt32(reader["id_kendaraan"]),
@@ -66,7 +64,6 @@ namespace EcoDrive_vol2.Context.Admin
             {
                 conn.Open();
 
-                // SESUAIKAN SINKRONISASI: Casting ENUM dikembalikan ke ::tipe_kendaraan sesuai DDL Anda
                 string query = @"
                     INSERT INTO kendaraan
                     (
@@ -94,13 +91,9 @@ namespace EcoDrive_vol2.Context.Admin
                 cmd.Parameters.AddWithValue("@id_merk_kendaraan", kendaraan.IdMerkKendaraan);
                 cmd.Parameters.AddWithValue("@nomor_plat_kendaraan", kendaraan.NomorPlatKendaraan);
                 cmd.Parameters.AddWithValue("@nama_kendaraan", kendaraan.NamaKendaraan);
-
-                // Menghubungkan nilai properti stok dari form C# ke database (bawaan default = 1)
                 cmd.Parameters.AddWithValue("@stok_kendaraan", kendaraan.StokKendaraan);
-
                 cmd.Parameters.AddWithValue("@harga_sewa", kendaraan.HargaSewa);
 
-                // Standarisasi string lowercase agar dikenali oleh ENUM PostgreSQL
                 cmd.Parameters.AddWithValue("@tipe_kendaraan", kendaraan.TipeKendaraan.ToString().ToLower());
                 cmd.Parameters.AddWithValue("@status_kendaraan", kendaraan.StatusKendaraan.ToString().ToLower().Replace("_", " "));
 
