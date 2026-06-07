@@ -109,7 +109,7 @@ namespace EcoDrive_vol2.Views
             btnAktif.Name = "btnAktif";
             btnAktif.Size = new Size(100, 63);
             btnAktif.TabIndex = 4;
-            btnAktif.Click += btnAktif_Click;
+            btnAktif.Click += FilterButton_Click; // 🛠️ FIX: Dialihkan ke event filter yang benar
             // 
             // lblTitle
             // 
@@ -122,6 +122,7 @@ namespace EcoDrive_vol2.Views
             lblTitle.Size = new Size(366, 60);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "Kelola Customer";
+            lblTitle.Click += lblTitle_Click;
             // 
             // lblSubtitle
             // 
@@ -180,7 +181,6 @@ namespace EcoDrive_vol2.Views
             btnTambah.Name = "btnTambah";
             btnTambah.Size = new Size(264, 63);
             btnTambah.TabIndex = 7;
-            btnTambah.Click += btnTambah_Click;
             // 
             // dgvCustomer
             // 
@@ -220,7 +220,6 @@ namespace EcoDrive_vol2.Views
             dgvCustomer.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvCustomer.Size = new Size(1664, 750);
             dgvCustomer.TabIndex = 8;
-            dgvCustomer.CellPainting += DgvCustomer_CellPainting;
             // 
             // colId
             // 
@@ -288,24 +287,10 @@ namespace EcoDrive_vol2.Views
             ResumeLayout(false);
         }
 
-        private void SetupButton(Button btn, string text, Point location, Color bg, Color fg)
-        {
-            btn.Text = text;
-            btn.Location = location;
-            btn.BackColor = bg;
-            btn.ForeColor = fg;
-            btn.FlatStyle = FlatStyle.Flat;
-            btn.FlatAppearance.BorderSize = 0;
-            btn.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
-            btn.Cursor = Cursors.Hand;
-        }
-
-        // Metode penggambaran baris kustom: Avatar inisial & Badge Capsule Status
         private void DgvCustomer_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             if (e.RowIndex < 0) return;
 
-            // Render khusus kolom nama customer (Gabungkan nama + email di bawahnya)
             if (e.ColumnIndex == 1 && e.Value != null)
             {
                 e.Paint(e.CellBounds, DataGridViewPaintParts.All & ~DataGridViewPaintParts.ContentForeground);
@@ -321,36 +306,34 @@ namespace EcoDrive_vol2.Views
 
                 e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
-                // Gambar lingkaran avatar
                 using (SolidBrush avBrush = new SolidBrush(Color.FromArgb(248, 215, 218)))
                 {
                     e.Graphics.FillEllipse(avBrush, avatarX, avatarY, avatarSize, avatarSize);
                 }
 
-                // Gambar teks inisial di dalam avatar
                 TextRenderer.DrawText(e.Graphics, inisial, new Font("Segoe UI", 9F, FontStyle.Bold),
                     new Rectangle(avatarX, avatarY, avatarSize, avatarSize), Color.FromArgb(180, 80, 90),
                     TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
 
-                // Cetak Nama utama & Email
                 TextRenderer.DrawText(e.Graphics, nama, new Font("Segoe UI", 10F, FontStyle.Bold), new Point(avatarX + 48, e.CellBounds.Y + 12), Color.FromArgb(47, 47, 47));
                 TextRenderer.DrawText(e.Graphics, email, new Font("Segoe UI", 8.5F), new Point(avatarX + 48, e.CellBounds.Y + 34), Color.Gray);
 
                 e.Handled = true;
             }
 
-            // Render khusus kolom badge status kapsul melengkung (Aktif/Non Aktif)
             if (e.ColumnIndex == 5 && e.Value != null)
             {
                 e.Paint(e.CellBounds, DataGridViewPaintParts.All & ~DataGridViewPaintParts.ContentForeground);
 
-                string status = e.Value.ToString();
-                bool isAktif = status.Trim().ToLower() == "aktif";
+                string status = e.Value.ToString().Trim();
+
+                // 🛠️ FIX LOGIKA BADGE: Deteksi fleksibel terhadap format 'Aktif' (TitleCase) maupun 'aktif' (lowercase)
+                bool isAktif = string.Equals(status, "aktif", StringComparison.OrdinalIgnoreCase);
 
                 Color bgBadge = isAktif ? Color.FromArgb(232, 245, 233) : Color.FromArgb(254, 241, 242);
                 Color textBadge = isAktif ? Color.FromArgb(67, 160, 71) : Color.FromArgb(220, 38, 38);
 
-                int bw = 75;
+                int bw = 85; // Sedikit dilebarkan agar teks 'Non Aktif' tidak terpotong
                 int bh = 26;
                 int bx = e.CellBounds.X + 10;
                 int by = e.CellBounds.Y + (e.CellBounds.Height - bh) / 2;

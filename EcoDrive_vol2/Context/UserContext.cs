@@ -5,7 +5,6 @@ using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using Npgsql.Replication;
 
 namespace EcoDrive_vol2.Context
 {
@@ -19,23 +18,31 @@ namespace EcoDrive_vol2.Context
             try
             {
                 conn.Open();
-                string query = "SELECT * FROM users";
+                string query = "SELECT id_user, role_user, nama_user, no_telp_user, username, password_user, saldo, status_akun FROM users";
 
                 using var cmd = new NpgsqlCommand(query, conn);
                 using var reader = cmd.ExecuteReader();
 
                 while (reader.Read())
                 {
+                    // Ambil string mentah dari DB, bersihkan spasi ujung, dan ubah ke lowercase
+                    string rawStatus = reader["status_akun"].ToString().Trim().ToLower().Replace(" ", "_");
+
                     Users user = new Users()
                     {
                         IdUser = Convert.ToInt32(reader["id_user"]),
-                        RoleUser = Convert.ToInt32(reader["id_user_role"]) == 1 ? Roles.admin : Roles.customer,
+
+                        // Parsing string enum roles ('admin' / 'customer') ke Enum C#
+                        RoleUser = reader["role_user"].ToString().Trim().ToLower() == "admin" ? Roles.admin : Roles.customer,
+
                         NamaUser = reader["nama_user"].ToString(),
                         NoTelpUser = reader["no_telp_user"].ToString(),
                         Username = reader["username"].ToString(),
                         PasswordUser = reader["password_user"].ToString(),
                         Saldo = Convert.ToDecimal(reader["saldo"]),
-                        StatusAkun = Enum.Parse<StatusAkun>(reader["status_akun"].ToString().Replace(" ", "_"))
+
+                        // 🛠️ FIX SINKRONISASI: Dipastikan string dikonversi ke lowercase & underscore sebelum masuk Enum.Parse
+                        StatusAkun = Enum.Parse<StatusAkun>(rawStatus, true)
                     };
                     usersList.Add(user);
                 }
@@ -50,8 +57,7 @@ namespace EcoDrive_vol2.Context
 
         public void AddUser(Users user)
         {
-            using var conn =
-                DatabaseHelper.GetConnection();
+            using var conn = DatabaseHelper.GetConnection();
 
             try
             {
@@ -59,7 +65,7 @@ namespace EcoDrive_vol2.Context
 
                 string query = @"INSERT INTO users
                 (
-                    id_user_role,
+                    role_user,
                     nama_user,
                     no_telp_user,
                     username,
@@ -69,32 +75,32 @@ namespace EcoDrive_vol2.Context
                 )
                 VALUES
                 (
-                    @id_user_role,
+                    @role_user::roles,
                     @nama_user,
                     @no_telp_user,
                     @username,
                     @password_user,
                     @saldo,
-                    @status_akun
+                    @status_akun::status_akun
                 )";
 
-                using var cmd =
-                    new NpgsqlCommand(query, conn);
+                using var cmd = new NpgsqlCommand(query, conn);
 
-                cmd.Parameters.AddWithValue("@id_user_role",2); // customer
-                cmd.Parameters.AddWithValue("@nama_user",user.NamaUser);
-                cmd.Parameters.AddWithValue("@no_telp_user",user.NoTelpUser);
-                cmd.Parameters.AddWithValue("@username",user.Username);
-                cmd.Parameters.AddWithValue("@password_user",user.PasswordUser);
-                cmd.Parameters.AddWithValue("@saldo",user.Saldo);
-                cmd.Parameters.AddWithValue("@status_akun",user.StatusAkun.ToString());
+                cmd.Parameters.AddWithValue("@role_user", user.RoleUser.ToString().ToLower());
+                cmd.Parameters.AddWithValue("@nama_user", user.NamaUser);
+                cmd.Parameters.AddWithValue("@no_telp_user", user.NoTelpUser);
+                cmd.Parameters.AddWithValue("@username", user.Username);
+                cmd.Parameters.AddWithValue("@password_user", user.PasswordUser);
+                cmd.Parameters.AddWithValue("@saldo", user.Saldo);
+
+                // Mengubah format underscore C# menjadi spasi database (misal non_aktif -> 'non aktif')
+                cmd.Parameters.AddWithValue("@status_akun", user.StatusAkun.ToString().ToLower().Replace("_", " "));
+
                 cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
-                throw new Exception(
-                    "Error Add User: "
-                    + ex.Message);
+                throw new Exception("Error Add User: " + ex.Message);
             }
         }
 
@@ -106,27 +112,28 @@ namespace EcoDrive_vol2.Context
             {
                 conn.Open();
 
-                string query =
-                @"UPDATE users
-                  SET
-                    id_user_role = @id_user_role,
-                    nama_user = @nama_user,
-                    no_telp_user = @no_telp_user,
-                    username = @username,
-                    password_user = @password_user,
-                    saldo = @saldo,
-                    status_akun = @status_akun
-                  WHERE id_user = @id_user";
+                string query = @"UPDATE users
+                                 SET
+                                   role_user = @role_user::roles,
+                                   nama_user = @nama_user,
+                                   no_telp_user = @no_telp_user,
+                                   username = @username,
+                                   password_user = @password_user,
+                                   saldo = @saldo,
+                                   status_akun = @status_akun::status_akun
+                                 WHERE id_user = @id_user";
 
                 using var cmd = new NpgsqlCommand(query, conn);
 
-                cmd.Parameters.AddWithValue("@id_user_role", user.RoleUser == Roles.admin ? 1 : 2);
+                cmd.Parameters.AddWithValue("@role_user", user.RoleUser == Roles.admin ? "admin" : "customer");
                 cmd.Parameters.AddWithValue("@nama_user", user.NamaUser);
                 cmd.Parameters.AddWithValue("@no_telp_user", user.NoTelpUser);
                 cmd.Parameters.AddWithValue("@username", user.Username);
                 cmd.Parameters.AddWithValue("@password_user", user.PasswordUser);
                 cmd.Parameters.AddWithValue("@saldo", user.Saldo);
-                cmd.Parameters.AddWithValue("@status_akun", user.StatusAkun.ToString().Replace("_", " "));
+
+                // Sinkronisasi data enum C# ke format spasi text di PostgreSQL database
+                cmd.Parameters.AddWithValue("@status_akun", user.StatusAkun.ToString().ToLower().Replace("_", " "));
                 cmd.Parameters.AddWithValue("@id_user", user.IdUser);
 
                 cmd.ExecuteNonQuery();
@@ -200,33 +207,18 @@ namespace EcoDrive_vol2.Context
 
         public bool UsernameExists(string username)
         {
-            using var conn =
-                DatabaseHelper.GetConnection();
-
+            using var conn = DatabaseHelper.GetConnection();
             conn.Open();
 
-            string query =
-                @"SELECT COUNT(*)
-                  FROM users
-                  WHERE username = @username";
+            string query = @"SELECT COUNT(*) FROM users WHERE username = @username";
 
-            using var cmd =
-                new NpgsqlCommand(query, conn);
+            using var cmd = new NpgsqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@username", username);
 
-            cmd.Parameters.AddWithValue(
-                "@username",
-                username);
-
-            int count =
-                Convert.ToInt32(
-                    cmd.ExecuteScalar());
-
+            int count = Convert.ToInt32(cmd.ExecuteScalar());
             return count > 0;
         }
 
-        // ====================================================================
-        // PENYESUAIAN: Ambil data dari SQL View (Dipastikan case-safe untuk Postgres)
-        // ====================================================================
         public DataTable GetDaftarTopUpFromView(string statusFilter)
         {
             DataTable dt = new DataTable();
@@ -234,7 +226,6 @@ namespace EcoDrive_vol2.Context
 
             string query = "SELECT * FROM view_admin_topup";
 
-            // SINKRONISASI: Menggunakan lowercase "status" agar sesuai standar penamaan kolom di PostgreSQL View
             if (!string.IsNullOrEmpty(statusFilter))
             {
                 query += " WHERE status = LOWER(@status)";
@@ -260,9 +251,6 @@ namespace EcoDrive_vol2.Context
             return dt;
         }
 
-        // ====================================================================
-        // FUNGSI BARU: Konfirmasi Top Up dengan Database Transaction (ACID)
-        // ====================================================================
         public void KonfirmasiTopUp(int idTopup, int idUser)
         {
             using var conn = DatabaseHelper.GetConnection();
@@ -270,7 +258,6 @@ namespace EcoDrive_vol2.Context
             try
             {
                 conn.Open();
-
                 string query = "SELECT fn_konfirmasi_topup(@idTopup, @idUser)";
 
                 using var cmd = new NpgsqlCommand(query, conn);
@@ -281,7 +268,7 @@ namespace EcoDrive_vol2.Context
             }
             catch (Exception ex)
             {
-                throw new Exception("Gagal memnproses konfirmasi top up di database" + ex.Message);
+                throw new Exception("Gagal memproses konfirmasi top up di database: " + ex.Message);
             }
         }
 
@@ -292,7 +279,6 @@ namespace EcoDrive_vol2.Context
             try
             {
                 conn.Open();
-
                 string query = "SELECT fn_tolak_topup(@idTopup)";
 
                 using var cmd = new NpgsqlCommand(query, conn);
@@ -303,6 +289,37 @@ namespace EcoDrive_vol2.Context
             {
                 throw new Exception("Gagal memproses penolakan top up di database: " + ex.Message);
             }
+        }
+
+        public DataTable GetAllCustomersForGrid()
+        {
+            DataTable dt = new DataTable();
+            using var conn = DatabaseHelper.GetConnection();
+
+            try
+            {
+                conn.Open();
+                string query = @"SELECT id_user, 
+                                        (nama_user || '|' || username) AS customer_data, 
+                                        no_telp_user AS kontak, 
+                                        'Member' AS bergabung, 
+                                        '0 trip' AS total_sewa, 
+                                        status_akun AS status,
+                                        '👁  ✏  🗑' AS aksi
+                                 FROM users 
+                                 WHERE role_user = 'customer'::roles
+                                 ORDER BY id_user DESC";
+
+                using var cmd = new NpgsqlCommand(query, conn);
+                using var adapter = new NpgsqlDataAdapter(cmd);
+                adapter.Fill(dt);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error Ambil Data Customer ke Grid: " + ex.Message);
+            }
+
+            return dt;
         }
 
         public Dictionary<string, string> GetTopUpSummary()
@@ -319,13 +336,8 @@ namespace EcoDrive_vol2.Context
             {
                 conn.Open();
 
-                // QUERY 1: Total nominal akumulasi dari semua top up yang BERHASIL
                 string queryTotal = "SELECT COALESCE(SUM(jumlah_topup), 0) FROM topup_saldo WHERE status_topup = 'berhasil'";
-
-                // QUERY 2: Jumlah baris data yang berstatus PENDING
                 string queryPending = "SELECT COUNT(*) FROM topup_saldo WHERE status_topup = 'pending'";
-
-                // QUERY 3: Jumlah baris data yang berstatus BERHASIL
                 string querySukses = "SELECT COUNT(*) FROM topup_saldo WHERE status_topup = 'berhasil'";
 
                 using (var cmd = new NpgsqlCommand(queryTotal, conn))
