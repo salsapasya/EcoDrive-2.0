@@ -23,7 +23,6 @@ namespace EcoDrive_vol2.Views.Admin
         private decimal _nominalTopupDipilih = 0;
         private string _currentFilter = "";
 
-        // Kultur Indonesia untuk format mata uang Rupiah yang konsisten
         private readonly CultureInfo _idCulture = new CultureInfo("id-ID");
 
         public AdTopUpCustomer()

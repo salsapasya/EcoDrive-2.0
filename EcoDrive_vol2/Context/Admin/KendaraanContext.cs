@@ -20,7 +20,6 @@ namespace EcoDrive_vol2.Context.Admin
             {
                 conn.Open();
 
-                // 🛠️ PERBAIKAN: Menambahkan kondisi WHERE is_deleted = false agar data soft-deleted tidak ikut ketarik
                 string query = @"SELECT id_kendaraan, id_merk_kendaraan, nomor_plat_kendaraan, nama_kendaraan, 
                                         stok_kendaraan, harga_sewa, tipe_kendaraan, status_kendaraan 
                                  FROM kendaraan 
@@ -148,7 +147,6 @@ namespace EcoDrive_vol2.Context.Admin
             {
                 conn.Open();
 
-                // 🛠️ PERBAIKAN: Mengubah query DELETE menjadi UPDATE status is_deleted
                 string query = "UPDATE kendaraan SET is_deleted = true WHERE id_kendaraan = @id_kendaraan";
 
                 using var cmd = new NpgsqlCommand(query, conn);

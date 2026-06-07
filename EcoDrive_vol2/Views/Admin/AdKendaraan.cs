@@ -102,7 +102,6 @@ namespace EcoDrive_vol2.Views
 
             RenderVehicleCards(dataTerfilter);
         }
-
         private void RenderVehicleCards(List<Kendaraan> dataKendaraan)
         {
             flowKendaraan.Controls.Clear();
@@ -238,7 +237,6 @@ namespace EcoDrive_vol2.Views
                     cbStatus.Items.AddRange(new string[] { "tersedia", "disewa", "rusak", "dalam perbaikan" });
                     cbStatus.SelectedItem = statusDb.ToLower();
 
-                    // 🛠️ SEKARANG DI SINI: Tombol Hapus diletakkan pada Form Kelola
                     Button btnHapus = new Button
                     {
                         Text = "Hapus Kendaraan",
@@ -350,7 +348,6 @@ namespace EcoDrive_vol2.Views
             ApplyFilterDanPencarian();
         }
 
-        // --- ACTION TAMBAH KENDARAAN (Sekarang Bersih dari btnHapus) ---
         private void btnTambah_Click(object sender, EventArgs e)
         {
             Form frm = new Form
