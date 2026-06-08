@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             mainPanel = new Panel();
-            lblTitle = new Label();
-            lblSubtitle = new Label();
             cardPanel = new Panel();
             flowLayoutPanel1 = new FlowLayoutPanel();
+            lblSubtitle = new Label();
+            lblTitle = new Label();
             mainPanel.SuspendLayout();
             cardPanel.SuspendLayout();
             SuspendLayout();
@@ -47,32 +47,6 @@
             mainPanel.Padding = new Padding(20, 15, 20, 20);
             mainPanel.Size = new Size(800, 450);
             mainPanel.TabIndex = 3;
-            // 
-            // lblTitle
-            // 
-            lblTitle.AutoSize = true;
-            lblTitle.Dock = DockStyle.Top;
-            lblTitle.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
-            lblTitle.ForeColor = Color.FromArgb(45, 45, 45);
-            lblTitle.Location = new Point(25, 25);
-            lblTitle.Name = "lblTitle";
-            lblTitle.Padding = new Padding(5, 0, 0, 0);
-            lblTitle.Size = new Size(200, 37);
-            lblTitle.TabIndex = 3;
-            lblTitle.Text = "Top Up Saldo ";
-            // 
-            // lblSubtitle
-            // 
-            lblSubtitle.AutoSize = true;
-            lblSubtitle.Dock = DockStyle.Top;
-            lblSubtitle.Font = new Font("Segoe UI", 9.5F);
-            lblSubtitle.ForeColor = Color.DarkGray;
-            lblSubtitle.Location = new Point(25, 62);
-            lblSubtitle.Name = "lblSubtitle";
-            lblSubtitle.Padding = new Padding(7, 5, 0, 15);
-            lblSubtitle.Size = new Size(235, 37);
-            lblSubtitle.TabIndex = 2;
-            lblSubtitle.Text = "Silahkan Top Up Saldo EcoDrive Anda";
             // 
             // cardPanel
             // 
@@ -94,6 +68,32 @@
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(710, 296);
             flowLayoutPanel1.TabIndex = 4;
+            // 
+            // lblSubtitle
+            // 
+            lblSubtitle.AutoSize = true;
+            lblSubtitle.Dock = DockStyle.Top;
+            lblSubtitle.Font = new Font("Segoe UI", 9.5F);
+            lblSubtitle.ForeColor = Color.DarkGray;
+            lblSubtitle.Location = new Point(25, 62);
+            lblSubtitle.Name = "lblSubtitle";
+            lblSubtitle.Padding = new Padding(7, 5, 0, 15);
+            lblSubtitle.Size = new Size(235, 37);
+            lblSubtitle.TabIndex = 2;
+            lblSubtitle.Text = "Silahkan Top Up Saldo EcoDrive Anda";
+            // 
+            // lblTitle
+            // 
+            lblTitle.AutoSize = true;
+            lblTitle.Dock = DockStyle.Top;
+            lblTitle.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
+            lblTitle.ForeColor = Color.FromArgb(45, 45, 45);
+            lblTitle.Location = new Point(25, 25);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Padding = new Padding(5, 0, 0, 0);
+            lblTitle.Size = new Size(200, 37);
+            lblTitle.TabIndex = 3;
+            lblTitle.Text = "Top Up Saldo ";
             // 
             // CusSaldo
             // 
