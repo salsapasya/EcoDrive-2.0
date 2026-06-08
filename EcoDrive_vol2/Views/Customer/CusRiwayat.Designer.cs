@@ -32,13 +32,19 @@
             cardPanel = new Panel();
             tcRiwayat = new TabControl();
             tabPage1 = new TabPage();
+            flpSewa = new FlowLayoutPanel();
             tabPage2 = new TabPage();
+            flpCharging = new FlowLayoutPanel();
             tabPage3 = new TabPage();
+            flpTopUp = new FlowLayoutPanel();
             lblSubtitle = new Label();
             lblTitle = new Label();
             mainPanel.SuspendLayout();
             cardPanel.SuspendLayout();
             tcRiwayat.SuspendLayout();
+            tabPage1.SuspendLayout();
+            tabPage2.SuspendLayout();
+            tabPage3.SuspendLayout();
             SuspendLayout();
             // 
             // mainPanel
@@ -77,9 +83,11 @@
             tcRiwayat.Size = new Size(710, 296);
             tcRiwayat.TabIndex = 4;
             tcRiwayat.Tag = "";
+            tcRiwayat.Click += CusRiwayat_Load;
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(flpSewa);
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
@@ -88,8 +96,20 @@
             tabPage1.Text = "Sewa Kendaraan";
             tabPage1.UseVisualStyleBackColor = true;
             // 
+            // flpSewa
+            // 
+            flpSewa.AutoScroll = true;
+            flpSewa.Dock = DockStyle.Fill;
+            flpSewa.FlowDirection = FlowDirection.TopDown;
+            flpSewa.Location = new Point(3, 3);
+            flpSewa.Name = "flpSewa";
+            flpSewa.Size = new Size(696, 262);
+            flpSewa.TabIndex = 0;
+            flpSewa.WrapContents = false;
+            // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(flpCharging);
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
@@ -98,8 +118,20 @@
             tabPage2.Text = "Charging";
             tabPage2.UseVisualStyleBackColor = true;
             // 
+            // flpCharging
+            // 
+            flpCharging.AutoScroll = true;
+            flpCharging.Dock = DockStyle.Fill;
+            flpCharging.FlowDirection = FlowDirection.TopDown;
+            flpCharging.Location = new Point(3, 3);
+            flpCharging.Name = "flpCharging";
+            flpCharging.Size = new Size(696, 262);
+            flpCharging.TabIndex = 1;
+            flpCharging.WrapContents = false;
+            // 
             // tabPage3
             // 
+            tabPage3.Controls.Add(flpTopUp);
             tabPage3.Location = new Point(4, 24);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3);
@@ -107,6 +139,17 @@
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Top Up";
             tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // flpTopUp
+            // 
+            flpTopUp.AutoScroll = true;
+            flpTopUp.Dock = DockStyle.Fill;
+            flpTopUp.FlowDirection = FlowDirection.TopDown;
+            flpTopUp.Location = new Point(3, 3);
+            flpTopUp.Name = "flpTopUp";
+            flpTopUp.Size = new Size(696, 262);
+            flpTopUp.TabIndex = 1;
+            flpTopUp.WrapContents = false;
             // 
             // lblSubtitle
             // 
@@ -142,11 +185,13 @@
             Controls.Add(mainPanel);
             Name = "CusRiwayat";
             Text = "CusRiwayat";
-            Load += CusRiwayat_Load;
             mainPanel.ResumeLayout(false);
             cardPanel.ResumeLayout(false);
             cardPanel.PerformLayout();
             tcRiwayat.ResumeLayout(false);
+            tabPage1.ResumeLayout(false);
+            tabPage2.ResumeLayout(false);
+            tabPage3.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -160,5 +205,8 @@
         private TabPage tabPage1;
         private TabPage tabPage2;
         private TabPage tabPage3;
+        private FlowLayoutPanel flpSewa;
+        private FlowLayoutPanel flpCharging;
+        private FlowLayoutPanel flpTopUp;
     }
 }

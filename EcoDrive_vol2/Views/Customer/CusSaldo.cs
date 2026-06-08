@@ -28,55 +28,55 @@ namespace EcoDrive_vol2.Views
             this.BackColor = bgUtama;
 
         }
-        private void btnTopup_Click(
-            object sender,
-            EventArgs e)
-        {
-            try
-            {
-                if (txtTopUp.Text == "")
-                {
-                    MessageBox.Show("Masukkan jumlah top up");
+        //private void btnTopup_Click(
+        //    object sender,
+        //    EventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (txtTopUp.Text == "")
+        //        {
+        //            MessageBox.Show("Masukkan jumlah top up");
 
-                    return;
-                }
+        //            return;
+        //        }
 
-                decimal jumlahTopUp = Convert.ToDecimal(txtTopUp.Text);
+        //        decimal jumlahTopUp = Convert.ToDecimal(txtTopUp.Text);
 
-                controller.TopupSaldo(idUser,jumlahTopUp);
+        //        controller.TopupSaldo(idUser,jumlahTopUp);
 
-                saldo = controller.GetSaldo(idUser);
+        //        saldo = controller.GetSaldo(idUser);
 
-                lblSaldo.Text =
-                    "Rp " + saldo.ToString("N0");
+        //        lblSaldo.Text =
+        //            "Rp " + saldo.ToString("N0");
 
-                MessageBox.Show("Top Up Berhasil! Menunggu Konfirmasi Admin");
+        //        MessageBox.Show("Top Up Berhasil! Menunggu Konfirmasi Admin");
 
-                txtTopUp.Clear();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                    ex.Message);
-            }
-        }
+        //        txtTopUp.Clear();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(
+        //            ex.Message);
+        //    }
+        //}
 
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
 
         }
 
-        private void btnTopUp_Click_1(object sender, EventArgs e)
-        {
-            btnTopup_Click(sender,e);
-        }
+        //private void btnTopUp_Click_1(object sender, EventArgs e)
+        //{
+        //    btnTopup_Click(sender,e);
+        //}
 
         private void CusSaldo_Load(object sender, EventArgs e)
         {
             idUser = UserSession.IdUserAktif;
             saldo = controller.GetSaldo(idUser);
 
-            lblSaldo.Text = "Rp " + saldo.ToString("N0");
+            //lblSaldo.Text = "Rp " + saldo.ToString("N0");
         }
 
         private void lblSaldo_Click(object sender, EventArgs e)

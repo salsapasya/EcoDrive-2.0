@@ -32,10 +32,10 @@ namespace EcoDrive_vol2.Service
         // LOGIKA UNTUK CUSTOMER
         // ==========================================
 
-        public List<TransaksiSewa> AmbilRiwayatSewaCustomer(int idUser)
-        {
-            return _sewaContext.GetRiwayatByUser(idUser);
-        }
+        //public List<TransaksiSewa> AmbilRiwayatSewaCustomer(int idUser)
+        //{
+        //    return _sewaContext.GetRiwayatByUser(idUser);
+        //}
 
         // ==========================================
         // LOGIKA UNTUK ADMIN
