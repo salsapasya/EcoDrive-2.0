@@ -22,11 +22,6 @@ namespace EcoDrive_vol2
         {
             TxtPassword.UseSystemPasswordChar = true;
 
-            if (CmbRole != null)
-            {
-                CmbRole.SelectedIndex = -1;
-            }
-
             lblSignUp.Cursor = Cursors.Hand;
             lblSignUp.ForeColor = Color.Blue;
 
@@ -65,7 +60,7 @@ namespace EcoDrive_vol2
                     }
                     else if (userLogin.RoleUser == Roles.customer)
                     {
-                        CusDasboard customer = new CusDasboard(username);
+                        CusDasboard customer = new CusDasboard(userLogin.NamaUser);
                         customer.Show();
                         this.Hide();
                     }

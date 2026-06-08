@@ -28,84 +28,94 @@
         /// </summary>
         private void InitializeComponent()
         {
-            flowLayoutPanel1 = new FlowLayoutPanel();
-            lblSaldo = new Label();
-            btnTopUp = new Button();
-            txtTopUp = new TextBox();
+            mainPanel = new Panel();
             lblTitle = new Label();
-            flowLayoutPanel1.SuspendLayout();
+            lblSubtitle = new Label();
+            cardPanel = new Panel();
+            flowLayoutPanel1 = new FlowLayoutPanel();
+            mainPanel.SuspendLayout();
+            cardPanel.SuspendLayout();
             SuspendLayout();
             // 
-            // flowLayoutPanel1
+            // mainPanel
             // 
-            flowLayoutPanel1.Controls.Add(lblSaldo);
-            flowLayoutPanel1.Controls.Add(btnTopUp);
-            flowLayoutPanel1.Controls.Add(txtTopUp);
-            flowLayoutPanel1.Controls.Add(lblTitle);
-            flowLayoutPanel1.Location = new Point(12, 12);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(776, 426);
-            flowLayoutPanel1.TabIndex = 0;
-            flowLayoutPanel1.Paint += flowLayoutPanel1_Paint;
-            // 
-            // lblSaldo
-            // 
-            lblSaldo.AutoSize = true;
-            lblSaldo.Location = new Point(3, 0);
-            lblSaldo.Name = "lblSaldo";
-            lblSaldo.Size = new Size(30, 15);
-            lblSaldo.TabIndex = 0;
-            lblSaldo.Text = "Rp 0";
-            lblSaldo.Click += lblSaldo_Click;
-            // 
-            // btnTopUp
-            // 
-            btnTopUp.Location = new Point(39, 3);
-            btnTopUp.Name = "btnTopUp";
-            btnTopUp.Size = new Size(75, 23);
-            btnTopUp.TabIndex = 1;
-            btnTopUp.Text = "Top Up";
-            btnTopUp.UseVisualStyleBackColor = true;
-            btnTopUp.Click += btnTopUp_Click_1;
-            // 
-            // txtTopUp
-            // 
-            txtTopUp.Location = new Point(120, 3);
-            txtTopUp.Name = "txtTopUp";
-            txtTopUp.Size = new Size(100, 23);
-            txtTopUp.TabIndex = 2;
-            txtTopUp.TextChanged += txtTopUp_TextChanged;
+            mainPanel.BackColor = Color.FromArgb(250, 248, 242);
+            mainPanel.Controls.Add(cardPanel);
+            mainPanel.Dock = DockStyle.Fill;
+            mainPanel.Location = new Point(0, 0);
+            mainPanel.Name = "mainPanel";
+            mainPanel.Padding = new Padding(20, 15, 20, 20);
+            mainPanel.Size = new Size(800, 450);
+            mainPanel.TabIndex = 3;
             // 
             // lblTitle
             // 
             lblTitle.AutoSize = true;
-            lblTitle.Location = new Point(226, 0);
+            lblTitle.Dock = DockStyle.Top;
+            lblTitle.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
+            lblTitle.ForeColor = Color.FromArgb(45, 45, 45);
+            lblTitle.Location = new Point(25, 25);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(63, 15);
+            lblTitle.Padding = new Padding(5, 0, 0, 0);
+            lblTitle.Size = new Size(200, 37);
             lblTitle.TabIndex = 3;
-            lblTitle.Text = "Saldo Saya";
-            lblTitle.Click += lblTitle_Click;
+            lblTitle.Text = "Top Up Saldo ";
+            // 
+            // lblSubtitle
+            // 
+            lblSubtitle.AutoSize = true;
+            lblSubtitle.Dock = DockStyle.Top;
+            lblSubtitle.Font = new Font("Segoe UI", 9.5F);
+            lblSubtitle.ForeColor = Color.DarkGray;
+            lblSubtitle.Location = new Point(25, 62);
+            lblSubtitle.Name = "lblSubtitle";
+            lblSubtitle.Padding = new Padding(7, 5, 0, 15);
+            lblSubtitle.Size = new Size(235, 37);
+            lblSubtitle.TabIndex = 2;
+            lblSubtitle.Text = "Silahkan Top Up Saldo EcoDrive Anda";
+            // 
+            // cardPanel
+            // 
+            cardPanel.BackColor = Color.White;
+            cardPanel.Controls.Add(flowLayoutPanel1);
+            cardPanel.Controls.Add(lblSubtitle);
+            cardPanel.Controls.Add(lblTitle);
+            cardPanel.Dock = DockStyle.Fill;
+            cardPanel.Location = new Point(20, 15);
+            cardPanel.Name = "cardPanel";
+            cardPanel.Padding = new Padding(25, 25, 25, 20);
+            cardPanel.Size = new Size(760, 415);
+            cardPanel.TabIndex = 0;
+            // 
+            // flowLayoutPanel1
+            // 
+            flowLayoutPanel1.Dock = DockStyle.Fill;
+            flowLayoutPanel1.Location = new Point(25, 99);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(710, 296);
+            flowLayoutPanel1.TabIndex = 4;
             // 
             // CusSaldo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(flowLayoutPanel1);
+            Controls.Add(mainPanel);
             Name = "CusSaldo";
             Text = "CusSaldo";
             Load += CusSaldo_Load;
-            flowLayoutPanel1.ResumeLayout(false);
-            flowLayoutPanel1.PerformLayout();
+            mainPanel.ResumeLayout(false);
+            cardPanel.ResumeLayout(false);
+            cardPanel.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
 
+        private Panel mainPanel;
+        private Panel cardPanel;
         private FlowLayoutPanel flowLayoutPanel1;
-        private Label lblSaldo;
-        private Button btnTopUp;
-        private TextBox txtTopUp;
+        private Label lblSubtitle;
         private Label lblTitle;
     }
 }

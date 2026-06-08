@@ -146,5 +146,14 @@ namespace EcoDrive_vol2
         {
 
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FormLogin login = new FormLogin();
+
+            login.Show();
+
+            this.Close();
+        }
     }
 }
