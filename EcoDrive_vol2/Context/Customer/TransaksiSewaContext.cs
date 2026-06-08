@@ -86,7 +86,7 @@ namespace EcoDrive_vol2.Context.Customer
             try
             {
                 conn.Open();
-                string query = "SELECT id_transaksi_sewa, id_user, id_kendaraan, tanggal_sewa, tanggal_kembali, durasi_sewa, status_pengembalian FROM transaksi_sewa WHERE id_user = @idUser ORDER BY id_transaksi_sewa DESC";
+                string query = "SELECT * FROM view_riwayat_customer WHERE id_user = @idUser ORDER BY id_transaksi_sewa DESC";
 
                 using var cmd = new NpgsqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@idUser", idUser);

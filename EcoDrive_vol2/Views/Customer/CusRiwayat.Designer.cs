@@ -28,119 +28,137 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dgvRiwayat = new DataGridView();
+            mainPanel = new Panel();
+            cardPanel = new Panel();
+            tcRiwayat = new TabControl();
+            tabPage1 = new TabPage();
+            tabPage2 = new TabPage();
+            tabPage3 = new TabPage();
+            lblSubtitle = new Label();
             lblTitle = new Label();
-            btnKembali = new Button();
-            colId = new DataGridViewTextBoxColumn();
-            colKendaraan = new DataGridViewTextBoxColumn();
-            colTanggal = new DataGridViewTextBoxColumn();
-            colDurasi = new DataGridViewTextBoxColumn();
-            colTotal = new DataGridViewTextBoxColumn();
-            colStatus = new DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)dgvRiwayat).BeginInit();
+            mainPanel.SuspendLayout();
+            cardPanel.SuspendLayout();
+            tcRiwayat.SuspendLayout();
             SuspendLayout();
             // 
-            // dgvRiwayat
+            // mainPanel
             // 
-            dgvRiwayat.AllowUserToAddRows = false;
-            dgvRiwayat.AllowUserToOrderColumns = true;
-            dgvRiwayat.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvRiwayat.BorderStyle = BorderStyle.Fixed3D;
-            dgvRiwayat.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            dgvRiwayat.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvRiwayat.Columns.AddRange(new DataGridViewColumn[] { colId, colKendaraan, colTanggal, colDurasi, colTotal, colStatus });
-            dgvRiwayat.EnableHeadersVisualStyles = false;
-            dgvRiwayat.GridColor = Color.Black;
-            dgvRiwayat.Location = new Point(31, 77);
-            dgvRiwayat.Name = "dgvRiwayat";
-            dgvRiwayat.ReadOnly = true;
-            dgvRiwayat.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            dgvRiwayat.RowHeadersVisible = false;
-            dgvRiwayat.Size = new Size(732, 318);
-            dgvRiwayat.TabIndex = 0;
+            mainPanel.BackColor = Color.FromArgb(250, 248, 242);
+            mainPanel.Controls.Add(cardPanel);
+            mainPanel.Dock = DockStyle.Fill;
+            mainPanel.Location = new Point(0, 0);
+            mainPanel.Name = "mainPanel";
+            mainPanel.Padding = new Padding(20, 15, 20, 20);
+            mainPanel.Size = new Size(800, 450);
+            mainPanel.TabIndex = 2;
+            // 
+            // cardPanel
+            // 
+            cardPanel.BackColor = Color.White;
+            cardPanel.Controls.Add(tcRiwayat);
+            cardPanel.Controls.Add(lblSubtitle);
+            cardPanel.Controls.Add(lblTitle);
+            cardPanel.Dock = DockStyle.Fill;
+            cardPanel.Location = new Point(20, 15);
+            cardPanel.Name = "cardPanel";
+            cardPanel.Padding = new Padding(25, 25, 25, 20);
+            cardPanel.Size = new Size(760, 415);
+            cardPanel.TabIndex = 0;
+            // 
+            // tcRiwayat
+            // 
+            tcRiwayat.Controls.Add(tabPage1);
+            tcRiwayat.Controls.Add(tabPage2);
+            tcRiwayat.Controls.Add(tabPage3);
+            tcRiwayat.Dock = DockStyle.Fill;
+            tcRiwayat.Location = new Point(25, 99);
+            tcRiwayat.Name = "tcRiwayat";
+            tcRiwayat.SelectedIndex = 0;
+            tcRiwayat.Size = new Size(710, 296);
+            tcRiwayat.TabIndex = 4;
+            tcRiwayat.Tag = "";
+            // 
+            // tabPage1
+            // 
+            tabPage1.Location = new Point(4, 24);
+            tabPage1.Name = "tabPage1";
+            tabPage1.Padding = new Padding(3);
+            tabPage1.Size = new Size(702, 268);
+            tabPage1.TabIndex = 0;
+            tabPage1.Text = "Sewa Kendaraan";
+            tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            tabPage2.Location = new Point(4, 24);
+            tabPage2.Name = "tabPage2";
+            tabPage2.Padding = new Padding(3);
+            tabPage2.Size = new Size(702, 268);
+            tabPage2.TabIndex = 1;
+            tabPage2.Text = "Charging";
+            tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // tabPage3
+            // 
+            tabPage3.Location = new Point(4, 24);
+            tabPage3.Name = "tabPage3";
+            tabPage3.Padding = new Padding(3);
+            tabPage3.Size = new Size(702, 268);
+            tabPage3.TabIndex = 2;
+            tabPage3.Text = "Top Up";
+            tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // lblSubtitle
+            // 
+            lblSubtitle.AutoSize = true;
+            lblSubtitle.Dock = DockStyle.Top;
+            lblSubtitle.Font = new Font("Segoe UI", 9.5F);
+            lblSubtitle.ForeColor = Color.DarkGray;
+            lblSubtitle.Location = new Point(25, 62);
+            lblSubtitle.Name = "lblSubtitle";
+            lblSubtitle.Padding = new Padding(7, 5, 0, 15);
+            lblSubtitle.Size = new Size(231, 37);
+            lblSubtitle.TabIndex = 2;
+            lblSubtitle.Text = "Riwayat Transaksi Customer EcoDrive";
             // 
             // lblTitle
             // 
             lblTitle.AutoSize = true;
-            lblTitle.Font = new Font("Elephant", 15.7499981F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTitle.ForeColor = Color.DarkOliveGreen;
-            lblTitle.Location = new Point(31, 30);
+            lblTitle.Dock = DockStyle.Top;
+            lblTitle.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
+            lblTitle.ForeColor = Color.FromArgb(45, 45, 45);
+            lblTitle.Location = new Point(25, 25);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(226, 27);
-            lblTitle.TabIndex = 1;
+            lblTitle.Padding = new Padding(5, 0, 0, 0);
+            lblTitle.Size = new Size(251, 37);
+            lblTitle.TabIndex = 3;
             lblTitle.Text = "Riwayat Transaksi";
-            // 
-            // btnKembali
-            // 
-            btnKembali.Location = new Point(713, 415);
-            btnKembali.Name = "btnKembali";
-            btnKembali.Size = new Size(75, 23);
-            btnKembali.TabIndex = 2;
-            btnKembali.Text = "Kembali";
-            btnKembali.UseVisualStyleBackColor = true;
-            // 
-            // colId
-            // 
-            colId.HeaderText = "ID Transaksi";
-            colId.Name = "colId";
-            colId.ReadOnly = true;
-            // 
-            // colKendaraan
-            // 
-            colKendaraan.HeaderText = "Kendaraan";
-            colKendaraan.Name = "colKendaraan";
-            colKendaraan.ReadOnly = true;
-            // 
-            // colTanggal
-            // 
-            colTanggal.HeaderText = "Tanggal";
-            colTanggal.Name = "colTanggal";
-            colTanggal.ReadOnly = true;
-            // 
-            // colDurasi
-            // 
-            colDurasi.HeaderText = "Durasi";
-            colDurasi.Name = "colDurasi";
-            colDurasi.ReadOnly = true;
-            // 
-            // colTotal
-            // 
-            colTotal.HeaderText = "Total";
-            colTotal.Name = "colTotal";
-            colTotal.ReadOnly = true;
-            // 
-            // colStatus
-            // 
-            colStatus.HeaderText = "Status";
-            colStatus.Name = "colStatus";
-            colStatus.ReadOnly = true;
             // 
             // CusRiwayat
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(btnKembali);
-            Controls.Add(lblTitle);
-            Controls.Add(dgvRiwayat);
+            Controls.Add(mainPanel);
             Name = "CusRiwayat";
             Text = "CusRiwayat";
             Load += CusRiwayat_Load;
-            ((System.ComponentModel.ISupportInitialize)dgvRiwayat).EndInit();
+            mainPanel.ResumeLayout(false);
+            cardPanel.ResumeLayout(false);
+            cardPanel.PerformLayout();
+            tcRiwayat.ResumeLayout(false);
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
-        private DataGridView dgvRiwayat;
+        private Panel mainPanel;
+        private Panel cardPanel;
+        private Label lblSubtitle;
         private Label lblTitle;
-        private DataGridViewTextBoxColumn colId;
-        private DataGridViewTextBoxColumn colKendaraan;
-        private DataGridViewTextBoxColumn colTanggal;
-        private DataGridViewTextBoxColumn colDurasi;
-        private DataGridViewTextBoxColumn colTotal;
-        private DataGridViewTextBoxColumn colStatus;
-        private Button btnKembali;
+        private TabControl tcRiwayat;
+        private TabPage tabPage1;
+        private TabPage tabPage2;
+        private TabPage tabPage3;
     }
 }
