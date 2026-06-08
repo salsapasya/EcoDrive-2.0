@@ -49,7 +49,7 @@
             mainPanel.Location = new Point(0, 0);
             mainPanel.Name = "mainPanel";
             mainPanel.Padding = new Padding(20, 15, 20, 20);
-            mainPanel.Size = new Size(800, 450);
+            mainPanel.Size = new Size(1010, 579);
             mainPanel.TabIndex = 2;
             // 
             // cardPanel
@@ -62,7 +62,7 @@
             cardPanel.Location = new Point(20, 15);
             cardPanel.Name = "cardPanel";
             cardPanel.Padding = new Padding(25, 25, 25, 20);
-            cardPanel.Size = new Size(760, 415);
+            cardPanel.Size = new Size(970, 544);
             cardPanel.TabIndex = 0;
             // 
             // tcRiwayat
@@ -74,7 +74,7 @@
             tcRiwayat.Location = new Point(25, 99);
             tcRiwayat.Name = "tcRiwayat";
             tcRiwayat.SelectedIndex = 0;
-            tcRiwayat.Size = new Size(710, 296);
+            tcRiwayat.Size = new Size(920, 425);
             tcRiwayat.TabIndex = 4;
             tcRiwayat.Tag = "";
             // 
@@ -83,7 +83,7 @@
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(702, 268);
+            tabPage1.Size = new Size(912, 397);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Sewa Kendaraan";
             tabPage1.UseVisualStyleBackColor = true;
@@ -138,7 +138,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1010, 579);
             Controls.Add(mainPanel);
             Name = "CusRiwayat";
             Text = "CusRiwayat";
