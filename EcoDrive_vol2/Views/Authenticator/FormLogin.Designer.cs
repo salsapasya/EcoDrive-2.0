@@ -32,7 +32,6 @@
             FrmJudul = new Label();
             TxtUsername = new TextBox();
             TxtPassword = new TextBox();
-            CmbRole = new ComboBox();
             BtnLogin = new Button();
             label1 = new Label();
             lblSignUp = new LinkLabel();
@@ -73,33 +72,9 @@
             TxtPassword.Enter += TxtPassword_Enter;
             TxtPassword.Leave += TxtPassword_Leave;
             // 
-            // btnTogglePassword
-            // 
-            btnTogglePassword.Text = "SHOW";
-            btnTogglePassword.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
-            btnTogglePassword.Location = new Point(988, 319); // Sudah digeser ke 988
-            btnTogglePassword.Name = "btnTogglePassword";
-            btnTogglePassword.Size = new Size(48, 21); // Sudah dilebarkan ke 48
-            btnTogglePassword.TabIndex = 7;
-            btnTogglePassword.FlatStyle = FlatStyle.Flat;
-            btnTogglePassword.FlatAppearance.BorderSize = 0;
-            btnTogglePassword.BackColor = Color.White;
-            btnTogglePassword.Cursor = Cursors.Hand;
-            // 
-            // CmbRole
-            // 
-            CmbRole.BackColor = SystemColors.Window;
-            CmbRole.DropDownStyle = ComboBoxStyle.DropDownList;
-            CmbRole.FormattingEnabled = true;
-            CmbRole.Items.AddRange(new object[] { "Admin", "Customer" });
-            CmbRole.Location = new Point(908, 372);
-            CmbRole.Name = "CmbRole";
-            CmbRole.Size = new Size(129, 23);
-            CmbRole.TabIndex = 3;
-            // 
             // BtnLogin
             // 
-            BtnLogin.Location = new Point(928, 437);
+            BtnLogin.Location = new Point(940, 437);
             BtnLogin.Name = "BtnLogin";
             BtnLogin.Size = new Size(78, 30);
             BtnLogin.TabIndex = 4;
@@ -128,6 +103,20 @@
             lblSignUp.Text = "Sign up";
             lblSignUp.LinkClicked += lblSignUp_Click;
             // 
+            // btnTogglePassword
+            // 
+            btnTogglePassword.BackColor = Color.White;
+            btnTogglePassword.Cursor = Cursors.Hand;
+            btnTogglePassword.FlatAppearance.BorderSize = 0;
+            btnTogglePassword.FlatStyle = FlatStyle.Flat;
+            btnTogglePassword.Font = new Font("Segoe UI", 7.5F, FontStyle.Bold);
+            btnTogglePassword.Location = new Point(988, 319);
+            btnTogglePassword.Name = "btnTogglePassword";
+            btnTogglePassword.Size = new Size(48, 21);
+            btnTogglePassword.TabIndex = 7;
+            btnTogglePassword.Text = "SHOW";
+            btnTogglePassword.UseVisualStyleBackColor = false;
+            // 
             // FormLogin
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -135,20 +124,13 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1370, 749);
-
-            // Masukkan komponen mata, lalu bawa ke baris paling depan layar
             Controls.Add(btnTogglePassword);
-            btnTogglePassword.BringToFront();
-
-            // Masukkan sisa komponen kontrol lainnya (Cukup 1 kali saja)
             Controls.Add(lblSignUp);
             Controls.Add(label1);
             Controls.Add(BtnLogin);
-            Controls.Add(CmbRole);
             Controls.Add(TxtPassword);
             Controls.Add(TxtUsername);
             Controls.Add(FrmJudul);
-
             DoubleBuffered = true;
             Name = "FormLogin";
             Text = "FormLogin";
@@ -162,7 +144,6 @@
         private Label FrmJudul;
         private TextBox TxtUsername;
         private TextBox TxtPassword;
-        private ComboBox CmbRole;
         private Button BtnLogin;
         private Label label1;
         private LinkLabel lblSignUp;

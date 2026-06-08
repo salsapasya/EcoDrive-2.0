@@ -35,6 +35,7 @@
             btnSignUp = new Button();
             txtTelp = new TextBox();
             txtNama = new TextBox();
+            btnBack = new Button();
             SuspendLayout();
             // 
             // txtUsername
@@ -75,7 +76,7 @@
             // btnSignUp
             // 
             btnSignUp.AccessibleName = "btnSignUp";
-            btnSignUp.Location = new Point(959, 444);
+            btnSignUp.Location = new Point(982, 443);
             btnSignUp.Margin = new Padding(2);
             btnSignUp.Name = "btnSignUp";
             btnSignUp.Size = new Size(80, 28);
@@ -104,6 +105,16 @@
             txtNama.TabIndex = 7;
             txtNama.TextChanged += txtNama_TextChanged;
             // 
+            // btnBack
+            // 
+            btnBack.Location = new Point(892, 443);
+            btnBack.Name = "btnBack";
+            btnBack.Size = new Size(85, 26);
+            btnBack.TabIndex = 8;
+            btnBack.Text = "back";
+            btnBack.UseVisualStyleBackColor = true;
+            btnBack.Click += button1_Click;
+            // 
             // FormRegister
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -111,6 +122,7 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(1370, 749);
+            Controls.Add(btnBack);
             Controls.Add(txtNama);
             Controls.Add(txtTelp);
             Controls.Add(btnSignUp);
@@ -132,5 +144,6 @@
         private Button btnSignUp;
         private TextBox txtTelp;
         private TextBox txtNama;
+        private Button btnBack;
     }
 }

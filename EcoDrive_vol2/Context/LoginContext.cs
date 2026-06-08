@@ -2,7 +2,7 @@
 using EcoDrive_vol2.Models.Enums;
 using EcoDrive_vol2.Models.Users;
 using Npgsql;
-using System.Windows.Forms;
+using System;
 
 namespace EcoDrive_vol2.Context
 {
@@ -10,45 +10,63 @@ namespace EcoDrive_vol2.Context
     {
         public Users Login(string username, string password)
         {
+            using var conn = DatabaseHelper.GetConnection();
+
             try
             {
-                using NpgsqlConnection conn = DatabaseHelper.GetConnection();
                 conn.Open();
 
                 string query = @"
-                SELECT id_user, role_user::text, username
-                FROM users
-                WHERE username = @username
-                AND password_user = @password";
+                    SELECT
+                        id_user,
+                        role_user,
+                        username,
+                        nama_user
+                    FROM users
+                    WHERE username = @username
+                    AND password_user = @password";
 
-                using NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
+                using var cmd = new NpgsqlCommand(query, conn);
+
                 cmd.Parameters.AddWithValue("@username", username);
                 cmd.Parameters.AddWithValue("@password", password);
 
-                // ExecuteReader karena kita mau baca lebih dari 1 kolom
-                using NpgsqlDataReader reader = cmd.ExecuteReader();
+                using var reader = cmd.ExecuteReader();
 
                 if (reader.Read())
                 {
-                    Users loggedInUser = new Users();
-                    loggedInUser.IdUser = Convert.ToInt32(reader["id_user"]);
-                    loggedInUser.Username = reader["username"].ToString();
+                    Users user = new Users();
 
-                    string roleString = reader["role_user"].ToString();
-                    if (Enum.TryParse(roleString, true, out Roles parsedRole))
+                    user.IdUser =
+                        Convert.ToInt32(reader["id_user"]);
+
+                    user.Username =
+                        reader["username"].ToString();
+
+                    user.NamaUser =
+                        reader["nama_user"].ToString();
+
+                    string role =
+                        reader["role_user"].ToString();
+
+                    if (role.ToLower() == "admin")
                     {
-                        loggedInUser.RoleUser = parsedRole;
+                        user.RoleUser = Roles.admin;
+                    }
+                    else
+                    {
+                        user.RoleUser = Roles.customer;
                     }
 
-                    return loggedInUser;
+                    return user;
                 }
 
-                return null; // Jika username/password salah
+                return null;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Login Error : " + ex.Message);
-                return null;
+                throw new Exception(
+                    "Login gagal : " + ex.Message);
             }
         }
     }
