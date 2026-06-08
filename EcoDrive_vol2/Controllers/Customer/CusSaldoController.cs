@@ -2,12 +2,14 @@
 using System.Data;
 using EcoDrive_vol2.Service;
 using EcoDrive_vol2.Views.Admin;
+using EcoDrive_vol2.Context; // <-- 1. PASTIKAN TAMBAHIN INI
 
 namespace EcoDrive_vol2.Controllers.Customer
 {
     public class CusSaldoController
     {
         private readonly LoginService _loginService = new LoginService();
+        private readonly TopUpContext _topUpContext = new TopUpContext(); // <-- 2. TAMBAHIN INI
 
         public decimal GetSaldo(int idUser)
         {
@@ -30,6 +32,21 @@ namespace EcoDrive_vol2.Controllers.Customer
             catch (Exception ex)
             {
                 throw new Exception("Error di Controller saat top up saldo: " + ex.Message);
+            }
+        }
+
+        // ====================================================================
+        // JEMBATAN BARU: Digunakan oleh View CusSaldo untuk mengambil riwayat figma
+        // ====================================================================
+        public DataTable AmbilRiwayatTopUp(int idUser)
+        {
+            try
+            {
+                return _topUpContext.GetRiwayatTopUpByCustomer(idUser);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error di Controller saat mengambil riwayat top up: " + ex.Message);
             }
         }
 
@@ -56,7 +73,7 @@ namespace EcoDrive_vol2.Controllers.Customer
                 throw new Exception("Error di Controller saat konfirmasi top up: " + ex.Message);
             }
         }
-        
+
         public void TolakTopUp(int idTopup)
         {
             try
@@ -69,9 +86,6 @@ namespace EcoDrive_vol2.Controllers.Customer
             }
         }
 
-        // ====================================================================
-        // PENYESUAIAN: Fungsi baru agar View tidak langsung akses ke Service
-        // ====================================================================
         public int GetIdUserByUsername(string username)
         {
             try

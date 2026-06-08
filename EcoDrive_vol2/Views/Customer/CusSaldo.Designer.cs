@@ -30,11 +30,18 @@
         {
             mainPanel = new Panel();
             cardPanel = new Panel();
-            flowLayoutPanel1 = new FlowLayoutPanel();
+            flpRiwayatSaldo = new FlowLayoutPanel();
+            lblRiwayatTitle = new Label();
+            pnlSaldoCard = new Panel();
+            btnTopUp = new Button();
+            lblPengguna = new Label();
+            lblSaldoBesar = new Label();
+            lblTotalSaldoTitle = new Label();
             lblSubtitle = new Label();
             lblTitle = new Label();
             mainPanel.SuspendLayout();
             cardPanel.SuspendLayout();
+            pnlSaldoCard.SuspendLayout();
             SuspendLayout();
             // 
             // mainPanel
@@ -51,7 +58,9 @@
             // cardPanel
             // 
             cardPanel.BackColor = Color.White;
-            cardPanel.Controls.Add(flowLayoutPanel1);
+            cardPanel.Controls.Add(flpRiwayatSaldo);
+            cardPanel.Controls.Add(lblRiwayatTitle);
+            cardPanel.Controls.Add(pnlSaldoCard);
             cardPanel.Controls.Add(lblSubtitle);
             cardPanel.Controls.Add(lblTitle);
             cardPanel.Dock = DockStyle.Fill;
@@ -61,13 +70,87 @@
             cardPanel.Size = new Size(760, 415);
             cardPanel.TabIndex = 0;
             // 
-            // flowLayoutPanel1
+            // flpRiwayatSaldo
             // 
-            flowLayoutPanel1.Dock = DockStyle.Fill;
-            flowLayoutPanel1.Location = new Point(25, 99);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(710, 296);
-            flowLayoutPanel1.TabIndex = 4;
+            flpRiwayatSaldo.AutoScroll = true;
+            flpRiwayatSaldo.BackColor = Color.Transparent;
+            flpRiwayatSaldo.FlowDirection = FlowDirection.TopDown;
+            flpRiwayatSaldo.Location = new Point(28, 279);
+            flpRiwayatSaldo.Name = "flpRiwayatSaldo";
+            flpRiwayatSaldo.Size = new Size(704, 113);
+            flpRiwayatSaldo.TabIndex = 6;
+            flpRiwayatSaldo.WrapContents = false;
+            // 
+            // lblRiwayatTitle
+            // 
+            lblRiwayatTitle.AutoSize = true;
+            lblRiwayatTitle.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblRiwayatTitle.Location = new Point(25, 235);
+            lblRiwayatTitle.Name = "lblRiwayatTitle";
+            lblRiwayatTitle.Size = new Size(118, 21);
+            lblRiwayatTitle.TabIndex = 5;
+            lblRiwayatTitle.Text = "Riwayat Saldo";
+            lblRiwayatTitle.Click += lblRiwayatTitle_Click;
+            // 
+            // pnlSaldoCard
+            // 
+            pnlSaldoCard.BackColor = Color.FromArgb(30, 37, 47);
+            pnlSaldoCard.Controls.Add(btnTopUp);
+            pnlSaldoCard.Controls.Add(lblPengguna);
+            pnlSaldoCard.Controls.Add(lblSaldoBesar);
+            pnlSaldoCard.Controls.Add(lblTotalSaldoTitle);
+            pnlSaldoCard.Location = new Point(25, 102);
+            pnlSaldoCard.Name = "pnlSaldoCard";
+            pnlSaldoCard.Size = new Size(707, 113);
+            pnlSaldoCard.TabIndex = 4;
+            // 
+            // btnTopUp
+            // 
+            btnTopUp.BackColor = Color.FromArgb(134, 196, 62);
+            btnTopUp.FlatStyle = FlatStyle.Flat;
+            btnTopUp.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnTopUp.ForeColor = Color.White;
+            btnTopUp.Location = new Point(583, 62);
+            btnTopUp.Name = "btnTopUp";
+            btnTopUp.Size = new Size(94, 29);
+            btnTopUp.TabIndex = 3;
+            btnTopUp.Text = "Top Up Saldo";
+            btnTopUp.UseVisualStyleBackColor = false;
+            btnTopUp.Click += btnTopUp_Click_2;
+            // 
+            // lblPengguna
+            // 
+            lblPengguna.AutoSize = true;
+            lblPengguna.ForeColor = Color.DarkGray;
+            lblPengguna.Location = new Point(19, 70);
+            lblPengguna.Name = "lblPengguna";
+            lblPengguna.Size = new Size(162, 15);
+            lblPengguna.TabIndex = 2;
+            lblPengguna.Text = "ID Pengguna: ECO-2026-0001";
+            lblPengguna.Click += lblPengguna_Click;
+            // 
+            // lblSaldoBesar
+            // 
+            lblSaldoBesar.AutoSize = true;
+            lblSaldoBesar.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblSaldoBesar.ForeColor = Color.White;
+            lblSaldoBesar.Location = new Point(129, 12);
+            lblSaldoBesar.Name = "lblSaldoBesar";
+            lblSaldoBesar.Size = new Size(185, 37);
+            lblSaldoBesar.TabIndex = 1;
+            lblSaldoBesar.Text = "Rp 1.500.000";
+            lblSaldoBesar.Click += lblSaldoBesar_Click;
+            // 
+            // lblTotalSaldoTitle
+            // 
+            lblTotalSaldoTitle.AutoSize = true;
+            lblTotalSaldoTitle.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblTotalSaldoTitle.ForeColor = Color.LightGray;
+            lblTotalSaldoTitle.Location = new Point(19, 22);
+            lblTotalSaldoTitle.Name = "lblTotalSaldoTitle";
+            lblTotalSaldoTitle.Size = new Size(104, 25);
+            lblTotalSaldoTitle.TabIndex = 0;
+            lblTotalSaldoTitle.Text = "Total Saldo";
             // 
             // lblSubtitle
             // 
@@ -107,6 +190,8 @@
             mainPanel.ResumeLayout(false);
             cardPanel.ResumeLayout(false);
             cardPanel.PerformLayout();
+            pnlSaldoCard.ResumeLayout(false);
+            pnlSaldoCard.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -114,8 +199,14 @@
 
         private Panel mainPanel;
         private Panel cardPanel;
-        private FlowLayoutPanel flowLayoutPanel1;
         private Label lblSubtitle;
         private Label lblTitle;
+        private Panel pnlSaldoCard;
+        private Label lblTotalSaldoTitle;
+        private Label lblSaldoBesar;
+        private Button btnTopUp;
+        private Label lblPengguna;
+        private Label lblRiwayatTitle;
+        private FlowLayoutPanel flpRiwayatSaldo;
     }
 }
