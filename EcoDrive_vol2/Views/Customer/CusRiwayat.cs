@@ -149,5 +149,10 @@ namespace EcoDrive_vol2.Views
                 TextAlign = ContentAlignment.MiddleCenter 
             };
         }
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
