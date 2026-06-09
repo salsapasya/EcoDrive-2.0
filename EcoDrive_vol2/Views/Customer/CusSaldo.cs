@@ -45,6 +45,7 @@ namespace EcoDrive_vol2.Views
 
                 if (flpRiwayatSaldo != null)
                 {
+                    flpRiwayatSaldo.SuspendLayout();
                     flpRiwayatSaldo.Controls.Clear();
 
                     // FIX: Memastikan controller memanggil AmbilRiwayatTopUp dengan benar
@@ -55,7 +56,9 @@ namespace EcoDrive_vol2.Views
                         foreach (DataRow row in dtRiwayat.Rows)
                         {
                             string idTopUp = row["id_topup_saldo"].ToString();
-                            string status = row["status_topup"].ToString().ToUpper().Trim();
+                            string status = row["status_topup"].ToString().ToLower().Trim();
+                            string dbMintaBatal = row["minta_batal"] != DBNull.Value ? row["minta_batal"].ToString().ToLower().Trim() : "false";
+                            bool mintaBatal = row["minta_batal"] != DBNull.Value && Convert.ToBoolean(row["minta_batal"]);
                             decimal jumlah = Convert.ToDecimal(row["jumlah_topup"]);
 
                             Panel itemPanel = new Panel();
@@ -80,56 +83,111 @@ namespace EcoDrive_vol2.Views
                             lblNominal.Font = new Font("Segoe UI", 10.5f, FontStyle.Bold);
                             lblNominal.AutoSize = true;
 
-                            if (status == "BERHASIL" || status == "SUKSES")
+                            if (status == "berhasil")
                             {
                                 lblJudul.Text = "Top Up Saldo Berhasil";
                                 lblNominal.ForeColor = Color.ForestGreen;
+                                lblNominal.Text = "+ Rp " + jumlah.ToString("N0");
                                 lblNominal.Location = new Point(itemPanel.Width - 140, 20);
                             }
-                            else if (status == "GAGAL" || status == "BATAL")
+                            else if (status == "gagal")
                             {
                                 lblJudul.Text = "Top Up Dibatalkan / Gagal";
                                 lblNominal.ForeColor = Color.Firebrick;
+                                lblNominal.Text = "Rp " + jumlah.ToString("N0");
                                 lblNominal.Location = new Point(itemPanel.Width - 140, 20);
                             }
-                            else if (status == "PENDING")
+                            else if (status == "pending")
                             {
-                                lblJudul.Text = "Top Up Tertunda (Belum Dibayar)";
-                                lblNominal.ForeColor = Color.FromArgb(230, 140, 10);
-                                lblNominal.Location = new Point(itemPanel.Width - 290, 20);
+                                lblNominal.Text = "Rp " + jumlah.ToString("N0");
 
-                                Button btnBayar = new Button();
-                                btnBayar.Text = "Bayar";
-                                btnBayar.Size = new Size(60, 26);
-                                btnBayar.Location = new Point(itemPanel.Width - 135, 18);
-                                btnBayar.BackColor = Color.FromArgb(134, 196, 62);
-                                btnBayar.ForeColor = Color.White;
-                                btnBayar.FlatStyle = FlatStyle.Flat;
-                                btnBayar.FlatAppearance.BorderSize = 0;
-                                btnBayar.Cursor = Cursors.Hand;
-                                btnBayar.Click += (s, ev) => {
-                                    // Memastikan fungsi fallback jika controller butuh id_topup_saldo
-                                    controller.TopupSaldoLangsung(idUser, jumlah);
-                                    MessageBox.Show("Pembayaran sukses dikonfirmasi!", "Sukses");
-                                    LoadHalamanSaldo();
-                                };
+                                if (mintaBatal)
+                                {
+                                    lblJudul.Text = "Memproses Pembatalan (Menunggu Admin)";
+                                    lblNominal.ForeColor = Color.Firebrick;
+                                    lblNominal.Location = new Point(itemPanel.Width - 140, 20);
+                                }
+                                else
+                                {
+                                    lblJudul.Text = "Top Up Tertunda (Belum Dibayar)";
+                                    lblNominal.ForeColor = Color.FromArgb(230, 140, 10);
+                                    lblNominal.Location = new Point(itemPanel.Width - 290, 20);
 
-                                Button btnBatal = new Button();
-                                btnBatal.Text = "Batal";
-                                btnBatal.Size = new Size(60, 26);
-                                btnBatal.Location = new Point(itemPanel.Width - 70, 18);
-                                btnBatal.BackColor = Color.LightCoral;
-                                btnBatal.ForeColor = Color.White;
-                                btnBatal.FlatStyle = FlatStyle.Flat;
-                                btnBatal.FlatAppearance.BorderSize = 0;
-                                btnBatal.Cursor = Cursors.Hand;
-                                btnBatal.Click += (s, ev) => {
-                                    MessageBox.Show("Permintaan pembatalan diproses!", "Informasi");
-                                    LoadHalamanSaldo();
-                                };
+                                    Button btnBayar = new Button();
+                                    btnBayar.Text = "Bayar";
+                                    btnBayar.Size = new Size(60, 26);
+                                    btnBayar.Location = new Point(itemPanel.Width - 135, 18);
+                                    btnBayar.BackColor = Color.FromArgb(134, 196, 62);
+                                    btnBayar.ForeColor = Color.White;
+                                    btnBayar.FlatStyle = FlatStyle.Flat;
+                                    btnBayar.FlatAppearance.BorderSize = 0;
+                                    btnBayar.Cursor = Cursors.Hand;
 
-                                itemPanel.Controls.Add(btnBayar);
-                                itemPanel.Controls.Add(btnBatal);
+                                    Button btnBatal = new Button();
+                                    btnBatal.Text = "Batal";
+                                    btnBatal.Size = new Size(60, 26);
+                                    btnBatal.Location = new Point(itemPanel.Width - 70, 18);
+                                    btnBatal.BackColor = Color.LightCoral;
+                                    btnBatal.ForeColor = Color.White;
+                                    btnBatal.FlatStyle = FlatStyle.Flat;
+                                    btnBatal.FlatAppearance.BorderSize = 0;
+                                    btnBatal.Cursor = Cursors.Hand;
+
+                                    btnBayar.Click += (s, ev) =>
+                                    {
+                                        // 1. Matikan tombol dan langsung SEMBUNYIKAN dari layar biar gak bisa di-klik lagi!
+                                        btnBayar.Enabled = false;
+                                        btnBatal.Enabled = false;
+                                        btnBayar.Visible = false;
+                                        btnBatal.Visible = false;
+
+                                        try
+                                        {
+                                            controller.BayarPendingLangsung(Convert.ToInt32(idTopUp), idUser, jumlah);
+                                            MessageBox.Show($"Pembayaran Rp {jumlah:N0} Berhasil! Saldo Anda telah ditambahkan.", "Top Up Sukses");
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            MessageBox.Show("Gagal memproses pembayaran: " + ex.Message);
+                                            // Kalau gagal, munculin lagi tombolnya
+                                            btnBayar.Enabled = true;
+                                            btnBatal.Enabled = true;
+                                            btnBayar.Visible = true;
+                                            btnBatal.Visible = true;
+                                        }
+
+                                        LoadHalamanSaldo();
+                                    };
+
+                                    btnBatal.Click += (s, ev) =>
+                                    {
+                                        // 1. Sembunyikan juga tombol batalnya biar gak dispam!
+                                        btnBayar.Enabled = false;
+                                        btnBatal.Enabled = false;
+                                        btnBayar.Visible = false;
+                                        btnBatal.Visible = false;
+
+                                        try
+                                        {
+                                            controller.UbahMintaBatalCustomer(Convert.ToInt32(idTopUp));
+                                            MessageBox.Show("Permintaan pembatalan transaksi dikirim ke admin!", "Informasi");
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            MessageBox.Show("Gagal membatalkan: " + ex.Message);
+                                            btnBayar.Enabled = true;
+                                            btnBatal.Enabled = true;
+                                            btnBayar.Visible = true;
+                                            btnBatal.Visible = true;
+                                        }
+
+                                        LoadHalamanSaldo();
+                                    };
+
+                                    itemPanel.Controls.Add(btnBayar);
+                                    itemPanel.Controls.Add(btnBatal);
+                                }
+                                
                             }
 
                             itemPanel.Controls.Add(lblJudul);
@@ -138,6 +196,7 @@ namespace EcoDrive_vol2.Views
                             flpRiwayatSaldo.Controls.Add(itemPanel);
                         }
                     }
+                    flpRiwayatSaldo.ResumeLayout(true);
                 }
             }
             catch (Exception ex)
@@ -266,7 +325,7 @@ namespace EcoDrive_vol2.Views
                 else if (rbNanti.Checked)
                 {
                     controller.TopupSaldoPending(idUser, nominalInput);
-                    MessageBox.Show($"Invoice pending dibuat sebesar Rp {nominalInput:N0}! Saldo Anda tetap ditambahkan otomatis.", "Invoice Pending", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show($"Invoice pending dibuat sebesar Rp {nominalInput:N0}! Silakan lakukan pembayaran pada list riwayat saldo.", "Invoice Pending", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
                 panelOverlay.Visible = false;
@@ -288,5 +347,15 @@ namespace EcoDrive_vol2.Views
         private void lblRiwayatTitle_Click(object sender, EventArgs e) { }
         private void lblPengguna_Click(object sender, EventArgs e) { }
         private void btnTopUp_Click_2(object sender, EventArgs e) { }
+
+        private void lblTitle_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

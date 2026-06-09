@@ -72,6 +72,7 @@
             // 
             // flpRiwayatSaldo
             // 
+            flpRiwayatSaldo.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             flpRiwayatSaldo.AutoScroll = true;
             flpRiwayatSaldo.BackColor = Color.Transparent;
             flpRiwayatSaldo.FlowDirection = FlowDirection.TopDown;
@@ -200,7 +201,6 @@
         private Panel mainPanel;
         private Panel cardPanel;
         private Label lblSubtitle;
-        private Label lblTitle;
         private Panel pnlSaldoCard;
         private Label lblTotalSaldoTitle;
         private Label lblSaldo;
@@ -208,5 +208,6 @@
         private Label lblPengguna;
         private Label lblRiwayatTitle;
         private FlowLayoutPanel flpRiwayatSaldo;
+        private Label lblTitle;
     }
 }
