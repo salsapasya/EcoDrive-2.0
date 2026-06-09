@@ -103,7 +103,7 @@
             flpSewa.FlowDirection = FlowDirection.TopDown;
             flpSewa.Location = new Point(3, 3);
             flpSewa.Name = "flpSewa";
-            flpSewa.Size = new Size(696, 262);
+            flpSewa.Size = new Size(906, 391);
             flpSewa.TabIndex = 0;
             flpSewa.WrapContents = false;
             // 
@@ -113,7 +113,7 @@
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(702, 268);
+            tabPage2.Size = new Size(912, 397);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Charging";
             tabPage2.UseVisualStyleBackColor = true;
@@ -125,7 +125,7 @@
             flpCharging.FlowDirection = FlowDirection.TopDown;
             flpCharging.Location = new Point(3, 3);
             flpCharging.Name = "flpCharging";
-            flpCharging.Size = new Size(696, 262);
+            flpCharging.Size = new Size(906, 391);
             flpCharging.TabIndex = 1;
             flpCharging.WrapContents = false;
             // 
@@ -135,7 +135,7 @@
             tabPage3.Location = new Point(4, 24);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(702, 268);
+            tabPage3.Size = new Size(912, 397);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Top Up";
             tabPage3.UseVisualStyleBackColor = true;
@@ -147,7 +147,7 @@
             flpTopUp.FlowDirection = FlowDirection.TopDown;
             flpTopUp.Location = new Point(3, 3);
             flpTopUp.Name = "flpTopUp";
-            flpTopUp.Size = new Size(696, 262);
+            flpTopUp.Size = new Size(906, 391);
             flpTopUp.TabIndex = 1;
             flpTopUp.WrapContents = false;
             // 
