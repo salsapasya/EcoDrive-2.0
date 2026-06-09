@@ -33,18 +33,11 @@
             btnGagal = new Button();
             btnBerhasil = new Button();
             dgvTransaksi = new DataGridView();
-            colIdTransaksi = new DataGridViewTextBoxColumn();
-            colUsername = new DataGridViewTextBoxColumn();
-            colNama = new DataGridViewTextBoxColumn();
-            colKontak = new DataGridViewTextBoxColumn();
-            colJumlahTopup = new DataGridViewTextBoxColumn();
-            colStatus = new DataGridViewTextBoxColumn();
             btnPending = new Button();
             lblTitle = new Label();
             btnSemua = new Button();
             lblSubtitle = new Label();
             panelAksiSide = new EcoDriveUI.RoundedPanel();
-            btnTolakTopUp = new Button();
             lblAksiTitle = new Label();
             lblHintCari = new Label();
             txtUsernameCari = new TextBox();
@@ -53,6 +46,13 @@
             lblSaldoAktifHeader = new Label();
             lblSaldoAktif = new Label();
             btnKonfirmasiTopUp = new Button();
+            colIdTransaksi = new DataGridViewTextBoxColumn();
+            colUsername = new DataGridViewTextBoxColumn();
+            colNama = new DataGridViewTextBoxColumn();
+            colKontak = new DataGridViewTextBoxColumn();
+            colJumlahTopup = new DataGridViewTextBoxColumn();
+            colStatus = new DataGridViewTextBoxColumn();
+            colMintaBatal = new DataGridViewTextBoxColumn();
             cardPanel.SuspendLayout();
             mainPanel.SuspendLayout();
             panelCard1.SuspendLayout();
@@ -231,7 +231,7 @@
             dataGridViewCellStyle1.ForeColor = Color.FromArgb(46, 125, 50);
             dgvTransaksi.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvTransaksi.ColumnHeadersHeight = 45;
-            dgvTransaksi.Columns.AddRange(new DataGridViewColumn[] { colIdTransaksi, colUsername, colNama, colKontak, colJumlahTopup, colStatus });
+            dgvTransaksi.Columns.AddRange(new DataGridViewColumn[] { colIdTransaksi, colUsername, colNama, colKontak, colJumlahTopup, colStatus, colMintaBatal });
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = Color.White;
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 9.5F);
@@ -250,47 +250,6 @@
             dgvTransaksi.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvTransaksi.Size = new Size(700, 340);
             dgvTransaksi.TabIndex = 5;
-            // 
-            // colIdTransaksi
-            // 
-            colIdTransaksi.HeaderText = "ID";
-            colIdTransaksi.Name = "colIdTransaksi";
-            colIdTransaksi.ReadOnly = true;
-            colIdTransaksi.Width = 50;
-            // 
-            // colUsername
-            // 
-            colUsername.HeaderText = "Username";
-            colUsername.Name = "colUsername";
-            colUsername.ReadOnly = true;
-            // 
-            // colNama
-            // 
-            colNama.HeaderText = "Customer";
-            colNama.Name = "colNama";
-            colNama.ReadOnly = true;
-            colNama.Width = 140;
-            // 
-            // colKontak
-            // 
-            colKontak.HeaderText = "Kontak";
-            colKontak.Name = "colKontak";
-            colKontak.ReadOnly = true;
-            colKontak.Width = 110;
-            // 
-            // colJumlahTopup
-            // 
-            colJumlahTopup.HeaderText = "Nominal";
-            colJumlahTopup.Name = "colJumlahTopup";
-            colJumlahTopup.ReadOnly = true;
-            colJumlahTopup.Width = 110;
-            // 
-            // colStatus
-            // 
-            colStatus.HeaderText = "Status";
-            colStatus.Name = "colStatus";
-            colStatus.ReadOnly = true;
-            colStatus.Width = 90;
             // 
             // btnPending
             // 
@@ -345,7 +304,6 @@
             // panelAksiSide
             // 
             panelAksiSide.BackColor = Color.White;
-            panelAksiSide.Controls.Add(btnTolakTopUp);
             panelAksiSide.Controls.Add(lblAksiTitle);
             panelAksiSide.Controls.Add(lblHintCari);
             panelAksiSide.Controls.Add(txtUsernameCari);
@@ -358,21 +316,6 @@
             panelAksiSide.Name = "panelAksiSide";
             panelAksiSide.Size = new Size(230, 510);
             panelAksiSide.TabIndex = 10;
-            // 
-            // btnTolakTopUp
-            // 
-            btnTolakTopUp.BackColor = Color.Firebrick;
-            btnTolakTopUp.FlatAppearance.BorderSize = 0;
-            btnTolakTopUp.FlatStyle = FlatStyle.Flat;
-            btnTolakTopUp.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            btnTolakTopUp.ForeColor = Color.White;
-            btnTolakTopUp.Location = new Point(18, 425);
-            btnTolakTopUp.Name = "btnTolakTopUp";
-            btnTolakTopUp.Size = new Size(194, 45);
-            btnTolakTopUp.TabIndex = 8;
-            btnTolakTopUp.Text = "✖ TOLAK TOP UP";
-            btnTolakTopUp.UseVisualStyleBackColor = false;
-            btnTolakTopUp.Click += btnTolakTopUp_Click;
             // 
             // lblAksiTitle
             // 
@@ -458,8 +401,56 @@
             btnKonfirmasiTopUp.Name = "btnKonfirmasiTopUp";
             btnKonfirmasiTopUp.Size = new Size(194, 45);
             btnKonfirmasiTopUp.TabIndex = 7;
-            btnKonfirmasiTopUp.Text = "✔ SETUJUI TOP UP";
+            btnKonfirmasiTopUp.Text = "✔ SETUJUI PEMBATALAN";
             btnKonfirmasiTopUp.UseVisualStyleBackColor = false;
+            // 
+            // colIdTransaksi
+            // 
+            colIdTransaksi.HeaderText = "ID";
+            colIdTransaksi.Name = "colIdTransaksi";
+            colIdTransaksi.ReadOnly = true;
+            colIdTransaksi.Width = 50;
+            // 
+            // colUsername
+            // 
+            colUsername.HeaderText = "Username";
+            colUsername.Name = "colUsername";
+            colUsername.ReadOnly = true;
+            // 
+            // colNama
+            // 
+            colNama.HeaderText = "Customer";
+            colNama.Name = "colNama";
+            colNama.ReadOnly = true;
+            colNama.Width = 140;
+            // 
+            // colKontak
+            // 
+            colKontak.HeaderText = "Kontak";
+            colKontak.Name = "colKontak";
+            colKontak.ReadOnly = true;
+            colKontak.Width = 110;
+            // 
+            // colJumlahTopup
+            // 
+            colJumlahTopup.HeaderText = "Nominal";
+            colJumlahTopup.Name = "colJumlahTopup";
+            colJumlahTopup.ReadOnly = true;
+            colJumlahTopup.Width = 110;
+            // 
+            // colStatus
+            // 
+            colStatus.HeaderText = "Status";
+            colStatus.Name = "colStatus";
+            colStatus.ReadOnly = true;
+            colStatus.Width = 90;
+            // 
+            // colMintaBatal
+            // 
+            colMintaBatal.DataPropertyName = "minta_batal";
+            colMintaBatal.HeaderText = "Minta Batal";
+            colMintaBatal.Name = "colMintaBatal";
+            colMintaBatal.ReadOnly = true;
             // 
             // AdTopUpCustomer
             // 
@@ -496,13 +487,6 @@
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Label lblSubtitle;
 
-        private System.Windows.Forms.DataGridViewTextBoxColumn colIdTransaksi;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colJumlahTopup;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colUsername;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colNama;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colKontak;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colStatus;
-
         private EcoDriveUI.RoundedPanel panelCard1;
         private System.Windows.Forms.Label lblCardTitle1;
         private System.Windows.Forms.Label lblCardValue1;
@@ -524,6 +508,12 @@
         private System.Windows.Forms.Label lblSaldoAktifHeader;
         private System.Windows.Forms.Label lblSaldoAktif;
         private System.Windows.Forms.Button btnKonfirmasiTopUp;
-        private Button btnTolakTopUp;
+        private DataGridViewTextBoxColumn colIdTransaksi;
+        private DataGridViewTextBoxColumn colUsername;
+        private DataGridViewTextBoxColumn colNama;
+        private DataGridViewTextBoxColumn colKontak;
+        private DataGridViewTextBoxColumn colJumlahTopup;
+        private DataGridViewTextBoxColumn colStatus;
+        private DataGridViewTextBoxColumn colMintaBatal;
     }
 }

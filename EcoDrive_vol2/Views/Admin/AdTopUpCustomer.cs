@@ -34,7 +34,6 @@ namespace EcoDrive_vol2.Views.Admin
             this.Load += AdTopUpCustomer_Load;
             dgvTransaksi.CellClick += dgvTransaksi_CellClick;
             btnKonfirmasiTopUp.Click += btnKonfirmasiTopUp_Click;
-            btnTolakTopUp.Click+= btnTolakTopUp_Click; 
 
             btnSemua.Click += (s, e) => { _currentFilter = ""; LoadDataTransaksi(); };
             btnPending.Click += (s, e) => { _currentFilter = "pending"; LoadDataTransaksi(); };
@@ -64,12 +63,13 @@ namespace EcoDrive_vol2.Views.Admin
                     decimal nominal = row["jumlah_topup"] != DBNull.Value ? Convert.ToDecimal(row["jumlah_topup"]) : 0;
 
                     dgvTransaksi.Rows.Add(
-                        row["id_transaksi"].ToString(),
+                        row["id_topup_saldo"].ToString(),
                         row["username"].ToString(),
-                        row["nama"].ToString(),
-                        row["kontak"].ToString(),
+                        row["nama_user"].ToString(),
+                        row["no_telp_user"].ToString(),
                         nominal.ToString("N0", _idCulture),
-                        row["status"].ToString().ToUpper()
+                        row["status"].ToString().ToUpper(),
+                        row["minta_batal"].ToString()
                     );
                 }
 
@@ -117,6 +117,12 @@ namespace EcoDrive_vol2.Views.Admin
                 string nominalText = row.Cells["colJumlahTopup"].Value?.ToString() ?? "0";
                 string status = row.Cells["colStatus"].Value?.ToString() ?? "";
 
+                bool isMintaBatal = false;
+                if (row.Cells["colMintaBatal"].Value != null && row.Cells["colMintaBatal"].Value != DBNull.Value)
+                {
+                    isMintaBatal = Convert.ToBoolean(row.Cells["colMintaBatal"].Value);
+                }
+
                 if (decimal.TryParse(nominalText, NumberStyles.Number, _idCulture, out decimal hasilParsing))
                 {
                     _nominalTopupDipilih = hasilParsing;
@@ -132,25 +138,25 @@ namespace EcoDrive_vol2.Views.Admin
                 // ====================================================================
                 // LOGIKA UTAMA: VALIDASI STATUS UNTUK MENGUNCI TOMBOL AKSI
                 // ====================================================================
-                if (status == "BERHASIL" || status == "GAGAL")
+                if (status == "PENDING" && isMintaBatal == true)
                 {
-                    btnKonfirmasiTopUp.Enabled = false;
-                    btnKonfirmasiTopUp.BackColor = Color.DarkGray; // Berubah warna menjadi abu-abu tanda terkunci
-                    btnKonfirmasiTopUp.Text = $"✔ {status} (DIKUNCI)";
-
-                    btnTolakTopUp.Enabled = false;
-                    btnTolakTopUp.BackColor = Color.DarkGray;
-                    btnTolakTopUp.Text = $"✖ {status} (DIKUNCI)";
+                    btnKonfirmasiTopUp.Enabled = true;
+                    btnKonfirmasiTopUp.BackColor = Color.FromArgb(46, 125, 50); // warna hijau
+                    btnKonfirmasiTopUp.Text = "✔ SETUJUI PEMBATALAN";
                 }
                 else
                 {
-                    btnKonfirmasiTopUp.Enabled = true;
-                    btnKonfirmasiTopUp.BackColor = Color.FromArgb(46, 125, 50); // Kembalikan ke warna hijau EcoDrive
-                    btnKonfirmasiTopUp.Text = "✔ SETUJUI TOP UP";
-
-                    btnTolakTopUp.Enabled = true;
-                    btnTolakTopUp.BackColor = Color.FromArgb(211, 47, 47); // Merah
-                    btnTolakTopUp.Text = "✖ TOLAK TOP UP";
+                    btnKonfirmasiTopUp.Enabled = false;
+                    btnKonfirmasiTopUp.BackColor = Color.DarkGray; // Tombol berubah jadi abu-abu terkunci
+                    if (status == "BERHASIL" || status == "GAGAL")
+                    {
+                        btnKonfirmasiTopUp.Text = $"✔ {status} (DIKUNCI)";
+                    }
+                    else
+                    {
+                        // Ini case ketika status PENDING tapi isMintaBatal == false (berarti customer sedang bayar nanti/menunggu transferan)
+                        btnKonfirmasiTopUp.Text = "⏳ MENUNGGU PEMBAYARAN (DIKUNCI)";
+                    }
                 }
             }
             catch (Exception ex)
@@ -211,15 +217,15 @@ namespace EcoDrive_vol2.Views.Admin
                 }
 
                 DialogResult result = MessageBox.Show(
-                    $"Setujui top up sebesar {_nominalTopupDipilih.ToString("C0", _idCulture)} ke user {lblNamaCustomer.Text}?",
-                    "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    $"Apakah Anda yakin ingin MENYETUJUI PEMBATALAN top up sebesar {_nominalTopupDipilih.ToString("C0", _idCulture)} dari user {lblNamaCustomer.Text}?\n\n(Status transaksi akan berubah menjadi GAGAL dan tidak menambah saldo)",
+                    "Konfirmasi Pembatalan", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (result != DialogResult.Yes) return;
 
                 // Eksekusi Konfirmasi ke Database melalui Controller
                 _saldoController.KonfirmasiTopUp(_idTopupDipilih, _idUserTarget);
 
-                MessageBox.Show("Top up berhasil dikonfirmasi.", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Pembatalan top up berhasil disetujui (Status menjadi GAGAL).", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 ResetFormTampilan();
                 txtUsernameCari.Clear();
@@ -244,41 +250,7 @@ namespace EcoDrive_vol2.Views.Admin
 
             btnKonfirmasiTopUp.Enabled = false;
             btnKonfirmasiTopUp.BackColor = Color.DarkGray;
-            btnKonfirmasiTopUp.Text = "✔ SETUJUI TOP UP";
-
-            btnTolakTopUp.Enabled = false;
-            btnTolakTopUp.BackColor = Color.DarkGray;
-            btnTolakTopUp.Text = "✖ TOLAK TOP UP";
-        }
-
-        private void btnTolakTopUp_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (_idTopupDipilih <= 0)
-                {
-                    MessageBox.Show("Data transaksi atau customer tidak valid!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                DialogResult result = MessageBox.Show(
-                    $"Apakah Anda yakin ingin MENOLAK permintaan top up sebesar {_nominalTopupDipilih.ToString("C0", _idCulture)} dari {lblNamaCustomer.Text}?",
-                    "Konfirmasi Penolakan", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-
-                if (result != DialogResult.Yes) return;
-
-                _saldoController.TolakTopUp(_idTopupDipilih);
-
-                MessageBox.Show("Top up berhasil DITOLAK. Saldo user tidak ditambahkan.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                ResetFormTampilan();
-                txtUsernameCari.Clear();
-                LoadDataTransaksi();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Peringatan Sistem", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            btnKonfirmasiTopUp.Text = "✔ SETUJUI PEMBATALAN";
         }
     }
 }

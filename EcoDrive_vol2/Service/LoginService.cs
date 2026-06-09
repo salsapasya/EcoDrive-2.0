@@ -4,6 +4,8 @@ using EcoDrive_vol2.Models.Users;
 using Npgsql;
 using System;
 using System.Data; // WAJIB untuk menggunakan DataTable
+using EcoDrive_vol2.Models.Users;
+using EcoDrive_vol2.Context.Admin;
 
 namespace EcoDrive_vol2.Service
 {
@@ -12,6 +14,7 @@ namespace EcoDrive_vol2.Service
         // Satukan instansiasi context agar rapi dan tidak duplikat
         private readonly UserContext _userContext = new UserContext();
         private readonly LoginContext _loginContext = new LoginContext();
+        private readonly TopUpCustomerContext _topUpCustomerContext = new TopUpCustomerContext();
 
         public decimal AmbilSaldoUser(int idUser)
         {
@@ -32,7 +35,7 @@ namespace EcoDrive_vol2.Service
         public DataTable AmbilDaftarTopUpAdmin(string statusFilter = "")
         {
             // Diarahkan ke UserContext yang bertugas mengambil data dari SQL View
-            return _userContext.GetDaftarTopUpFromView(statusFilter);
+            return _topUpCustomerContext.GetDaftarTopUpFromView(statusFilter);
         }
         public void KonfirmasiTopUp(int idTopup, int idUser)
         {
@@ -40,17 +43,8 @@ namespace EcoDrive_vol2.Service
             if (idUser <= 0) throw new ArgumentException("ID User tidak valid!");
 
             // Meneruskan perintah eksekusi ke UserContext
-            _userContext.KonfirmasiTopUp(idTopup, idUser);
+            _topUpCustomerContext.KonfirmasiTopUp(idTopup, idUser);
         }
-
-        public void TolakTopUp(int idTopup)
-        {
-            if (idTopup <= 0) throw new ArgumentException("ID Top Up tidak valid!");
-
-            // Meneruskan ke UserContext
-            _userContext.TolakTopUp(idTopup);
-        }
-
         public Users Login(string username, string password)
         {
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
