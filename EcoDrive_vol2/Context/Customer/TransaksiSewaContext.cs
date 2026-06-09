@@ -76,37 +76,6 @@ namespace EcoDrive_vol2.Context.Customer
         }
 
         // ====================================================================
-        // DIPAKAI CUSTOMER: Melihat riwayat transaksinya sendiri
-        // ====================================================================
-        public List<TransaksiSewa> GetRiwayatByUser(int idUser)
-        {
-            List<TransaksiSewa> list = new List<TransaksiSewa>();
-            using var conn = DatabaseHelper.GetConnection();
-
-            try
-            {
-                conn.Open();
-                string query = "SELECT * FROM view_riwayat_customer WHERE id_user = @idUser ORDER BY id_transaksi_sewa DESC";
-
-                using var cmd = new NpgsqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@idUser", idUser);
-
-                using var reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    TransaksiSewa sewa = MappingReaderToModel(reader);
-                    list.Add(sewa);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error Get Riwayat By User : " + ex.Message, ex);
-            }
-
-            return list;
-        }
-
-        // ====================================================================
         // DIPAKAI ADMIN: Mengubah status transaksi sewa
         // ====================================================================
         public void UpdateStatusPengembalian(int idTransaksiSewa)
