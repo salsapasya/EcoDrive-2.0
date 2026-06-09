@@ -104,7 +104,7 @@
             flpSewa.FlowDirection = FlowDirection.TopDown;
             flpSewa.Location = new Point(3, 3);
             flpSewa.Name = "flpSewa";
-            flpSewa.Size = new Size(696, 262);
+            flpSewa.Size = new Size(906, 391);
             flpSewa.TabIndex = 0;
             flpSewa.WrapContents = false;
             // 
@@ -126,7 +126,7 @@
             flpCharging.FlowDirection = FlowDirection.TopDown;
             flpCharging.Location = new Point(3, 3);
             flpCharging.Name = "flpCharging";
-            flpCharging.Size = new Size(696, 262);
+            flpCharging.Size = new Size(906, 391);
             flpCharging.TabIndex = 1;
             flpCharging.WrapContents = false;
             // 
@@ -148,7 +148,7 @@
             flpTopUp.FlowDirection = FlowDirection.TopDown;
             flpTopUp.Location = new Point(3, 3);
             flpTopUp.Name = "flpTopUp";
-            flpTopUp.Size = new Size(696, 262);
+            flpTopUp.Size = new Size(906, 391);
             flpTopUp.TabIndex = 1;
             flpTopUp.WrapContents = false;
             // 
