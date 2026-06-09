@@ -116,6 +116,7 @@ namespace EcoDrive_vol2.Views
             txtSearch.Padding = new Padding(15, 8, 15, 8);
             txtSearch.Size = new Size(560, 41);
             txtSearch.TabIndex = 0;
+            txtSearch.Load += txtSearch_Load;
             // 
             // leftFilterFlow
             // 

@@ -75,22 +75,25 @@ namespace EcoDrive_vol2.Context.Customer
             return transaksiSewaList;
         }
 
-        // ====================================================================
-        // DIPAKAI ADMIN: Mengubah status transaksi sewa
-        // ====================================================================
+    
         public void UpdateStatusPengembalian(int idTransaksiSewa)
         {
             using var conn = DatabaseHelper.GetConnection();
             try
             {
                 conn.Open();
+
                 string query = @"UPDATE transaksi_sewa 
-                                 SET status_pengembalian = @statusPengembalian::status_kembali 
-                                 WHERE id_transaksi_sewa = @idTransaksiSewa";
+                         SET status_pengembalian = @statusPengembalian::status_kembali 
+                         WHERE id_transaksi_sewa = @idTransaksiSewa";
 
                 using var cmd = new NpgsqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("statusPengembalian", StatusKembali.sudah_kembali.ToString().Replace("_", " "));
+
+                string statusDb = StatusKembali.sudah_kembali.ToString().Replace("_", " ");
+
+                cmd.Parameters.AddWithValue("statusPengembalian", statusDb);
                 cmd.Parameters.AddWithValue("idTransaksiSewa", idTransaksiSewa);
+
                 cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -110,9 +113,8 @@ namespace EcoDrive_vol2.Context.Customer
                 IdUser = Convert.ToInt32(reader["id_user"]),
                 IdKendaraan = Convert.ToInt32(reader["id_kendaraan"]),
 
-                // Mengantisipasi runtime error crash DateOnly
                 TanggalSewa = reader.GetFieldValue<DateOnly>(reader.GetOrdinal("tanggal_sewa")).ToDateTime(TimeOnly.MinValue),
-                TanggalKembali = reader.GetFieldValue<DateOnly>(reader.GetOrdinal("tanggal_kali" /* typo dari source, kita amankan menjadi tanggal_kembali */ == "tanggal_kali" ? "tanggal_kembali" : "tanggal_kembali")).ToDateTime(TimeOnly.MinValue),
+                TanggalKembali = reader.GetFieldValue<DateOnly>(reader.GetOrdinal("tanggal_kembali")).ToDateTime(TimeOnly.MinValue),
 
                 DurasiSewa = Convert.ToInt32(reader["durasi_sewa"]),
                 StatusPengembalian = Enum.Parse<StatusKembali>(reader["status_pengembalian"].ToString().Replace(" ", "_"))

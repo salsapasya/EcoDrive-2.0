@@ -4,6 +4,9 @@
     <Compile Update="UI\RoundedPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Update="Views\Admin\AdDashboard.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Views\Admin\AdKendaraan.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -14,9 +17,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Views\Admin\AdCustomer.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Views\Admin\AdDashboard.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="Views\Admin\AdPendapatan.cs">

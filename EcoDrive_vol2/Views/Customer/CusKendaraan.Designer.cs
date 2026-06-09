@@ -32,11 +32,11 @@
             cardPanel = new Panel();
             flowLayoutPanel1 = new FlowLayoutPanel();
             filterTableLayout = new TableLayoutPanel();
-            txtSearch = new TextBox();
             leftFilterFlow = new FlowLayoutPanel();
             btnSemua = new Button();
             btnMobil = new Button();
             btnMotor = new Button();
+            txtSearch = new TextBox();
             lblSubtitle = new Label();
             lblTitle = new Label();
             mainPanel.SuspendLayout();
@@ -87,10 +87,10 @@
             // 
             filterTableLayout.ColumnCount = 3;
             filterTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            filterTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 240F));
+            filterTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 320F));
             filterTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 10F));
-            filterTableLayout.Controls.Add(txtSearch, 0, 0);
             filterTableLayout.Controls.Add(leftFilterFlow, 1, 0);
+            filterTableLayout.Controls.Add(txtSearch, 0, 0);
             filterTableLayout.Dock = DockStyle.Top;
             filterTableLayout.Location = new Point(25, 99);
             filterTableLayout.Name = "filterTableLayout";
@@ -99,28 +99,16 @@
             filterTableLayout.Size = new Size(1010, 45);
             filterTableLayout.TabIndex = 1;
             // 
-            // txtSearch
-            // 
-            txtSearch.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            txtSearch.BackColor = Color.FromArgb(248, 244, 238);
-            txtSearch.Font = new Font("Segoe UI", 11F);
-            txtSearch.Location = new Point(0, 2);
-            txtSearch.Margin = new Padding(0, 2, 15, 2);
-            txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(745, 27);
-            txtSearch.TabIndex = 0;
-            txtSearch.TextChanged += TxtSearch_TextChanged;
-            // 
             // leftFilterFlow
             // 
             leftFilterFlow.Controls.Add(btnSemua);
             leftFilterFlow.Controls.Add(btnMobil);
             leftFilterFlow.Controls.Add(btnMotor);
             leftFilterFlow.Dock = DockStyle.Fill;
-            leftFilterFlow.Location = new Point(760, 0);
+            leftFilterFlow.Location = new Point(680, 0);
             leftFilterFlow.Margin = new Padding(0);
             leftFilterFlow.Name = "leftFilterFlow";
-            leftFilterFlow.Size = new Size(240, 45);
+            leftFilterFlow.Size = new Size(320, 45);
             leftFilterFlow.TabIndex = 1;
             // 
             // btnSemua
@@ -129,9 +117,9 @@
             btnSemua.FlatStyle = FlatStyle.Flat;
             btnSemua.ForeColor = Color.White;
             btnSemua.Location = new Point(0, 2);
-            btnSemua.Margin = new Padding(0, 2, 6, 0);
+            btnSemua.Margin = new Padding(0, 2, 8, 0);
             btnSemua.Name = "btnSemua";
-            btnSemua.Size = new Size(75, 36);
+            btnSemua.Size = new Size(90, 36);
             btnSemua.TabIndex = 1;
             btnSemua.Text = "Semua";
             btnSemua.UseVisualStyleBackColor = false;
@@ -141,10 +129,10 @@
             btnMobil.BackColor = Color.FromArgb(248, 244, 238);
             btnMobil.FlatStyle = FlatStyle.Flat;
             btnMobil.ForeColor = Color.FromArgb(45, 45, 45);
-            btnMobil.Location = new Point(81, 2);
-            btnMobil.Margin = new Padding(0, 2, 6, 0);
+            btnMobil.Location = new Point(98, 2);
+            btnMobil.Margin = new Padding(0, 2, 8, 0);
             btnMobil.Name = "btnMobil";
-            btnMobil.Size = new Size(70, 36);
+            btnMobil.Size = new Size(95, 36);
             btnMobil.TabIndex = 2;
             btnMobil.Text = "Mobil";
             btnMobil.UseVisualStyleBackColor = false;
@@ -154,13 +142,22 @@
             btnMotor.BackColor = Color.FromArgb(248, 244, 238);
             btnMotor.FlatStyle = FlatStyle.Flat;
             btnMotor.ForeColor = Color.FromArgb(45, 45, 45);
-            btnMotor.Location = new Point(157, 2);
+            btnMotor.Location = new Point(201, 2);
             btnMotor.Margin = new Padding(0, 2, 0, 0);
             btnMotor.Name = "btnMotor";
-            btnMotor.Size = new Size(70, 36);
+            btnMotor.Size = new Size(95, 36);
             btnMotor.TabIndex = 3;
             btnMotor.Text = "Motor";
             btnMotor.UseVisualStyleBackColor = false;
+            // 
+            // txtSearch
+            // 
+            txtSearch.Dock = DockStyle.Fill;
+            txtSearch.Location = new Point(3, 3);
+            txtSearch.Margin = new Padding(3, 3, 4, 4);
+            txtSearch.Name = "txtSearch";
+            txtSearch.Size = new Size(673, 23);
+            txtSearch.TabIndex = 0;
             // 
             // lblSubtitle
             // 
