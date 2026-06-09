@@ -18,24 +18,18 @@ namespace EcoDrive_vol2.Service
         private readonly TransaksiChargingContext _chargingContext;
         private readonly TransaksiSewaContext _sewaContext;
         private readonly AdTransaksiContext _adTransaksiContext;
+        private readonly TopUpCustomerContext _topupCustomerContext;
 
         public TransaksiService()
         {
             _chargingContext = new TransaksiChargingContext();
             _sewaContext = new TransaksiSewaContext();
             _adTransaksiContext = new AdTransaksiContext();
+            _topupCustomerContext = new TopUpCustomerContext();
 
             _interfaceTransaksi = _adTransaksiContext;
         }
 
-        // ==========================================
-        // LOGIKA UNTUK CUSTOMER
-        // ==========================================
-
-        //public List<TransaksiSewa> AmbilRiwayatSewaCustomer(int idUser)
-        //{
-        //    return _sewaContext.GetRiwayatByUser(idUser);
-        //}
 
         // ==========================================
         // LOGIKA UNTUK ADMIN

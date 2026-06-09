@@ -73,19 +73,6 @@ namespace EcoDrive_vol2.Controllers.Customer
                 throw new Exception("Error di Controller saat konfirmasi top up: " + ex.Message);
             }
         }
-
-        public void TolakTopUp(int idTopup)
-        {
-            try
-            {
-                _loginService.TolakTopUp(idTopup);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error di Controller saat menolak top up: " + ex.Message);
-            }
-        }
-
         public int GetIdUserByUsername(string username)
         {
             try

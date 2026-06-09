@@ -143,7 +143,6 @@ namespace EcoDrive_vol2.Context
                 throw new Exception("Error Update User: " + ex.Message);
             }
         }
-
         public void DeleteUser(int idUser)
         {
             using var conn = DatabaseHelper.GetConnection();
@@ -218,79 +217,6 @@ namespace EcoDrive_vol2.Context
             int count = Convert.ToInt32(cmd.ExecuteScalar());
             return count > 0;
         }
-
-        public DataTable GetDaftarTopUpFromView(string statusFilter)
-        {
-            DataTable dt = new DataTable();
-            using var conn = DatabaseHelper.GetConnection();
-
-            string query = "SELECT * FROM view_admin_topup";
-
-            if (!string.IsNullOrEmpty(statusFilter))
-            {
-                query += " WHERE status = LOWER(@status)";
-            }
-
-            using var cmd = new NpgsqlCommand(query, conn);
-            if (!string.IsNullOrEmpty(statusFilter))
-            {
-                cmd.Parameters.AddWithValue("@status", statusFilter);
-            }
-
-            try
-            {
-                conn.Open();
-                using var reader = cmd.ExecuteReader();
-                dt.Load(reader);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error saat mengambil data dari view_admin_topup: " + ex.Message);
-            }
-
-            return dt;
-        }
-
-        public void KonfirmasiTopUp(int idTopup, int idUser)
-        {
-            using var conn = DatabaseHelper.GetConnection();
-
-            try
-            {
-                conn.Open();
-                string query = "SELECT fn_konfirmasi_topup(@idTopup, @idUser)";
-
-                using var cmd = new NpgsqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@idTopup", idTopup);
-                cmd.Parameters.AddWithValue("@idUser", idUser);
-
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Gagal memproses konfirmasi top up di database: " + ex.Message);
-            }
-        }
-
-        public void TolakTopUp(int idTopup)
-        {
-            using var conn = DatabaseHelper.GetConnection();
-
-            try
-            {
-                conn.Open();
-                string query = "SELECT fn_tolak_topup(@idTopup)";
-
-                using var cmd = new NpgsqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@idTopup", idTopup);
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Gagal memproses penolakan top up di database: " + ex.Message);
-            }
-        }
-
         public DataTable GetAllCustomersForGrid()
         {
             DataTable dt = new DataTable();

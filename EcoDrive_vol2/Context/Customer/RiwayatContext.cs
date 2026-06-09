@@ -59,31 +59,5 @@ namespace EcoDrive_vol2.Context.Customer
             }
             return dt;
         }
-
-        public DataTable GetRiwayatTopUp(int idUser)
-        {
-            DataTable dt = new DataTable();
-            using var conn = DatabaseHelper.GetConnection();
-
-            try
-            {
-                conn.Open();
-
-                string query = "SELECT * FROM view_riwayat_topup " +
-                                "WHERE id_user = @idUser " +
-                                "ORDER BY id_topup_saldo DESC";
-
-                using var cmd = new NpgsqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@idUser", idUser);
-
-                using var adapter = new NpgsqlDataAdapter(cmd);
-                adapter.Fill(dt);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error TopUp: " + ex.Message);
-            }
-            return dt;
-        }
     }
 }
