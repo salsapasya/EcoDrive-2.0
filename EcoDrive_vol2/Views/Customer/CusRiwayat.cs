@@ -72,5 +72,10 @@ namespace EcoDrive_vol2.Views
         private void dgvRiwayat_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
         }
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

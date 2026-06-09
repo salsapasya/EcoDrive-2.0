@@ -87,13 +87,14 @@
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Sewa Kendaraan";
             tabPage1.UseVisualStyleBackColor = true;
+            tabPage1.Click += tabPage1_Click;
             // 
             // tabPage2
             // 
             tabPage2.Location = new Point(4, 24);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(702, 268);
+            tabPage2.Size = new Size(912, 397);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Charging";
             tabPage2.UseVisualStyleBackColor = true;
@@ -103,7 +104,7 @@
             tabPage3.Location = new Point(4, 24);
             tabPage3.Name = "tabPage3";
             tabPage3.Padding = new Padding(3);
-            tabPage3.Size = new Size(702, 268);
+            tabPage3.Size = new Size(912, 397);
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Top Up";
             tabPage3.UseVisualStyleBackColor = true;
