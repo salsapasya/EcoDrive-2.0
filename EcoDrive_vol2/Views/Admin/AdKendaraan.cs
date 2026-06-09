@@ -437,5 +437,10 @@ namespace EcoDrive_vol2.Views
         {
 
         }
+
+        private void txtSearch_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

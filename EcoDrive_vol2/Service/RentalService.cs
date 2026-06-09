@@ -20,7 +20,6 @@ namespace EcoDrive_vol2.Service
 
         public void ProsesSewaKendaraan(int idUser, int idKendaraan, int durasi, decimal totalBiaya)
         {
-            //Validasi Saldo Cukup atau Tidak
             decimal saldoSaatIni = _userContext.GetSaldo(idUser);
             if (saldoSaatIni < totalBiaya)
             {

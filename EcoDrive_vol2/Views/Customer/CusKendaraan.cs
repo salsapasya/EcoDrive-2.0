@@ -1,11 +1,14 @@
 ﻿using EcoDrive_vol2.Controllers.Customer;
 using EcoDrive_vol2.Helpers;
+using EcoDrive_vol2.Models.Enums;
 using EcoDrive_vol2.Models.Users;
 using EcoDrive_vol2.Models.Vehicles;
+using EcoDriveUI;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -25,6 +28,19 @@ namespace EcoDrive_vol2.Views
         {
             InitializeComponent();
             this.BackColor = _bgUtama;
+
+            if (txtSearch != null)
+            {
+                txtSearch.Font = new Font("Segoe UI", 11F, FontStyle.Regular);
+
+                txtSearch.BackColor = Color.FromArgb(245, 245, 240);
+                txtSearch.ForeColor = Color.Black;
+                txtSearch.BorderStyle = BorderStyle.None;
+                txtSearch.PlaceholderText = "🔍 Cari kendaraan...";
+
+                txtSearch.Enter += (s, e) => { txtSearch.BackColor = Color.FromArgb(238, 238, 233); }; 
+                txtSearch.Leave += (s, e) => { txtSearch.BackColor = Color.FromArgb(245, 245, 240); };
+            }
 
             RegisterEventHandlers();
             LoadDataProduk();
@@ -63,10 +79,10 @@ namespace EcoDrive_vol2.Views
             _filteredListKendaraan = _masterListKendaraan.Where(k =>
             {
                 bool cocokKategori = _kategoriAktif == "Semua" ||
-                                     k.Tipe.Equals(_kategoriAktif, StringComparison.OrdinalIgnoreCase);
+                                     k.TipeKendaraan.ToString().Equals(_kategoriAktif, StringComparison.OrdinalIgnoreCase);
 
                 bool cocokKataKunci = string.IsNullOrEmpty(kataKunci) ||
-                                      k.Nama.ToLower().Contains(kataKunci) ||
+                                      k.NamaKendaraan.ToLower().Contains(kataKunci) ||
                                       k.NomorPlatKendaraan.ToLower().Contains(kataKunci);
 
                 return cocokKategori && cocokKataKunci;
@@ -114,75 +130,114 @@ namespace EcoDrive_vol2.Views
             }
         }
 
-        // REFACTOR: Memisahkan pembuatan komponen Card UI agar method Render tidak terlalu gemuk
         private Panel CreateKendaraanCard(Kendaraan kendaraan)
         {
-            Panel card = new Panel
+            RoundedPanel card = new RoundedPanel
             {
-                Size = new Size(240, 270),
+                Size = new Size(270, 170),
                 BackColor = Color.White,
-                Margin = new Padding(15),
-                Padding = new Padding(15)
+                BorderRadius = 15,
+                Margin = new Padding(6)
             };
 
             Label lblNama = new Label
             {
-                Text = kendaraan.Nama,
-                Font = new Font("Segoe UI", 12, FontStyle.Bold),
+                Text = kendaraan.NamaKendaraan,
+                Font = new Font("Segoe UI", 11F, FontStyle.Bold),
                 ForeColor = Color.FromArgb(45, 45, 45),
-                Dock = DockStyle.Top,
-                Height = 30
+                Location = new Point(15, 15),
+                AutoSize = true
             };
 
-            Label lblDetail = new Label
+            string tipeTeks = kendaraan.TipeKendaraan == KendaraanTipe.mobil ? "Mobil" : "Motor";
+
+            Label lblInfo = new Label
             {
-                Text = $"{kendaraan.Tipe} • {kendaraan.NomorPlatKendaraan}\nStok: {kendaraan.StokKendaraan} Unit",
-                Font = new Font("Segoe UI", 9, FontStyle.Regular),
+                Text = $"{tipeTeks} • Rp {kendaraan.HargaSewa:N0}/hari",
+                Font = new Font("Segoe UI", 9F),
                 ForeColor = Color.Gray,
-                Dock = DockStyle.Top,
-                Height = 40
+                Location = new Point(15, 45),
+                AutoSize = true
             };
 
-            Label lblHarga = new Label
+            Label lblPlat = new Label
             {
-                Text = $"Rp {kendaraan.HargaSewa:N0} / hari",
-                Font = new Font("Segoe UI", 10, FontStyle.Bold),
-                ForeColor = Color.FromArgb(46, 139, 87),
-                Dock = DockStyle.Top,
-                Height = 30
+                Text = $"Plat : {kendaraan.NomorPlatKendaraan}",
+                Font = new Font("Segoe UI", 9F),
+                ForeColor = Color.DimGray,
+                Location = new Point(15, 70),
+                AutoSize = true
             };
+
+            Label lblStok = new Label
+            {
+                Text = $"Stok : {kendaraan.StokKendaraan}",
+                Font = new Font("Segoe UI", 9F),
+                ForeColor = Color.DimGray,
+                Location = new Point(15, 92),
+                AutoSize = true
+            };
+
+            string statusDb = kendaraan.StatusKendaraan.ToString().Replace("_", " ");
+            bool isReady = kendaraan.StokKendaraan > 0 && kendaraan.StatusKendaraan == OptionStatus.tersedia;
+
+            Color bgStatus = Color.FromArgb(232, 245, 233);
+            Color fgStatus = Color.FromArgb(67, 160, 71);
+
+            if (!isReady)
+            {
+                switch (statusDb.ToLower())
+                {
+                    case "disewa":
+                        bgStatus = Color.FromArgb(255, 244, 229);
+                        fgStatus = Color.FromArgb(255, 152, 0);
+                        statusDb = "DISEWA";
+                        break;
+                    case "rusak":
+                        bgStatus = Color.FromArgb(255, 235, 238);
+                        fgStatus = Color.FromArgb(244, 67, 54);
+                        statusDb = "RUSAK";
+                        break;
+                    default:
+                        bgStatus = Color.FromArgb(254, 241, 242);
+                        fgStatus = Color.FromArgb(220, 38, 38);
+                        statusDb = "HABIS";
+                        break;
+                }
+            }
+            else
+            {
+                statusDb = "READY";
+            }
 
             Label lblStatus = new Label
             {
-                Text = kendaraan.Status.ToUpper().Replace("_", " "),
-                Font = new Font("Segoe UI", 8, FontStyle.Bold),
-                AutoSize = true,
-                Location = new Point(15, 160),
-                BackColor = Color.FromArgb(230, 245, 233),
-                ForeColor = Color.Green,
-                Padding = new Padding(5, 3, 5, 3)
+                Text = statusDb,
+                Size = new Size(110, 25),
+                Location = new Point(15, 125),
+                TextAlign = ContentAlignment.MiddleCenter,
+                Font = new Font("Segoe UI", 8F, FontStyle.Bold),
+                BackColor = bgStatus,
+                ForeColor = fgStatus
             };
 
             Button btnSewa = new Button
             {
-                Text = "Detail Sewa",
-                Font = new Font("Segoe UI", 9.5F, FontStyle.Bold),
-                BackColor = Color.FromArgb(76, 175, 80),
-                ForeColor = Color.White,
+                Text = isReady ? "Sewa ➔" : "Kosong",
+                Size = new Size(110, 30),
+                Location = new Point(145, 120),
+                BackColor = isReady ? Color.FromArgb(76, 175, 80) : Color.FromArgb(240, 240, 240),
+                ForeColor = isReady ? Color.White : Color.Gray,
                 FlatStyle = FlatStyle.Flat,
-                Cursor = Cursors.Hand,
-                Size = new Size(210, 38),
-                Location = new Point(15, 210),
+                Cursor = isReady ? Cursors.Hand : Cursors.No,
+                Enabled = isReady,
+                Font = new Font("Segoe UI", 9F, FontStyle.Bold),
                 Tag = kendaraan
             };
             btnSewa.FlatAppearance.BorderSize = 0;
             btnSewa.Click += BtnSewa_Click;
 
-            card.Controls.AddRange(new Control[] { btnSewa, lblStatus, lblHarga, lblDetail, lblNama });
-
-            lblNama.BringToFront();
-            lblDetail.BringToFront();
-            lblHarga.BringToFront();
+            card.Controls.AddRange(new Control[] { lblNama, lblInfo, lblPlat, lblStok, lblStatus, btnSewa });
 
             return card;
         }
@@ -213,13 +268,12 @@ namespace EcoDrive_vol2.Views
             }
         }
 
-        // REFACTOR: Memisahkan penyusunan struktur UI Dialog Detail Box
         private void TampilkanPopUpDetail(Kendaraan dataKendaraan)
         {
             Form detailForm = new Form
             {
                 Text = "Informasi Detail Spesifikasi",
-                Size = new Size(460, 560), 
+                Size = new Size(460, 560),
                 StartPosition = FormStartPosition.CenterParent,
                 FormBorderStyle = FormBorderStyle.FixedDialog,
                 MaximizeBox = false,
@@ -229,15 +283,17 @@ namespace EcoDrive_vol2.Views
 
             Panel innerCard = new Panel
             {
-                Size = new Size(400, 460), 
+                Size = new Size(400, 460),
                 Location = new Point(22, 25),
                 BackColor = Color.White,
                 Padding = new Padding(20)
             };
 
+            string tipeTeks = dataKendaraan.TipeKendaraan == KendaraanTipe.mobil ? "Mobil" : "Motor";
+
             Label lblPopTitle = new Label
             {
-                Text = dataKendaraan.Nama,
+                Text = dataKendaraan.NamaKendaraan,
                 Font = new Font("Segoe UI", 16, FontStyle.Bold),
                 ForeColor = Color.FromArgb(45, 45, 45),
                 Dock = DockStyle.Top,
@@ -246,7 +302,7 @@ namespace EcoDrive_vol2.Views
 
             Label lblPopSub = new Label
             {
-                Text = $"Kategori Kendaraan Listrik: {dataKendaraan.Tipe}",
+                Text = $"Kategori Kendaraan Listrik: {tipeTeks}",
                 Font = new Font("Segoe UI", 9.5F, FontStyle.Italic),
                 ForeColor = Color.Gray,
                 Dock = DockStyle.Top,
@@ -295,16 +351,16 @@ namespace EcoDrive_vol2.Views
                 Text = "Tanggal Sewa   : -\nTanggal Kembali: -",
                 Font = new Font("Segoe UI", 9.5F, FontStyle.Italic),
                 ForeColor = Color.DimGray,
-                Location = new Point(20, 255), 
+                Location = new Point(20, 255),
                 Size = new Size(360, 40)
             };
 
             Label lblTotalEstimasi = new Label
             {
-                Text = "Estimasi Pembayaran Sewa",
-                Font = new Font("Segoe UI", 12F, FontStyle.Bold),
+                Text = "Total Estimasi: Rp 0",
+                Font = new Font("Segoe UI", 12, FontStyle.Bold),
                 ForeColor = Color.FromArgb(46, 139, 87),
-                Location = new Point(20, 315), 
+                Location = new Point(20, 315),
                 AutoSize = true
             };
 
@@ -316,49 +372,40 @@ namespace EcoDrive_vol2.Views
                 ForeColor = Color.White,
                 FlatStyle = FlatStyle.Flat,
                 Size = new Size(360, 48),
-                Location = new Point(20, 360), 
+                Location = new Point(20, 360),
                 Cursor = Cursors.Hand
             };
             btnBooking.FlatAppearance.BorderSize = 0;
 
-            decimal totalBiayaFix = 0; // Variabel penyimpan harga final
+            decimal totalBiayaFix = 0;
+
             void UpdateEstimasiBiaya()
             {
-                try
-                {
-                    int durasiInput = (int)numDurasi.Value;
+                int durasiInput = (int)numDurasi.Value;
 
-                    DateTime tanggalSewa = DateTime.Now;
-                    DateTime tanggalKembali = tanggalSewa.AddDays(durasiInput);
+                DateTime tanggalSewa = DateTime.Now;
+                DateTime tanggalKembali = tanggalSewa.AddDays(durasiInput);
 
-                    lblInfoTanggal.Text = $"Tanggal Sewa   : {tanggalSewa:dd MMMM yyyy}\nTanggal Kembali: {tanggalKembali:dd MMMM yyyy}";
-                    
-                    totalBiayaFix = _cusRentalController.DapatkanEstimasiBiaya(dataKendaraan.IdKendaraan, durasiInput);
-                    lblTotalEstimasi.Text = $"Total Estimasi: Rp {totalBiayaFix:N0}";
-                }
-                catch (Exception ex)
-                {
-                    lblTotalEstimasi.Text = "Error menghitung estimasi.";
-                }
+                lblInfoTanggal.Text = $"Tanggal Sewa   : {tanggalSewa:dd MMMM yyyy}\nTanggal Kembali: {tanggalKembali:dd MMMM yyyy}";
+
+                totalBiayaFix = dataKendaraan.HargaSewa * durasiInput;
+                lblTotalEstimasi.Text = $"Total Estimasi: Rp {totalBiayaFix:N0}";
             }
 
-            // MENGHUBUNGKAN PERUBAHAN ANGKA DENGAN FUNGSI MENGHITUNG
             numDurasi.ValueChanged += (s, ev) => UpdateEstimasiBiaya();
-            UpdateEstimasiBiaya(); // Panggil sekali saat form muncul
-            
+            UpdateEstimasiBiaya();
+
             btnBooking.Click += (s, ev) =>
             {
                 try
                 {
                     int durasiSewa = (int)numDurasi.Value;
-
-                    // MENGAMBIL ID CUSTOMER DARI CLASS SESSION GLOBAL
                     int idCustomerLogin = UserSession.IdUserAktif;
 
                     _cusRentalController.KonfirmasiSewa(idCustomerLogin, dataKendaraan.IdKendaraan, durasiSewa, totalBiayaFix);
 
                     detailForm.Close();
-                    MessageBox.Show($"Pembayaran Berhasil!\n\nSaldo Anda telah dipotong sebesar Rp {totalBiayaFix:N0}.\nKendaraan {dataKendaraan.Nama} siap digunakan.", "Transaksi Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show($"Pembayaran Berhasil!\n\nSaldo Anda telah dipotong sebesar Rp {totalBiayaFix:N0}.\nKendaraan {dataKendaraan.NamaKendaraan} siap digunakan.", "Transaksi Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     LoadDataProduk();
                     ApplyFilterDanPencarian();
@@ -385,8 +432,12 @@ namespace EcoDrive_vol2.Views
                 }
             };
 
-            innerCard.Controls.AddRange(new Control[] { btnBooking, lblTotalEstimasi, lblInfoTanggal, numDurasi, lblGridSpesifikasi, lineSeparator, lblPopSub, lblPopTitle });
-            
+            innerCard.Controls.Add(lblPopTitle);
+            innerCard.Controls.Add(lblPopSub);
+            innerCard.Controls.Add(lineSeparator);
+
+            innerCard.Controls.AddRange(new Control[] { lblGridSpesifikasi, lblDurasiSewa, numDurasi, lblInfoTanggal, lblTotalEstimasi, btnBooking });
+
             detailForm.Controls.Add(innerCard);
             detailForm.ShowDialog();
         }
@@ -394,6 +445,5 @@ namespace EcoDrive_vol2.Views
         private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
         }
-
     }
 }

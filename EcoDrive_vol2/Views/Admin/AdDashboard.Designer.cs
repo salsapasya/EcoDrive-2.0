@@ -95,10 +95,9 @@
             btDasboard.Name = "btDasboard";
             btDasboard.Size = new Size(312, 44);
             btDasboard.TabIndex = 5;
-            btDasboard.Text = "           Dasboard";
+            btDasboard.Text = "            Dasboard";
             btDasboard.TextAlign = ContentAlignment.MiddleLeft;
             btDasboard.UseVisualStyleBackColor = false;
-            btDasboard.Click += btDasboard_Click_1;
             // 
             // pnDashboard
             // 
@@ -130,7 +129,7 @@
             btCustomer.Name = "btCustomer";
             btCustomer.Size = new Size(312, 44);
             btCustomer.TabIndex = 5;
-            btCustomer.Text = "           Customer";
+            btCustomer.Text = "            Customer";
             btCustomer.TextAlign = ContentAlignment.MiddleLeft;
             btCustomer.UseVisualStyleBackColor = false;
             // 
@@ -155,10 +154,9 @@
             btKendaraan.Name = "btKendaraan";
             btKendaraan.Size = new Size(312, 44);
             btKendaraan.TabIndex = 5;
-            btKendaraan.Text = "           Kendaraan";
+            btKendaraan.Text = "            Kendaraan";
             btKendaraan.TextAlign = ContentAlignment.MiddleLeft;
             btKendaraan.UseVisualStyleBackColor = false;
-            btKendaraan.Click += btKendaraan_Click;
             // 
             // pnTransaksi
             // 
@@ -181,7 +179,7 @@
             btTransaksi.Name = "btTransaksi";
             btTransaksi.Size = new Size(312, 44);
             btTransaksi.TabIndex = 5;
-            btTransaksi.Text = "           Transaksi";
+            btTransaksi.Text = "            Transaksi";
             btTransaksi.TextAlign = ContentAlignment.MiddleLeft;
             btTransaksi.UseVisualStyleBackColor = false;
             // 
@@ -206,10 +204,9 @@
             btPendapatan.Name = "btPendapatan";
             btPendapatan.Size = new Size(312, 44);
             btPendapatan.TabIndex = 5;
-            btPendapatan.Text = "           Pendapatan";
+            btPendapatan.Text = "            Pendapatan";
             btPendapatan.TextAlign = ContentAlignment.MiddleLeft;
             btPendapatan.UseVisualStyleBackColor = false;
-            btPendapatan.Click += btPendapatan_Click_1;
             // 
             // panel1
             // 
@@ -229,7 +226,6 @@
             pnContent.Name = "pnContent";
             pnContent.Size = new Size(994, 640);
             pnContent.TabIndex = 11;
-            pnContent.Paint += pnContent_Paint;
             // 
             // pnLogout
             // 
@@ -253,10 +249,9 @@
             btLogoutAd.Name = "btLogoutAd";
             btLogoutAd.Size = new Size(312, 44);
             btLogoutAd.TabIndex = 4;
-            btLogoutAd.Text = "           Logout";
+            btLogoutAd.Text = "            Logout";
             btLogoutAd.TextAlign = ContentAlignment.MiddleLeft;
             btLogoutAd.UseVisualStyleBackColor = false;
-            btLogoutAd.Click += btLogoutAd_Click;
             // 
             // btLogout
             // 
@@ -271,7 +266,7 @@
             btLogout.Name = "btLogout";
             btLogout.Size = new Size(312, 44);
             btLogout.TabIndex = 5;
-            btLogout.Text = "           Logout";
+            btLogout.Text = "            Logout";
             btLogout.TextAlign = ContentAlignment.MiddleLeft;
             btLogout.UseVisualStyleBackColor = false;
             // 
@@ -280,7 +275,8 @@
             pnContentAdmin.BackColor = Color.Transparent;
             pnContentAdmin.Location = new Point(364, 97);
             pnContentAdmin.Name = "pnContentAdmin";
-            pnContentAdmin.Size = new Size(994, 640);
+            // KUNCI PERUBAHAN: Lebar disesuaikan ke 1000 agar muat menampung Card 4 di koordinat X: 750 (750 + lebar card 220 = 970px)
+            pnContentAdmin.Size = new Size(1000, 640);
             pnContentAdmin.TabIndex = 12;
             // 
             // pnTopUp
@@ -304,7 +300,7 @@
             btTopUp.Name = "btTopUp";
             btTopUp.Size = new Size(312, 44);
             btTopUp.TabIndex = 5;
-            btTopUp.Text = "           Top Up Customer";
+            btTopUp.Text = "            Top Up Customer";
             btTopUp.TextAlign = ContentAlignment.MiddleLeft;
             btTopUp.UseVisualStyleBackColor = false;
             // 

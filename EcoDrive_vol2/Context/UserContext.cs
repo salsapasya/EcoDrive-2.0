@@ -25,23 +25,17 @@ namespace EcoDrive_vol2.Context
 
                 while (reader.Read())
                 {
-                    // Ambil string mentah dari DB, bersihkan spasi ujung, dan ubah ke lowercase
                     string rawStatus = reader["status_akun"].ToString().Trim().ToLower().Replace(" ", "_");
 
                     Users user = new Users()
                     {
                         IdUser = Convert.ToInt32(reader["id_user"]),
-
-                        // Parsing string enum roles ('admin' / 'customer') ke Enum C#
                         RoleUser = reader["role_user"].ToString().Trim().ToLower() == "admin" ? Roles.admin : Roles.customer,
-
                         NamaUser = reader["nama_user"].ToString(),
                         NoTelpUser = reader["no_telp_user"].ToString(),
                         Username = reader["username"].ToString(),
                         PasswordUser = reader["password_user"].ToString(),
                         Saldo = Convert.ToDecimal(reader["saldo"]),
-
-                        // 🛠️ FIX SINKRONISASI: Dipastikan string dikonversi ke lowercase & underscore sebelum masuk Enum.Parse
                         StatusAkun = Enum.Parse<StatusAkun>(rawStatus, true)
                     };
                     usersList.Add(user);
@@ -92,8 +86,6 @@ namespace EcoDrive_vol2.Context
                 cmd.Parameters.AddWithValue("@username", user.Username);
                 cmd.Parameters.AddWithValue("@password_user", user.PasswordUser);
                 cmd.Parameters.AddWithValue("@saldo", user.Saldo);
-
-                // Mengubah format underscore C# menjadi spasi database (misal non_aktif -> 'non aktif')
                 cmd.Parameters.AddWithValue("@status_akun", user.StatusAkun.ToString().ToLower().Replace("_", " "));
 
                 cmd.ExecuteNonQuery();
@@ -131,8 +123,6 @@ namespace EcoDrive_vol2.Context
                 cmd.Parameters.AddWithValue("@username", user.Username);
                 cmd.Parameters.AddWithValue("@password_user", user.PasswordUser);
                 cmd.Parameters.AddWithValue("@saldo", user.Saldo);
-
-                // Sinkronisasi data enum C# ke format spasi text di PostgreSQL database
                 cmd.Parameters.AddWithValue("@status_akun", user.StatusAkun.ToString().ToLower().Replace("_", " "));
                 cmd.Parameters.AddWithValue("@id_user", user.IdUser);
 
@@ -299,14 +289,15 @@ namespace EcoDrive_vol2.Context
             try
             {
                 conn.Open();
+
                 string query = @"SELECT id_user, 
                                         (nama_user || '|' || username) AS customer_data, 
                                         no_telp_user AS kontak, 
                                         'Member' AS bergabung, 
-                                        '0 trip' AS total_sewa, 
+                                        ((SELECT COUNT(*) FROM transaksi_sewa ts WHERE ts.id_user = u.id_user) || ' trip') AS total_sewa, 
                                         status_akun AS status,
                                         '👁  ✏  🗑' AS aksi
-                                 FROM users 
+                                 FROM users u
                                  WHERE role_user = 'customer'::roles
                                  ORDER BY id_user DESC";
 

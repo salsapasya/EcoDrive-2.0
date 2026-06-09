@@ -40,7 +40,8 @@ namespace EcoDrive_vol2.Context.Customer
                 DateTime tanggalKembali = tanggalSewa.AddDays(durasi);
 
                 string insertTransaks = @"INSERT INTO transaksi_sewa (id_user, id_kendaraan, durasi_sewa, tanggal_sewa, tanggal_kembali, status_pengembalian) 
-                                   VALUES (@idUser, @idKendaraan, @durasi, @tanggal_sewa, @tanggal_kembali, 'belum kembali'::status_pengembalian)";
+                                   VALUES (@idUser, @idKendaraan, @durasi, @tanggal_sewa, @tanggal_kembali, @statusPengembalian::status_kembali)";
+
                 using (var cmdInsert = new NpgsqlCommand(insertTransaks, conn, transaction))
                 {
                     cmdInsert.Parameters.AddWithValue("@idUser", idUser);
@@ -48,6 +49,9 @@ namespace EcoDrive_vol2.Context.Customer
                     cmdInsert.Parameters.AddWithValue("@durasi", durasi);
                     cmdInsert.Parameters.AddWithValue("@tanggal_sewa", tanggalSewa);
                     cmdInsert.Parameters.AddWithValue("@tanggal_kembali", tanggalKembali);
+
+                    cmdInsert.Parameters.AddWithValue("@statusPengembalian", "belum kembali");
+
                     cmdInsert.ExecuteNonQuery();
                 }
                 transaction.Commit();
@@ -55,7 +59,7 @@ namespace EcoDrive_vol2.Context.Customer
             catch (Exception ex)
             {
                 transaction.Rollback();
-                throw new Exception("Gagal melakukan pembayaran: " + ex.Message);
+                throw;
             }
         }
     }
