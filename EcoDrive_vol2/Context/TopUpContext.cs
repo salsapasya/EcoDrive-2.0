@@ -2,23 +2,22 @@
 using Npgsql;
 using System;
 using System.Data;
-using System.Data.Common;
 
 namespace EcoDrive_vol2.Context
 {
     public class TopUpContext
     {
-        // Fungsi untuk mengambil seluruh riwayat top up milik si customer tertentu
+        // Fungsi mengambil riwayat top up bawaan proyekmu
         public DataTable GetRiwayatTopUpByCustomer(int idUser)
         {
             DataTable dt = new DataTable();
             using var conn = DatabaseHelper.GetConnection();
 
-            // Query disesuaikan dengan nama kolom yang terdeteksi di UserContext kamu
+            // Sesuai fungsionalitas DB lu, kolom relasi di topup_saldo adalah id_customer
             string query = @"SELECT id_topup_saldo, jumlah_topup, status_topup 
-                             FROM topup_saldo 
-                             WHERE id_customer = @idUser 
-                             ORDER BY id_topup_saldo DESC";
+                            FROM topup_saldo 
+                            WHERE id_customer = @idUser 
+                            ORDER BY id_topup_saldo DESC";
 
             using var cmd = new NpgsqlCommand(query, conn);
             cmd.Parameters.AddWithValue("@idUser", idUser);
@@ -37,22 +36,21 @@ namespace EcoDrive_vol2.Context
             return dt;
         }
 
+        // Fungsi membuat invoice pending dan saldo bertambah (menggunakan id_user untuk tabel users)
         public void InsertTopUpPending(int idUser, decimal nominal)
         {
             using var conn = DatabaseHelper.GetConnection();
 
-            // Query 1: Masukkan data ke riwayat dengan status 'pending'
             string queryInsert = @"INSERT INTO topup_saldo (id_customer, jumlah_topup, status_topup, sudah_bayar) 
-                          VALUES (@idUser, @nominal, 'pending', false)";
+                                  VALUES (@idUser, @nominal, 'pending', false)";
 
-            // Query 2: Tambah saldo user secara instan (Sesuai request-mu, saldo tetap bertambah!)
+            // Menggunakan id_user sesuai skema database users milikmu
             string queryUpdate = @"UPDATE users SET saldo = saldo + @nominal WHERE id_user = @idUser";
 
             try
             {
                 conn.Open();
 
-                // Eksekusi Insert Riwayat
                 using (var cmdInsert = new NpgsqlCommand(queryInsert, conn))
                 {
                     cmdInsert.Parameters.AddWithValue("@idUser", idUser);
@@ -60,7 +58,6 @@ namespace EcoDrive_vol2.Context
                     cmdInsert.ExecuteNonQuery();
                 }
 
-                // Eksekusi Update Saldo User
                 using (var cmdUpdate = new NpgsqlCommand(queryUpdate, conn))
                 {
                     cmdUpdate.Parameters.AddWithValue("@idUser", idUser);

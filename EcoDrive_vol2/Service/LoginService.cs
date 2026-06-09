@@ -1,7 +1,9 @@
 ﻿using EcoDrive_vol2.Context;
+using EcoDrive_vol2.Helpers;
+using EcoDrive_vol2.Models.Users;
+using Npgsql;
 using System;
 using System.Data; // WAJIB untuk menggunakan DataTable
-using EcoDrive_vol2.Models.Users;
 
 namespace EcoDrive_vol2.Service
 {
@@ -58,5 +60,6 @@ namespace EcoDrive_vol2.Service
 
             return _loginContext.Login(username, password);
         }
+
     }
 }
