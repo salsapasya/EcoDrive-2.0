@@ -1,5 +1,6 @@
 ﻿using EcoDrive_vol2.Context;
 using EcoDrive_vol2.Helpers;
+using EcoDrive_vol2.Service;
 using Npgsql;
 using System;
 using System.Data;
@@ -8,6 +9,7 @@ namespace EcoDrive_vol2.Controllers.Customer
 {
     public class CusSaldoController
     {
+        private readonly LoginService _loginService = new LoginService();
         private TopUpContext _topUpContext = new TopUpContext();
 
         // 1. Fungsi bawaan ambil saldo customer
@@ -103,6 +105,28 @@ namespace EcoDrive_vol2.Controllers.Customer
             catch (Exception ex)
             {
                 throw new Exception("Error Ambil ID User: " + ex.Message);
+            }
+        }
+        public DataTable GetDaftarTransaksiTopUp(string status = "")
+        {
+            try
+            {
+                return _loginService.AmbilDaftarTopUpAdmin(status);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error di Controller saat mengambil daftar transaksi: " + ex.Message);
+            }
+        }
+        public void KonfirmasiTopUp(int idTopup, int idUser)
+        {
+            try
+            {
+                _loginService.KonfirmasiTopUp(idTopup, idUser);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error di Controller saat konfirmasi top up: " + ex.Message);
             }
         }
     }
