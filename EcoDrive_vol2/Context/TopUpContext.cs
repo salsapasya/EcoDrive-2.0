@@ -41,7 +41,7 @@ namespace EcoDrive_vol2.Context
         {
             using var conn = DatabaseHelper.GetConnection();
 
-            string queryInsert = @"INSERT INTO topup_saldo (id_customer, jumlah_topup, status_topup, sudah_bayar) 
+            string queryInsert = @"INSERT INTO topup_saldo (id_user, jumlah_topup, status_topup, sudah_bayar) 
                                   VALUES (@idUser, @nominal, 'pending', false)";
 
             // Menggunakan id_user sesuai skema database users milikmu
