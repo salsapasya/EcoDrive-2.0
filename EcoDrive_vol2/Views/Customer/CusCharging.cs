@@ -330,8 +330,15 @@ namespace EcoDrive_vol2.Views
                 }
 
             };
-            detailForm.Controls.AddRange(new Control[] { lblTitle, lblLok, lblPilihKendaraan, cmbKendaraan, lblDurasi, pnlButtonsContainer, lblEstimasi, btnProses });
-            detailForm.ShowDialog();
+
+            detailForm.Controls.Add(lblTitle);
+            detailForm.Controls.Add(lblLok);
+            detailForm.Controls.Add(lblPilihKendaraan);
+            detailForm.Controls.Add(cmbKendaraan);
+            detailForm.Controls.Add(lblDurasi);
+            detailForm.Controls.Add(pnlButtonsContainer);
+            detailForm.Controls.Add(lblEstimasi);
+            detailForm.Controls.Add(btnProses); detailForm.ShowDialog();
         }
         private Panel CreateKendaraanChargingCard(TransaksiCharging trx)
         {

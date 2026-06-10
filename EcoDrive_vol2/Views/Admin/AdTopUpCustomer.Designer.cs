@@ -110,7 +110,7 @@
             lblCardTitle1.ForeColor = Color.Gray;
             lblCardTitle1.Location = new Point(15, 15);
             lblCardTitle1.Name = "lblCardTitle1";
-            lblCardTitle1.Size = new Size(85, 15);
+            lblCardTitle1.Size = new Size(86, 15);
             lblCardTitle1.TabIndex = 0;
             lblCardTitle1.Text = "Top Up Hari Ini";
             // 
@@ -174,7 +174,7 @@
             lblCardTitle3.ForeColor = Color.Gray;
             lblCardTitle3.Location = new Point(15, 15);
             lblCardTitle3.Name = "lblCardTitle3";
-            lblCardTitle3.Size = new Size(92, 15);
+            lblCardTitle3.Size = new Size(93, 15);
             lblCardTitle3.TabIndex = 0;
             lblCardTitle3.Text = "Transaksi Sukses";
             // 
@@ -335,7 +335,7 @@
             lblHintCari.ForeColor = Color.Gray;
             lblHintCari.Location = new Point(15, 55);
             lblHintCari.Name = "lblHintCari";
-            lblHintCari.Size = new Size(104, 15);
+            lblHintCari.Size = new Size(105, 15);
             lblHintCari.TabIndex = 1;
             lblHintCari.Text = "Username Terpilih:";
             // 
@@ -406,6 +406,7 @@
             // 
             // colIdTransaksi
             // 
+            colIdTransaksi.DataPropertyName = "id_topup_saldo";
             colIdTransaksi.HeaderText = "ID";
             colIdTransaksi.Name = "colIdTransaksi";
             colIdTransaksi.ReadOnly = true;
