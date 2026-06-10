@@ -29,7 +29,7 @@ namespace EcoDrive_vol2.Context.Customer
                     IdChargingStation = Convert.ToInt32(reader["id_charging_station"]),
                     NamaStation = reader["nama_station"].ToString(),
                     Lokasi = reader["lokasi"].ToString(),
-                    BiayaCharging = Convert.ToDecimal(reader["biaya_charging"]),
+                    TarifPer15Menit = Convert.ToDecimal(reader["tarif_per_15_menit"]),
                     JumlahSlot = Convert.ToInt32(reader["jumlah_slot"])
                 });
             }
@@ -89,17 +89,16 @@ namespace EcoDrive_vol2.Context.Customer
             return list;
         }
 
-        public void BuatTransaksiCharging (int idUser, int idKendaraan, int idStation, decimal totalBaiya, int durasi)
+        public void BuatTransaksiCharging (int idUser, int idKendaraan, int idStation, int durasi)
         {
             using var conn = DatabaseHelper.GetConnection();
             conn.Open();
             
-            string query = "CALL sp_buat_transaksi_charging(@idUser, @idKendaraan, @idStation, @totalBiaya, @durasi)";
+            string query = "CALL sp_buat_transaksi_charging(@idUser, @idKendaraan, @idStation, @durasi)";
             using var cmd = new Npgsql.NpgsqlCommand(query, conn);
             cmd.Parameters.AddWithValue("@idUser", idUser);
             cmd.Parameters.AddWithValue("@idKendaraan", idKendaraan);
             cmd.Parameters.AddWithValue("@idStation", idStation);
-            cmd.Parameters.AddWithValue("@totalBiaya", totalBaiya);
             cmd.Parameters.AddWithValue("@durasi", durasi);
             cmd.ExecuteNonQuery();
         }

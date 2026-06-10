@@ -126,7 +126,7 @@ namespace EcoDrive_vol2.Views
             };
             Label lblHarga = new Label 
             { 
-                Text = $"Rp {station.BiayaCharging:N0} / menit", 
+                Text = $"Rp {station.TarifPer15Menit:N0} / menit", 
                 Font = new Font("Segoe UI", 10, FontStyle.Bold), 
                 ForeColor = Color.FromArgb(46, 139, 87), 
                 Dock = DockStyle.Top, 
@@ -301,7 +301,7 @@ namespace EcoDrive_vol2.Views
 
                 try
                 {
-                    _chargingController.ProsesBuatCharging(UserSession.IdUserAktif, idKendaraanTerpilih, station.IdChargingStation, totalBiaya, durasiTerpilih);
+                    _chargingController.ProsesBuatCharging(UserSession.IdUserAktif, idKendaraanTerpilih, station.IdChargingStation, durasiTerpilih);
 
                     MessageBox.Show("Pembayaran Berhasil! Status saat ini: PENDING. \nSilakan tunggu konfirmasi Admin.", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     detailForm.Close();

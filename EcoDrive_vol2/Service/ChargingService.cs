@@ -24,9 +24,9 @@ namespace EcoDrive_vol2.Service
         {
             return _context.GetTransaksiAktif(idUser);
         }
-        public void ProsesBuatCharging(int idUser, int idKendaraan,int idStation, decimal totalBiaya, int durasi)
+        public void ProsesBuatCharging(int idUser, int idKendaraan,int idStation, int durasi)
         {
-            _context.BuatTransaksiCharging(idUser, idKendaraan, idStation, totalBiaya, durasi);
+            _context.BuatTransaksiCharging(idUser, idKendaraan, idStation, durasi);
         }
         public void SelesaikanCharging(int idTransaksi)
         {

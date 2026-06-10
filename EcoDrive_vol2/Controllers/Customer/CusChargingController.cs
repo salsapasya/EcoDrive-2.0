@@ -23,9 +23,9 @@ namespace EcoDrive_vol2.Controllers.Customer
         {
             return _service.AmbilTransaksiAktif(idUser);
         }
-        public void ProsesBuatCharging (int idUser, int idKendaraan, int idStation, decimal totalBiaya, int durasi)
+        public void ProsesBuatCharging (int idUser, int idKendaraan, int idStation, int durasi)
         {
-            _service.ProsesBuatCharging(idUser, idKendaraan, idStation, totalBiaya, durasi);
+            _service.ProsesBuatCharging(idUser, idKendaraan, idStation, durasi);
         }
         public void SelesaikanCharging(int idTransaksi)
         {
