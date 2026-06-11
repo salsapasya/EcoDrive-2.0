@@ -296,6 +296,23 @@ namespace EcoDrive_vol2.Views
 
             btnProses.Click += (s, e) =>
             {
+                if (cmbKendaraan.SelectedItem is Kendaraan kendaraanTerpilih)
+                {
+                    // Cek apakah ada plat yang sama di dalam list transaksi aktif (Pending/Mengisi Daya)
+                    bool isSudahCharging = _listSedangCharging.Exists(trx => trx.NomorPlat == kendaraanTerpilih.NomorPlatKendaraan);
+
+                    if (isSudahCharging)
+                    {
+                        MessageBox.Show(
+                            $"Kendaraan {kendaraanTerpilih.NamaKendaraan} ({kendaraanTerpilih.NomorPlatKendaraan}) saat ini masih dalam status PENDING atau MENGISI DAYA.\n\nSelesaikan transaksi sebelumnya terlebih dahulu!",
+                            "Transaksi Ditolak",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning
+                        );
+                        return; // Menghentikan eksekusi kode di bawahnya (tidak jadi bayar & call SP)
+                    }
+                }
+
                 decimal totalBiaya = (durasiTerpilih / 15) * 50000;
                 int idKendaraanTerpilih = (int)cmbKendaraan.SelectedValue;
 
