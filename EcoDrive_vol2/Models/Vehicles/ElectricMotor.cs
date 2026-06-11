@@ -3,7 +3,7 @@ using System;
 
 namespace EcoDrive_vol2.Models.Vehicles
 {
-    public class ElectricMotor : Kendaraan, IChargeable
+    public class ElectricMotor : Kendaraan, IChargeable //INHERITANCE KARENA ADA TANDA : BERATI TU NUNJUKIN KL INI ANAK DARI KENDARAAN  //ABSTRAC(IChargerable)
     {
         public bool RequiresHelmet { get; set; }
 
@@ -18,3 +18,5 @@ namespace EcoDrive_vol2.Models.Vehicles
         }
     }
 }
+
+//BISA DIKASI OVERRIDE KL BEDA RUMUS BIAYANYA SM YG ELECTRIC CAR

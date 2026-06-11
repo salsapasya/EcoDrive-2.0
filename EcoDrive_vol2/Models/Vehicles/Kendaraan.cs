@@ -29,19 +29,19 @@ namespace EcoDrive_vol2.Models.Vehicles
 
         }
 
-        public virtual decimal BiayaRental(int jam)
+        public virtual decimal BiayaRental(int jam) //POLYMOR YG NYAMBUNG SAMA ELECTRIC CAR(FUNGSI DASAR)
         {
             return HargaSewa * jam;
         }
 
-        public string Nama
+        public string Nama  //ENCAP
         {
             get => NamaKendaraan;
             set => NamaKendaraan = value;
         }
 
 
-        public string Status
+        public string Status  //ENCAP 
         {
             get => StatusKendaraan.ToString();
             set
@@ -51,7 +51,7 @@ namespace EcoDrive_vol2.Models.Vehicles
         }
 
 
-        public string Tipe
+        public string Tipe  //ENCAP
         {
             get => TipeKendaraan.ToString();
             set => TipeKendaraan = Enum.Parse<KendaraanTipe>(value);
