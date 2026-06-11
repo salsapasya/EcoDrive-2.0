@@ -1,6 +1,6 @@
 ﻿using EcoDrive_vol2.Helpers;
-using EcoDrive_vol2.Models.Users;
 using EcoDrive_vol2.Models.Enums;
+using EcoDrive_vol2.Models.Users;
 using Npgsql;
 using System;
 using System.Collections.Generic;
@@ -57,24 +57,24 @@ namespace EcoDrive_vol2.Context
             {
                 conn.Open();
 
-                string query = @"INSERT INTO users
+                string query = @"INSERT INTO users 
                 (
-                    role_user,
-                    nama_user,
-                    no_telp_user,
-                    username,
-                    password_user,
-                    saldo,
+                    role_user, 
+                    nama_user, 
+                    no_telp_user, 
+                    username, 
+                    password_user, 
+                    saldo, 
                     status_akun
-                )
-                VALUES
+                ) 
+                VALUES 
                 (
-                    @role_user::roles,
-                    @nama_user,
-                    @no_telp_user,
-                    @username,
-                    @password_user,
-                    @saldo,
+                    @role_user::roles, 
+                    @nama_user, 
+                    @no_telp_user, 
+                    @username, 
+                    @password_user, 
+                    @saldo, 
                     @status_akun::status_akun
                 )";
 
@@ -104,14 +104,14 @@ namespace EcoDrive_vol2.Context
             {
                 conn.Open();
 
-                string query = @"UPDATE users
-                                 SET
-                                   role_user = @role_user::roles,
-                                   nama_user = @nama_user,
-                                   no_telp_user = @no_telp_user,
-                                   username = @username,
-                                   password_user = @password_user,
-                                   saldo = @saldo,
+                string query = @"UPDATE users 
+                                 SET 
+                                   role_user = @role_user::roles, 
+                                   nama_user = @nama_user, 
+                                   no_telp_user = @no_telp_user, 
+                                   username = @username, 
+                                   password_user = @password_user, 
+                                   saldo = @saldo, 
                                    status_akun = @status_akun::status_akun
                                  WHERE id_user = @id_user";
 
@@ -290,24 +290,26 @@ namespace EcoDrive_vol2.Context
             {
                 conn.Open();
 
-                string query = @"SELECT id_user, 
-                                        (nama_user || '|' || username) AS customer_data, 
-                                        no_telp_user AS kontak, 
-                                        'Member' AS bergabung, 
-                                        ((SELECT COUNT(*) FROM transaksi_sewa ts WHERE ts.id_user = u.id_user) || ' trip') AS total_sewa, 
-                                        status_akun AS status,
-                                        '👁  ✏  🗑' AS aksi
-                                 FROM users u
-                                 WHERE role_user = 'customer'::roles
-                                 ORDER BY id_user DESC";
+                string query = @"
+                SELECT 
+                    id_user, 
+                    nama_user, 
+                    username, 
+                    no_telp_user, 
+                    saldo, 
+                    status_akun
+                FROM users 
+                WHERE role_user = 'customer'::roles
+                ORDER BY id_user DESC";
 
                 using var cmd = new NpgsqlCommand(query, conn);
                 using var adapter = new NpgsqlDataAdapter(cmd);
+
                 adapter.Fill(dt);
             }
             catch (Exception ex)
             {
-                throw new Exception("Error Ambil Data Customer ke Grid: " + ex.Message);
+                throw new Exception("Error Ambil Data Customer: " + ex.Message);
             }
 
             return dt;
@@ -339,12 +341,12 @@ namespace EcoDrive_vol2.Context
 
                 using (var cmd = new NpgsqlCommand(queryPending, conn))
                 {
-                    summary["Pending"] = cmd.ExecuteScalar().ToString();
+                    summary["Pending"] = cmd.ExecuteScalar()?.ToString() ?? "0";
                 }
 
                 using (var cmd = new NpgsqlCommand(querySukses, conn))
                 {
-                    summary["Sukses"] = cmd.ExecuteScalar().ToString();
+                    summary["Sukses"] = cmd.ExecuteScalar()?.ToString() ?? "0";
                 }
             }
             catch (Exception ex)
