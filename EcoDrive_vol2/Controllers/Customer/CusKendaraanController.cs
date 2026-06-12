@@ -10,7 +10,12 @@ namespace EcoDrive_vol2.Controllers.Customer
 
         public List<Kendaraan> GetAvailableKendaraan()
         {
-            return service.GetAvailableKendaraan();
+            return service.GetAvailableKendaraan("Semua", string.Empty);
+        }
+
+        public List<Kendaraan> GetAvailableKendaraan(string filterAktif, string keyword)
+        {
+            return service.GetAvailableKendaraan(filterAktif, keyword);
         }
     }
 }

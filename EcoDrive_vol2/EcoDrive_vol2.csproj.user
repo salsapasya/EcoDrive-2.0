@@ -13,6 +13,9 @@
     <Compile Update="Views\Admin\AdTopUpCustomer.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Views\Admin\FrmDetailKendaraan.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="Views\Authenticator\FormLogin.cs">
       <SubType>Form</SubType>
     </Compile>
