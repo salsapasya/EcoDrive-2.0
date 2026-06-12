@@ -262,7 +262,7 @@ namespace EcoDrive_vol2.Views
                         {
                             try
                             {
-                                controller.DeleteKendaraan(vh.IdKendaraan); // vh aman terbaca di sini!
+                                controller.DeleteKendaraan(vh.IdKendaraan);
                                 MessageBox.Show("Kendaraan berhasil dihapus!", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 frm.Close();
                                 RefreshDataDariDatabase();

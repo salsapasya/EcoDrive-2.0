@@ -1,13 +1,15 @@
 ﻿using EcoDrive_vol2.Context;
 using System;
-using System.Data; // WAJIB untuk menggunakan DataTable
+using System.Data; 
 using EcoDrive_vol2.Models.Users;
+using EcoDrive_vol2.AbstractandInterface.Interface;
 
 namespace EcoDrive_vol2.Service
 {
-    public class LoginService
+    // Penerapan Polymorphism: Implementasi interface ILoginService untuk menyediakan layanan login dan manajemen saldo
+    public class LoginService : ILoginService
     {
-        // Satukan instansiasi context agar rapi dan tidak duplikat
+        // Abstraction
         private readonly UserContext _userContext = new UserContext();
         private readonly LoginContext _loginContext = new LoginContext();
 
@@ -29,7 +31,6 @@ namespace EcoDrive_vol2.Service
 
         public DataTable AmbilDaftarTopUpAdmin(string statusFilter = "")
         {
-            // Diarahkan ke UserContext yang bertugas mengambil data dari SQL View
             return _userContext.GetDaftarTopUpFromView(statusFilter);
         }
         public void KonfirmasiTopUp(int idTopup, int idUser)
@@ -37,7 +38,6 @@ namespace EcoDrive_vol2.Service
             if (idTopup <= 0) throw new ArgumentException("ID Top Up tidak valid!");
             if (idUser <= 0) throw new ArgumentException("ID User tidak valid!");
 
-            // Meneruskan perintah eksekusi ke UserContext
             _userContext.KonfirmasiTopUp(idTopup, idUser);
         }
 
@@ -45,7 +45,6 @@ namespace EcoDrive_vol2.Service
         {
             if (idTopup <= 0) throw new ArgumentException("ID Top Up tidak valid!");
 
-            // Meneruskan ke UserContext
             _userContext.TolakTopUp(idTopup);
         }
 
