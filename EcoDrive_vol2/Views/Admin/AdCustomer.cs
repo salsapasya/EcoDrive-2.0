@@ -4,8 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 using EcoDrive_vol2.Context;
-using EcoDrive_vol2.Models.Users;
-using EcoDrive_vol2.Models.Enums;
+using EcoDrive_vol2.Service;
 
 namespace EcoDrive_vol2.Views
 {
@@ -14,6 +13,9 @@ namespace EcoDrive_vol2.Views
         private UserContext context;
         private DataTable dtCustomer;
         private string filterAktif = "";
+
+        // Daftarkan Service Pengolah Logika Kelola Akun Customer
+        private readonly CustomerManagementService _customerService = new CustomerManagementService();
 
         // 🎨 PALET WARNA MODERN DASHBOARD (Sesuai Referensi Grid)
         private readonly Color COLOR_PRIMARY = Color.FromArgb(76, 175, 80);        // Hijau EcoDrive
@@ -95,7 +97,6 @@ namespace EcoDrive_vol2.Views
 
             // 🏛️ STRUKTURISASI ULANG KOMPONEN PER KOLOM (Disesuaikan penuh secara sinkron)
             dgvCustomer.Columns.Clear();
-
             dgvCustomer.Columns.Add("id_raw", "ID Murni"); // Kolom bantu tersembunyi
             dgvCustomer.Columns["id_raw"].Visible = false;
 
@@ -131,7 +132,6 @@ namespace EcoDrive_vol2.Views
             dgvCustomer.Columns["saldo"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dgvCustomer.Columns["status"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dgvCustomer.Columns["btnAksi"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-
             dgvCustomer.Columns["status"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dgvCustomer.Columns["btnAksi"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
         }
@@ -190,7 +190,6 @@ namespace EcoDrive_vol2.Views
             {
                 string rawId = row["id_user"]?.ToString() ?? "0";
                 string idFormatted = "CUST-" + rawId.PadLeft(3, '0');
-
                 string nama = row["nama_user"]?.ToString() ?? "Tanpa Nama";
                 string username = row["username"]?.ToString() ?? "-";
                 string noHp = row["no_telp_user"]?.ToString() ?? "-";
@@ -331,7 +330,6 @@ namespace EcoDrive_vol2.Views
             if (dgvCustomer.Columns[e.ColumnIndex].Name == "btnAksi")
             {
                 e.Paint(e.CellBounds, DataGridViewPaintParts.Background | DataGridViewPaintParts.Border);
-
                 e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
                 int btnW = 95;
@@ -417,14 +415,9 @@ namespace EcoDrive_vol2.Views
         {
             try
             {
-                Users user = context.GetAllUsers().Find(u => u.IdUser == idUser);
-                if (user != null)
-                {
-                    user.StatusAkun = StatusAkun.aktif;
-                    context.UpdateUser(user);
-                    MessageBox.Show("Status customer berhasil diubah menjadi Active", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    RefreshDataDariDatabase();
-                }
+                _customerService.AktifkanCustomer(idUser);
+                MessageBox.Show("Status customer berhasil diubah menjadi Active", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                RefreshDataDariDatabase();
             }
             catch (Exception ex) { MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
@@ -433,14 +426,9 @@ namespace EcoDrive_vol2.Views
         {
             try
             {
-                Users user = context.GetAllUsers().Find(u => u.IdUser == idUser);
-                if (user != null)
-                {
-                    user.StatusAkun = StatusAkun.non_aktif;
-                    context.UpdateUser(user);
-                    MessageBox.Show("Status customer berhasil diubah menjadi Inactive", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    RefreshDataDariDatabase();
-                }
+                _customerService.NonAktifkanCustomer(idUser);
+                MessageBox.Show("Status customer berhasil diubah menjadi Inactive", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                RefreshDataDariDatabase();
             }
             catch (Exception ex) { MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
@@ -452,7 +440,7 @@ namespace EcoDrive_vol2.Views
             {
                 try
                 {
-                    context.DeleteUser(idUser);
+                    _customerService.HapusCustomerDariDatabase(idUser);
                     MessageBox.Show("Customer berhasil dihapus dari database", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     RefreshDataDariDatabase();
                 }

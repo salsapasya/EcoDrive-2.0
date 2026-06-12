@@ -45,19 +45,26 @@ namespace EcoDrive_vol2.Models.Users
             StatusAkun = statusAkun;
         }
     }
-    public class Admin : AbsUser
+
+    //INHERITANCE
+    public class Admin : Users
     {
-        public override string GetRole()
+        public Admin()
         {
-            return "Admin";
+            this.RoleUser = Roles.admin;
+            this.StatusAkun = StatusAkun.aktif;
         }
+        public override string GetRole() => "Admin";
     }
 
-    public class Customer : AbsUser
+    public class Customer : Users
     {
-        public override string GetRole()
+        public Customer()
         {
-            return "Customer";
+            this.RoleUser = Roles.customer;
+            this.Saldo = 0;
+            this.StatusAkun = StatusAkun.aktif;
         }
+        public override string GetRole() => "Customer";
     }
 }
