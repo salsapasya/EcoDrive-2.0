@@ -12,7 +12,7 @@ namespace EcoDrive_vol2.Service
     public class LoginService
     {
         // Satukan instansiasi context agar rapi dan tidak duplikat
-        private readonly UserContext _userContext = new UserContext();
+        private readonly UserContext _userContext = new UserContext();  //ENCAP SUPAYA GABISA DIAKSES ORANG LUAR SELAIN DI LINGKUP KELAS INI SENDIRI
         private readonly LoginContext _loginContext = new LoginContext();
         private readonly TopUpCustomerContext _topUpCustomerContext = new TopUpCustomerContext();
 

@@ -7,7 +7,7 @@ namespace EcoDrive_vol2.Controllers.Authentication
 {
     public class LoginController
     {
-        private readonly LoginService _loginService = new LoginService();
+        private readonly LoginService _loginService = new LoginService();  //ENCAP BIAR YG DARI LUAR LINGKUP KELAS GABISA NGEDIT
 
         public Users Login(string username, string password)
         {

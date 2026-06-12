@@ -11,7 +11,7 @@ namespace EcoDrive_vol2
 {
     public partial class FormLogin : Form
     {
-        private readonly LoginController _loginController = new LoginController();
+        private readonly LoginController _loginController = new LoginController();  //ENCAP BIAR YG DILUAR LINGKUP KELAS INI GABISA MENGUBAH
 
         public FormLogin()
         {
@@ -42,7 +42,7 @@ namespace EcoDrive_vol2
                 string username = TxtUsername.Text;
                 string password = TxtPassword.Text;
 
-                Users userLogin = _loginController.Login(username, password);
+                Users userLogin = _loginController.Login(username, password);  //ABSTRAC BCS VIEW BAKAL MANGGIL LOGIN() YG ADA DI CONTROLLER
 
                 if (userLogin != null)
                 {
@@ -77,7 +77,7 @@ namespace EcoDrive_vol2
         }
 
         // NAVIGATION: Buka Form Registrasi
-        private void linkLabelRegis_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void linkLabelRegis_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)  //POLYMOR BCS PARAMETER OBJECT SENDER BUAT NANGANIN MACAM MACAM KOMPONEN
         {
             FormRegister register = new FormRegister();
             register.Show();
