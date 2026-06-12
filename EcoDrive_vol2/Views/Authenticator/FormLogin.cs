@@ -46,12 +46,13 @@ namespace EcoDrive_vol2
 
                 if (userLogin != null)
                 {
-                    // SIMPAN ID KE SESSION GLOBAL SEKARANG
+                    // SIMPAN KE SESSION GLOBAL
                     UserSession.IdUserAktif = userLogin.IdUser;
                     UserSession.UsernameAktif = userLogin.Username;
-                    UserSession.Role = userLogin.RoleUser.ToString();
+                    UserSession.Role = userLogin.GetRole(); //pake fungsi override OOP
 
                     MessageBox.Show($"Selamat datang, {userLogin.Username}!", "Login Berhasil", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //pake enum 
                     if (userLogin.RoleUser == Roles.admin)
                     {
                         AdDashboard admin = new AdDashboard();
