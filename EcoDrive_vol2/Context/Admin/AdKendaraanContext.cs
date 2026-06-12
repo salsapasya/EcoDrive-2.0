@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace EcoDrive_vol2.Context.Admin
 {
-    class KendaraanContext
+    class AdKendaraanContext
     {
         public List<Kendaraan> GetAllKendaraan()
         {

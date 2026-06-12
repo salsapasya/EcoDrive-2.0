@@ -1,5 +1,4 @@
 ﻿using EcoDrive_vol2.Context.Admin;
-using EcoDrive_vol2.Context.Customer;
 using EcoDrive_vol2.Models.Admin;
 using EcoDrive_vol2.Service;
 using EcoDrive_vol2.Views;
@@ -20,8 +19,8 @@ namespace EcoDrive_vol2.Views
 
         private TransaksiService _transaksiService;
         private AdTransaksiContext _transaksiContext;
-        private TransaksiChargingContext _chargingContext;
-        private TransaksiSewaContext _sewaContext;
+        private AdTransaksiChargingContext _chargingContext;
+        private AdTransaksiSewaContext _sewaContext;
         private Controllers.Admin.AdTransaksiController _transaksiController;
 
         public AdTransaksi()
@@ -29,8 +28,8 @@ namespace EcoDrive_vol2.Views
             InitializeComponent();
             this.BackColor = bgUtama;
             _transaksiContext = new AdTransaksiContext();
-            _chargingContext = new TransaksiChargingContext();
-            _sewaContext = new TransaksiSewaContext();
+            _chargingContext = new AdTransaksiChargingContext();
+            _sewaContext = new AdTransaksiSewaContext();
             _transaksiService = new TransaksiService();
             _transaksiController = new Controllers.Admin.AdTransaksiController();
 

@@ -8,10 +8,12 @@ namespace EcoDrive_vol2.Controllers.Admin
 {
     public class AdTransaksiController
     {
+        // OOP (Enkapsulasi & Class): Menyembunyikan variabel bertipe Class TransaksiService
         private readonly TransaksiService _transaksiService;
 
         public AdTransaksiController()
         {
+            // OOP (Objek / Instansiasi): Mengubah Class menjadi Objek nyata di memori lewat 'new'
             _transaksiService = new TransaksiService();
         }
         public void ProsesKonfirmasiCharging(Transaksi dataTransaksi)

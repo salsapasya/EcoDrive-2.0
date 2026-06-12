@@ -7,7 +7,7 @@ using System.Text;
 
 namespace EcoDrive_vol2.Context.Admin
 {
-    public class TopUpCustomerContext
+    public class AdTopUpCustomerContext
     {
         public DataTable GetDaftarTopUpFromView(string statusFilter)
         {
