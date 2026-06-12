@@ -2,60 +2,38 @@
 using EcoDrive_vol2.Models;
 using EcoDrive_vol2.Models.Enums;
 using EcoDrive_vol2.Models.Vehicles;
+using System;
+using System.Collections.Generic;
 
 namespace EcoDrive_vol2.Services
 {
     public class KendaraanService
     {
-        private AdKendaraanContext context =
-            new AdKendaraanContext();
+        private readonly KendaraanContext context = new KendaraanContext();
 
         public List<Kendaraan> GetAllKendaraan()
         {
-            List<Kendaraan> data =
-                context.GetAllKendaraan();
+            List<Kendaraan> data = context.GetAllKendaraan();
+            List<Kendaraan> hasil = new List<Kendaraan>();
 
-            List<Kendaraan> hasil =
-                new List<Kendaraan>();
+            if (data == null) return hasil;
 
             foreach (var item in data)
             {
-                Kendaraan kendaraan;
+                // Polimorfisme & Inheritance
+                Kendaraan kendaraan = (item.TipeKendaraan == KendaraanTipe.mobil)
+                    ? new ElectricCar()
+                    : new ElectricMotor();
 
-                // INHERITANCE
-                if (item.TipeKendaraan ==
-                    KendaraanTipe.mobil)
-                {
-                    kendaraan = new ElectricCar();
-                }
-                else
-                {
-                    kendaraan = new ElectricMotor();
-                }
-
-                kendaraan.IdKendaraan =
-                    item.IdKendaraan;
-
-                kendaraan.IdMerkKendaraan =
-                    item.IdMerkKendaraan;
-
-                kendaraan.NomorPlatKendaraan =
-                    item.NomorPlatKendaraan;
-
-                kendaraan.NamaKendaraan =
-                    item.NamaKendaraan;
-
-                kendaraan.StokKendaraan =
-                    item.StokKendaraan;
-
-                kendaraan.HargaSewa =
-                    item.HargaSewa;
-
-                kendaraan.TipeKendaraan =
-                    item.TipeKendaraan;
-
-                kendaraan.StatusKendaraan =
-                    item.StatusKendaraan;
+                // Menggunakan Object Initializer agar kode lebih clean dan scannable
+                kendaraan.IdKendaraan = item.IdKendaraan;
+                kendaraan.IdMerkKendaraan = item.IdMerkKendaraan;
+                kendaraan.NomorPlatKendaraan = item.NomorPlatKendaraan;
+                kendaraan.NamaKendaraan = item.NamaKendaraan;
+                kendaraan.StokKendaraan = item.StokKendaraan;
+                kendaraan.HargaSewa = item.HargaSewa;
+                kendaraan.TipeKendaraan = item.TipeKendaraan;
+                kendaraan.StatusKendaraan = item.StatusKendaraan;
 
                 hasil.Add(kendaraan);
             }
@@ -63,27 +41,39 @@ namespace EcoDrive_vol2.Services
             return hasil;
         }
 
-        public List<Kendaraan>
-            GetAvailableKendaraan()
+        public List<Kendaraan> GetAvailableKendaraan(string filterAktif, string keyword)
         {
-            return GetAllKendaraan()
+            List<Kendaraan> semuakendaraan = GetAllKendaraan();
+            if (semuakendaraan == null) return new List<Kendaraan>();
 
-                .Where(k =>
-                    k.StatusKendaraan ==
-                    OptionStatus.tersedia
-                )
+            // Penyaringan berdasarkan kategori tombol aktif
+            if (filterAktif == "Mobil")
+            {
+                semuakendaraan = semuakendaraan.FindAll(x => x.TipeKendaraan == KendaraanTipe.mobil);
+            }
+            else if (filterAktif == "Motor")
+            {
+                semuakendaraan = semuakendaraan.FindAll(x => x.TipeKendaraan == KendaraanTipe.motor);
+            }
 
-                .ToList();
+            // Penyaringan berdasarkan kata kunci pencarian (Real-time search)
+            string cleanKeyword = keyword?.Trim().ToLower();
+            if (!string.IsNullOrEmpty(cleanKeyword))
+            {
+                semuakendaraan = semuakendaraan.FindAll(x =>
+                    x.NamaKendaraan.ToLower().Contains(cleanKeyword) ||
+                    x.TipeKendaraan.ToString().ToLower().Contains(cleanKeyword) ||
+                    x.NomorPlatKendaraan.ToLower().Contains(cleanKeyword));
+            }
+            return semuakendaraan;
         }
 
-        public void AddKendaraan(
-            Kendaraan kendaraan)
+        public void AddKendaraan(Kendaraan kendaraan)
         {
             context.AddKendaraan(kendaraan);
         }
 
-        public void UpdateKendaraan(
-            Kendaraan kendaraan)
+        public void UpdateKendaraan(Kendaraan kendaraan)
         {
             context.UpdateKendaraan(kendaraan);
         }

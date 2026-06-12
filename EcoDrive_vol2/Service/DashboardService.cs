@@ -1,12 +1,12 @@
 ﻿using System;
 using EcoDrive_vol2.Context.Customer;
+using EcoDrive_vol2.AbstractandInterface.Interface;
 
 namespace EcoDrive_vol2.Services.Customer
 {
-    public class DashboardService
+    public class DashboardService : IDashboardService
     {
         private readonly DashboardContext _context;
-
         public DashboardService()
         {
             _context = new DashboardContext();
