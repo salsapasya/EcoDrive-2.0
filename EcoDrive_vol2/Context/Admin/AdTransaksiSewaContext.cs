@@ -6,9 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 
-namespace EcoDrive_vol2.Context.Customer
+namespace EcoDrive_vol2.Context.Admin
 {
-    public class TransaksiSewaContext
+    public class AdTransaksiSewaContext
     {
         public DataTable GetAllTransaksiSewaAdmin()
         {

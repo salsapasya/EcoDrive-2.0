@@ -9,11 +9,11 @@ namespace EcoDrive_vol2.Service
 {
     public class PendapatanService : IPendapatanService
     {
-        private readonly PendapatanContext _context;
+        private readonly AdPendapatanContext _context;
 
         public PendapatanService()
         {
-            _context = new PendapatanContext();
+            _context = new AdPendapatanContext();
         }
         public CardPendapatanModel GetCardTotalByTahun(int tahun)
         {

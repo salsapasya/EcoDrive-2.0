@@ -5,7 +5,7 @@ namespace EcoDrive_vol2.Models.Transaksi
 {
     public class TransaksiCharging
     {
-        public int IdTransaksiCharging { get; set; }
+        public int IdTransaksiCharging { get; set; } // get set itu encapsulation
 
         public int IdUser { get; set; }
 

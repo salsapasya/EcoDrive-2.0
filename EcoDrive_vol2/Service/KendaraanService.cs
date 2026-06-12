@@ -7,8 +7,8 @@ namespace EcoDrive_vol2.Services
 {
     public class KendaraanService
     {
-        private KendaraanContext context =
-            new KendaraanContext();
+        private AdKendaraanContext context =
+            new AdKendaraanContext();
 
         public List<Kendaraan> GetAllKendaraan()
         {
