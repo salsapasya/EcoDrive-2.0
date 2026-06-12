@@ -35,7 +35,7 @@
             pnlSaldoCard = new Panel();
             btnTopUp = new Button();
             lblPengguna = new Label();
-            lblSaldoBesar = new Label();
+            lblSaldo = new Label();
             lblTotalSaldoTitle = new Label();
             lblSubtitle = new Label();
             lblTitle = new Label();
@@ -72,6 +72,7 @@
             // 
             // flpRiwayatSaldo
             // 
+            flpRiwayatSaldo.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             flpRiwayatSaldo.AutoScroll = true;
             flpRiwayatSaldo.BackColor = Color.Transparent;
             flpRiwayatSaldo.FlowDirection = FlowDirection.TopDown;
@@ -97,7 +98,7 @@
             pnlSaldoCard.BackColor = Color.FromArgb(30, 37, 47);
             pnlSaldoCard.Controls.Add(btnTopUp);
             pnlSaldoCard.Controls.Add(lblPengguna);
-            pnlSaldoCard.Controls.Add(lblSaldoBesar);
+            pnlSaldoCard.Controls.Add(lblSaldo);
             pnlSaldoCard.Controls.Add(lblTotalSaldoTitle);
             pnlSaldoCard.Location = new Point(25, 102);
             pnlSaldoCard.Name = "pnlSaldoCard";
@@ -116,7 +117,7 @@
             btnTopUp.TabIndex = 3;
             btnTopUp.Text = "Top Up Saldo";
             btnTopUp.UseVisualStyleBackColor = false;
-            btnTopUp.Click += btnTopUp_Click_2;
+            btnTopUp.Click += btnTopup_Click;
             // 
             // lblPengguna
             // 
@@ -129,17 +130,17 @@
             lblPengguna.Text = "ID Pengguna: ECO-2026-0001";
             lblPengguna.Click += lblPengguna_Click;
             // 
-            // lblSaldoBesar
+            // lblSaldo
             // 
-            lblSaldoBesar.AutoSize = true;
-            lblSaldoBesar.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblSaldoBesar.ForeColor = Color.White;
-            lblSaldoBesar.Location = new Point(129, 12);
-            lblSaldoBesar.Name = "lblSaldoBesar";
-            lblSaldoBesar.Size = new Size(185, 37);
-            lblSaldoBesar.TabIndex = 1;
-            lblSaldoBesar.Text = "Rp 1.500.000";
-            lblSaldoBesar.Click += lblSaldoBesar_Click;
+            lblSaldo.AutoSize = true;
+            lblSaldo.Font = new Font("Segoe UI", 20.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblSaldo.ForeColor = Color.White;
+            lblSaldo.Location = new Point(129, 12);
+            lblSaldo.Name = "lblSaldo";
+            lblSaldo.Size = new Size(185, 37);
+            lblSaldo.TabIndex = 1;
+            lblSaldo.Text = "Rp 1.500.000";
+            lblSaldo.Click += lblSaldoBesar_Click;
             // 
             // lblTotalSaldoTitle
             // 
@@ -200,13 +201,13 @@
         private Panel mainPanel;
         private Panel cardPanel;
         private Label lblSubtitle;
-        private Label lblTitle;
         private Panel pnlSaldoCard;
         private Label lblTotalSaldoTitle;
-        private Label lblSaldoBesar;
+        private Label lblSaldo;
         private Button btnTopUp;
         private Label lblPengguna;
         private Label lblRiwayatTitle;
         private FlowLayoutPanel flpRiwayatSaldo;
+        private Label lblTitle;
     }
 }

@@ -10,11 +10,16 @@ namespace EcoDrive_vol2.Views
     public partial class CusSaldo : Form
     {
         private Color bgUtama = Color.FromArgb(255, 253, 246);
-
         private int idUser = UserSession.IdUserAktif;
         private decimal saldo = 0;
-
         private CusSaldoController controller = new CusSaldoController();
+
+        // --- LAYER POP-UP OVERLAY RUNTIME ---
+        private Panel panelOverlay;
+        private Panel panelPopUpBox;
+        private TextBox txtNominalPopUp;
+        private RadioButton rbSekarang;
+        private RadioButton rbNanti;
 
         public CusSaldo()
         {
@@ -24,7 +29,6 @@ namespace EcoDrive_vol2.Views
 
         private void CusSaldo_Load(object sender, EventArgs e)
         {
-            // Sesuai kodingan lamamu, set ID user aktif dari session lalu load halaman
             idUser = UserSession.IdUserAktif;
             LoadHalamanSaldo();
         }
@@ -33,115 +37,309 @@ namespace EcoDrive_vol2.Views
         {
             try
             {
-                // 1. Sinkronisasi Kartu Utama dengan Data DB Terbaru via Controller
-                //saldo = controller.GetSaldo(idUser);
-                //lblSaldo.Text = "Rp " + saldo.ToString("N0");
-
-                // Cari label ID Pengguna jika ada di designer form-mu
-                //if (Controls.Find("lblIdPengguna", true).Length > 0)
-                //{
-                //    lblIdPengguna.Text = "ID Pengguna: ECO-" + idUser.ToString("D4");
-                //}
-
-                // 2. Bersihkan penampung list riwayat (FlowLayoutPanel)
-                flpRiwayatSaldo.Controls.Clear();
-
-                // 3. Tarik data dari database lewat Controller (Bentuknya DataTable)
-                DataTable dtRiwayat = controller.AmbilRiwayatTopUp(idUser);
-
-                // Looping isi baris tabel database untuk dicetak jadi panel ala Figma
-                foreach (DataRow row in dtRiwayat.Rows)
+                saldo = controller.GetSaldo(idUser);
+                if (lblSaldo != null)
                 {
-                    string status = row["status_topup"].ToString().ToUpper();
-                    string idTopUp = row["id_topup_saldo"].ToString();
-                    decimal jumlah = Convert.ToDecimal(row["jumlah_topup"]);
+                    lblSaldo.Text = "Rp " + saldo.ToString("N0");
+                }
 
-                    // --- PROSES GENERATE PANEL SECARA RUNTIME ---
-                    Panel itemPanel = new Panel();
-                    itemPanel.Size = new Size(630, 65);
-                    itemPanel.BackColor = Color.White;
-                    itemPanel.Margin = new Padding(0, 0, 0, 8);
+                if (flpRiwayatSaldo != null)
+                {
+                    flpRiwayatSaldo.SuspendLayout();
+                    flpRiwayatSaldo.Controls.Clear();
 
-                    // Label Status / Judul Aktivitas (Kiri Atas)
-                    Label lblJudul = new Label();
-                    lblJudul.Text = status == "BERHASIL" ? "Top Up Saldo Berhasil" : (status == "PENDING" ? "Top Up Menunggu Konfirmasi" : "Top Up Saldo Gagal");
-                    lblJudul.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-                    lblJudul.Location = new Point(15, 12);
-                    lblJudul.AutoSize = true;
+                    // FIX: Memastikan controller memanggil AmbilRiwayatTopUp dengan benar
+                    DataTable dtRiwayat = controller.AmbilRiwayatTopUp(idUser);
 
-                    // Label Ref ID Transaksi (Kiri Bawah)
-                    Label lblSub = new Label();
-                    lblSub.Text = $"Ref ID: #TP-{idTopUp}";
-                    lblSub.Font = new Font("Segoe UI", 9, FontStyle.Regular);
-                    lblSub.ForeColor = Color.Gray;
-                    lblSub.Location = new Point(15, 34);
-                    lblSub.AutoSize = true;
+                    if (dtRiwayat != null)
+                    {
+                        foreach (DataRow row in dtRiwayat.Rows)
+                        {
+                            string idTopUp = row["id_topup_saldo"].ToString();
+                            string status = row["status_topup"].ToString().ToLower().Trim();
+                            string dbMintaBatal = row["minta_batal"] != DBNull.Value ? row["minta_batal"].ToString().ToLower().Trim() : "false";
+                            bool mintaBatal = row["minta_batal"] != DBNull.Value && Convert.ToBoolean(row["minta_batal"]);
+                            decimal jumlah = Convert.ToDecimal(row["jumlah_topup"]);
 
-                    // Label Nominal Transaksi (Kanan Tengah)
-                    Label lblNominal = new Label();
-                    lblNominal.Text = (status == "BERHASIL" ? "+ Rp " : "Rp ") + jumlah.ToString("N0");
-                    lblNominal.Font = new Font("Segoe UI", 11, FontStyle.Bold);
+                            Panel itemPanel = new Panel();
+                            itemPanel.Size = new Size(flpRiwayatSaldo.Width - 25, 70);
+                            itemPanel.BackColor = Color.White;
+                            itemPanel.Margin = new Padding(3, 3, 3, 6);
 
-                    // Pewarnaan teks status: Berhasil = Ijo, Pending = Oranye, Gagal = Merah
-                    if (status == "BERHASIL") lblNominal.ForeColor = Color.ForestGreen;
-                    //else if (status == "PENDING") lblNominal.ForeColor = Color.OrangeScalar ?? Color.FromArgb(230, 140, 10);
-                    else lblNominal.ForeColor = Color.Firebrick;
+                            Label lblJudul = new Label();
+                            lblJudul.Font = new Font("Segoe UI", 9.5f, FontStyle.Bold);
+                            lblJudul.Location = new Point(15, 12);
+                            lblJudul.AutoSize = true;
 
-                    lblNominal.Location = new Point(480, 20);
-                    lblNominal.AutoSize = true;
+                            Label lblSub = new Label();
+                            lblSub.Text = $"Ref ID: #TP-{idTopUp} • Bank Mandiri";
+                            lblSub.Font = new Font("Segoe UI", 8.5f, FontStyle.Regular);
+                            lblSub.ForeColor = Color.Gray;
+                            lblSub.Location = new Point(15, 36);
+                            lblSub.AutoSize = true;
 
-                    // Gabungkan komponen ke dalam struktur panel figma
-                    itemPanel.Controls.Add(lblJudul);
-                    itemPanel.Controls.Add(lblSub);
-                    itemPanel.Controls.Add(lblNominal);
+                            Label lblNominal = new Label();
+                            lblNominal.Text = (status == "BERHASIL" || status == "SUKSES" ? "+ Rp " : "Rp ") + jumlah.ToString("N0");
+                            lblNominal.Font = new Font("Segoe UI", 10.5f, FontStyle.Bold);
+                            lblNominal.AutoSize = true;
 
-                    // Tumpuk masuk ke FlowLayoutPanel
-                    flpRiwayatSaldo.Controls.Add(itemPanel);
+                            if (status == "berhasil")
+                            {
+                                lblJudul.Text = "Top Up Saldo Berhasil";
+                                lblNominal.ForeColor = Color.ForestGreen;
+                                lblNominal.Text = "+ Rp " + jumlah.ToString("N0");
+                                lblNominal.Location = new Point(itemPanel.Width - 140, 20);
+                            }
+                            else if (status == "gagal")
+                            {
+                                lblJudul.Text = "Top Up Dibatalkan / Gagal";
+                                lblNominal.ForeColor = Color.Firebrick;
+                                lblNominal.Text = "Rp " + jumlah.ToString("N0");
+                                lblNominal.Location = new Point(itemPanel.Width - 140, 20);
+                            }
+                            else if (status == "pending")
+                            {
+                                lblNominal.Text = "Rp " + jumlah.ToString("N0");
+
+                                if (mintaBatal)
+                                {
+                                    lblJudul.Text = "Memproses Pembatalan (Menunggu Admin)";
+                                    lblNominal.ForeColor = Color.Firebrick;
+                                    lblNominal.Location = new Point(itemPanel.Width - 140, 20);
+                                }
+                                else
+                                {
+                                    lblJudul.Text = "Top Up Tertunda (Belum Dibayar)";
+                                    lblNominal.ForeColor = Color.FromArgb(230, 140, 10);
+                                    lblNominal.Location = new Point(itemPanel.Width - 290, 20);
+
+                                    Button btnBayar = new Button();
+                                    btnBayar.Text = "Bayar";
+                                    btnBayar.Size = new Size(60, 26);
+                                    btnBayar.Location = new Point(itemPanel.Width - 135, 18);
+                                    btnBayar.BackColor = Color.FromArgb(134, 196, 62);
+                                    btnBayar.ForeColor = Color.White;
+                                    btnBayar.FlatStyle = FlatStyle.Flat;
+                                    btnBayar.FlatAppearance.BorderSize = 0;
+                                    btnBayar.Cursor = Cursors.Hand;
+
+                                    Button btnBatal = new Button();
+                                    btnBatal.Text = "Batal";
+                                    btnBatal.Size = new Size(60, 26);
+                                    btnBatal.Location = new Point(itemPanel.Width - 70, 18);
+                                    btnBatal.BackColor = Color.LightCoral;
+                                    btnBatal.ForeColor = Color.White;
+                                    btnBatal.FlatStyle = FlatStyle.Flat;
+                                    btnBatal.FlatAppearance.BorderSize = 0;
+                                    btnBatal.Cursor = Cursors.Hand;
+
+                                    btnBayar.Click += (s, ev) =>
+                                    {
+                                        // 1. Matikan tombol dan langsung SEMBUNYIKAN dari layar biar gak bisa di-klik lagi!
+                                        btnBayar.Enabled = false;
+                                        btnBatal.Enabled = false;
+                                        btnBayar.Visible = false;
+                                        btnBatal.Visible = false;
+
+                                        try
+                                        {
+                                            controller.BayarPendingLangsung(Convert.ToInt32(idTopUp), idUser, jumlah);
+                                            MessageBox.Show($"Pembayaran Rp {jumlah:N0} Berhasil! Saldo Anda telah ditambahkan.", "Top Up Sukses");
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            MessageBox.Show("Gagal memproses pembayaran: " + ex.Message);
+                                            // Kalau gagal, munculin lagi tombolnya
+                                            btnBayar.Enabled = true;
+                                            btnBatal.Enabled = true;
+                                            btnBayar.Visible = true;
+                                            btnBatal.Visible = true;
+                                        }
+
+                                        LoadHalamanSaldo();
+                                    };
+
+                                    btnBatal.Click += (s, ev) =>
+                                    {
+                                        // 1. Sembunyikan juga tombol batalnya biar gak dispam!
+                                        btnBayar.Enabled = false;
+                                        btnBatal.Enabled = false;
+                                        btnBayar.Visible = false;
+                                        btnBatal.Visible = false;
+
+                                        try
+                                        {
+                                            controller.UbahMintaBatalCustomer(Convert.ToInt32(idTopUp));
+                                            MessageBox.Show("Permintaan pembatalan transaksi dikirim ke admin!", "Informasi");
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            MessageBox.Show("Gagal membatalkan: " + ex.Message);
+                                            btnBayar.Enabled = true;
+                                            btnBatal.Enabled = true;
+                                            btnBayar.Visible = true;
+                                            btnBatal.Visible = true;
+                                        }
+
+                                        LoadHalamanSaldo();
+                                    };
+
+                                    itemPanel.Controls.Add(btnBayar);
+                                    itemPanel.Controls.Add(btnBatal);
+                                }
+                                
+                            }
+
+                            itemPanel.Controls.Add(lblJudul);
+                            itemPanel.Controls.Add(lblSub);
+                            itemPanel.Controls.Add(lblNominal);
+                            flpRiwayatSaldo.Controls.Add(itemPanel);
+                        }
+                    }
+                    flpRiwayatSaldo.ResumeLayout(true);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Gagal memuat data saldo & riwayat figma: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Gagal memuat riwayat saldo: " + ex.Message, "Error");
             }
         }
 
-        private void btnTopup_Click(object sender, EventArgs e)
+        // ====================================================================
+        // 🔥 EVENT TOMBOL TOP UP UTAMA DIKLIK 🔥
+        // ====================================================================
+        public void btnTopup_Click(object sender, EventArgs e)
         {
+            if (panelOverlay == null)
+            {
+                panelOverlay = new Panel();
+                panelOverlay.Size = this.ClientSize;
+                panelOverlay.Location = new Point(0, 0);
+                panelOverlay.BackColor = Color.FromArgb(140, 0, 0, 0);
+
+                panelPopUpBox = new Panel();
+                panelPopUpBox.Size = new Size(400, 420);
+                panelPopUpBox.BackColor = Color.White;
+
+                int koordinatX = (this.ClientSize.Width - panelPopUpBox.Width) / 2;
+                int koordinatY = (this.ClientSize.Height - panelPopUpBox.Height) / 2;
+                panelPopUpBox.Location = new Point(koordinatX, koordinatY);
+
+                Button btnClose = new Button();
+                btnClose.Text = "✕";
+                btnClose.Font = new Font("Segoe UI", 11, FontStyle.Bold);
+                btnClose.ForeColor = Color.Gray;
+                btnClose.Size = new Size(35, 35);
+                btnClose.Location = new Point(355, 10);
+                btnClose.FlatStyle = FlatStyle.Flat;
+                btnClose.FlatAppearance.BorderSize = 0;
+                btnClose.Cursor = Cursors.Hand;
+                btnClose.Click += (s, ev) => { panelOverlay.Visible = false; };
+
+                Label lblTitlePop = new Label();
+                lblTitlePop.Text = "Detail Top Up Saldo";
+                lblTitlePop.Font = new Font("Segoe UI", 13, FontStyle.Bold);
+                lblTitlePop.Location = new Point(30, 25);
+                lblTitlePop.AutoSize = true;
+
+                Label lblBankInfo = new Label();
+                lblBankInfo.Text = "Metode Transfer Bank Mandiri\nVirtual Account: 123-000-9988-771";
+                lblBankInfo.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+                lblBankInfo.ForeColor = Color.FromArgb(80, 80, 80);
+                lblBankInfo.Location = new Point(30, 70);
+                lblBankInfo.AutoSize = true;
+
+                Label lblInputTitle = new Label();
+                lblInputTitle.Text = "Masukkan Nominal Top Up (Rp):";
+                lblInputTitle.Font = new Font("Segoe UI", 9, FontStyle.Regular);
+                lblInputTitle.Location = new Point(30, 130);
+                lblInputTitle.AutoSize = true;
+
+                txtNominalPopUp = new TextBox();
+                txtNominalPopUp.Font = new Font("Segoe UI", 11, FontStyle.Regular);
+                txtNominalPopUp.Location = new Point(30, 155);
+                txtNominalPopUp.Size = new Size(340, 27);
+
+                rbSekarang = new RadioButton();
+                rbSekarang.Text = "Bayar Sekarang (Saldo Langsung Masuk)";
+                rbSekarang.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+                rbSekarang.ForeColor = Color.ForestGreen;
+                rbSekarang.Location = new Point(30, 205);
+                rbSekarang.Size = new Size(340, 25);
+                rbSekarang.Checked = true;
+
+                rbNanti = new RadioButton();
+                rbNanti.Text = "Bayar Nanti (Masuk Riwayat PENDING)";
+                rbNanti.Font = new Font("Segoe UI", 9, FontStyle.Bold);
+                rbNanti.ForeColor = Color.Orange;
+                rbNanti.Location = new Point(30, 235);
+                rbNanti.Size = new Size(340, 25);
+
+                Button btnProses = new Button();
+                btnProses.Text = "Konfirmasi Pembayaran";
+                btnProses.Font = new Font("Segoe UI", 11, FontStyle.Bold);
+                btnProses.BackColor = Color.FromArgb(134, 196, 62);
+                btnProses.ForeColor = Color.White;
+                btnProses.Size = new Size(340, 45);
+                btnProses.Location = new Point(30, 290);
+                btnProses.FlatStyle = FlatStyle.Flat;
+                btnProses.FlatAppearance.BorderSize = 0;
+                btnProses.Cursor = Cursors.Hand;
+                btnProses.Click += new EventHandler(this.ProsesTopUpFigma);
+
+                panelPopUpBox.Controls.Add(btnClose);
+                panelPopUpBox.Controls.Add(lblTitlePop);
+                panelPopUpBox.Controls.Add(lblBankInfo);
+                panelPopUpBox.Controls.Add(lblInputTitle);
+                panelPopUpBox.Controls.Add(txtNominalPopUp);
+                panelPopUpBox.Controls.Add(rbSekarang);
+                panelPopUpBox.Controls.Add(rbNanti);
+                panelPopUpBox.Controls.Add(btnProses);
+
+                panelOverlay.Controls.Add(panelPopUpBox);
+                this.Controls.Add(panelOverlay);
+            }
+
+            txtNominalPopUp.Clear();
+            rbSekarang.Checked = true;
+            panelOverlay.Size = this.ClientSize;
+            panelOverlay.Visible = true;
+            panelOverlay.BringToFront();
+        }
+
+        private void ProsesTopUpFigma(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtNominalPopUp.Text) || !decimal.TryParse(txtNominalPopUp.Text, out decimal nominalInput) || nominalInput <= 0)
+            {
+                MessageBox.Show("Masukkan nominal top up angka yang valid!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             try
             {
-                //if (string.IsNullOrEmpty(txtTopUp.Text))
-                //{
-                //    MessageBox.Show("Masukkan jumlah top up");
-                //    return;
-                //}
+                if (rbSekarang.Checked)
+                {
+                    controller.TopupSaldoLangsung(idUser, nominalInput);
+                    MessageBox.Show($"Top Up Rp {nominalInput:N0} Berhasil! Saldo Anda langsung bertambah.", "Sukses Transaksi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else if (rbNanti.Checked)
+                {
+                    controller.TopupSaldoPending(idUser, nominalInput);
+                    MessageBox.Show($"Invoice pending dibuat sebesar Rp {nominalInput:N0}! Silakan lakukan pembayaran pada list riwayat saldo.", "Invoice Pending", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
 
-                //decimal jumlahTopUp = Convert.ToDecimal(txtTopUp.Text);
-
-                // Jalankan query simpan topup saldo via controller
-                //controller.TopupSaldo(idUser, jumlahTopUp);
-
-                MessageBox.Show("Top Up Berhasil! Menunggu Konfirmasi Admin", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                //txtTopUp.Clear();
-
-                // REFRESH LAYOUT KARTU DAN LIST BARU SECARA OTOMATIS
+                panelOverlay.Visible = false;
                 LoadHalamanSaldo();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Gagal memproses transaksi: " + ex.Message, "Error");
             }
         }
 
-        private void btnTopUp_Click_1(object sender, EventArgs e)
-        {
-            btnTopup_Click(sender, e);
-        }
-
-        // ====================================================================
-        // IGNORE / BIARKAN EVENT SISA DESIGNER INI TETAP ADA BIAR GA MERAH
-        // ====================================================================
-        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e) { }
+        // --- RETAINER HANDLERS AGAR TIDAK BREAK DESIGNER ---
+        private void btnTopUp_Click_1(object sender, EventArgs e) => btnTopup_Click(sender, e);
+        private void flowLayotPanel1_Paint(object sender, PaintEventArgs e) { }
         private void lblSaldo_Click(object sender, EventArgs e) { }
         private void txtTopUp_TextChanged(object sender, EventArgs e) { }
         private void lblTitle_Click(object sender, EventArgs e) { }
@@ -149,5 +347,15 @@ namespace EcoDrive_vol2.Views
         private void lblRiwayatTitle_Click(object sender, EventArgs e) { }
         private void lblPengguna_Click(object sender, EventArgs e) { }
         private void btnTopUp_Click_2(object sender, EventArgs e) { }
+
+        private void lblTitle_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

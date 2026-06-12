@@ -1,55 +1,48 @@
-﻿using System;
-using System.Data;
+﻿using EcoDrive_vol2.Context;
+using EcoDrive_vol2.Helpers;
 using EcoDrive_vol2.Service;
-using EcoDrive_vol2.Views.Admin;
-using EcoDrive_vol2.Context; // <-- 1. PASTIKAN TAMBAHIN INI
+using Microsoft.VisualBasic.ApplicationServices;
+using Npgsql;
+using System;
+using System.Data;
 
 namespace EcoDrive_vol2.Controllers.Customer
 {
     public class CusSaldoController
     {
         private readonly LoginService _loginService = new LoginService();
-        private readonly TopUpContext _topUpContext = new TopUpContext(); // <-- 2. TAMBAHIN INI
+        private TopUpContext _topUpContext = new TopUpContext();
+        private readonly TopUpCustomerService _topUpCustomerService = new TopUpCustomerService();
 
         public decimal GetSaldo(int idUser)
         {
-            try
-            {
-                return _loginService.AmbilSaldoUser(idUser);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error di Controller saat mengambil saldo: " + ex.Message);
-            }
+            return _topUpCustomerService.AmbilSaldoUser(idUser);
         }
 
-        public void TopupSaldo(int idUser, decimal jumlah)
-        {
-            try
-            {
-                _loginService.ProsesTopupSaldo(idUser, jumlah);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error di Controller saat top up saldo: " + ex.Message);
-            }
-        }
-
-        // ====================================================================
-        // JEMBATAN BARU: Digunakan oleh View CusSaldo untuk mengambil riwayat figma
-        // ====================================================================
         public DataTable AmbilRiwayatTopUp(int idUser)
         {
-            try
-            {
-                return _topUpContext.GetRiwayatTopUpByCustomer(idUser);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error di Controller saat mengambil riwayat top up: " + ex.Message);
-            }
+            return _topUpCustomerService.AmbilRiwayatTopUp(idUser);
         }
-
+        public void TopupSaldoLangsung(int idUser, decimal nominal)
+        {
+            _topUpCustomerService.ProsesTopUpLangsung(idUser, nominal);
+        }
+        public void TopupSaldoPending(int idUser, decimal nominal)
+        {
+            _topUpCustomerService.ProsesTopUpPending(idUser, nominal);
+        }
+        public void BayarPendingLangsung(int idTopup, int idUser, decimal nominal)
+        {
+            _topUpCustomerService.ProsesBayarDariRiwayat(idTopup, idUser, nominal);
+        }
+        public void UbahMintaBatalCustomer(int idTopup)
+        {
+            _topUpCustomerService.ProsesMintaBatalDariRiwayat(idTopup);
+        }
+        public int GetIdUserByUsername(string username)
+        {
+            return _topUpCustomerService.GetIdUserByUsername(username);
+        }
         public DataTable GetDaftarTransaksiTopUp(string status = "")
         {
             try
@@ -61,7 +54,6 @@ namespace EcoDrive_vol2.Controllers.Customer
                 throw new Exception("Error di Controller saat mengambil daftar transaksi: " + ex.Message);
             }
         }
-
         public void KonfirmasiTopUp(int idTopup, int idUser)
         {
             try
@@ -71,30 +63,6 @@ namespace EcoDrive_vol2.Controllers.Customer
             catch (Exception ex)
             {
                 throw new Exception("Error di Controller saat konfirmasi top up: " + ex.Message);
-            }
-        }
-
-        public void TolakTopUp(int idTopup)
-        {
-            try
-            {
-                _loginService.TolakTopUp(idTopup);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error di Controller saat menolak top up: " + ex.Message);
-            }
-        }
-
-        public int GetIdUserByUsername(string username)
-        {
-            try
-            {
-                return _loginService.AmbilIdUser(username);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error di Controller saat mencari ID User: " + ex.Message);
             }
         }
     }

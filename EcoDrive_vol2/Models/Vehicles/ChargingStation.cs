@@ -10,7 +10,7 @@ namespace EcoDrive.Models.Vehicles
 
         public string Lokasi { get; set; }
 
-        public decimal BiayaCharging { get; set; }
+        public decimal TarifPer15Menit { get; set; }
 
         public int JumlahSlot { get; set; }
     }

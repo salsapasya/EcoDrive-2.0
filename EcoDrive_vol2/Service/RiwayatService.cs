@@ -33,18 +33,6 @@ namespace EcoDrive_vol2.Service
                 throw new Exception("Error di Riwayat Service (Charging): " + ex.Message);
             }
         }
-
-        public DataTable AmbilRiwayatTopUp(int idUser)
-        {
-            try
-            {
-                return _riwayatContext.GetRiwayatTopUp(idUser);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error di Riwayat Service (Top Up): " + ex.Message);
-            }
-        }
     }
 }
 

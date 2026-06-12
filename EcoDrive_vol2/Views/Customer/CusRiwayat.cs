@@ -23,14 +23,18 @@ namespace EcoDrive_vol2.Views
         }
         private void CusRiwayat_Load(object sender, EventArgs e)
         {
+            tcRiwayat.SelectedIndex = 0;
+
             LoadDataRiwayat();
+
+            tcRiwayat.Refresh();
+            Application.DoEvents();
         }
 
         private void LoadDataRiwayat()
         {
             LoadRiwayatSewa();
             LoadRiwayatCharging();
-            LoadRiwayatTopUp();
         }
         private void LoadRiwayatSewa()
         {
@@ -89,7 +93,7 @@ namespace EcoDrive_vol2.Views
                     Panel card = CreateBaseCard();
 
                     Label lblJudul = CreateLabel($"Charging - {kendaraan}", 11, FontStyle.Bold, Color.Black, 15, 15);
-                    Label lblDetail = CreateLabel($"{tanggal}   •   {durasi} Jam", 9, FontStyle.Regular, Color.DimGray, 15, 42);
+                    Label lblDetail = CreateLabel($"{tanggal}   •   {durasi} Menit", 9, FontStyle.Regular, Color.DimGray, 15, 42);
                     Label lblHarga = CreateLabel("Rp " + biaya.ToString("N0"), 12, FontStyle.Bold, Color.Black, 450, 22);
 
                     Label lblStatus = CreateBadge(status, 580, 22);
@@ -112,50 +116,6 @@ namespace EcoDrive_vol2.Views
             {
                 MessageBox.Show($"Gagal memuat riwayat charging:\n{ex.Message}", "Peringatan Sistem", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-        }
-        private void LoadRiwayatTopUp()
-        {
-            try
-            {
-                flpTopUp.Controls.Clear();
-                DataTable dt = _riwayatController.AmbilRiwayatTopUp(UserSession.IdUserAktif);
-
-                foreach (DataRow row in dt.Rows)
-                {
-                    // Sesuai dengan kolom di view_riwayat_topup
-                    string idRef = row["id_topup_saldo"].ToString();
-                    decimal jumlah = Convert.ToDecimal(row["jumlah_topup"]);
-                    string status = row["status_topup"].ToString().ToUpper().Trim();
-
-                    Panel card = CreateBaseCard();
-
-                    card.Controls.Add(CreateLabel("Top Up Saldo EcoDrive", 11, FontStyle.Bold, Color.Black, 15, 15));
-                    card.Controls.Add(CreateLabel($"Ref ID: #TP-{idRef}", 9, FontStyle.Regular, Color.DimGray, 15, 42));
-
-                    // Uang masuk kasih tanda +
-                    Label lblHarga = CreateLabel((status == "BERHASIL" ? "+ Rp " : "Rp ") + jumlah.ToString("N0"), 12, FontStyle.Bold, Color.Black, 450, 22);
-                    if (status == "BERHASIL") lblHarga.ForeColor = Color.ForestGreen;
-                    card.Controls.Add(lblHarga);
-
-                    Label lblStatus = CreateBadge(status, 580, 22);
-                    if (status == "BERHASIL")
-                    {
-                        lblStatus.BackColor = Color.FromArgb(220, 245, 220); lblStatus.ForeColor = Color.ForestGreen;
-                    }
-                    else if (status == "PENDING" || status == "MENUNGGU")
-                    {
-                        lblStatus.BackColor = Color.FromArgb(255, 245, 200); lblStatus.ForeColor = Color.DarkGoldenrod;
-                    }
-                    else
-                    {
-                        lblStatus.BackColor = Color.FromArgb(255, 225, 225); lblStatus.ForeColor = Color.Firebrick;
-                    }
-                    card.Controls.Add(lblStatus);
-
-                    flpTopUp.Controls.Add(card);
-                }
-            }
-            catch (Exception ex) { MessageBox.Show("Gagal load riwayat Top Up: " + ex.Message); }
         }
         private Panel CreateBaseCard()
         {
@@ -188,6 +148,11 @@ namespace EcoDrive_vol2.Views
                 Size = new Size(95, 26), Location = new Point(x, y), 
                 TextAlign = ContentAlignment.MiddleCenter 
             };
+        }
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

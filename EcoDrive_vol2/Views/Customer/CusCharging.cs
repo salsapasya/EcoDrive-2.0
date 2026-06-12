@@ -126,7 +126,7 @@ namespace EcoDrive_vol2.Views
             };
             Label lblHarga = new Label 
             { 
-                Text = $"Rp {station.BiayaCharging:N0} / menit", 
+                Text = $"Rp {station.TarifPer15Menit:N0} / menit", 
                 Font = new Font("Segoe UI", 10, FontStyle.Bold), 
                 ForeColor = Color.FromArgb(46, 139, 87), 
                 Dock = DockStyle.Top, 
@@ -296,12 +296,29 @@ namespace EcoDrive_vol2.Views
 
             btnProses.Click += (s, e) =>
             {
+                if (cmbKendaraan.SelectedItem is Kendaraan kendaraanTerpilih)
+                {
+                    // Cek apakah ada plat yang sama di dalam list transaksi aktif (Pending/Mengisi Daya)
+                    bool isSudahCharging = _listSedangCharging.Exists(trx => trx.NomorPlat == kendaraanTerpilih.NomorPlatKendaraan);
+
+                    if (isSudahCharging)
+                    {
+                        MessageBox.Show(
+                            $"Kendaraan {kendaraanTerpilih.NamaKendaraan} ({kendaraanTerpilih.NomorPlatKendaraan}) saat ini masih dalam status PENDING atau MENGISI DAYA.\n\nSelesaikan transaksi sebelumnya terlebih dahulu!",
+                            "Transaksi Ditolak",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning
+                        );
+                        return; // Menghentikan eksekusi kode di bawahnya (tidak jadi bayar & call SP)
+                    }
+                }
+
                 decimal totalBiaya = (durasiTerpilih / 15) * 50000;
                 int idKendaraanTerpilih = (int)cmbKendaraan.SelectedValue;
 
                 try
                 {
-                    _chargingController.ProsesBuatCharging(UserSession.IdUserAktif, idKendaraanTerpilih, station.IdChargingStation, totalBiaya, durasiTerpilih);
+                    _chargingController.ProsesBuatCharging(UserSession.IdUserAktif, idKendaraanTerpilih, station.IdChargingStation, durasiTerpilih);
 
                     MessageBox.Show("Pembayaran Berhasil! Status saat ini: PENDING. \nSilakan tunggu konfirmasi Admin.", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     detailForm.Close();
@@ -330,8 +347,15 @@ namespace EcoDrive_vol2.Views
                 }
 
             };
-            detailForm.Controls.AddRange(new Control[] { lblTitle, lblLok, lblPilihKendaraan, cmbKendaraan, lblDurasi, pnlButtonsContainer, lblEstimasi, btnProses });
-            detailForm.ShowDialog();
+
+            detailForm.Controls.Add(lblTitle);
+            detailForm.Controls.Add(lblLok);
+            detailForm.Controls.Add(lblPilihKendaraan);
+            detailForm.Controls.Add(cmbKendaraan);
+            detailForm.Controls.Add(lblDurasi);
+            detailForm.Controls.Add(pnlButtonsContainer);
+            detailForm.Controls.Add(lblEstimasi);
+            detailForm.Controls.Add(btnProses); detailForm.ShowDialog();
         }
         private Panel CreateKendaraanChargingCard(TransaksiCharging trx)
         {
