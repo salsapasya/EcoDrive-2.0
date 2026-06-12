@@ -8,7 +8,7 @@ using Npgsql;
 
 namespace EcoDrive_vol2.Context.Admin
 {
-    public class PendapatanContext
+    public class AdPendapatanContext
     {
         public CardPendapatanModel GetCardPendapatanByTahun(int tahun)
         {
