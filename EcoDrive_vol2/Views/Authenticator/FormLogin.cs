@@ -39,8 +39,8 @@ namespace EcoDrive_vol2
         {
             try
             {
-                string username = TxtUsername.Text;
-                string password = TxtPassword.Text;
+                string username = TxtUsername.Text.Trim();
+                string password = TxtPassword.Text.Trim();
 
                 Users userLogin = _loginController.Login(username, password);  //ABSTRAC BCS VIEW BAKAL MANGGIL LOGIN() YG ADA DI CONTROLLER
 

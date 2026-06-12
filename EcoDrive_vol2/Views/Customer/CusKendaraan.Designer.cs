@@ -28,194 +28,98 @@
         /// </summary>
         private void InitializeComponent()
         {
-            mainPanel = new Panel();
-            cardPanel = new Panel();
-            flowLayoutPanel1 = new FlowLayoutPanel();
-            filterTableLayout = new TableLayoutPanel();
-            leftFilterFlow = new FlowLayoutPanel();
+            txtSearch = new TextBox();
             btnSemua = new Button();
             btnMobil = new Button();
             btnMotor = new Button();
-            txtSearch = new TextBox();
-            lblSubtitle = new Label();
-            lblTitle = new Label();
-            mainPanel.SuspendLayout();
-            cardPanel.SuspendLayout();
-            filterTableLayout.SuspendLayout();
-            leftFilterFlow.SuspendLayout();
+            flowLayoutPanel1 = new FlowLayoutPanel();
             SuspendLayout();
             // 
-            // mainPanel
+            // txtSearch
             // 
-            mainPanel.BackColor = Color.FromArgb(250, 248, 242);
-            mainPanel.Controls.Add(cardPanel);
-            mainPanel.Dock = DockStyle.Fill;
-            mainPanel.Location = new Point(0, 0);
-            mainPanel.Name = "mainPanel";
-            mainPanel.Padding = new Padding(20, 15, 20, 20);
-            mainPanel.Size = new Size(1100, 650);
-            mainPanel.TabIndex = 0;
-            // 
-            // cardPanel
-            // 
-            cardPanel.BackColor = Color.White;
-            cardPanel.Controls.Add(flowLayoutPanel1);
-            cardPanel.Controls.Add(filterTableLayout);
-            cardPanel.Controls.Add(lblSubtitle);
-            cardPanel.Controls.Add(lblTitle);
-            cardPanel.Dock = DockStyle.Fill;
-            cardPanel.Location = new Point(20, 15);
-            cardPanel.Name = "cardPanel";
-            cardPanel.Padding = new Padding(25, 25, 25, 20);
-            cardPanel.Size = new Size(1060, 615);
-            cardPanel.TabIndex = 0;
-            // 
-            // flowLayoutPanel1
-            // 
-            flowLayoutPanel1.AutoScroll = true;
-            flowLayoutPanel1.BackColor = Color.FromArgb(252, 252, 250);
-            flowLayoutPanel1.Dock = DockStyle.Fill;
-            flowLayoutPanel1.Location = new Point(25, 144);
-            flowLayoutPanel1.Margin = new Padding(0, 15, 0, 0);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Padding = new Padding(10);
-            flowLayoutPanel1.Size = new Size(1010, 451);
-            flowLayoutPanel1.TabIndex = 0;
-            flowLayoutPanel1.Paint += flowLayoutPanel1_Paint;
-            // 
-            // filterTableLayout
-            // 
-            filterTableLayout.ColumnCount = 3;
-            filterTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            filterTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 320F));
-            filterTableLayout.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 10F));
-            filterTableLayout.Controls.Add(leftFilterFlow, 1, 0);
-            filterTableLayout.Controls.Add(txtSearch, 0, 0);
-            filterTableLayout.Dock = DockStyle.Top;
-            filterTableLayout.Location = new Point(25, 99);
-            filterTableLayout.Name = "filterTableLayout";
-            filterTableLayout.RowCount = 1;
-            filterTableLayout.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            filterTableLayout.Size = new Size(1010, 45);
-            filterTableLayout.TabIndex = 1;
-            // 
-            // leftFilterFlow
-            // 
-            leftFilterFlow.Controls.Add(btnSemua);
-            leftFilterFlow.Controls.Add(btnMobil);
-            leftFilterFlow.Controls.Add(btnMotor);
-            leftFilterFlow.Dock = DockStyle.Fill;
-            leftFilterFlow.Location = new Point(680, 0);
-            leftFilterFlow.Margin = new Padding(0);
-            leftFilterFlow.Name = "leftFilterFlow";
-            leftFilterFlow.Size = new Size(320, 45);
-            leftFilterFlow.TabIndex = 1;
+            txtSearch.BackColor = Color.FromArgb(245, 245, 240);
+            txtSearch.BorderStyle = BorderStyle.None;
+            txtSearch.Font = new Font("Segoe UI", 11F);
+            txtSearch.ForeColor = Color.Black;
+            txtSearch.Location = new Point(20, 20);
+            txtSearch.Name = "txtSearch";
+            txtSearch.PlaceholderText = "🔍 Cari kendaraan...";
+            txtSearch.Size = new Size(300, 20);
+            txtSearch.TabIndex = 0;
+            txtSearch.TextChanged += TxtSearch_TextChanged;
             // 
             // btnSemua
             // 
             btnSemua.BackColor = Color.FromArgb(76, 175, 80);
             btnSemua.FlatStyle = FlatStyle.Flat;
             btnSemua.ForeColor = Color.White;
-            btnSemua.Location = new Point(0, 2);
-            btnSemua.Margin = new Padding(0, 2, 8, 0);
+            btnSemua.Location = new Point(20, 60);
             btnSemua.Name = "btnSemua";
-            btnSemua.Size = new Size(90, 36);
+            btnSemua.Size = new Size(80, 30);
             btnSemua.TabIndex = 1;
             btnSemua.Text = "Semua";
             btnSemua.UseVisualStyleBackColor = false;
+            btnSemua.Click += BtnSemua_Click;
             // 
             // btnMobil
             // 
-            btnMobil.BackColor = Color.FromArgb(248, 244, 238);
+            btnMobil.BackColor = Color.White;
             btnMobil.FlatStyle = FlatStyle.Flat;
             btnMobil.ForeColor = Color.FromArgb(45, 45, 45);
-            btnMobil.Location = new Point(98, 2);
-            btnMobil.Margin = new Padding(0, 2, 8, 0);
+            btnMobil.Location = new Point(110, 60);
             btnMobil.Name = "btnMobil";
-            btnMobil.Size = new Size(95, 36);
+            btnMobil.Size = new Size(80, 30);
             btnMobil.TabIndex = 2;
             btnMobil.Text = "Mobil";
             btnMobil.UseVisualStyleBackColor = false;
+            btnMobil.Click += BtnMobil_Click;
             // 
             // btnMotor
             // 
-            btnMotor.BackColor = Color.FromArgb(248, 244, 238);
+            btnMotor.BackColor = Color.White;
             btnMotor.FlatStyle = FlatStyle.Flat;
             btnMotor.ForeColor = Color.FromArgb(45, 45, 45);
-            btnMotor.Location = new Point(201, 2);
-            btnMotor.Margin = new Padding(0, 2, 0, 0);
+            btnMotor.Location = new Point(200, 60);
             btnMotor.Name = "btnMotor";
-            btnMotor.Size = new Size(95, 36);
+            btnMotor.Size = new Size(80, 30);
             btnMotor.TabIndex = 3;
             btnMotor.Text = "Motor";
             btnMotor.UseVisualStyleBackColor = false;
+            btnMotor.Click += BtnMotor_Click;
             // 
-            // txtSearch
+            // flowLayoutPanel1
             // 
-            txtSearch.Dock = DockStyle.Fill;
-            txtSearch.Location = new Point(3, 3);
-            txtSearch.Margin = new Padding(3, 3, 4, 4);
-            txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(673, 23);
-            txtSearch.TabIndex = 0;
-            // 
-            // lblSubtitle
-            // 
-            lblSubtitle.AutoSize = true;
-            lblSubtitle.Dock = DockStyle.Top;
-            lblSubtitle.Font = new Font("Segoe UI", 9.5F);
-            lblSubtitle.ForeColor = Color.DarkGray;
-            lblSubtitle.Location = new Point(25, 62);
-            lblSubtitle.Name = "lblSubtitle";
-            lblSubtitle.Padding = new Padding(7, 5, 0, 15);
-            lblSubtitle.Size = new Size(336, 37);
-            lblSubtitle.TabIndex = 2;
-            lblSubtitle.Text = "Silakan pilih kendaraan listrik favorit Anda untuk disewa";
-            // 
-            // lblTitle
-            // 
-            lblTitle.AutoSize = true;
-            lblTitle.Dock = DockStyle.Top;
-            lblTitle.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
-            lblTitle.ForeColor = Color.FromArgb(45, 45, 45);
-            lblTitle.Location = new Point(25, 25);
-            lblTitle.Name = "lblTitle";
-            lblTitle.Padding = new Padding(5, 0, 0, 0);
-            lblTitle.Size = new Size(234, 37);
-            lblTitle.TabIndex = 3;
-            lblTitle.Text = "Sewa Kendaraan";
+            flowLayoutPanel1.AutoScroll = true;
+            flowLayoutPanel1.Location = new Point(20, 110);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(760, 430);
+            flowLayoutPanel1.TabIndex = 4;
             // 
             // CusKendaraan
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1100, 650);
-            Controls.Add(mainPanel);
-            FormBorderStyle = FormBorderStyle.None;
+            BackColor = Color.FromArgb(255, 253, 246);
+            ClientSize = new Size(800, 560);
+            Controls.Add(flowLayoutPanel1);
+            Controls.Add(btnMotor);
+            Controls.Add(btnMobil);
+            Controls.Add(btnSemua);
+            Controls.Add(txtSearch);
             Name = "CusKendaraan";
-            Text = "CusKendaraan";
+            Text = "Katalog Kendaraan Listrik";
             Load += CusKendaraan_Load;
-            mainPanel.ResumeLayout(false);
-            cardPanel.ResumeLayout(false);
-            cardPanel.PerformLayout();
-            filterTableLayout.ResumeLayout(false);
-            filterTableLayout.PerformLayout();
-            leftFilterFlow.ResumeLayout(false);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-        private System.Windows.Forms.Panel mainPanel;
-        private System.Windows.Forms.Panel cardPanel;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.TableLayoutPanel filterTableLayout;
-        private System.Windows.Forms.TextBox txtSearch;
-        private System.Windows.Forms.FlowLayoutPanel leftFilterFlow;
-        private System.Windows.Forms.Button btnSemua;
-        private System.Windows.Forms.Button btnMobil;
-        private System.Windows.Forms.Button btnMotor;
-        private System.Windows.Forms.Label lblSubtitle;
-        private System.Windows.Forms.Label lblTitle;
+        // Deklarasi komponen agar dapat diakses dari file logika utama (.cs)
+        public TextBox txtSearch;
+        public Button btnSemua;
+        public Button btnMobil;
+        public Button btnMotor;
+        public FlowLayoutPanel flowLayoutPanel1;
     }
 }

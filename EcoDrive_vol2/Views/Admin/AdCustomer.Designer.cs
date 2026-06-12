@@ -84,7 +84,6 @@ namespace EcoDrive_vol2.Views
             mainPanel.Padding = new Padding(43, 33, 43, 50);
             mainPanel.Size = new Size(1829, 1200);
             mainPanel.TabIndex = 0;
-
             // 
             // cardPanel
             // 
@@ -139,8 +138,8 @@ namespace EcoDrive_vol2.Views
             txtSearch.Font = new Font("Segoe UI", 11F);
             txtSearch.Location = new Point(36, 155);
             txtSearch.Name = "txtSearch";
-            txtSearch.Multiline = true; // 🛠️ FIX: Mengaktifkan multiline agar Box mengikuti instruksi tinggi Size
-            txtSearch.PlaceholderText = "   🔍 Cari nama, email, ID...";
+            txtSearch.Multiline = true;
+            txtSearch.PlaceholderText = "    🔍 Cari nama, email, ID...";
             txtSearch.Size = new Size(320, 35);
             txtSearch.TabIndex = 2;
 
@@ -233,7 +232,7 @@ namespace EcoDrive_vol2.Views
         {
             if (e.RowIndex < 0) return;
 
-            if (e.ColumnIndex == 1)
+            if (e.ColumnIndex == 1) 
             {
                 Rectangle rowBounds = dgvCustomer.GetRowDisplayRectangle(e.RowIndex, true);
                 int paddingBaris = 8;
@@ -275,6 +274,7 @@ namespace EcoDrive_vol2.Views
                 string totalSewa = split.Length > 4 ? split[4] : "0 trip";
                 string status = split.Length > 5 ? split[5] : "Aktif";
 
+                // 1. Render Lingkaran Avatar Inisial Nama
                 int avSize = 46;
                 int avX = cardRect.X + 25;
                 int avY = cardRect.Y + (cardRect.Height - avSize) / 2;
@@ -284,17 +284,21 @@ namespace EcoDrive_vol2.Views
                 TextRenderer.DrawText(e.Graphics, inisial, new Font("Segoe UI", 10F, FontStyle.Bold),
                     new Rectangle(avX, avY, avSize, avSize), Color.FromArgb(76, 175, 80), TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
 
-                TextRenderer.DrawText(e.Graphics, nama, new Font("Segoe UI", 11F, FontStyle.Bold), new Point(avX + 60, avY + 2), Color.FromArgb(47, 47, 47));
-                TextRenderer.DrawText(e.Graphics, email, new Font("Segoe UI", 8.5F), new Point(avX + 60, avY + 26), Color.Gray);
+                // 2. Render Informasi Utama (Nama & Email)
+                TextRenderer.DrawText(e.Graphics, nama, new Font("Segoe UI", 11F, FontStyle.Bold), new Point(avX + 60, avY - 2), Color.FromArgb(47, 47, 47));
+                TextRenderer.DrawText(e.Graphics, email, new Font("Segoe UI", 8.5F), new Point(avX + 60, avY + 24), Color.Gray);
 
+                // 3. Render Metadata Blok Kontak & Tipe Member
                 int detailX = cardRect.X + 450;
-                TextRenderer.DrawText(e.Graphics, "Kontak & Tipe", new Font("Segoe UI", 8.5F), new Point(detailX, avY + 2), Color.DarkGray);
-                TextRenderer.DrawText(e.Graphics, $"{kontak} • {tipeMember}", new Font("Segoe UI", 9.5F), new Point(detailX, avY + 22), Color.FromArgb(70, 70, 70));
+                TextRenderer.DrawText(e.Graphics, "Kontak & Tipe", new Font("Segoe UI", 8.5F), new Point(detailX, avY - 2), Color.DarkGray);
+                TextRenderer.DrawText(e.Graphics, $"{kontak} • {tipeMember}", new Font("Segoe UI", 9.5F), new Point(detailX, avY + 20), Color.FromArgb(70, 70, 70));
 
+                // 4. Render Metadata Total Trip Sewa
                 int sewaX = cardRect.X + 800;
-                TextRenderer.DrawText(e.Graphics, "Total Sewa", new Font("Segoe UI", 8.5F), new Point(sewaX, avY + 2), Color.DarkGray);
-                TextRenderer.DrawText(e.Graphics, totalSewa, new Font("Segoe UI", 9.5F, FontStyle.Bold), new Point(sewaX, avY + 22), Color.FromArgb(47, 47, 47));
+                TextRenderer.DrawText(e.Graphics, "Total Sewa", new Font("Segoe UI", 8.5F), new Point(sewaX, avY - 2), Color.DarkGray);
+                TextRenderer.DrawText(e.Graphics, totalSewa, new Font("Segoe UI", 9.5F, FontStyle.Bold), new Point(sewaX, avY + 20), Color.FromArgb(47, 47, 47));
 
+                // 5. Render Badge Pil Status Akun (Aktif / Blokir / Pending)
                 bool isAktif = status.Trim().ToLower() == "aktif";
                 bool isBlokir = status.Trim().ToLower() == "di blokir" || status.Trim().ToLower() == "blokir";
                 Color bgBadge = isAktif ? Color.FromArgb(232, 245, 233) : (isBlokir ? Color.FromArgb(254, 241, 242) : Color.FromArgb(255, 248, 225));
@@ -307,10 +311,10 @@ namespace EcoDrive_vol2.Views
                 using (GraphicsPath bPath = new GraphicsPath())
                 {
                     int r = bHeight / 2;
-                    bPath.AddArc(bX, bY, r * 2, bHeight, 180, 90);
-                    bPath.AddArc(bX + bWidth - (r * 2), bY, r * 2, bHeight, 270, 90);
-                    bPath.AddArc(bX + bWidth - (r * 2), bY, r * 2, bHeight, 0, 90);
-                    bPath.AddArc(bX, bY, r * 2, bHeight, 90, 90);
+                    bPath.AddArc(bX, bY, r * 2, r * 2, 180, 90);
+                    bPath.AddArc(bX + bWidth - (r * 2), bY, r * 2, r * 2, 270, 90);
+                    bPath.AddArc(bX + bWidth - (r * 2), bY + bHeight - (r * 2), r * 2, r * 2, 0, 90);
+                    bPath.AddArc(bX, bY + bHeight - (r * 2), r * 2, r * 2, 90, 90);
                     bPath.CloseFigure();
                     using (SolidBrush br = new SolidBrush(bgBadge)) e.Graphics.FillPath(br, bPath);
                 }
@@ -323,10 +327,10 @@ namespace EcoDrive_vol2.Views
                 using (GraphicsPath btnPath = new GraphicsPath())
                 {
                     int r = 6;
-                    btnPath.AddArc(btnX, btnY, r * 2, btnH, 180, 90);
-                    btnPath.AddArc(btnX + btnW - (r * 2), btnY, r * 2, btnH, 270, 90);
-                    btnPath.AddArc(btnX + btnW - (r * 2), btnY, r * 2, btnH, 0, 90);
-                    btnPath.AddArc(btnX, btnY, r * 2, btnH, 90, 90);
+                    btnPath.AddArc(btnX, btnY, r * 2, r * 2, 180, 90);
+                    btnPath.AddArc(btnX + btnW - (r * 2), btnY, r * 2, r * 2, 270, 90);
+                    btnPath.AddArc(btnX + btnW - (r * 2), btnY + btnH - (r * 2), r * 2, r * 2, 0, 90);
+                    btnPath.AddArc(btnX, btnY + btnH - (r * 2), r * 2, r * 2, 90, 90);
                     btnPath.CloseFigure();
                     using (SolidBrush btnBr = new SolidBrush(Color.FromArgb(245, 245, 245))) e.Graphics.FillPath(btnBr, btnPath);
                 }
@@ -336,7 +340,7 @@ namespace EcoDrive_vol2.Views
             }
             else
             {
-                e.Handled = true;
+                e.Handled = false;
             }
         }
     }
