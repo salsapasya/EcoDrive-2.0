@@ -1,6 +1,7 @@
 ﻿using EcoDrive_vol2.AbstractandInterface.Interface;
 using EcoDrive_vol2.Context;
 using EcoDrive_vol2.Context.Customer;
+using EcoDrive_vol2.Helpers;
 using EcoDrive_vol2.Models.Transaksi;
 using System;
 using System.Collections.Generic;
@@ -29,7 +30,7 @@ namespace EcoDrive_vol2.Service
 
             if (saldoSaatIni < transaksi.TotalBiaya)
             {
-                throw new Exception("SALDO_KURANG");
+                throw new Exception("Saldo Anda tidak mencukupi untuk melakukan transaksi sewa.");
             }
 
             _rentalContext.EksekusiPembayaranSewa(transaksi);

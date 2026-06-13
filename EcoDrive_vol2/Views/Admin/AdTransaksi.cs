@@ -17,20 +17,12 @@ namespace EcoDrive_vol2.Views
         private Color bgUtama = Color.FromArgb(255, 253, 246);
         private bool _isProcessing = false;
 
-        private TransaksiService _transaksiService;
-        private AdTransaksiContext _transaksiContext;
-        private AdTransaksiChargingContext _chargingContext;
-        private AdTransaksiSewaContext _sewaContext;
         private Controllers.Admin.AdTransaksiController _transaksiController;
 
         public AdTransaksi()
         {
             InitializeComponent();
             this.BackColor = bgUtama;
-            _transaksiContext = new AdTransaksiContext();
-            _chargingContext = new AdTransaksiChargingContext();
-            _sewaContext = new AdTransaksiSewaContext();
-            _transaksiService = new TransaksiService();
             _transaksiController = new Controllers.Admin.AdTransaksiController();
 
             // Binding Event Filter Tombol Atas
@@ -145,71 +137,28 @@ namespace EcoDrive_vol2.Views
             var item = dgvTransaksi.Rows[e.RowIndex].Tag as Transaksi;
             if (item == null) return;
 
-            string status = item.Status.ToLower().Replace("_", " ").Trim();
+            // Cukup panggil skema visual hasil olahan Controller
+            var visual = _transaksiController.SkemaVisualStatus(item);
 
+            // Mewarnai teks Kolom Status (Index 13)
             if (e.ColumnIndex == 13 && e.Value != null)
             {
                 e.CellStyle.Font = new Font("Segoe UI", 9, FontStyle.Bold);
-
-                if (status == "selesai" || status == "sudah kembali" || status == "berhasil")
-                {
-                    e.CellStyle.ForeColor = Color.FromArgb(92, 184, 92); // Hijau
-                }
-
-                else if (status == "pending" || status == "menunggu konfirmasi")
-                {
-                    e.CellStyle.ForeColor = Color.Blue; // blue
-                }
-                else if (status == "mengisi daya" || status == "belum kembali")
-                {
-                    e.CellStyle.ForeColor = Color.Orange;
-                }
-                else
-                    e.CellStyle.ForeColor = Color.Red; // Merah jika gagal
+                e.CellStyle.ForeColor = visual.Warna;
             }
+
+            // Memformat warna Tombol Konfirmasi berdasarkan izin dari Controller
             if (dgvTransaksi.Columns[e.ColumnIndex].Name == "btnKonfirmasi")
             {
-                var cell = dgvTransaksi.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewButtonCell;
-                if (cell != null)
-                {
-                    cell.FlatStyle = FlatStyle.Flat;
-                    if (status == "pending")
-                    {
-                        e.CellStyle.BackColor = Color.FromArgb(0, 123, 255); // Blue
-                        e.CellStyle.ForeColor = Color.White;
-                        e.CellStyle.SelectionBackColor = Color.FromArgb(0, 105, 217);
-                        e.CellStyle.SelectionForeColor = Color.White;
-                    }
-                    else
-                    {
-                        e.CellStyle.BackColor = Color.LightGray;
-                        e.CellStyle.ForeColor = Color.DarkGray;
-                        e.CellStyle.SelectionBackColor = Color.LightGray;
-                        e.CellStyle.SelectionForeColor = Color.DarkGray;
-                    }
-                }
+                e.CellStyle.BackColor = visual.BisaKonfirmasi ? Color.FromArgb(0, 123, 255) : Color.LightGray;
+                e.CellStyle.ForeColor = visual.BisaKonfirmasi ? Color.White : Color.DarkGray;
             }
+
+            // Memformat warna Tombol Selesaikan berdasarkan izin dari Controller
             if (dgvTransaksi.Columns[e.ColumnIndex].Name == "btnSelesai")
             {
-                var cell = dgvTransaksi.Rows[e.RowIndex].Cells[e.ColumnIndex] as DataGridViewButtonCell;
-                if (cell != null)
-                {
-                    cell.FlatStyle = FlatStyle.Flat;
-                    if (status == "menunggu konfirmasi")
-                    {
-                        e.CellStyle.BackColor = Color.FromArgb(92, 184, 92); // ijo
-                        e.CellStyle.ForeColor = Color.White;
-                        e.CellStyle.SelectionBackColor = Color.FromArgb(68, 157, 68);
-                        e.CellStyle.SelectionForeColor = Color.White;
-                    }
-                    else
-                    {
-                        e.CellStyle.BackColor = Color.LightGray;
-                        e.CellStyle.ForeColor = Color.DarkGray;
-                        e.CellStyle.SelectionBackColor = Color.LightGray;
-                        e.CellStyle.SelectionForeColor = Color.DarkGray;
-                    }
-                }
+                e.CellStyle.BackColor = visual.BisaSelesai ? Color.FromArgb(92, 184, 92) : Color.LightGray;
+                e.CellStyle.ForeColor = visual.BisaSelesai ? Color.White : Color.DarkGray;
             }
         }
 
@@ -218,32 +167,28 @@ namespace EcoDrive_vol2.Views
             if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
             if (_isProcessing) return;
 
+            var item = dgvTransaksi.Rows[e.RowIndex].Tag as Transaksi;
+            if (item == null) return;
+
             try
             {
                 _isProcessing = true;
                 var colName = dgvTransaksi.Columns[e.ColumnIndex].Name;
-                var itemSewa = dgvTransaksi.Rows[e.RowIndex].Tag as Transaksi;
-
-                if (itemSewa == null) return;
+                var visual = _transaksiController.SkemaVisualStatus(item);
 
                 // 1. EVENT TOMBOL KONFIRMASI (PROSES CHARGING)
                 if (colName == "btnKonfirmasi")
                 {
-                    string statusBersih = itemSewa.Status.ToLower().Replace("_", " ");
-
-                    if (statusBersih != "pending")
+                    if (!visual.BisaKonfirmasi)
                     {
-                        MessageBox.Show("Transaksi ini sudah dikonfirmasi sebelumnya!", "EcoDrive Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Transaksi ini tidak dalam status pending!", "EcoDrive Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         return;
                     }
 
-                    DialogResult konfirmasi = MessageBox.Show($"Konfirmasi transaksi charging ini menjadi 'Mengisi Daya' untuk ID {itemSewa.IdTransaksi}?",
-                        "EcoDrive Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                    if (konfirmasi == DialogResult.Yes)
+                    if (MessageBox.Show($"Konfirmasi transaksi charging ini?", "EcoDrive Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        _transaksiService.EksekusiKonfirmasiPengisianDaya(itemSewa);
-                        MessageBox.Show($"Status Charging berhasil diperbarui!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        _transaksiController.ProsesKonfirmasiCharging(item);
+                        MessageBox.Show("Status Charging berhasil diperbarui!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         RefreshDataSesuaiFilterAktif();
                     }
                 }
@@ -251,21 +196,16 @@ namespace EcoDrive_vol2.Views
                 // 2. EVENT TOMBOL SELESAI (PROSES PENGEMBALIAN SEWA)
                 if (colName == "btnSelesai")
                 {
-                    string statusBersih = itemSewa.Status.ToLower().Replace("_", " ");
-
-                    if (statusBersih != "menunggu konfirmasi")
+                    if (!visual.BisaSelesai)
                     {
                         MessageBox.Show("Tombol ini hanya untuk transaksi Sewa yang berstatus 'Menunggu Konfirmasi'!", "EcoDrive Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         return;
                     }
 
-                    DialogResult konfirmasi = MessageBox.Show($"Selesaikan transaksi sewa ini menjadi 'Sudah Kembali' untuk ID {itemSewa.IdTransaksi}?",
-                        "EcoDrive Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                    if (konfirmasi == DialogResult.Yes)
+                    if (MessageBox.Show($"Selesaikan transaksi sewa ini?", "EcoDrive Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        _transaksiService.EksekusiPenyelesaianSewa(itemSewa);
-                        MessageBox.Show($"Status Pengembalian berhasil diperbarui!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        _transaksiController.ProsesPenyelesaianSewa(item);
+                        MessageBox.Show("Status Pengembalian berhasil diperbarui!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         RefreshDataSesuaiFilterAktif();
                     }
                 }

@@ -31,6 +31,12 @@ namespace EcoDrive_vol2.Models.Transaksi
         public string NamaKendaraan { get; set; }
         public string NomorPlatKendaraan { get; set; }
 
+        // Dibuat khusus agar database reader (Mapping/Context) bisa melakukan 
+        // mapping objek 'new TransaksiSewa { ... }' tanpa terikat 4 parameter wajib.
+        public TransaksiSewa()
+        {
+            // Biarkan kosong melompong seperti ini!
+        }
         // OOP (Constructor): Menerima parameter mentah dari View untuk mengisi properti
         public TransaksiSewa(int idUser, int idKendaraan, int durasiSewa, decimal hargaPerHari)
         {
@@ -49,9 +55,5 @@ namespace EcoDrive_vol2.Models.Transaksi
             TotalBiaya = DurasiSewa * HargaPerHari;
         }
 
-        public override string DapatkanInfoTransaksi()
-        {
-            return $"Sewa Kendaraan ID: {IdKendaraan} selama {DurasiSewa} hari. Total: Rp {TotalBiaya:N0}";
-        }
     }
 }

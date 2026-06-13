@@ -94,31 +94,74 @@ namespace EcoDrive_vol2.Views
 
         private Panel CreateKendaraanCard(Kendaraan kendaraan)
         {
-            RoundedPanel card = new RoundedPanel { Size = new Size(270, 170), BackColor = Color.White, BorderRadius = 15, Margin = new Padding(6) };
-            Label lblNama = new Label { Text = kendaraan.NamaKendaraan, Font = new Font("Segoe UI", 11F, FontStyle.Bold), ForeColor = Color.FromArgb(45, 45, 45), Location = new Point(15, 15), AutoSize = true };
+            RoundedPanel card = new RoundedPanel 
+            { 
+                Size = new Size(270, 170), 
+                BackColor = Color.White, 
+                BorderRadius = 15, 
+                Margin = new Padding(6) 
+            };
+            Label lblNama = new Label 
+            { 
+                Text = kendaraan.NamaKendaraan, 
+                Font = new Font("Segoe UI", 11F, FontStyle.Bold), 
+                ForeColor = Color.FromArgb(45, 45, 45), 
+                Location = new Point(15, 15), 
+                AutoSize = true 
+            };
 
-            string tipeTeks = kendaraan.TipeKendaraan == KendaraanTipe.mobil ? "Mobil" : "Motor";
-            Label lblInfo = new Label { Text = $"{tipeTeks} • Rp {kendaraan.HargaSewa:N0}/hari", Font = new Font("Segoe UI", 9F), ForeColor = Color.Gray, Location = new Point(15, 45), AutoSize = true };
-            Label lblPlat = new Label { Text = $"Plat : {kendaraan.NomorPlatKendaraan}", Font = new Font("Segoe UI", 9F), ForeColor = Color.DimGray, Location = new Point(15, 70), AutoSize = true };
-            Label lblStok = new Label { Text = $"Stok : {kendaraan.StokKendaraan}", Font = new Font("Segoe UI", 9F), ForeColor = Color.DimGray, Location = new Point(15, 92), AutoSize = true };
+            string tipeTeks = _cusRentalController.DapatkanTipeTeks(kendaraan);
+            Label lblInfo = new Label 
+            { 
+                Text = $"{tipeTeks} • Rp {kendaraan.HargaSewa:N0}/hari", 
+                Font = new Font("Segoe UI", 9F), 
+                ForeColor = Color.Gray, 
+                Location = new Point(15, 45), 
+                AutoSize = true 
+            };
+            Label lblPlat = new Label 
+            { 
+                Text = $"Plat : {kendaraan.NomorPlatKendaraan}", 
+                Font = new Font("Segoe UI", 9F), 
+                ForeColor = Color.DimGray, 
+                Location = new Point(15, 70), 
+                AutoSize = true 
+            };
+            Label lblStok = new Label 
+            { 
+                Text = $"Stok : {kendaraan.StokKendaraan}", 
+                Font = new Font("Segoe UI", 9F), 
+                ForeColor = Color.DimGray, 
+                Location = new Point(15, 92), 
+                AutoSize = true 
+            };
 
-            string statusDb = kendaraan.StatusKendaraan.ToString().Replace("_", " ");
+            var statusVisual = _cusRentalController.DapatkanVisualStatus(kendaraan);
             bool isReady = kendaraan.StokKendaraan > 0 && kendaraan.StatusKendaraan == OptionStatus.tersedia;
-            Color bgStatus = Color.FromArgb(232, 245, 233); Color fgStatus = Color.FromArgb(67, 160, 71);
 
-            if (!isReady)
-            {
-                switch (statusDb.ToLower())
-                {
-                    case "disewa": bgStatus = Color.FromArgb(255, 244, 229); fgStatus = Color.FromArgb(255, 152, 0); statusDb = "DISEWA"; break;
-                    case "rusak": bgStatus = Color.FromArgb(255, 235, 238); fgStatus = Color.FromArgb(244, 67, 54); statusDb = "RUSAK"; break;
-                    default: bgStatus = Color.FromArgb(254, 241, 242); fgStatus = Color.FromArgb(220, 38, 38); statusDb = "HABIS"; break;
-                }
-            }
-            else { statusDb = "READY"; }
-
-            Label lblStatus = new Label { Text = statusDb, Size = new Size(110, 25), Location = new Point(15, 125), TextAlign = ContentAlignment.MiddleCenter, Font = new Font("Segoe UI", 8F, FontStyle.Bold), BackColor = bgStatus, ForeColor = fgStatus };
-            Button btnSewa = new Button { Text = isReady ? "Sewa ➔" : "Kosong", Size = new Size(110, 30), Location = new Point(145, 120), BackColor = isReady ? Color.FromArgb(76, 175, 80) : Color.FromArgb(240, 240, 240), ForeColor = isReady ? Color.White : Color.Gray, FlatStyle = FlatStyle.Flat, Cursor = isReady ? Cursors.Hand : Cursors.No, Enabled = isReady, Font = new Font("Segoe UI", 9F, FontStyle.Bold), Tag = kendaraan };
+            Label lblStatus = new Label 
+            { 
+                Text = statusVisual.Text, 
+                Size = new Size(110, 25), 
+                Location = new Point(15, 125), 
+                TextAlign = ContentAlignment.MiddleCenter, 
+                Font = new Font("Segoe UI", 8F, FontStyle.Bold), 
+                BackColor = statusVisual.BgColor, 
+                ForeColor = statusVisual.FgColor
+            };
+            Button btnSewa = new Button 
+            { 
+                Text = isReady ? "Sewa ➔" : "Kosong", 
+                Size = new Size(110, 30), 
+                Location = new Point(145, 120), 
+                BackColor = isReady ? Color.FromArgb(76, 175, 80) : Color.FromArgb(240, 240, 240), 
+                ForeColor = isReady ? Color.White : Color.Gray, 
+                FlatStyle = FlatStyle.Flat, 
+                Cursor = isReady ? Cursors.Hand : Cursors.No, 
+                Enabled = isReady, 
+                Font = new Font("Segoe UI", 9F, FontStyle.Bold), 
+                Tag = kendaraan 
+            };
             btnSewa.FlatAppearance.BorderSize = 0;
             btnSewa.Click += BtnSewa_Click;
 
@@ -126,18 +169,32 @@ namespace EcoDrive_vol2.Views
             return card;
         }
 
-        private Label CreateEmptyStateLabel() => new Label { Text = "Tidak ada kendaraan listrik yang cocok.", Font = new Font("Segoe UI", 10, FontStyle.Italic), ForeColor = Color.DarkGray, AutoSize = true, Margin = new Padding(30, 20, 0, 0) };
+        private Label CreateEmptyStateLabel() => new Label 
+        { 
+            Text = "Tidak ada kendaraan listrik yang cocok.", 
+            Font = new Font("Segoe UI", 10, FontStyle.Italic), 
+            ForeColor = Color.DarkGray, AutoSize = true, 
+            Margin = new Padding(30, 20, 0, 0) 
+        };
 
         private void BtnSewa_Click(object sender, EventArgs e)
         {
             if (sender is Button btnTarget && btnTarget.Tag is Kendaraan dataKendaraan)
             {
-                if (dataKendaraan.StokKendaraan <= 0)
+                try
+                {
+                    // CLEAN: Langsung validasi ke controller tanpa 'if (stok <= 0)' manual di sini
+                    _cusRentalController.ValidasiKesiapanSewa(dataKendaraan);
+                    TampilkanPopUpDetail(dataKendaraan);
+                }
+                catch (InvalidOperationException ex) when (ex.Message == "STOK_HABIS")
                 {
                     MessageBox.Show("Maaf, stok unit ini sedang kosong.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
                 }
-                TampilkanPopUpDetail(dataKendaraan);
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Gagal memproses permintaan: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -161,20 +218,20 @@ namespace EcoDrive_vol2.Views
 
             decimal totalBiayaFix = 0;
 
-            // CLEAN: Menggunakan RentalService baru untuk menghitung estimasi biaya
+            // CLEAN: Murni UI Update. Data mentah didapat langsung dari hasil return Controller
             void UpdateEstimasiBiaya()
             {
                 int durasiInput = (int)numDurasi.Value;
-                DateTime tanggalSewa = DateTime.Now;
-                DateTime tanggalKembali = tanggalSewa.AddDays(durasiInput);
-
-                lblInfoTanggal.Text = $"Tanggal Sewa   : {tanggalSewa:dd MMMM yyyy}\nTanggal Kembali: {tanggalKembali:dd MMMM yyyy}";
-
+                
                 try
                 {
                     // Memanggil logika bisnis dari RentalService buatanmu
-                    totalBiayaFix = _rentalService.DapatkanEstimasiBiaya(dataKendaraan.IdKendaraan, durasiInput);
+                    totalBiayaFix = _cusRentalController.DapatkanEstimasiBiaya(dataKendaraan.IdKendaraan, durasiInput);
                     lblTotalEstimasi.Text = $"Total Estimasi: Rp {totalBiayaFix:N0}";
+
+                    DateTime tanggalSewa = DateTime.Now;
+                    DateTime tanggalKembali = tanggalSewa.AddDays(durasiInput);
+                    lblInfoTanggal.Text = $"Tanggal Sewa   : {tanggalSewa:dd MMMM yyyy}\nTanggal Kembali: {tanggalKembali:dd MMMM yyyy}";
                 }
                 catch (Exception ex)
                 {
@@ -190,15 +247,7 @@ namespace EcoDrive_vol2.Views
             {
                 try
                 {
-                    int durasiSewa = (int)numDurasi.Value;
-                    int idCustomerLogin = UserSession.IdUserAktif;
-
-                    // CLEAN: Eksekusi sewa melalui RentalService baru kamu
-                    _rentalService.ProsesSewaKendaraan(idCustomerLogin, dataKendaraan.IdKendaraan, durasiSewa, totalBiayaFix);
-
-
-                    // Panggil controller dengan melempar 1 objek utuh sewaBaru
-                    _cusRentalController.KonfirmasiSewa(sewaBaru); 
+                    _cusRentalController.KonfirmasiSewa(UserSession.IdUserAktif, dataKendaraan.IdKendaraan, (int)numDurasi.Value, dataKendaraan.HargaSewa);
 
                     detailForm.Close();
                     MessageBox.Show($"Pembayaran Berhasil!\n\nSaldo Anda telah dipotong sebesar Rp {totalBiayaFix:N0}.\nKendaraan {dataKendaraan.NamaKendaraan} siap digunakan.", "Transaksi Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -220,22 +269,32 @@ namespace EcoDrive_vol2.Views
 
         private void HandleTransaksiError(Exception ex, Form detailForm)
         {
-            if (ex.Message == "SALDO_KURANG")
-            {
-                DialogResult response = MessageBox.Show("Saldo Anda tidak mencukupi.\nApakah Anda ingin mengisi saldo (Top Up) sekarang?", "Saldo Tidak Cukup", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                if (response == DialogResult.Yes)
+            _cusRentalController.ProsesErrorTransaksi(ex,
+                // 1. Ini aksi jika Controller menyuruh Top Up (Aksi Pertama)
+                aksiTopUp: () =>
                 {
-                    detailForm.Close();
-                    if (Application.OpenForms["CusDasboard"] is CusDasboard dashboard)
+                    DialogResult response = MessageBox.Show(
+                        "Saldo Anda tidak mencukupi.\nApakah Anda ingin mengisi saldo (Top Up) sekarang?",
+                        "Saldo Tidak Cukup",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Warning
+                    );
+                    if (response == DialogResult.Yes)
                     {
-                        dashboard.BukaHalamanSaldo();
+                        if (detailForm != null) detailForm.Close();
+                        if (Application.OpenForms["CusDasboard"] is CusDasboard dashboard)
+                        {
+                            dashboard.BukaHalamanSaldo();
+                        }
                     }
+                },
+                // 2. Ini aksi jika Controller menyuruh nampilkan pesan biasa (Aksi Kedua)
+                aksiTampilkanPesan: (pesanDariController) =>
+                {
+                    MessageBox.Show(pesanDariController, "Informasi Sistem", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
-            }
-            else
-            {
-                MessageBox.Show($"Terjadi kesalahan sistem: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            );
         }
+        
     }
 }

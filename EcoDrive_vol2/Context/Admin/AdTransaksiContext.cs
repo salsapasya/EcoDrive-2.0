@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 namespace EcoDrive_vol2.Context.Admin
 {
+    // OOP (POLYMORPHISM & ABSTRACTION): Mengimplementasikan Interface ITransaksi 
     public class AdTransaksiContext : ITransaksi
     {
         public List<Transaksi> GetAllTransaksi()
@@ -39,15 +40,24 @@ namespace EcoDrive_vol2.Context.Admin
 
                 while (reader.Read())
                 {
-                    Transaksi model = new Transaksi();
-                    model.Kategori = reader["kategori"].ToString();
-                    model.IdTransaksi = model.Kategori + "-" + reader["id_transaksi"].ToString();
-                    model.Username = reader["username"].ToString();
+                    // Tarik variabel dasar terlebih dahulu dari database reader
+                    string Kategori = reader["kategori"].ToString();
+                    string IdTransaksi = Kategori + "-" + reader["id_transaksi"].ToString();
+                    string Username = reader["username"].ToString();
+                    decimal totalBiaya = reader["total_biaya"] != DBNull.Value ? Convert.ToDecimal(reader["total_biaya"]) : 0;
+                    string status = reader["status"].ToString();
+                    int rawId = reader["raw_id"] != DBNull.Value ? Convert.ToInt32(reader["raw_id"]) : 0;
+
+                    // Masukkan ke Constructor Model Transaksi
+                    Transaksi model = new Transaksi(IdTransaksi, Kategori, Username, totalBiaya, status, rawId);
+
+                    // Sisa kolom pendukung view
                     model.Nama = reader["nama"].ToString();
                     model.Kontak = reader["kontak"].ToString();
                     model.NamaKendaraan = reader["nama_kendaraan"].ToString();
                     model.TipeKendaraan = reader["tipe_kendaraan"]?.ToString() ?? "-";
                     model.NomorPlat = reader["nomor_plat"]?.ToString() ?? "-";
+
                     string durasiAsli = reader["durasi_transaksi"].ToString();
                     if (model.Kategori == "Sewa")
                     {
@@ -68,8 +78,6 @@ namespace EcoDrive_vol2.Context.Admin
                     model.TanggalSewa = reader["tanggal_sewa"] != DBNull.Value ? (reader["tanggal_sewa"] is DateOnly tglSewa ? tglSewa.ToString("dd MMM yyyy") : Convert.ToDateTime(reader["tanggal_sewa"]).ToString("dd MMM yyyy")) : "-";
                     model.TanggalKembali = reader["tanggal_kembali"] != DBNull.Value ? (reader["tanggal_kembali"] is DateOnly tglKembali ? tglKembali.ToString("dd MMM yyyy") : Convert.ToDateTime(reader["tanggal_kembali"]).ToString("dd MMM yyyy")) : "-";
                     model.TanggalCharging = reader["tanggal_charging"] != DBNull.Value ? (reader["tanggal_charging"] is DateOnly tglCharging ? tglCharging.ToString("dd MMM yyyy") : Convert.ToDateTime(reader["tanggal_charging"]).ToString("dd MMM yyyy")) : "-";
-
-                    model.TotalBiaya = reader["total_biaya"] != DBNull.Value ? Convert.ToDecimal(reader["total_biaya"]) : 0;
 
                     // Mengambil RawId (Misal "Charging-15" diambil angka 15-nya)
                     string[] pisahId = model.IdTransaksi.Split('-');
@@ -106,7 +114,7 @@ namespace EcoDrive_vol2.Context.Admin
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                throw new Exception("Gagal eksekusi SP Konfirmasi Charging: " + ex.Message);
             }
         }
             
@@ -124,7 +132,7 @@ namespace EcoDrive_vol2.Context.Admin
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                throw new Exception("Gagal eksekusi SP Penyelesaian Sewa: " + ex.Message);
             }
         }
     }
