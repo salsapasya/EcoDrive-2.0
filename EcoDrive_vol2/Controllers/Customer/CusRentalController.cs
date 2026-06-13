@@ -8,6 +8,7 @@ namespace EcoDrive_vol2.Controllers.Customer
 {
     public class CusRentalController
     {
+        // ENCAPSULATION: Membatasi akses data dari RentalService
         private readonly IRental _rentalService;
 
         public CusRentalController()
@@ -20,9 +21,10 @@ namespace EcoDrive_vol2.Controllers.Customer
             return _rentalService.DapatkanEstimasiBiaya(idKendaraan, durasi);
         }
 
-        public void KonfirmasiSewa(int idUser, int idKendaraan, int durasi, decimal totalBiaya)
+        // OOP: Menerima objek utuh dari View dan meneruskannya ke Service
+        public void KonfirmasiSewa(EcoDrive_vol2.Models.Transaksi.TransaksiSewa transaksi)
         {
-            _rentalService.ProsesSewaKendaraan(idUser, idKendaraan, durasi, totalBiaya);
+            _rentalService.ProsesSewaKendaraan(transaksi);
         }
     }
 }
