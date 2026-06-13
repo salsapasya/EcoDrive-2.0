@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace EcoDrive_vol2.AbstractandInterface.Abstract
 {
@@ -19,9 +20,6 @@ namespace EcoDrive_vol2.AbstractandInterface.Abstract
 
         // 3. POLYMORPHISM (Virtual): Method ini punya aksi default, 
         // tapi class turunannya boleh menggantinya jika mau.
-        public virtual string DapatkanInfoTransaksi()
-        {
-            return $"Transaksi User: {IdUser}, Total: Rp {TotalBiaya:N0}";
-        }
+
     }
 }

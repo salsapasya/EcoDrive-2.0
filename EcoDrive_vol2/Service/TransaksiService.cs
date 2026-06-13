@@ -16,15 +16,11 @@ namespace EcoDrive_vol2.Service
         // DEKLARASI CONTEXT / REPOSITORY
         // ==========================================
         private readonly ITransaksi _interfaceTransaksi; // OOP (Abstraksi): Menggunakan Interface ITransaksi untuk menyembunyikan detail database
-        private readonly AdTransaksiChargingContext _chargingContext;
-        private readonly AdTransaksiSewaContext _sewaContext;
         private readonly AdTransaksiContext _adTransaksiContext;
         private readonly TopUpContext _topupContext;
 
         public TransaksiService()
         {
-            _chargingContext = new AdTransaksiChargingContext();
-            _sewaContext = new AdTransaksiSewaContext();
             _adTransaksiContext = new AdTransaksiContext();
             _topupContext = new TopUpContext();
 
