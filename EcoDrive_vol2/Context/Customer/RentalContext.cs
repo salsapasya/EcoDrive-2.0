@@ -20,7 +20,8 @@ namespace EcoDrive_vol2.Context.Customer
             return Convert.ToDecimal(cmd.ExecuteScalar());
         }
 
-        public void EksekusiPembayaranSewa(int idUser, int idKendaraan, int durasi, decimal totalBiaya)
+        // bagian baris parameter ini menerima objek TransaksiSewa
+        public void EksekusiPembayaranSewa(EcoDrive_vol2.Models.Transaksi.TransaksiSewa transaksi)
         {
             using var conn = DatabaseHelper.GetConnection();
             conn.Open();
@@ -31,22 +32,23 @@ namespace EcoDrive_vol2.Context.Customer
                 string potongSaldo = "UPDATE users SET saldo = saldo - @totalBiaya WHERE id_user = @idUser";
                 using (var cmdSaldo = new NpgsqlCommand(potongSaldo, conn, transaction))
                 {
-                    cmdSaldo.Parameters.AddWithValue("@totalBiaya", totalBiaya);
-                    cmdSaldo.Parameters.AddWithValue("@idUser", idUser);
+                    // Ambil data langsung dari properti objek transaksi
+                    cmdSaldo.Parameters.AddWithValue("@totalBiaya", transaksi.TotalBiaya);
+                    cmdSaldo.Parameters.AddWithValue("@idUser", transaksi.IdUser);
                     cmdSaldo.ExecuteNonQuery();
                 }
 
                 DateTime tanggalSewa = DateTime.Now;
-                DateTime tanggalKembali = tanggalSewa.AddDays(durasi);
+                DateTime tanggalKembali = tanggalSewa.AddDays(transaksi.DurasiSewa);
 
                 string insertTransaks = @"INSERT INTO transaksi_sewa (id_user, id_kendaraan, durasi_sewa, tanggal_sewa, tanggal_kembali, status_pengembalian) 
                                    VALUES (@idUser, @idKendaraan, @durasi, @tanggal_sewa, @tanggal_kembali, @statusPengembalian::status_kembali)";
 
                 using (var cmdInsert = new NpgsqlCommand(insertTransaks, conn, transaction))
                 {
-                    cmdInsert.Parameters.AddWithValue("@idUser", idUser);
-                    cmdInsert.Parameters.AddWithValue("@idKendaraan", idKendaraan);
-                    cmdInsert.Parameters.AddWithValue("@durasi", durasi);
+                    cmdInsert.Parameters.AddWithValue("@idUser", transaksi.IdUser);
+                    cmdInsert.Parameters.AddWithValue("@idKendaraan", transaksi.IdKendaraan);
+                    cmdInsert.Parameters.AddWithValue("@durasi", transaksi.DurasiSewa);
                     cmdInsert.Parameters.AddWithValue("@tanggal_sewa", tanggalSewa);
                     cmdInsert.Parameters.AddWithValue("@tanggal_kembali", tanggalKembali);
 

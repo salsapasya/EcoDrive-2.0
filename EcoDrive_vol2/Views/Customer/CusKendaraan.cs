@@ -15,7 +15,7 @@ namespace EcoDrive_vol2.Views
     public partial class CusKendaraan : Form
     {
         private readonly CusKendaraanController kendaraanController = new CusKendaraanController();
-        private readonly RentalService _rentalService = new RentalService();
+        private readonly CusRentalController _cusRentalController = new CusRentalController();
 
         private List<Kendaraan> _masterListKendaraan = new List<Kendaraan>();
         private List<Kendaraan> _filteredListKendaraan = new List<Kendaraan>();
@@ -195,6 +195,10 @@ namespace EcoDrive_vol2.Views
 
                     // CLEAN: Eksekusi sewa melalui RentalService baru kamu
                     _rentalService.ProsesSewaKendaraan(idCustomerLogin, dataKendaraan.IdKendaraan, durasiSewa, totalBiayaFix);
+
+
+                    // Panggil controller dengan melempar 1 objek utuh sewaBaru
+                    _cusRentalController.KonfirmasiSewa(sewaBaru); 
 
                     detailForm.Close();
                     MessageBox.Show($"Pembayaran Berhasil!\n\nSaldo Anda telah dipotong sebesar Rp {totalBiayaFix:N0}.\nKendaraan {dataKendaraan.NamaKendaraan} siap digunakan.", "Transaksi Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
