@@ -426,7 +426,7 @@ namespace EcoDrive_vol2.Views
         {
             try
             {
-                _customerService.NonAktifkanCustomer(idUser);
+                _customerService.AktifkanCustomer(idUser);
                 MessageBox.Show("Status customer berhasil diubah menjadi Inactive", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 RefreshDataDariDatabase();
             }

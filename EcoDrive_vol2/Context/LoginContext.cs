@@ -11,7 +11,7 @@ namespace EcoDrive_vol2.Context
         public Users Login(string username, string password)
         {
             using var conn = DatabaseHelper.GetConnection();
-
+            
             try
             {
                 conn.Open();
@@ -21,7 +21,8 @@ namespace EcoDrive_vol2.Context
                         id_user,
                         role_user,
                         username,
-                        nama_user
+                        nama_user,
+                        status_akun
                     FROM users
                     WHERE username = @username
                     AND password_user = @password";
@@ -37,26 +38,25 @@ namespace EcoDrive_vol2.Context
                 {
                     Users user = new Users();
 
-                    user.IdUser =
-                        Convert.ToInt32(reader["id_user"]);
+                    user.IdUser = Convert.ToInt32(reader["id_user"]);
+                    user.Username = reader["username"].ToString();
+                    user.NamaUser = reader["nama_user"].ToString();
 
-                    user.Username =
-                        reader["username"].ToString();
+                    // --- FIX: AMBIL DATA STATUS DARI DATABASE ---
+                    string rawStatus = reader["status_akun"].ToString().Trim().ToLower().Replace(" ", "_");
 
-                    user.NamaUser =
-                        reader["nama_user"].ToString();
-
-                    string role =
-                        reader["role_user"].ToString();
-
-                    if (role.ToLower() == "admin")
+                    if (Enum.TryParse<StatusAkun>(rawStatus, true, out StatusAkun result))
                     {
-                        user.RoleUser = Roles.admin;
+                        user.StatusAkun = result;
                     }
                     else
                     {
-                        user.RoleUser = Roles.customer;
+                        // Kalau status di database gak jelas, anggap aktif saja supaya aplikasi tetap jalan
+                        user.StatusAkun = StatusAkun.aktif;
                     }
+
+                    string role = reader["role_user"].ToString();
+                    user.RoleUser = (role.ToLower() == "admin") ? Roles.admin : Roles.customer;
 
                     return user;
                 }

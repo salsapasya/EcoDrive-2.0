@@ -42,38 +42,57 @@ namespace EcoDrive_vol2
                 string username = TxtUsername.Text.Trim();
                 string password = TxtPassword.Text.Trim();
 
+                // Validasi input kosong langsung di UI agar lebih responsif
+                if (username == "Username" || string.IsNullOrWhiteSpace(username) ||
+                    password == "Password" || string.IsNullOrWhiteSpace(password))
+                {
+                    MessageBox.Show("Username dan Password wajib diisi!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                // Memanggil login. Jika akun diblokir/salah password, service akan melempar Exception ke blok catch di bawah.
                 Users userLogin = _loginController.Login(username, password);  //ABSTRAC BCS VIEW BAKAL MANGGIL LOGIN() YG ADA DI CONTROLLER
 
-                if (userLogin != null)
-                {
-                    // SIMPAN KE SESSION GLOBAL
-                    UserSession.IdUserAktif = userLogin.IdUser;
-                    UserSession.UsernameAktif = userLogin.Username;
-                    UserSession.Role = userLogin.GetRole(); //pake fungsi override OOP
+                // Jika berhasil lolos dari Exception, berarti user dijamin valid dan aktif!
+                // SIMPAN KE SESSION GLOBAL
+                UserSession.IdUserAktif = userLogin.IdUser;
+                UserSession.UsernameAktif = userLogin.Username;
+                UserSession.Role = userLogin.GetRole(); // pake fungsi override OOP
 
-                    MessageBox.Show($"Selamat datang, {userLogin.Username}!", "Login Berhasil", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    //pake enum 
-                    if (userLogin.RoleUser == Roles.admin)
-                    {
-                        AdDashboard admin = new AdDashboard();
-                        admin.Show();
-                        this.Hide();
-                    }
-                    else if (userLogin.RoleUser == Roles.customer)
-                    {
-                        CusDasboard customer = new CusDasboard(userLogin.NamaUser);
-                        customer.Show();
-                        this.Hide();
-                    }
-                }
-                else
+                MessageBox.Show($"Selamat datang, {userLogin.Username}!", "Login Berhasil", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // Pengecekan Hak Akses (Enum Roles)
+                if (userLogin.RoleUser == Roles.admin)
                 {
-                    MessageBox.Show("Username atau Password Salah!", "Gagal Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    AdDashboard admin = new AdDashboard();
+                    admin.Show();
+                    this.Hide();
+                }
+                else if (userLogin.RoleUser == Roles.customer)
+                {
+                    CusDasboard customer = new CusDasboard(userLogin.NamaUser);
+                    customer.Show();
+                    this.Hide();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error System", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                // Menangkap pesan khusus: "AKUN_DIBLOKIR: ..." atau "Username atau password salah!"
+                // Menampilkan MessageBox Icon Warning/Error agar UI terlihat dinamis
+                if (ex.Message.Contains("AKUN_DIBLOKIR"))
+                {
+                    // 1. Tampilkan peringatan
+                    MessageBox.Show(ex.Message, "Akun Ditangguhkan", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                    // 2. Redirect ke halaman registrasi (Sesuaikan dengan nama Form Registrasi kamu)
+                    FormRegister formReg = new FormRegister();
+                    formReg.Show();
+                    // 3. Sembunyikan form login
+                    this.Hide();
+                }
+                else
+                {
+                    MessageBox.Show(ex.Message, "Gagal Login", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
