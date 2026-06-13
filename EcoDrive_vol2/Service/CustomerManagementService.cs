@@ -24,15 +24,15 @@ namespace EcoDrive_vol2.Service
             _context.UpdateUser(user);
         }
 
-        // Pindahkan logika mengubah status menjadi INACTIVE dari View ke Service
-        public void NonAktifkanCustomer(int idUser)
+        // LOGIKA DIBENERIN: Mengubah status menjadi DIBLOKIR (karena non_aktif tidak ada di Enum)
+        public void BlokirCustomer(int idUser)
         {
             if (idUser <= 0) throw new ArgumentException("ID Customer tidak valid!");
 
             Users user = _context.GetAllUsers().Find(u => u.IdUser == idUser);
             if (user == null) throw new Exception("Customer tidak ditemukan!");
 
-            user.StatusAkun = StatusAkun.non_aktif;
+            user.StatusAkun = StatusAkun.diblokir; // Menggunakan status yang benar
             _context.UpdateUser(user);
         }
 
