@@ -50,12 +50,21 @@ namespace EcoDrive_vol2.Service
 
         public Users Login(string username, string password)
         {
-            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+            var loggedInUser = _loginContext.Login(username, password);
+
+            if (loggedInUser == null)
             {
-                return null;
+                throw new Exception("Username atau password salah!");
             }
 
-            return _loginContext.Login(username, password);
+            // Pengecekan Status Blokir (Sesuaikan properti status di model Users kamu, misal: StatusUser atau Status)
+            if (loggedInUser.StatusAkun != null && Convert.ToString(loggedInUser.StatusAkun).Equals("diblokir", StringComparison.OrdinalIgnoreCase))
+            {
+                // Kita lempar exception spesifik teksnya agar nanti ditangkap UI untuk redirect
+                throw new Exception("AKUN_DIBLOKIR: Akun Anda ditangguhkan. Silakan buat akun baru!");
+            }
+
+            return loggedInUser;
         }
     }
 }
