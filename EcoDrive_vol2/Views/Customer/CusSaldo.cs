@@ -57,7 +57,6 @@ namespace EcoDrive_vol2.Views
                         {
                             string idTopUp = row["id_topup_saldo"].ToString();
                             string status = row["status_topup"].ToString().ToLower().Trim();
-                            string dbMintaBatal = row["minta_batal"] != DBNull.Value ? row["minta_batal"].ToString().ToLower().Trim() : "false";
                             bool mintaBatal = row["minta_batal"] != DBNull.Value && Convert.ToBoolean(row["minta_batal"]);
                             decimal jumlah = Convert.ToDecimal(row["jumlah_topup"]);
 
@@ -79,18 +78,17 @@ namespace EcoDrive_vol2.Views
                             lblSub.AutoSize = true;
 
                             Label lblNominal = new Label();
-                            lblNominal.Text = (status == "BERHASIL" || status == "SUKSES" ? "+ Rp " : "Rp ") + jumlah.ToString("N0");
                             lblNominal.Font = new Font("Segoe UI", 10.5f, FontStyle.Bold);
                             lblNominal.AutoSize = true;
 
-                            if (status == "berhasil")
+                            if (status == "berhasil" || status == "sukses")
                             {
                                 lblJudul.Text = "Top Up Saldo Berhasil";
                                 lblNominal.ForeColor = Color.ForestGreen;
                                 lblNominal.Text = "+ Rp " + jumlah.ToString("N0");
                                 lblNominal.Location = new Point(itemPanel.Width - 140, 20);
                             }
-                            else if (status == "gagal")
+                            else if (status == "gagal" || status == "batal")
                             {
                                 lblJudul.Text = "Top Up Dibatalkan / Gagal";
                                 lblNominal.ForeColor = Color.Firebrick;
@@ -347,15 +345,7 @@ namespace EcoDrive_vol2.Views
         private void lblRiwayatTitle_Click(object sender, EventArgs e) { }
         private void lblPengguna_Click(object sender, EventArgs e) { }
         private void btnTopUp_Click_2(object sender, EventArgs e) { }
-
-        private void lblTitle_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
+        private void lblTitle_Click_1(object sender, EventArgs e) { }
+        private void label2_Click(object sender, EventArgs e) { }
     }
 }

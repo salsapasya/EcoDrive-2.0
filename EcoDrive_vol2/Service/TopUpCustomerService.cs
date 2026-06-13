@@ -8,7 +8,7 @@ namespace EcoDrive_vol2.Service
 {
     public class TopUpCustomerService
     {
-        private readonly TopUpContext _topUpContext = new TopUpContext();
+        private readonly TopUpContext _topUpContext = new TopUpContext(); //ENCAP
 
         public decimal AmbilSaldoUser(int idUser)
         {
@@ -40,7 +40,7 @@ namespace EcoDrive_vol2.Service
             _topUpContext.BayarPendingLangsung(idTopup, idUser, nominal);
         }
 
-        public void ProsesMintaBatalDariRiwayat(int idTopup)
+        public void ProsesMintaBatalDariRiwayat(int idTopup) //ABSTRAC
         {
             if (idTopup <= 0) throw new ArgumentException("ID Transaksi tidak valid.");
             _topUpContext.UpdateMintaBatalCustomer(idTopup);
