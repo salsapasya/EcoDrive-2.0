@@ -14,17 +14,14 @@ namespace EcoDrive_vol2.Views.Admin
 
         public FrmDetailKendaraan(AdKendaraanController controller, Kendaraan kendaraan = null)
         {
-            // PENTING: Panggil InitializeComponent agar komponen desainer dirakit
             InitializeComponent();
 
             _controller = controller;
             _kendaraanEksisting = kendaraan;
             _isEditMode = (kendaraan != null);
 
-            // Pasang event secara dinamis
             btnSimpan.Click += BtnSimpan_Click;
 
-            // Atur tombol hapus berdasarkan mode
             if (_isEditMode)
             {
                 btnHapus.Click += BtnHapus_Click;
@@ -32,7 +29,7 @@ namespace EcoDrive_vol2.Views.Admin
             }
             else
             {
-                btnHapus.Visible = false; // Sembunyikan jika mode tambah data
+                btnHapus.Visible = false;
                 btnSimpan.Text = "Tambah Kendaraan";
             }
 
@@ -63,18 +60,20 @@ namespace EcoDrive_vol2.Views.Admin
 
         private void BtnSimpan_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtNama.Text) || string.IsNullOrWhiteSpace(txtPlat.Text))
-            {
-                MessageBox.Show("Nama dan Nomor Plat wajib diisi!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
             try
             {
+                if (string.IsNullOrWhiteSpace(txtNama.Text))
+                {
+                    MessageBox.Show("Nama kendaraan wajib diisi!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtNama.Focus();
+                    return;
+                }
+
                 Kendaraan target = _isEditMode ? _kendaraanEksisting : new Kendaraan();
 
                 target.NamaKendaraan = txtNama.Text.Trim();
-                target.NomorPlatKendaraan = txtPlat.Text.Trim().ToUpper();
+                target.NomorPlatKendaraan = txtPlat.Text;
+
                 target.StokKendaraan = (int)numStok.Value;
                 target.HargaSewa = (long)numHarga.Value;
                 target.TipeKendaraan = Enum.Parse<KendaraanTipe>(cbTipe.SelectedItem.ToString());
@@ -91,9 +90,16 @@ namespace EcoDrive_vol2.Views.Admin
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
+            catch (ArgumentException ex) 
+            {
+                MessageBox.Show(ex.Message, "Validasi Gagal", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+                txtPlat.Focus();
+                txtPlat.SelectAll();
+            }
             catch (Exception ex)
             {
-                MessageBox.Show($"Gagal menyimpan data: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Gagal menyimpan data karena kesalahan sistem: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -121,7 +127,6 @@ namespace EcoDrive_vol2.Views.Admin
 
         private void FrmDetailKendaraan_Load(object sender, EventArgs e)
         {
-            // Event load bawaan desainer (bisa dikosongkan jika tidak dipakai)
         }
     }
 }

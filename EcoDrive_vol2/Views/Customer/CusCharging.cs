@@ -14,10 +14,13 @@ using EcoDrive_vol2.Models.Transaksi;
 
 namespace EcoDrive_vol2.Views
 {
+    // OOP (Pewarisan / Inheritance): Menurunkan semua sifat & tampilan dari induk 'Form' .NET
     public partial class CusCharging : Form
     {
         private Color bgUtama = Color.FromArgb(255, 253, 246);
         private string _modeAktif = "STATION";
+
+        // OOP (Objek): Membuat objek Controller baru khusus untuk halaman ini
         private readonly CusChargingController _chargingController = new CusChargingController();
         private List<ChargingStation> _listStation = new List<ChargingStation>();
         private List<Kendaraan> _listKendaraanUser = new List<Kendaraan>();

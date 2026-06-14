@@ -31,7 +31,6 @@ namespace EcoDrive_vol2.Services.Customer
             {
                 data.KendaraanInfo = $"{dto.NamaKendaraan}\n({dto.NomorPlat})";
 
-                // Logika perhitungan sisa hari dipindah ke Service (bukan di UI/Context)
                 int sisaHari = (dto.TanggalKembali.Date - DateTime.Now.Date).Days;
                 data.SisaHari = sisaHari;
                 data.TeksSisaWaktu = sisaHari >= 0 ? $"Sisa Waktu: {sisaHari} Hari Lagi" : "Sisa Waktu: Terlambat / Jatuh Tempo";

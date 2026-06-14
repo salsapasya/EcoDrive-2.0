@@ -3,7 +3,10 @@ using EcoDrive_vol2.AbstractandInterface.Abstract;
 using EcoDrive_vol2.Models.Enums;
 
 namespace EcoDrive_vol2.Models.Transaksi
-{ 
+{
+    // INHERITANCE
+    // TransaksiSewa mewarisi dari AbsTransaksi
+    // Kelas TransaksiSewa mewarisi semua properti (IdUser, TanggalTransaksi, TotalBiaya) dari kelas induk AbsTransaksi tanpa perlu menulis ulang kodenya dari awal.
     public class TransaksiSewa : AbsTransaksi
     {
         public int IdTransaksiSewa { get; set; }
@@ -28,6 +31,22 @@ namespace EcoDrive_vol2.Models.Transaksi
         public string NamaKendaraan { get; set; }
         public string NomorPlatKendaraan { get; set; }
 
+        // Dibuat khusus agar database reader (Mapping/Context) bisa melakukan 
+        // mapping objek 'new TransaksiSewa { ... }' tanpa terikat 4 parameter wajib.
+        public TransaksiSewa()
+        {
+            // Biarkan kosong melompong seperti ini!
+        }
+        // OOP (Constructor): Menerima parameter mentah dari View untuk mengisi properti
+        public TransaksiSewa(int idUser, int idKendaraan, int durasiSewa, decimal hargaPerHari)
+        {
+            IdUser = idUser;
+            IdKendaraan = idKendaraan;
+            DurasiSewa = durasiSewa;
+            HargaPerHari = hargaPerHari;
+            TanggalSewa = DateTime.Now;
+            TanggalKembali = DateTime.Now.AddDays(durasiSewa);
+        }
         public override void HitungBiaya()
         {
             DurasiSewa = (TanggalKembali - TanggalSewa).Days;
@@ -36,9 +55,5 @@ namespace EcoDrive_vol2.Models.Transaksi
             TotalBiaya = DurasiSewa * HargaPerHari;
         }
 
-        public override string DapatkanInfoTransaksi()
-        {
-            return $"Sewa Kendaraan ID: {IdKendaraan} selama {DurasiSewa} hari. Total: Rp {TotalBiaya:N0}";
-        }
     }
 }

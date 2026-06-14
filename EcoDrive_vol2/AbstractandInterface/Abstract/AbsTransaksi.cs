@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace EcoDrive_vol2.AbstractandInterface.Abstract
 {
@@ -10,6 +11,8 @@ namespace EcoDrive_vol2.AbstractandInterface.Abstract
         // (Misal: TotalBiaya hanya bisa di-set dari dalam class ini atau turunannya)
         public int IdUser { get; set; }
         public DateTime TanggalTransaksi { get; set; }
+
+        // protected set memastikan nilai TotalBiaya tidak bisa diubah sembarangan dari luar kelas, melainkan hanya bisa diubah dari dalam kelas turunannya.
         public decimal TotalBiaya { get; protected set; }
 
         // Method abstrak wajib dibuat ulang oleh class turunannya
@@ -17,9 +20,6 @@ namespace EcoDrive_vol2.AbstractandInterface.Abstract
 
         // 3. POLYMORPHISM (Virtual): Method ini punya aksi default, 
         // tapi class turunannya boleh menggantinya jika mau.
-        public virtual string DapatkanInfoTransaksi()
-        {
-            return $"Transaksi User: {IdUser}, Total: Rp {TotalBiaya:N0}";
-        }
+
     }
 }

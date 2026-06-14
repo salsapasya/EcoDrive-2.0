@@ -7,12 +7,12 @@ namespace EcoDrive_vol2.Controllers.Admin
     internal class AdDashboardController
     {
         private readonly DashboardContext _dashboardContext;
-        private readonly PendapatanContext _pendapatanDb;
+        private readonly AdPendapatanContext _pendapatanDb;
 
         public AdDashboardController()
         {
             _dashboardContext = new DashboardContext();
-            _pendapatanDb = new PendapatanContext();
+            _pendapatanDb = new AdPendapatanContext();
         }
 
         public dynamic GetDashboardData()

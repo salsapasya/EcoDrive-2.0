@@ -8,10 +8,12 @@ namespace EcoDrive_vol2.Controllers.Admin
 {
     public class AdTransaksiController
     {
+        // OOP (Enkapsulasi & Class): Menyembunyikan variabel bertipe Class TransaksiService
         private readonly TransaksiService _transaksiService;
 
         public AdTransaksiController()
         {
+            // OOP (Objek / Instansiasi): Mengubah Class menjadi Objek nyata di memori lewat 'new'
             _transaksiService = new TransaksiService();
         }
         public void ProsesKonfirmasiCharging(Transaksi dataTransaksi)
@@ -34,9 +36,24 @@ namespace EcoDrive_vol2.Controllers.Admin
                 throw new Exception("Gagal memproses data di tingkat Controller: " + ex.Message);
             }
         }
-        public decimal AmbilRingkasanOmset(List<Transaksi> list)
+        // POLYMORPHISM & ENCAPSULATION LOGIC: Memindahkan if-else warna & teks dari View ke Controller
+        public (Color Warna, bool BisaKonfirmasi, bool BisaSelesai) SkemaVisualStatus(Transaksi item)
         {
-            return _transaksiService.HitungTotalOmset(list);
+            string status = item.DapatkanStatusBersih();
+            Color warnaTeks = Color.Red; // Default jika gagal / batal
+
+            if (status == "selesai" || status == "sudah kembali" || status == "berhasil")
+                warnaTeks = Color.FromArgb(92, 184, 92); // Hijau Sukses
+            else if (status == "pending" || status == "menunggu konfirmasi")
+                warnaTeks = Color.Blue; // Biru Awal
+            else if (status == "mengisi daya" || status == "belum kembali")
+                warnaTeks = Color.Orange; // Oranye Berjalan
+
+            // Atur hak akses tombol berdasarkan status saat ini (Logika Bisnis di Controller)
+            bool bolehKonfirmasi = (status == "pending");
+            bool bolehSelesai = (status == "menunggu konfirmasi");
+
+            return (Warna: warnaTeks, BisaKonfirmasi: bolehKonfirmasi, BisaSelesai: bolehSelesai);
         }
     }
 }

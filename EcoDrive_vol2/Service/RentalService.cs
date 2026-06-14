@@ -1,6 +1,8 @@
 ﻿using EcoDrive_vol2.AbstractandInterface.Interface;
 using EcoDrive_vol2.Context;
 using EcoDrive_vol2.Context.Customer;
+using EcoDrive_vol2.Helpers;
+using EcoDrive_vol2.Models.Transaksi;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -18,15 +20,20 @@ namespace EcoDrive_vol2.Service
             return _rentalContext.GetEstimasiBiaya(idKendaraan, durasi);
         }
 
-        public void ProsesSewaKendaraan(int idUser, int idKendaraan, int durasi, decimal totalBiaya)
+        // OOP (Polimorfisme & Class Object): Menerima satu objek utuh 
+        public void ProsesSewaKendaraan(TransaksiSewa transaksi)
         {
-            decimal saldoSaatIni = _userContext.GetSaldo(idUser);
-            if (saldoSaatIni < totalBiaya)
+            decimal saldoSaatIni = _userContext.GetSaldo(transaksi.IdUser);
+
+            // OOP (Polimorfisme): Memanggil fungsi override HitungBiaya() bawaan dari model TransaksiSewa
+            transaksi.HitungBiaya();
+
+            if (saldoSaatIni < transaksi.TotalBiaya)
             {
-                throw new Exception("SALDO_KURANG");
+                throw new Exception("Saldo Anda tidak mencukupi untuk melakukan transaksi sewa.");
             }
 
-            _rentalContext.EksekusiPembayaranSewa(idUser, idKendaraan, durasi, totalBiaya);
+            _rentalContext.EksekusiPembayaranSewa(transaksi);
         }
     }
 }
