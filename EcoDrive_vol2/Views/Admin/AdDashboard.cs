@@ -59,15 +59,12 @@ namespace EcoDrive_vol2.Views
                 AdDashboardController controller = new AdDashboardController();
                 var data = controller.GetDashboardData();
 
-                // Sinkronkan ke Label
                 lblCountCustomer.Text = data.TotalCustomer.ToString("N0");
                 lblCountKendaraan.Text = data.TotalKendaraan.ToString("N0");
                 lblCountDisewa.Text = data.TotalDisewa.ToString("N0");
 
-                // Format Pendapatan
                 lblCountPendapatan.Text = "Rp " + (data.TotalPendapatan / 1000000).ToString("N1") + "M";
 
-                // Status Kendaraan
                 lblCountTersedia.Text = data.Tersedia.ToString();
                 lblCountSedangDisewa.Text = data.Disewa.ToString();
                 lblCountCharging.Text = data.Charging.ToString();

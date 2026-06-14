@@ -183,7 +183,6 @@ namespace EcoDrive_vol2.Views
             {
                 try
                 {
-                    // CLEAN: Langsung validasi ke controller tanpa 'if (stok <= 0)' manual di sini
                     _cusRentalController.ValidasiKesiapanSewa(dataKendaraan);
                     TampilkanPopUpDetail(dataKendaraan);
                 }
@@ -218,14 +217,12 @@ namespace EcoDrive_vol2.Views
 
             decimal totalBiayaFix = 0;
 
-            // CLEAN: Murni UI Update. Data mentah didapat langsung dari hasil return Controller
             void UpdateEstimasiBiaya()
             {
                 int durasiInput = (int)numDurasi.Value;
                 
                 try
                 {
-                    // Memanggil logika bisnis dari RentalService buatanmu
                     totalBiayaFix = _cusRentalController.DapatkanEstimasiBiaya(dataKendaraan.IdKendaraan, durasiInput);
                     lblTotalEstimasi.Text = $"Total Estimasi: Rp {totalBiayaFix:N0}";
 
@@ -270,7 +267,6 @@ namespace EcoDrive_vol2.Views
         private void HandleTransaksiError(Exception ex, Form detailForm)
         {
             _cusRentalController.ProsesErrorTransaksi(ex,
-                // 1. Ini aksi jika Controller menyuruh Top Up (Aksi Pertama)
                 aksiTopUp: () =>
                 {
                     DialogResult response = MessageBox.Show(
@@ -288,7 +284,6 @@ namespace EcoDrive_vol2.Views
                         }
                     }
                 },
-                // 2. Ini aksi jika Controller menyuruh nampilkan pesan biasa (Aksi Kedua)
                 aksiTampilkanPesan: (pesanDariController) =>
                 {
                     MessageBox.Show(pesanDariController, "Informasi Sistem", MessageBoxButtons.OK, MessageBoxIcon.Warning);
