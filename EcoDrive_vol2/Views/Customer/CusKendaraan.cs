@@ -246,6 +246,10 @@ namespace EcoDrive_vol2.Views
                 {
                     _cusRentalController.KonfirmasiSewa(UserSession.IdUserAktif, dataKendaraan.IdKendaraan, (int)numDurasi.Value, dataKendaraan.HargaSewa);
 
+
+                    // Panggil controller dengan melempar 1 objek utuh sewaBaru
+                    _cusRentalController.KonfirmasiSewa(sewaBaru); 
+
                     detailForm.Close();
                     MessageBox.Show($"Pembayaran Berhasil!\n\nSaldo Anda telah dipotong sebesar Rp {totalBiayaFix:N0}.\nKendaraan {dataKendaraan.NamaKendaraan} siap digunakan.", "Transaksi Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
