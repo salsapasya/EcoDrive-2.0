@@ -136,4 +136,26 @@ namespace EcoDrive_vol2.Context.Admin
             }
         }
     }
+
+    // Minimal placeholder context to satisfy the compiler.
+    // Replace the placeholder implementations with your real DB access logic.
+    public class TransaksiChargingContext
+    {
+        public TransaksiChargingContext() { }
+
+        public List<Transaksi> GetAllTransaksi()
+        {
+            return new List<Transaksi>();
+        }
+
+        public List<Transaksi> GetTransaksiBerdasarkanFilter(string filter)
+        {
+            return new List<Transaksi>();
+        }
+
+        public void UpdateStatusCharging(int rawId)
+        {
+            // Implement DB update to set charging transaction status.
+        }
+    }
 }

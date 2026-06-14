@@ -13,13 +13,12 @@ namespace EcoDrive_vol2
         private readonly Color bgUtama = Color.FromArgb(255, 253, 246);
         private readonly string _namaCustomer;
 
-        // Deklarasi Controller Dashboard
         private readonly CusDashboardController _controller;
 
         public CusDasboard(string namaLogin)
         {
             _namaCustomer = namaLogin;
-            _controller = new CusDashboardController(); // Inisialisasi
+            _controller = new CusDashboardController();
 
             InitializeComponent();
             RegisterNavigationEvents();

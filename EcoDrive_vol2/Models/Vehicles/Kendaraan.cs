@@ -9,13 +9,13 @@ namespace EcoDrive_vol2.Models.Vehicles
 
         public int IdMerkKendaraan { get; set; }
 
-        public string NomorPlatKendaraan { get; set; }
+        private string _nomorPlatKendaraan;
 
         public string NamaKendaraan { get; set; }
 
-        public int StokKendaraan { get; set; }
+        private int _stokKendaraan;
 
-        public decimal HargaSewa { get; set; }
+        private decimal _hargaSewa;
 
         public KendaraanTipe TipeKendaraan { get; set; }
 
@@ -23,15 +23,57 @@ namespace EcoDrive_vol2.Models.Vehicles
 
         public bool IsDeleted { get; set; }
 
+        public string NomorPlatKendaraan
+        {
+            get => _nomorPlatKendaraan;
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                    throw new ArgumentException("Nomor plat kendaraan tidak boleh kosong.");
+
+                value = value.Trim().ToUpper();
+
+                if (!System.Text.RegularExpressions.Regex.IsMatch(value, @"^[A-Z]{1,2}\s\d{1,4}\s[A-Z]{1,3}$"))
+                    throw new ArgumentException("Nomor plat kendaraan hanya boleh mengandung huruf, angka, dan spasi.");
+
+                if (value.Length < 5 || value.Length > 10)
+                    throw new ArgumentException("Nomor plat kendaraan harus antara 5 hingga 10 karakter.");
+
+                _nomorPlatKendaraan = value;
+            }
+        }
+
+        public int StokKendaraan
+        {
+            get => _stokKendaraan;
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentException("Stok kendaraan tidak boleh negatif.");
+                _stokKendaraan = value;
+            }
+        }
+
+        public decimal HargaSewa
+        {
+            get => _hargaSewa;
+            set
+            {
+                if (value < 100000)
+                    throw new ArgumentException(
+                        "Harga sewa minimal Rp100.000.");
+
+                if (value > 5000000)
+                    throw new ArgumentException(
+                        "Harga sewa melebihi batas yang diizinkan.");
+
+                _hargaSewa = value;
+            }
+        }
+
         // Constructor
         public Kendaraan()
         {
-
-        }
-
-        public virtual decimal BiayaRental(int jam) //POLYMOR YG NYAMBUNG SAMA ELECTRIC CAR(FUNGSI DASAR)
-        {
-            return HargaSewa * jam;
         }
 
         public string Nama  //ENCAP

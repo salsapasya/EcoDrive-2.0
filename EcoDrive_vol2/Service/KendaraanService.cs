@@ -25,15 +25,26 @@ namespace EcoDrive_vol2.Services
                     ? new ElectricCar()
                     : new ElectricMotor();
 
-                // Menggunakan Object Initializer agar kode lebih clean dan scannable
-                kendaraan.IdKendaraan = item.IdKendaraan;
-                kendaraan.IdMerkKendaraan = item.IdMerkKendaraan;
-                kendaraan.NomorPlatKendaraan = item.NomorPlatKendaraan;
-                kendaraan.NamaKendaraan = item.NamaKendaraan;
-                kendaraan.StokKendaraan = item.StokKendaraan;
-                kendaraan.HargaSewa = item.HargaSewa;
-                kendaraan.TipeKendaraan = item.TipeKendaraan;
-                kendaraan.StatusKendaraan = item.StatusKendaraan;
+                kendaraan = item.TipeKendaraan == KendaraanTipe.mobil ? new ElectricCar {
+                    IdKendaraan = item.IdKendaraan,
+                    IdMerkKendaraan = item.IdMerkKendaraan,
+                    NomorPlatKendaraan = item.NomorPlatKendaraan,
+                    NamaKendaraan = item.NamaKendaraan,
+                    StokKendaraan = item.StokKendaraan,
+                    HargaSewa = item.HargaSewa,
+                    TipeKendaraan = item.TipeKendaraan,
+                    StatusKendaraan = item.StatusKendaraan,
+                } : new ElectricMotor
+                {
+                    IdKendaraan = item.IdKendaraan,
+                    IdMerkKendaraan = item.IdMerkKendaraan,
+                    NomorPlatKendaraan = item.NomorPlatKendaraan,
+                    NamaKendaraan = item.NamaKendaraan,
+                    StokKendaraan = item.StokKendaraan,
+                    HargaSewa = item.HargaSewa,
+                    TipeKendaraan = item.TipeKendaraan,
+                    StatusKendaraan = item.StatusKendaraan,
+                };
 
                 hasil.Add(kendaraan);
             }
@@ -46,7 +57,6 @@ namespace EcoDrive_vol2.Services
             List<Kendaraan> semuakendaraan = GetAllKendaraan();
             if (semuakendaraan == null) return new List<Kendaraan>();
 
-            // Penyaringan berdasarkan kategori tombol aktif
             if (filterAktif == "Mobil")
             {
                 semuakendaraan = semuakendaraan.FindAll(x => x.TipeKendaraan == KendaraanTipe.mobil);
@@ -56,7 +66,6 @@ namespace EcoDrive_vol2.Services
                 semuakendaraan = semuakendaraan.FindAll(x => x.TipeKendaraan == KendaraanTipe.motor);
             }
 
-            // Penyaringan berdasarkan kata kunci pencarian (Real-time search)
             string cleanKeyword = keyword?.Trim().ToLower();
             if (!string.IsNullOrEmpty(cleanKeyword))
             {
