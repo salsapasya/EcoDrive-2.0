@@ -6,7 +6,7 @@ namespace EcoDrive.Models.Vehicles
     {
         public int IdChargingStation { get; set; }
 
-        public string NamaStation { get; set; }
+        public string NamaStation { get; set; }  //ENCAP
 
         public string Lokasi { get; set; }
 

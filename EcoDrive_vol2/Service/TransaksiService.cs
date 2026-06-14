@@ -1,7 +1,6 @@
 ﻿using EcoDrive_vol2.AbstractandInterface.Interface;
 using EcoDrive_vol2.Context;
 using EcoDrive_vol2.Context.Admin;
-using EcoDrive_vol2.Context.Customer;
 using EcoDrive_vol2.Models.Admin;
 using EcoDrive_vol2.Models.Transaksi;
 using EcoDrive_vol2.Views;
@@ -16,19 +15,16 @@ namespace EcoDrive_vol2.Service
         // ==========================================
         // DEKLARASI CONTEXT / REPOSITORY
         // ==========================================
-        private readonly ITransaksi _interfaceTransaksi;
-        private readonly TransaksiChargingContext _chargingContext;
-        private readonly TransaksiSewaContext _sewaContext;
+        private readonly ITransaksi _interfaceTransaksi; // OOP (Abstraksi): Menggunakan Interface ITransaksi untuk menyembunyikan detail database
         private readonly AdTransaksiContext _adTransaksiContext;
         private readonly TopUpContext _topupContext;
 
         public TransaksiService()
         {
-            _chargingContext = new TransaksiChargingContext();
-            _sewaContext = new TransaksiSewaContext();
             _adTransaksiContext = new AdTransaksiContext();
             _topupContext = new TopUpContext();
 
+            // OOP (Polimorfisme): Interface diisi oleh objek dari Class (AdTransaksiContext)
             _interfaceTransaksi = _adTransaksiContext;
         }
 
