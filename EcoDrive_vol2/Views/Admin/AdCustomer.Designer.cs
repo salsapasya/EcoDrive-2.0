@@ -53,7 +53,7 @@ namespace EcoDrive_vol2.Views
 
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             mainPanel = new Panel();
             cardPanel = new RoundedPanel();
             lblTitle = new Label();
@@ -66,24 +66,23 @@ namespace EcoDrive_vol2.Views
             dgvCustomer = new DataGridView();
             colId = new DataGridViewTextBoxColumn();
             colCard = new DataGridViewTextBoxColumn();
-
             mainPanel.SuspendLayout();
             cardPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCustomer).BeginInit();
             SuspendLayout();
-
             // 
             // mainPanel
             // 
+            mainPanel.AutoSize = true;
             mainPanel.BackColor = Color.FromArgb(243, 249, 243);
             mainPanel.Controls.Add(cardPanel);
             mainPanel.Dock = DockStyle.Fill;
             mainPanel.Location = new Point(0, 0);
-            mainPanel.Margin = new Padding(4, 5, 4, 5);
             mainPanel.Name = "mainPanel";
-            mainPanel.Padding = new Padding(43, 33, 43, 50);
-            mainPanel.Size = new Size(1829, 1200);
+            mainPanel.Padding = new Padding(30, 20, 30, 30);
+            mainPanel.Size = new Size(1280, 709);
             mainPanel.TabIndex = 0;
+            mainPanel.Paint += mainPanel_Paint;
             // 
             // cardPanel
             // 
@@ -97,78 +96,82 @@ namespace EcoDrive_vol2.Views
             cardPanel.Controls.Add(btnTambah);
             cardPanel.Controls.Add(dgvCustomer);
             cardPanel.Dock = DockStyle.Fill;
-            cardPanel.Location = new Point(43, 33);
-            cardPanel.Margin = new Padding(4, 5, 4, 5);
+            cardPanel.Location = new Point(30, 20);
             cardPanel.Name = "cardPanel";
-            cardPanel.Padding = new Padding(36, 42, 36, 42);
-            cardPanel.Size = new Size(1743, 1117);
+            cardPanel.Padding = new Padding(25);
+            cardPanel.Size = new Size(1220, 659);
             cardPanel.TabIndex = 0;
-
             // 
             // lblTitle
             // 
             lblTitle.AutoSize = true;
             lblTitle.Font = new Font("Segoe UI", 22F, FontStyle.Bold);
             lblTitle.ForeColor = Color.FromArgb(47, 47, 47);
-            lblTitle.Location = new Point(36, 42);
-            lblTitle.Margin = new Padding(4, 0, 4, 0);
+            lblTitle.Location = new Point(25, 25);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(366, 60);
+            lblTitle.Size = new Size(248, 41);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "Kelola Customer";
-
             // 
             // lblSubtitle
             // 
             lblSubtitle.AutoSize = true;
             lblSubtitle.Font = new Font("Segoe UI", 9.5F);
             lblSubtitle.ForeColor = Color.DarkGray;
-            lblSubtitle.Location = new Point(39, 115);
-            lblSubtitle.Margin = new Padding(4, 0, 4, 0);
+            lblSubtitle.Location = new Point(27, 69);
             lblSubtitle.Name = "lblSubtitle";
-            lblSubtitle.Size = new Size(324, 25);
+            lblSubtitle.Size = new Size(224, 17);
             lblSubtitle.TabIndex = 1;
             lblSubtitle.Text = "Manajemen data pengguna EcoDrive";
-
             // 
             // txtSearch
             // 
             txtSearch.BackColor = Color.FromArgb(245, 245, 245);
             txtSearch.BorderStyle = BorderStyle.None;
             txtSearch.Font = new Font("Segoe UI", 11F);
-            txtSearch.Location = new Point(36, 155);
-            txtSearch.Name = "txtSearch";
+            txtSearch.Location = new Point(27, 94);
+            txtSearch.Margin = new Padding(2);
             txtSearch.Multiline = true;
-            txtSearch.PlaceholderText = "    🔍 Cari nama, email, ID...";
-            txtSearch.Size = new Size(320, 35);
+            txtSearch.Name = "txtSearch";
+            txtSearch.PlaceholderText = "🔍 Cari nama, email, ID...";
+            txtSearch.Size = new Size(392, 21);
             txtSearch.TabIndex = 2;
-
             // 
-            // Konfigurasi Filter & Aksi via SetupButton
+            // btnSemua
             // 
-            SetupButton(btnSemua, "Semua", new Point(380, 155), Color.FromArgb(76, 175, 80), Color.White);
-            btnSemua.Size = new Size(90, 35);
+            btnSemua.Location = new Point(437, 93);
+            btnSemua.Margin = new Padding(2);
             btnSemua.Name = "btnSemua";
+            btnSemua.Size = new Size(63, 21);
             btnSemua.TabIndex = 3;
             btnSemua.Click += FilterButton_Click;
-
-            SetupButton(btnAktif, "Aktif", new Point(480, 155), Color.FromArgb(245, 245, 245), Color.FromArgb(47, 47, 47));
-            btnAktif.Size = new Size(90, 35);
+            // 
+            // btnAktif
+            // 
+            btnAktif.Location = new Point(526, 93);
+            btnAktif.Margin = new Padding(2);
             btnAktif.Name = "btnAktif";
+            btnAktif.Size = new Size(63, 21);
             btnAktif.TabIndex = 4;
             btnAktif.Click += FilterButton_Click;
-
-            SetupButton(btnNonAktif, "Non Aktif", new Point(580, 155), Color.FromArgb(245, 245, 245), Color.FromArgb(47, 47, 47));
-            btnNonAktif.Size = new Size(110, 35);
+            // 
+            // btnNonAktif
+            // 
+            btnNonAktif.Location = new Point(614, 94);
+            btnNonAktif.Margin = new Padding(2);
             btnNonAktif.Name = "btnNonAktif";
+            btnNonAktif.Size = new Size(77, 21);
             btnNonAktif.TabIndex = 5;
             btnNonAktif.Click += FilterButton_Click;
-
-            SetupButton(btnTambah, "+ Tambah Customer", new Point(1480, 155), Color.FromArgb(76, 175, 80), Color.White);
-            btnTambah.Size = new Size(220, 35);
+            // 
+            // btnTambah
+            // 
+            btnTambah.Location = new Point(724, 93);
+            btnTambah.Margin = new Padding(2);
             btnTambah.Name = "btnTambah";
+            btnTambah.Size = new Size(154, 21);
             btnTambah.TabIndex = 6;
-
+            btnTambah.Click += btnTambah_Click;
             // 
             // dgvCustomer
             // 
@@ -180,52 +183,52 @@ namespace EcoDrive_vol2.Views
             dgvCustomer.BorderStyle = BorderStyle.None;
             dgvCustomer.CellBorderStyle = DataGridViewCellBorderStyle.None;
             dgvCustomer.ColumnHeadersVisible = false;
-            dgvCustomer.RowHeadersVisible = false;
-
-            dgvCustomer.Columns.Clear();
             dgvCustomer.Columns.AddRange(new DataGridViewColumn[] { colId, colCard });
-
-            dataGridViewCellStyle4.BackColor = Color.White;
-            dataGridViewCellStyle4.SelectionBackColor = Color.White;
-            dgvCustomer.DefaultCellStyle = dataGridViewCellStyle4;
-
-            dgvCustomer.Location = new Point(36, 220);
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.White;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle1.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = Color.White;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.False;
+            dgvCustomer.DefaultCellStyle = dataGridViewCellStyle1;
+            dgvCustomer.Location = new Point(25, 132);
+            dgvCustomer.Margin = new Padding(2);
+            dgvCustomer.Name = "dgvCustomer";
+            dgvCustomer.RowHeadersVisible = false;
             dgvCustomer.RowTemplate.Height = 115;
-            dgvCustomer.Size = new Size(1680, 850);
+            dgvCustomer.Size = new Size(1176, 510);
             dgvCustomer.TabIndex = 7;
             dgvCustomer.CellPainting += DgvCustomer_CellPainting;
-
             // 
             // colId
             // 
             colId.HeaderText = "ID";
             colId.Name = "colId";
             colId.Visible = false;
-
             // 
             // colCard
             // 
             colCard.HeaderText = "Customer";
             colCard.Name = "colCard";
             colCard.Width = 1650;
-
             // 
             // AdCustomer
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(243, 249, 243);
-            ClientSize = new Size(1829, 1200);
+            ClientSize = new Size(1280, 709);
             Controls.Add(mainPanel);
-            Margin = new Padding(4, 5, 4, 5);
             Name = "AdCustomer";
             Text = "EcoDrive Management – Data Customer";
-
+            WindowState = FormWindowState.Maximized;
             mainPanel.ResumeLayout(false);
             cardPanel.ResumeLayout(false);
             cardPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvCustomer).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         private void DgvCustomer_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
