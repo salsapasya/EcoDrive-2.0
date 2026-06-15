@@ -23,5 +23,9 @@ namespace EcoDrive_vol2.Controllers.Admin
         {
             return _service.GetRincianPendapatanByBulanTahun(bulan, tahun);
         }
+        public int AmbilIndexBulanSekarang()
+        {
+            return _service.HitungIndexBulanSistem();
+        }
     }
 }

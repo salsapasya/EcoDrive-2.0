@@ -45,10 +45,5 @@ namespace EcoDrive_vol2.Service
             if (idTopup <= 0) throw new ArgumentException("ID Transaksi tidak valid.");
             _topUpContext.UpdateMintaBatalCustomer(idTopup);
         }
-        public int GetIdUserByUsername(string username)
-        {
-            if (string.IsNullOrEmpty(username)) return 0;
-            return _topUpContext.GetIdUserByUsername(username);
-        }
     }
 }

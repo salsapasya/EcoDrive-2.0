@@ -1,5 +1,8 @@
 ﻿using EcoDrive_vol2.Context;
+using EcoDrive_vol2.Controllers.Admin;
 using EcoDrive_vol2.Controllers.Customer;
+using EcoDrive_vol2.Models.Admin;
+using EcoDrive_vol2.Models.Enums;
 using EcoDrive_vol2.Service;
 using System;
 using System.Collections.Generic;
@@ -14,7 +17,8 @@ namespace EcoDrive_vol2.Views.Admin
     public partial class AdTopUpCustomer : Form
     {
         private Color bgUtama = Color.FromArgb(255, 253, 246);
-        private readonly CusSaldoController _saldoController = new CusSaldoController();
+        private CusSaldoController _saldoController = new CusSaldoController();
+        private AdTopUpCustomerController _adminController = new AdTopUpCustomerController();
 
         // Memanggil UserContext untuk summary card atas
         private readonly UserContext _userContext = new UserContext();
@@ -53,24 +57,24 @@ namespace EcoDrive_vol2.Views.Admin
             try
             {
                 // 1. Ambil data transaksi menggunakan filter yang aktif dari Controller
-                DataTable dt = _saldoController.GetDaftarTransaksiTopUp(_currentFilter);
+                List<TopUp> daftarTopup = _adminController.GetDaftarTransaksiTopUp(_currentFilter);
 
-                if (dt == null) return;
+                if (daftarTopup == null) return;
 
                 dgvTransaksi.Rows.Clear();
 
-                foreach (DataRow row in dt.Rows)
+                foreach (var topup in daftarTopup)
                 {
-                    decimal nominal = row["jumlah_topup"] != DBNull.Value ? Convert.ToDecimal(row["jumlah_topup"]) : 0;
+                    //decimal nominal = row["jumlah_topup"] != DBNull.Value ? Convert.ToDecimal(row["jumlah_topup"]) : 0;
 
                     dgvTransaksi.Rows.Add(
-                        row["id_topup_saldo"].ToString(),
-                        row["username"].ToString(),
-                        row["nama_user"].ToString(),
-                        row["no_telp_user"].ToString(),
-                        nominal.ToString("N0", _idCulture),
-                        row["status"].ToString().ToUpper(),
-                        row["minta_batal"].ToString()
+                        topup.IdTopupSaldo.ToString(),
+                        topup.Username,
+                        topup.NamaUser,
+                        topup.NoTelpUser,
+                        topup.JumlahTopup.ToString("N0", _idCulture),
+                        topup.Status.ToString().ToUpper(), 
+                        topup.MintaBatal.ToString()
                     );
                 }
 
@@ -139,26 +143,11 @@ namespace EcoDrive_vol2.Views.Admin
                 // ====================================================================
                 // LOGIKA UTAMA: VALIDASI STATUS UNTUK MENGUNCI TOMBOL AKSI
                 // ====================================================================
-                if (status == "PENDING" && isMintaBatal == true)
-                {
-                    btnKonfirmasiTopUp.Enabled = true;
-                    btnKonfirmasiTopUp.BackColor = Color.FromArgb(46, 125, 50); // warna hijau
-                    btnKonfirmasiTopUp.Text = "✔ SETUJUI PEMBATALAN";
-                }
-                else
-                {
-                    btnKonfirmasiTopUp.Enabled = false;
-                    btnKonfirmasiTopUp.BackColor = Color.DarkGray; // Tombol berubah jadi abu-abu terkunci
-                    if (status == "BERHASIL" || status == "GAGAL")
-                    {
-                        btnKonfirmasiTopUp.Text = $"✔ {status} (DIKUNCI)";
-                    }
-                    else
-                    {
-                        // Ini case ketika status PENDING tapi isMintaBatal == false (berarti customer sedang bayar nanti/menunggu transferan)
-                        btnKonfirmasiTopUp.Text = "⏳ MENUNGGU PEMBAYARAN (DIKUNCI)";
-                    }
-                }
+                var tombolState = _adminController.DapatkanStateTombolAksi(status, isMintaBatal);
+
+                btnKonfirmasiTopUp.Enabled = tombolState.IsEnabled;
+                btnKonfirmasiTopUp.Text = tombolState.ButtonText;
+                btnKonfirmasiTopUp.BackColor = tombolState.IsEnabled ? Color.FromArgb(46, 125, 50) : Color.DarkGray;
             }
             catch (Exception ex)
             {
@@ -172,7 +161,7 @@ namespace EcoDrive_vol2.Views.Admin
         {
             try
             {
-                _idUserTarget = _saldoController.GetIdUserByUsername(usernameInput);
+                _idUserTarget = _adminController.GetIdUserByUsername(usernameInput);
 
                 if (_idUserTarget <= 0)
                 {
@@ -224,7 +213,7 @@ namespace EcoDrive_vol2.Views.Admin
                 if (result != DialogResult.Yes) return;
 
                 // Eksekusi Konfirmasi ke Database melalui Controller
-                _saldoController.KonfirmasiTopUp(_idTopupDipilih, _idUserTarget);
+                _adminController.KonfirmasiPembatalanTopUp(_idTopupDipilih, _idUserTarget);
 
                 MessageBox.Show("Pembatalan top up berhasil disetujui (Status menjadi GAGAL).", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
 

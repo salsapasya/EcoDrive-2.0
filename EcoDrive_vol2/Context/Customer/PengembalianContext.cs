@@ -31,6 +31,8 @@ namespace EcoDrive_vol2.Context.Customer
 
                 var tglSewaDb = (DateOnly)reader["tanggal_sewa"];
                 var tglKembaliDb = (DateOnly)reader["tanggal_kembali"];
+
+                // OOP (Object Creation): Memetakan record database langsung menjadi Objek TransaksiSewa
                 list.Add(new TransaksiSewa
                 {
                     IdTransaksiSewa = Convert.ToInt32(reader["id_transaksi_sewa"]),

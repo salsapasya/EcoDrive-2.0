@@ -150,22 +150,5 @@ namespace EcoDrive_vol2.Context
                 throw new Exception("Gagal memproses minta batal: " + ex.Message);
             }
         }
-        public int GetIdUserByUsername(string username)
-        {
-            using var conn = DatabaseHelper.GetConnection();
-            string query = "SELECT id_user FROM users WHERE username = @username";
-            try
-            {
-                conn.Open();
-                using var cmd = new NpgsqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@username", username);
-                var result = cmd.ExecuteScalar();
-                return result != null ? Convert.ToInt32(result) : 0;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error di Context (GetIdUserByUsername): " + ex.Message);
-            }
-        }
     }
 }
