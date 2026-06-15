@@ -80,11 +80,38 @@ namespace EcoDrive_vol2.Services
             {
                 throw new Exception("Kendaraan baru harus memiliki status 'tersedia'.");
             }
+
+            if (context.GetAllKendaraan() != null && context.GetAllKendaraan().Exists(k => k.NomorPlatKendaraan.Equals(kendaraan.NomorPlatKendaraan, StringComparison.OrdinalIgnoreCase)))
+            {
+                throw new Exception("Nomor plat sudah terdaftar.");
+            }
             context.AddKendaraan(kendaraan);
         }
 
         public void UpdateKendaraan(Kendaraan kendaraan)
         {
+            Kendaraan dataLama = context.GetById(kendaraan.IdKendaraan);
+
+            if (dataLama == null)
+            {
+                throw new Exception("Kendaraan tidak ditemukan.");
+            }
+
+            if (kendaraan.NomorPlatKendaraan != dataLama.NomorPlatKendaraan)
+            {
+                throw new Exception("Nomor plat tidak dapat diubah.");
+            }
+
+            if (kendaraan.NamaKendaraan != dataLama.NamaKendaraan)
+            {
+                throw new Exception("Nama kendaraan tidak dapat diubah.");
+            }
+
+            if (kendaraan.TipeKendaraan != dataLama.TipeKendaraan)
+            {
+                throw new Exception("Tipe kendaraan tidak dapat diubah.");
+            }
+
             context.UpdateKendaraan(kendaraan);
         }
 
