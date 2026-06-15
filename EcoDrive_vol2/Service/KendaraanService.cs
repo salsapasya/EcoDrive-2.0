@@ -21,18 +21,15 @@ namespace EcoDrive_vol2.Services
             foreach (var item in data)
             {
                 // Polimorfisme & Inheritance
-                Kendaraan kendaraan = (item.TipeKendaraan == KendaraanTipe.mobil)
-                    ? new ElectricCar()
-                    : new ElectricMotor();
-
-                kendaraan = item.TipeKendaraan == KendaraanTipe.mobil ? new ElectricCar {
+                Kendaraan kendaraan = item.TipeKendaraan == KendaraanTipe.mobil ? new ElectricCar
+                {
                     IdKendaraan = item.IdKendaraan,
                     IdMerkKendaraan = item.IdMerkKendaraan,
                     NomorPlatKendaraan = item.NomorPlatKendaraan,
                     NamaKendaraan = item.NamaKendaraan,
                     StokKendaraan = item.StokKendaraan,
                     HargaSewa = item.HargaSewa,
-                    TipeKendaraan = item.TipeKendaraan,
+                    TipeKendaraan = KendaraanTipe.mobil,
                     StatusKendaraan = item.StatusKendaraan,
                 } : new ElectricMotor
                 {
@@ -42,7 +39,7 @@ namespace EcoDrive_vol2.Services
                     NamaKendaraan = item.NamaKendaraan,
                     StokKendaraan = item.StokKendaraan,
                     HargaSewa = item.HargaSewa,
-                    TipeKendaraan = item.TipeKendaraan,
+                    TipeKendaraan = KendaraanTipe.motor,
                     StatusKendaraan = item.StatusKendaraan,
                 };
 
@@ -57,11 +54,11 @@ namespace EcoDrive_vol2.Services
             List<Kendaraan> semuakendaraan = GetAllKendaraan();
             if (semuakendaraan == null) return new List<Kendaraan>();
 
-            if (filterAktif == "Mobil")
+            if (!string.IsNullOrEmpty(filterAktif) && filterAktif.Equals("Mobil", StringComparison.OrdinalIgnoreCase))
             {
                 semuakendaraan = semuakendaraan.FindAll(x => x.TipeKendaraan == KendaraanTipe.mobil);
             }
-            else if (filterAktif == "Motor")
+            else if (!string.IsNullOrEmpty(filterAktif) && filterAktif.Equals("Motor", StringComparison.OrdinalIgnoreCase))
             {
                 semuakendaraan = semuakendaraan.FindAll(x => x.TipeKendaraan == KendaraanTipe.motor);
             }
@@ -79,6 +76,10 @@ namespace EcoDrive_vol2.Services
 
         public void AddKendaraan(Kendaraan kendaraan)
         {
+            if (kendaraan.StatusKendaraan != OptionStatus.tersedia)
+            {
+                throw new Exception("Kendaraan baru harus memiliki status 'tersedia'.");
+            }
             context.AddKendaraan(kendaraan);
         }
 

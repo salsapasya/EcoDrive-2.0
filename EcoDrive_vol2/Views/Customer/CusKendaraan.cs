@@ -137,7 +137,17 @@ namespace EcoDrive_vol2.Views
             };
 
             var statusVisual = _cusRentalController.DapatkanVisualStatus(kendaraan);
-            bool isReady = kendaraan.StokKendaraan > 0 && kendaraan.StatusKendaraan == OptionStatus.tersedia;
+            bool isReady;
+            try
+            {
+                // Reuse controller validation to determine availability without duplicating enum checks
+                _cusRentalController.ValidasiKesiapanSewa(kendaraan);
+                isReady = true;
+            }
+            catch
+            {
+                isReady = false;
+            }
 
             Label lblStatus = new Label 
             { 
@@ -202,7 +212,7 @@ namespace EcoDrive_vol2.Views
             Form detailForm = new Form { Text = "Informasi Detail Spesifikasi", Size = new Size(460, 560), StartPosition = FormStartPosition.CenterParent, FormBorderStyle = FormBorderStyle.FixedDialog, MaximizeBox = false, MinimizeBox = false, BackColor = Color.FromArgb(250, 248, 242) };
             Panel innerCard = new Panel { Size = new Size(400, 460), Location = new Point(22, 25), BackColor = Color.White, Padding = new Padding(20) };
 
-            string tipeTeks = dataKendaraan.TipeKendaraan == KendaraanTipe.mobil ? "Mobil" : "Motor";
+            string tipeTeks = _cusRentalController.DapatkanTipeTeks(dataKendaraan);
             Label lblPopTitle = new Label { Text = dataKendaraan.NamaKendaraan, Font = new Font("Segoe UI", 16, FontStyle.Bold), ForeColor = Color.FromArgb(45, 45, 45), Dock = DockStyle.Top, Height = 35 };
             Label lblPopSub = new Label { Text = $"Kategori Kendaraan Listrik: {tipeTeks}", Font = new Font("Segoe UI", 9.5F, FontStyle.Italic), ForeColor = Color.Gray, Dock = DockStyle.Top, Height = 25 };
             Panel lineSeparator = new Panel { BackColor = Color.FromArgb(235, 230, 220), Dock = DockStyle.Top, Height = 2, Margin = new Padding(0, 5, 0, 15) };
@@ -244,11 +254,15 @@ namespace EcoDrive_vol2.Views
             {
                 try
                 {
-                    _cusRentalController.KonfirmasiSewa(UserSession.IdUserAktif, dataKendaraan.IdKendaraan, (int)numDurasi.Value, dataKendaraan.HargaSewa);
+                    // Build TransaksiSewa object and pass the whole object to controller
+                    var sewaBaru = new EcoDrive_vol2.Models.Transaksi.TransaksiSewa(
+                        UserSession.IdUserAktif,
+                        dataKendaraan.IdKendaraan,
+                        (int)numDurasi.Value,
+                        dataKendaraan.HargaSewa
+                    );
 
-
-                    // Panggil controller dengan melempar 1 objek utuh sewaBaru
-                    _cusRentalController.KonfirmasiSewa(sewaBaru); 
+                    _cusRentalController.KonfirmasiSewa(sewaBaru);
 
                     detailForm.Close();
                     MessageBox.Show($"Pembayaran Berhasil!\n\nSaldo Anda telah dipotong sebesar Rp {totalBiayaFix:N0}.\nKendaraan {dataKendaraan.NamaKendaraan} siap digunakan.", "Transaksi Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);

@@ -39,13 +39,8 @@ namespace EcoDrive_vol2.Context.Admin
                         StokKendaraan = Convert.ToInt32(reader["stok_kendaraan"]),
                         HargaSewa = Convert.ToDecimal(reader["harga_sewa"]),
 
-                        TipeKendaraan = Enum.Parse<KendaraanTipe>(
-                            reader["tipe_kendaraan"].ToString(), true
-                        ),
-
-                        StatusKendaraan = Enum.Parse<OptionStatus>(
-                            reader["status_kendaraan"].ToString().Replace(" ", "_"), true
-                        )
+                        TipeKendaraan = Enum.Parse<KendaraanTipe>(reader["tipe_kendaraan"].ToString(), true),
+                        StatusKendaraan = Enum.Parse<OptionStatus>(reader["status_kendaraan"].ToString().Replace(" ", "_"), true)
                     };
 
                     kendaraanList.Add(kendaraan);
