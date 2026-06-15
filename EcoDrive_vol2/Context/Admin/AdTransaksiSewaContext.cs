@@ -1,15 +1,13 @@
 using EcoDrive_vol2.Models.Transaksi;
 using System.Collections.Generic;
 
-namespace EcoDrive_vol2.Context.Customer
+namespace EcoDrive_vol2.Context.Admin
 {
-    // Minimal placeholder context to satisfy compiler and provide a place
-    // to implement real DB logic for 'sewa' transactions.
-    public class TransaksiSewaContext
+    // Minimal placeholder context for admin sewa transactions.
+    public class AdTransaksiSewaContext
     {
-        public TransaksiSewaContext() { }
+        public AdTransaksiSewaContext() { }
 
-        // Placeholder methods — replace with actual DB access implementations.
         public List<TransaksiSewa> GetSewaByUser(int idUser)
         {
             return new List<TransaksiSewa>();
