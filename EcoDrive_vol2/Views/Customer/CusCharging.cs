@@ -270,7 +270,8 @@ namespace EcoDrive_vol2.Views
                     btnKlik.BackColor = Color.FromArgb(76, 175, 80); // ubah jadi ijo
                     btnKlik.ForeColor = Color.White;
 
-                    decimal totalBiaya = (durasiTerpilih / 15) * 50000;
+                    // OOP: Meminta Controller menghitung nominal estimasi lewat model internalnya
+                    decimal totalBiaya = _chargingController.HitungEstimasiBiayaModel(durasiTerpilih);
                     lblEstimasi.Text = $"Total Biaya: Rp {totalBiaya:N0}";
                 };
 
@@ -299,8 +300,12 @@ namespace EcoDrive_vol2.Views
 
             btnProses.Click += (s, e) =>
             {
+                int idKendaraanTerpilih = 0;
+
                 if (cmbKendaraan.SelectedItem is Kendaraan kendaraanTerpilih)
                 {
+                    idKendaraanTerpilih = kendaraanTerpilih.IdKendaraan;
+
                     // Cek apakah ada plat yang sama di dalam list transaksi aktif (Pending/Mengisi Daya)
                     bool isSudahCharging = _listSedangCharging.Exists(trx => trx.NomorPlat == kendaraanTerpilih.NomorPlatKendaraan);
 
@@ -316,12 +321,9 @@ namespace EcoDrive_vol2.Views
                     }
                 }
 
-                decimal totalBiaya = (durasiTerpilih / 15) * 50000;
-                int idKendaraanTerpilih = (int)cmbKendaraan.SelectedValue;
-
                 try
                 {
-                    _chargingController.ProsesBuatCharging(UserSession.IdUserAktif, idKendaraanTerpilih, station.IdChargingStation, durasiTerpilih);
+                    _chargingController.ProsesBuatCharging(UserSession.IdUserAktif, idKendaraanTerpilih, station.IdChargingStation, durasiTerpilih, _listKendaraanUser);
 
                     MessageBox.Show("Pembayaran Berhasil! Status saat ini: PENDING. \nSilakan tunggu konfirmasi Admin.", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     detailForm.Close();
@@ -383,24 +385,13 @@ namespace EcoDrive_vol2.Views
                 ForeColor = Color.Gray, Dock = DockStyle.Top, Height = 40
             };
 
-            string statusString = trx.StatusCharging.ToString().Trim().ToLower();
-            
-            // Default warna Orange untuk Pending / Mengisi Daya
-            Color statusColor = Color.Orange;
-            if (statusString.Contains("mengisi") || statusString.Contains("daya"))
-            {
-                statusColor = Color.FromArgb(46, 139, 87); // Hijau pas lagi nge-charge
-            }
-            else if (statusString.Contains("pending"))
-            {
-                statusColor = Color.Orange; // Orange pas nunggu konfirmasi
-            }
+            var skemaVisual = _chargingController.DapatkanSkemaVisualStatus(trx);
 
             Label lblStatus = new Label 
             { 
                 Text = $"⚡ STATUS: {trx.StatusCharging.ToString().ToUpper().Replace("_", " ")}",
                 Font = new Font("Segoe UI", 9, FontStyle.Bold), 
-                ForeColor = statusColor, 
+                ForeColor = skemaVisual.WarnaTeks, 
                 Dock = DockStyle.Top, 
                 Height = 30 
             };
@@ -414,23 +405,24 @@ namespace EcoDrive_vol2.Views
                 FlatStyle = FlatStyle.Flat,
                 Size = new Size(250, 38),
                 Location = new Point(15, 210),
+                Enabled = skemaVisual.TombolAktif,
                 Tag = trx
             };
             btnSelesai.FlatAppearance.BorderSize = 0;
 
             // TOMBOL SELESAI HANYA BISA DIKLIK KALAU STATUSNYA "MENGISI DAYA" (SUDAH DI-ACC ADMIN)
-            if (statusString.Contains("pending"))
+            if (skemaVisual.TombolAktif == false)
             {
-                btnSelesai.Enabled = false;
                 btnSelesai.Text = "Menunggu Konfirmasi Admin";
                 btnSelesai.BackColor = Color.Gray;
+                btnSelesai.Enabled = false;
             }
 
             btnSelesai.Click += (s, e) => {
                 DialogResult res = MessageBox.Show($"Apakah Anda yakin ingin menghentikan pengisian daya untuk {trx.NamaKendaraan}?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (res == DialogResult.Yes)
                 {
-                    _chargingController.SelesaikanCharging(trx.IdTransaksiCharging);
+                    _chargingController.SelesaikanCharging(trx, _listKendaraanUser);
 
                     MessageBox.Show("Pengisian daya selesai. Terima kasih!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     UbahMode("STATION", btnFilterStation); // Refresh

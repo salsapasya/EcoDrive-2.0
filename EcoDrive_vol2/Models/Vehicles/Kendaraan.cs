@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using EcoDrive_vol2.Models.Enums;
 
 namespace EcoDrive_vol2.Models.Vehicles
@@ -11,7 +12,7 @@ namespace EcoDrive_vol2.Models.Vehicles
 
         private string _nomorPlatKendaraan;
 
-        public string NamaKendaraan { get; set; }
+        private string _namaKendaraan;
 
         private int _stokKendaraan;
 
@@ -19,7 +20,7 @@ namespace EcoDrive_vol2.Models.Vehicles
 
         public KendaraanTipe TipeKendaraan { get; set; }
 
-        public OptionStatus StatusKendaraan { get; set; }
+        // Backing field removed; use strongly-typed enum property for status
 
         public bool IsDeleted { get; set; }
 
@@ -76,27 +77,27 @@ namespace EcoDrive_vol2.Models.Vehicles
         {
         }
 
-        public string Nama  //ENCAP
+        public string NamaKendaraan  //ENCAP
         {
-            get => NamaKendaraan;
-            set => NamaKendaraan = value;
-        }
-
-
-        public string Status  //ENCAP 
-        {
-            get => StatusKendaraan.ToString();
+            get => _namaKendaraan;
             set
             {
-                StatusKendaraan = Enum.Parse<OptionStatus>(value);
+                if (string.IsNullOrEmpty(value))
+                    throw new ArgumentException("Nama kendaraan tidak boleh kosong.");
+                if (value.Length < 3 || value.Length > 50)
+                    throw new ArgumentException("Nama kendaraan harus antara 3 hingga 50 karakter.");
+                _namaKendaraan = value.Trim();
             }
         }
+
+
+        public OptionStatus StatusKendaraan { get; set; }
 
 
         public string Tipe  //ENCAP
         {
             get => TipeKendaraan.ToString();
-            set => TipeKendaraan = Enum.Parse<KendaraanTipe>(value);
+            set => TipeKendaraan = Enum.Parse<KendaraanTipe>(value, true);
         }
     }
 }

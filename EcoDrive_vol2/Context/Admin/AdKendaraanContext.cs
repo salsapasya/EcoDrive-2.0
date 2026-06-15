@@ -39,13 +39,8 @@ namespace EcoDrive_vol2.Context.Admin
                         StokKendaraan = Convert.ToInt32(reader["stok_kendaraan"]),
                         HargaSewa = Convert.ToDecimal(reader["harga_sewa"]),
 
-                        TipeKendaraan = Enum.Parse<KendaraanTipe>(
-                            reader["tipe_kendaraan"].ToString(), true
-                        ),
-
-                        StatusKendaraan = Enum.Parse<OptionStatus>(
-                            reader["status_kendaraan"].ToString().Replace(" ", "_"), true
-                        )
+                        TipeKendaraan = Enum.Parse<KendaraanTipe>(reader["tipe_kendaraan"].ToString(), true),
+                        StatusKendaraan = Enum.Parse<OptionStatus>(reader["status_kendaraan"].ToString().Replace(" ", "_"), true)
                     };
 
                     kendaraanList.Add(kendaraan);
@@ -57,6 +52,52 @@ namespace EcoDrive_vol2.Context.Admin
             }
 
             return kendaraanList;
+        }
+
+        public Kendaraan GetById(int idKendaraan)
+        {
+            using var conn = DatabaseHelper.GetConnection();
+
+            try
+            {
+                conn.Open();
+
+                string query = @"SELECT id_kendaraan, id_merk_kendaraan, nomor_plat_kendaraan, nama_kendaraan, 
+                                        stok_kendaraan, harga_sewa, tipe_kendaraan, status_kendaraan 
+                                 FROM kendaraan 
+                                 WHERE id_kendaraan = @id_kendaraan
+                                 AND is_deleted = false
+                                 LIMIT 1";
+
+                using var cmd = new NpgsqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@id_kendaraan", idKendaraan);
+
+                using var reader = cmd.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    Kendaraan kendaraan = new Kendaraan
+                    {
+                        IdKendaraan = Convert.ToInt32(reader["id_kendaraan"]),
+                        IdMerkKendaraan = Convert.ToInt32(reader["id_merk_kendaraan"]),
+                        NomorPlatKendaraan = reader["nomor_plat_kendaraan"].ToString(),
+                        NamaKendaraan = reader["nama_kendaraan"].ToString(),
+                        StokKendaraan = Convert.ToInt32(reader["stok_kendaraan"]),
+                        HargaSewa = Convert.ToDecimal(reader["harga_sewa"]),
+
+                        TipeKendaraan = Enum.Parse<KendaraanTipe>(reader["tipe_kendaraan"].ToString(), true),
+                        StatusKendaraan = Enum.Parse<OptionStatus>(reader["status_kendaraan"].ToString().Replace(" ", "_"), true)
+                    };
+
+                    return kendaraan;
+                }
+
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error Ambil Kendaraan By Id: " + ex.Message);
+            }
         }
 
         public void AddKendaraan(Kendaraan kendaraan)
@@ -110,6 +151,11 @@ namespace EcoDrive_vol2.Context.Admin
 
         public void UpdateKendaraan(Kendaraan kendaraan)
         {
+            if (IsNomorPlatExists(kendaraan.NomorPlatKendaraan, kendaraan.IdKendaraan))
+            {
+                throw new Exception("Nomor plat sudah terdaftar.");
+            }
+
             using var conn = DatabaseHelper.GetConnection();
 
             try
@@ -117,17 +163,24 @@ namespace EcoDrive_vol2.Context.Admin
                 conn.Open();
 
                 string query = @"
-                    UPDATE kendaraan
-                    SET
+                    UPDATE kendaraan SET
+                        id_merk_kendaraan = @id_merk_kendaraan,
+                        nomor_plat_kendaraan = @nomor_plat_kendaraan,
                         nama_kendaraan = @nama_kendaraan,
+                        stok_kendaraan = @stok_kendaraan,
                         harga_sewa = @harga_sewa,
+                        tipe_kendaraan = @tipe_kendaraan::tipe_kendaraan,
                         status_kendaraan = @status_kendaraan::option_status
                     WHERE id_kendaraan = @id_kendaraan";
 
                 using var cmd = new NpgsqlCommand(query, conn);
 
+                cmd.Parameters.AddWithValue("@id_merk_kendaraan", kendaraan.IdMerkKendaraan);
+                cmd.Parameters.AddWithValue("@nomor_plat_kendaraan", kendaraan.NomorPlatKendaraan);
                 cmd.Parameters.AddWithValue("@nama_kendaraan", kendaraan.NamaKendaraan);
+                cmd.Parameters.AddWithValue("@stok_kendaraan", kendaraan.StokKendaraan);
                 cmd.Parameters.AddWithValue("@harga_sewa", kendaraan.HargaSewa);
+                cmd.Parameters.AddWithValue("@tipe_kendaraan", kendaraan.TipeKendaraan.ToString().ToLower());
                 cmd.Parameters.AddWithValue("@status_kendaraan", kendaraan.StatusKendaraan.ToString().ToLower().Replace("_", " "));
                 cmd.Parameters.AddWithValue("@id_kendaraan", kendaraan.IdKendaraan);
 
@@ -158,6 +211,32 @@ namespace EcoDrive_vol2.Context.Admin
             {
                 throw new Exception("Error Delete Kendaraan (Soft Delete): " + ex.Message);
             }
+        }
+
+        public bool IsNomorPlatExists(string nomorPlat,int idKendaraan)
+        {
+            using var conn =
+                DatabaseHelper.GetConnection();
+
+            conn.Open();
+
+            string query = @"
+            SELECT COUNT(*)
+            FROM kendaraan
+            WHERE nomor_plat_kendaraan = @plat
+            AND id_kendaraan <> @id
+            AND is_deleted = false";
+
+            using var cmd =
+                new NpgsqlCommand(query, conn);
+
+            cmd.Parameters.AddWithValue("@plat", nomorPlat);
+            cmd.Parameters.AddWithValue("@id", idKendaraan);
+
+            int count =
+                Convert.ToInt32(cmd.ExecuteScalar());
+
+            return count > 0;
         }
     }
 }

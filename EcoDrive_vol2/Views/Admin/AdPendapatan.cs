@@ -22,13 +22,15 @@ namespace EcoDrive_vol2.Views
         {
             InitializeComponent();
             this.BackColor = bgUtama;
-            _controller = new AdPendapatanController(new PendapatanService());
+            _controller = new AdPendapatanController(new AdPendapatanService());
+            cmbBulan.DropDownStyle = ComboBoxStyle.DropDownList;
 
-            string[] namaBulan = { "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-                           "Juli", "Agustus", "September", "Oktober", "November", "Desember" };
-            string bulanSekarang = namaBulan[DateTime.Now.Month - 1];
-            int indexBulan = cmbBulan.FindStringExact(bulanSekarang);
-            if (indexBulan >= 0) cmbBulan.SelectedIndex = indexBulan;
+            string namaBulanSekarang = DateTime.Now.ToString("MMMM", new System.Globalization.CultureInfo("id-ID"));
+            int indexBulanDitemukan = cmbBulan.FindStringExact(namaBulanSekarang);
+            if (indexBulanDitemukan >= 0)
+            {
+                cmbBulan.SelectedIndex = indexBulanDitemukan;
+            }
         }
 
         private void AdPendapatan_Load(object sender, EventArgs e)
@@ -142,4 +144,3 @@ namespace EcoDrive_vol2.Views
         }
     }
 }
-// ini aku cuma nyoba ngepush ke branch salsapasya

@@ -11,12 +11,6 @@ namespace EcoDrive_vol2.AbstractandInterface.Interface
 
         int AmbilIdUser(string username);
 
-        DataTable AmbilDaftarTopUpAdmin(string statusFilter = "");
-
-        void KonfirmasiTopUp(int idTopup, int idUser);
-
-        void TolakTopUp(int idTopup);
-
         Users Login(string username, string password);
     }
 }

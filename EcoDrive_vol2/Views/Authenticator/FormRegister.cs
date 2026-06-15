@@ -49,7 +49,7 @@ namespace EcoDrive_vol2
 
         private void FormRegister_Load(object sender, EventArgs e)
         {
-            txtPassword.UseSystemPasswordChar = true;
+            txtPassword.UseSystemPasswordChar = false;
 
             LblSignUp.Cursor = Cursors.Hand;
             LblSignUp.ForeColor = Color.Blue;
@@ -65,6 +65,8 @@ namespace EcoDrive_vol2
 
             txtPassword.Text = "Password";
             txtPassword.ForeColor = Color.Gray;
+            txtPassword.PasswordChar = '\0';
+
         }
 
         private void LblSignUp_Click(object sender, EventArgs e)
@@ -86,8 +88,28 @@ namespace EcoDrive_vol2
             this.Close();
         }
 
+        private void txtPassword_Enter(object sender, EventArgs e)
+        {
+            if (txtPassword.Text == "Password")
+            {
+                txtPassword.Text = "";
+                txtPassword.ForeColor = Color.Black;
+                txtPassword.PasswordChar = '\0';
+            }
+        }
+
+        private void txtPassword_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtPassword.Text))
+            {
+                txtPassword.Text = "Password";
+                txtPassword.ForeColor = Color.Gray;
+                txtPassword.PasswordChar = '\0';
+            }
+        }
+
         // Metode kosong sisa generate otomatis dikosongkan
-        private void txtPassword_TextChanged(object sender, EventArgs e) { txtPassword.PasswordChar = '*'; }
+        private void txtPassword_TextChanged(object sender, EventArgs e) { }
         private void txtUsername_TextChanged(object sender, EventArgs e) { }
         private void txtTelp_TextChanged(object sender, EventArgs e) { }
         private void txtNama_TextChanged(object sender, EventArgs e) { }

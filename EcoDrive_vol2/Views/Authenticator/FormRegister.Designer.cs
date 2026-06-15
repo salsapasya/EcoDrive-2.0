@@ -40,24 +40,26 @@
             // 
             // txtUsername
             // 
-            txtUsername.Location = new Point(933, 352);
+            txtUsername.Location = new Point(892, 352);
             txtUsername.Margin = new Padding(2);
             txtUsername.Name = "txtUsername";
             txtUsername.PlaceholderText = "Username";
-            txtUsername.Size = new Size(129, 23);
+            txtUsername.Size = new Size(195, 23);
             txtUsername.TabIndex = 1;
             txtUsername.TextChanged += txtUsername_TextChanged;
             // 
             // txtPassword
             // 
             txtPassword.AccessibleName = "txtPassowrd";
-            txtPassword.Location = new Point(933, 390);
+            txtPassword.Location = new Point(892, 390);
             txtPassword.Margin = new Padding(2);
             txtPassword.Name = "txtPassword";
             txtPassword.PlaceholderText = "Password";
-            txtPassword.Size = new Size(129, 23);
+            txtPassword.Size = new Size(195, 23);
             txtPassword.TabIndex = 2;
             txtPassword.TextChanged += txtPassword_TextChanged;
+            txtPassword.Enter += txtPassword_Enter;
+            txtPassword.Leave += txtPassword_Leave;
             // 
             // LblSignUp
             // 
@@ -87,21 +89,21 @@
             // 
             // txtTelp
             // 
-            txtTelp.Location = new Point(933, 314);
+            txtTelp.Location = new Point(892, 314);
             txtTelp.Margin = new Padding(2);
             txtTelp.Name = "txtTelp";
             txtTelp.PlaceholderText = "No Telp";
-            txtTelp.Size = new Size(129, 23);
+            txtTelp.Size = new Size(195, 23);
             txtTelp.TabIndex = 6;
             txtTelp.TextChanged += txtTelp_TextChanged;
             // 
             // txtNama
             // 
-            txtNama.Location = new Point(933, 273);
+            txtNama.Location = new Point(892, 273);
             txtNama.Margin = new Padding(2);
             txtNama.Name = "txtNama";
             txtNama.PlaceholderText = "Nama";
-            txtNama.Size = new Size(129, 23);
+            txtNama.Size = new Size(195, 23);
             txtNama.TabIndex = 7;
             txtNama.TextChanged += txtNama_TextChanged;
             // 
