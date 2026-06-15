@@ -8,7 +8,7 @@ using System.Data;
 
 namespace EcoDrive_vol2.Context
 {
-    public class TopUpContext : ITopup
+    public class TopUpContext : ICusTopup
     {
         public decimal GetSaldo(int idUser)
         {
