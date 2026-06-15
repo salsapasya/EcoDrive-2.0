@@ -62,22 +62,15 @@ namespace EcoDrive_vol2.Views.Admin
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(txtNama.Text))
-                {
-                    MessageBox.Show("Nama kendaraan wajib diisi!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    txtNama.Focus();
-                    return;
-                }
-
                 Kendaraan target = _isEditMode ? _kendaraanEksisting : new Kendaraan();
 
                 target.NamaKendaraan = txtNama.Text.Trim();
                 target.NomorPlatKendaraan = txtPlat.Text;
 
                 target.StokKendaraan = (int)numStok.Value;
-                target.HargaSewa = (long)numHarga.Value;
-                target.TipeKendaraan = Enum.Parse<KendaraanTipe>(cbTipe.SelectedItem.ToString());
-                target.StatusKendaraan = Enum.Parse<OptionStatus>(cbStatus.SelectedItem.ToString().Replace(" ", "_"));
+                target.HargaSewa = (decimal)numHarga.Value;
+                target.TipeKendaraan = Enum.Parse<KendaraanTipe>(cbTipe.SelectedItem.ToString(), true);
+                target.StatusKendaraan = Enum.Parse<OptionStatus>(cbStatus.SelectedItem.ToString().Replace(" ", "_"), true);
 
                 if (!_isEditMode) target.IdMerkKendaraan = 1;
 

@@ -1,5 +1,6 @@
 ﻿using EcoDrive_vol2.AbstractandInterface.Interface;
 using System;
+using EcoDrive_vol2.Models.Enums;
 
 namespace EcoDrive_vol2.Models.Vehicles
 {
@@ -9,20 +10,14 @@ namespace EcoDrive_vol2.Models.Vehicles
 
         public decimal Biaya { get; set; }
 
-        // Polymorphism
-        //public override decimal BiayaRental(int jam)  //POLYMOR YG NYAMBUNG SAMA KENDARAAN CS(BUAT NGUBAH PERILAKUNYA)
-        //{
-        //    return (jam * HargaSewa) + Biaya;
-        //}
-
         public void Plugin()
         {
-            Status = "Charging";
+            StatusKendaraan = OptionStatus.dalam_perbaikan;
         }
 
         public void Unplug()
         {
-            Status = "Available";
+            StatusKendaraan = OptionStatus.tersedia;
         }
     }
 }

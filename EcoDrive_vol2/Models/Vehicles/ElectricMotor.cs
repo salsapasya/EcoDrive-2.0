@@ -1,5 +1,6 @@
 ﻿using EcoDrive_vol2.AbstractandInterface.Interface;
 using System;
+using EcoDrive_vol2.Models.Enums;
 
 namespace EcoDrive_vol2.Models.Vehicles
 {
@@ -9,12 +10,12 @@ namespace EcoDrive_vol2.Models.Vehicles
 
         public void Plugin()
         {
-            Status = "Charging";
+            StatusKendaraan = OptionStatus.dalam_perbaikan;
         }
 
         public void Unplug()
         {
-            Status = "Available";
+            StatusKendaraan = OptionStatus.tersedia;
         }
     }
 }

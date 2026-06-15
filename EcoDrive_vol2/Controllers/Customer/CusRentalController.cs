@@ -55,7 +55,6 @@ namespace EcoDrive_vol2.Controllers.Customer
 
         public dynamic DapatkanVisualStatus(Kendaraan kendaraan)
         {
-            string statusDb = kendaraan.StatusKendaraan.ToString().Replace("_", " ");
             bool ready = CekUnitReady(kendaraan);
 
             if (ready)
@@ -63,14 +62,15 @@ namespace EcoDrive_vol2.Controllers.Customer
                 return new { Text = "READY", BgColor = Color.FromArgb(232, 245, 233), FgColor = Color.FromArgb(67, 160, 71) };
             }
 
-            switch (statusDb.ToLower())
+            // Use enum-based switching to compare enum to enum and format the enum name for display
+            switch (kendaraan.StatusKendaraan)
             {
-                case "disewa":
-                    return new { Text = "DISEWA", BgColor = Color.FromArgb(255, 244, 229), FgColor = Color.FromArgb(255, 152, 0) };
-                case "rusak":
-                    return new { Text = "RUSAK", BgColor = Color.FromArgb(255, 235, 238), FgColor = Color.FromArgb(244, 67, 54) };
+                case OptionStatus.disewa:
+                    return new { Text = kendaraan.StatusKendaraan.ToString().Replace("_", " ").ToUpper(), BgColor = Color.FromArgb(255, 244, 229), FgColor = Color.FromArgb(255, 152, 0) };
+                case OptionStatus.rusak:
+                    return new { Text = kendaraan.StatusKendaraan.ToString().Replace("_", " ").ToUpper(), BgColor = Color.FromArgb(255, 235, 238), FgColor = Color.FromArgb(244, 67, 54) };
                 default:
-                    return new { Text = "HABIS", BgColor = Color.FromArgb(254, 241, 242), FgColor = Color.FromArgb(220, 38, 38) };
+                    return new { Text = kendaraan.StatusKendaraan.ToString().Replace("_", " ").ToUpper(), BgColor = Color.FromArgb(254, 241, 242), FgColor = Color.FromArgb(220, 38, 38) };
             }
         }
 
@@ -86,6 +86,13 @@ namespace EcoDrive_vol2.Controllers.Customer
              );
 
             // Oper objek yang sudah jadi ke Service
+            _rentalService.ProsesSewaKendaraan(sewaBaru);
+        }
+
+        // Overload: menerima objek TransaksiSewa langsung dari View
+        public void KonfirmasiSewa(EcoDrive_vol2.Models.Transaksi.TransaksiSewa sewaBaru)
+        {
+            if (sewaBaru == null) throw new ArgumentNullException(nameof(sewaBaru));
             _rentalService.ProsesSewaKendaraan(sewaBaru);
         }
 
