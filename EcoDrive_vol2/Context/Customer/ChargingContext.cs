@@ -48,14 +48,32 @@ namespace EcoDrive_vol2.Context.Customer
             using var reader = cmd.ExecuteReader();
             while (reader.Read())
             {
-                list.Add(new Kendaraan
+                string namaKendaraan = reader["nama_kendaraan"].ToString();
+                Kendaraan knd;
+
+                // OOP Polimorfisme: Deteksi tipe objek konkrit saat mengambil dari database
+                if (namaKendaraan.ToLower().Contains("mobil"))
                 {
-                    IdKendaraan = Convert.ToInt32(reader["id_kendaraan"]),
-                    NamaKendaraan = reader["nama_kendaraan"].ToString(),
-                    NomorPlatKendaraan = reader["nomor_plat_kendaraan"].ToString(),
-                });
+                    knd = new ElectricCar
+                    {
+                        IdKendaraan = Convert.ToInt32(reader["id_kendaraan"]),
+                        NamaKendaraan = namaKendaraan,
+                        NomorPlatKendaraan = reader["nomor_plat_kendaraan"].ToString()
+                    };
+                }
+                else
+                {
+                    knd = new ElectricMotor
+                    {
+                        IdKendaraan = Convert.ToInt32(reader["id_kendaraan"]),
+                        NamaKendaraan = namaKendaraan,
+                        NomorPlatKendaraan = reader["nomor_plat_kendaraan"].ToString()
+                    };
+                }
+
+                list.Add(knd);
             }
-            return list;
+                return list;
         }
 
         public List<TransaksiCharging> GetTransaksiAktif(int idUser)

@@ -39,31 +39,5 @@ namespace EcoDrive_vol2.Controllers.Customer
         {
             _topUpCustomerService.ProsesMintaBatalDariRiwayat(idTopup);
         }
-        public int GetIdUserByUsername(string username)
-        {
-            return _topUpCustomerService.GetIdUserByUsername(username);
-        }
-        public DataTable GetDaftarTransaksiTopUp(string status = "")
-        {
-            try
-            {
-                return _loginService.AmbilDaftarTopUpAdmin(status);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error di Controller saat mengambil daftar transaksi: " + ex.Message);
-            }
-        }
-        public void KonfirmasiTopUp(int idTopup, int idUser)
-        {
-            try
-            {
-                _loginService.KonfirmasiTopUp(idTopup, idUser);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error di Controller saat konfirmasi top up: " + ex.Message);
-            }
-        }
     }
 }
