@@ -33,6 +33,13 @@
             btnGagal = new Button();
             btnBerhasil = new Button();
             dgvTransaksi = new DataGridView();
+            colIdTransaksi = new DataGridViewTextBoxColumn();
+            colUsername = new DataGridViewTextBoxColumn();
+            colNama = new DataGridViewTextBoxColumn();
+            colKontak = new DataGridViewTextBoxColumn();
+            colJumlahTopup = new DataGridViewTextBoxColumn();
+            colStatus = new DataGridViewTextBoxColumn();
+            colMintaBatal = new DataGridViewTextBoxColumn();
             btnPending = new Button();
             lblTitle = new Label();
             btnSemua = new Button();
@@ -46,13 +53,6 @@
             lblSaldoAktifHeader = new Label();
             lblSaldoAktif = new Label();
             btnKonfirmasiTopUp = new Button();
-            colIdTransaksi = new DataGridViewTextBoxColumn();
-            colUsername = new DataGridViewTextBoxColumn();
-            colNama = new DataGridViewTextBoxColumn();
-            colKontak = new DataGridViewTextBoxColumn();
-            colJumlahTopup = new DataGridViewTextBoxColumn();
-            colStatus = new DataGridViewTextBoxColumn();
-            colMintaBatal = new DataGridViewTextBoxColumn();
             cardPanel.SuspendLayout();
             mainPanel.SuspendLayout();
             panelCard1.SuspendLayout();
@@ -70,7 +70,7 @@
             cardPanel.Location = new Point(0, 0);
             cardPanel.Name = "cardPanel";
             cardPanel.Padding = new Padding(30);
-            cardPanel.Size = new Size(1100, 700);
+            cardPanel.Size = new Size(1000, 650);
             cardPanel.TabIndex = 2;
             // 
             // mainPanel
@@ -90,7 +90,7 @@
             mainPanel.Dock = DockStyle.Fill;
             mainPanel.Location = new Point(30, 30);
             mainPanel.Name = "mainPanel";
-            mainPanel.Size = new Size(1040, 640);
+            mainPanel.Size = new Size(940, 590);
             mainPanel.TabIndex = 0;
             // 
             // panelCard1
@@ -98,9 +98,9 @@
             panelCard1.BackColor = Color.White;
             panelCard1.Controls.Add(lblCardTitle1);
             panelCard1.Controls.Add(lblCardValue1);
-            panelCard1.Location = new Point(45, 100);
+            panelCard1.Location = new Point(40, 100);
             panelCard1.Name = "panelCard1";
-            panelCard1.Size = new Size(220, 95);
+            panelCard1.Size = new Size(200, 95);
             panelCard1.TabIndex = 0;
             // 
             // lblCardTitle1
@@ -110,7 +110,7 @@
             lblCardTitle1.ForeColor = Color.Gray;
             lblCardTitle1.Location = new Point(15, 15);
             lblCardTitle1.Name = "lblCardTitle1";
-            lblCardTitle1.Size = new Size(86, 15);
+            lblCardTitle1.Size = new Size(85, 15);
             lblCardTitle1.TabIndex = 0;
             lblCardTitle1.Text = "Top Up Hari Ini";
             // 
@@ -130,9 +130,9 @@
             panelCard2.BackColor = Color.White;
             panelCard2.Controls.Add(lblCardTitle2);
             panelCard2.Controls.Add(lblCardValue2);
-            panelCard2.Location = new Point(285, 100);
+            panelCard2.Location = new Point(270, 100);
             panelCard2.Name = "panelCard2";
-            panelCard2.Size = new Size(220, 95);
+            panelCard2.Size = new Size(160, 95);
             panelCard2.TabIndex = 1;
             // 
             // lblCardTitle2
@@ -162,9 +162,9 @@
             panelCard3.BackColor = Color.White;
             panelCard3.Controls.Add(lblCardTitle3);
             panelCard3.Controls.Add(lblCardValue3);
-            panelCard3.Location = new Point(525, 100);
+            panelCard3.Location = new Point(461, 100);
             panelCard3.Name = "panelCard3";
-            panelCard3.Size = new Size(220, 95);
+            panelCard3.Size = new Size(160, 95);
             panelCard3.TabIndex = 2;
             // 
             // lblCardTitle3
@@ -174,7 +174,7 @@
             lblCardTitle3.ForeColor = Color.Gray;
             lblCardTitle3.Location = new Point(15, 15);
             lblCardTitle3.Name = "lblCardTitle3";
-            lblCardTitle3.Size = new Size(93, 15);
+            lblCardTitle3.Size = new Size(92, 15);
             lblCardTitle3.TabIndex = 0;
             lblCardTitle3.Text = "Transaksi Sukses";
             // 
@@ -221,6 +221,7 @@
             // 
             dgvTransaksi.AllowUserToAddRows = false;
             dgvTransaksi.AllowUserToResizeRows = false;
+            dgvTransaksi.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvTransaksi.BackgroundColor = Color.White;
             dgvTransaksi.BorderStyle = BorderStyle.None;
             dgvTransaksi.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
@@ -242,14 +243,63 @@
             dgvTransaksi.DefaultCellStyle = dataGridViewCellStyle2;
             dgvTransaksi.EnableHeadersVisualStyles = false;
             dgvTransaksi.GridColor = Color.FromArgb(242, 242, 242);
-            dgvTransaksi.Location = new Point(45, 270);
+            dgvTransaksi.Location = new Point(40, 270);
             dgvTransaksi.Name = "dgvTransaksi";
             dgvTransaksi.ReadOnly = true;
             dgvTransaksi.RowHeadersVisible = false;
             dgvTransaksi.RowTemplate.Height = 52;
             dgvTransaksi.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvTransaksi.Size = new Size(700, 340);
+            dgvTransaksi.Size = new Size(581, 305);
             dgvTransaksi.TabIndex = 5;
+            // 
+            // colIdTransaksi
+            // 
+            colIdTransaksi.DataPropertyName = "id_topup_saldo";
+            colIdTransaksi.HeaderText = "ID";
+            colIdTransaksi.Name = "colIdTransaksi";
+            colIdTransaksi.ReadOnly = true;
+            colIdTransaksi.Width = 50;
+            // 
+            // colUsername
+            // 
+            colUsername.HeaderText = "Username";
+            colUsername.Name = "colUsername";
+            colUsername.ReadOnly = true;
+            // 
+            // colNama
+            // 
+            colNama.HeaderText = "Customer";
+            colNama.Name = "colNama";
+            colNama.ReadOnly = true;
+            colNama.Width = 140;
+            // 
+            // colKontak
+            // 
+            colKontak.HeaderText = "Kontak";
+            colKontak.Name = "colKontak";
+            colKontak.ReadOnly = true;
+            colKontak.Width = 110;
+            // 
+            // colJumlahTopup
+            // 
+            colJumlahTopup.HeaderText = "Nominal";
+            colJumlahTopup.Name = "colJumlahTopup";
+            colJumlahTopup.ReadOnly = true;
+            colJumlahTopup.Width = 110;
+            // 
+            // colStatus
+            // 
+            colStatus.HeaderText = "Status";
+            colStatus.Name = "colStatus";
+            colStatus.ReadOnly = true;
+            colStatus.Width = 90;
+            // 
+            // colMintaBatal
+            // 
+            colMintaBatal.DataPropertyName = "minta_batal";
+            colMintaBatal.HeaderText = "Minta Batal";
+            colMintaBatal.Name = "colMintaBatal";
+            colMintaBatal.ReadOnly = true;
             // 
             // btnPending
             // 
@@ -303,6 +353,7 @@
             // 
             // panelAksiSide
             // 
+            panelAksiSide.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
             panelAksiSide.BackColor = Color.White;
             panelAksiSide.Controls.Add(lblAksiTitle);
             panelAksiSide.Controls.Add(lblHintCari);
@@ -312,9 +363,9 @@
             panelAksiSide.Controls.Add(lblSaldoAktifHeader);
             panelAksiSide.Controls.Add(lblSaldoAktif);
             panelAksiSide.Controls.Add(btnKonfirmasiTopUp);
-            panelAksiSide.Location = new Point(765, 100);
+            panelAksiSide.Location = new Point(655, 100);
             panelAksiSide.Name = "panelAksiSide";
-            panelAksiSide.Size = new Size(230, 510);
+            panelAksiSide.Size = new Size(230, 475);
             panelAksiSide.TabIndex = 10;
             // 
             // lblAksiTitle
@@ -335,14 +386,14 @@
             lblHintCari.ForeColor = Color.Gray;
             lblHintCari.Location = new Point(15, 55);
             lblHintCari.Name = "lblHintCari";
-            lblHintCari.Size = new Size(105, 15);
+            lblHintCari.Size = new Size(104, 15);
             lblHintCari.TabIndex = 1;
             lblHintCari.Text = "Username Terpilih:";
             // 
             // txtUsernameCari
             // 
             txtUsernameCari.Font = new Font("Segoe UI", 10F);
-            txtUsernameCari.Location = new Point(18, 75);
+            txtUsernameCari.Location = new Point(13, 73);
             txtUsernameCari.Name = "txtUsernameCari";
             txtUsernameCari.ReadOnly = true;
             txtUsernameCari.Size = new Size(194, 25);
@@ -397,67 +448,18 @@
             btnKonfirmasiTopUp.FlatStyle = FlatStyle.Flat;
             btnKonfirmasiTopUp.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             btnKonfirmasiTopUp.ForeColor = Color.White;
-            btnKonfirmasiTopUp.Location = new Point(18, 374);
+            btnKonfirmasiTopUp.Location = new Point(15, 406);
             btnKonfirmasiTopUp.Name = "btnKonfirmasiTopUp";
             btnKonfirmasiTopUp.Size = new Size(194, 45);
             btnKonfirmasiTopUp.TabIndex = 7;
             btnKonfirmasiTopUp.Text = "✔ SETUJUI PEMBATALAN";
             btnKonfirmasiTopUp.UseVisualStyleBackColor = false;
             // 
-            // colIdTransaksi
-            // 
-            colIdTransaksi.DataPropertyName = "id_topup_saldo";
-            colIdTransaksi.HeaderText = "ID";
-            colIdTransaksi.Name = "colIdTransaksi";
-            colIdTransaksi.ReadOnly = true;
-            colIdTransaksi.Width = 50;
-            // 
-            // colUsername
-            // 
-            colUsername.HeaderText = "Username";
-            colUsername.Name = "colUsername";
-            colUsername.ReadOnly = true;
-            // 
-            // colNama
-            // 
-            colNama.HeaderText = "Customer";
-            colNama.Name = "colNama";
-            colNama.ReadOnly = true;
-            colNama.Width = 140;
-            // 
-            // colKontak
-            // 
-            colKontak.HeaderText = "Kontak";
-            colKontak.Name = "colKontak";
-            colKontak.ReadOnly = true;
-            colKontak.Width = 110;
-            // 
-            // colJumlahTopup
-            // 
-            colJumlahTopup.HeaderText = "Nominal";
-            colJumlahTopup.Name = "colJumlahTopup";
-            colJumlahTopup.ReadOnly = true;
-            colJumlahTopup.Width = 110;
-            // 
-            // colStatus
-            // 
-            colStatus.HeaderText = "Status";
-            colStatus.Name = "colStatus";
-            colStatus.ReadOnly = true;
-            colStatus.Width = 90;
-            // 
-            // colMintaBatal
-            // 
-            colMintaBatal.DataPropertyName = "minta_batal";
-            colMintaBatal.HeaderText = "Minta Batal";
-            colMintaBatal.Name = "colMintaBatal";
-            colMintaBatal.ReadOnly = true;
-            // 
             // AdTopUpCustomer
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1100, 700);
+            ClientSize = new Size(1000, 650);
             Controls.Add(cardPanel);
             Name = "AdTopUpCustomer";
             Text = "EcoDrive Admin Portal";

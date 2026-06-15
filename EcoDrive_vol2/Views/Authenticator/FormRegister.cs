@@ -19,6 +19,8 @@ namespace EcoDrive_vol2
         public FormRegister()
         {
             InitializeComponent();
+
+            this.Shown += (s, ev) => { this.ActiveControl = FrmJudul; };
         }
 
         private void btnSignUp_Click(object sender, EventArgs e)
@@ -49,34 +51,13 @@ namespace EcoDrive_vol2
 
         private void FormRegister_Load(object sender, EventArgs e)
         {
-            txtPassword.UseSystemPasswordChar = false;
+            btnSignUp.Cursor = Cursors.Hand;
+            btnBack.Cursor = Cursors.Hand;
 
-            LblSignUp.Cursor = Cursors.Hand;
-            LblSignUp.ForeColor = Color.Blue;
+            txtPassword.UseSystemPasswordChar = true;
 
-            txtNama.Text = "Nama";
-            txtNama.ForeColor = Color.Gray;
+            this.ActiveControl = FrmJudul;
 
-            txtTelp.Text = "No Telp";
-            txtTelp.ForeColor = Color.Gray;
-
-            txtUsername.Text = "Username";
-            txtUsername.ForeColor = Color.Gray;
-
-            txtPassword.Text = "Password";
-            txtPassword.ForeColor = Color.Gray;
-            txtPassword.PasswordChar = '\0';
-
-        }
-
-        private void LblSignUp_Click(object sender, EventArgs e)
-        {
-            FormLogin login =
-                new FormLogin();
-
-            login.Show();
-
-            this.Hide();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -86,26 +67,6 @@ namespace EcoDrive_vol2
             login.Show();
 
             this.Close();
-        }
-
-        private void txtPassword_Enter(object sender, EventArgs e)
-        {
-            if (txtPassword.Text == "Password")
-            {
-                txtPassword.Text = "";
-                txtPassword.ForeColor = Color.Black;
-                txtPassword.PasswordChar = '\0';
-            }
-        }
-
-        private void txtPassword_Leave(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txtPassword.Text))
-            {
-                txtPassword.Text = "Password";
-                txtPassword.ForeColor = Color.Gray;
-                txtPassword.PasswordChar = '\0';
-            }
         }
 
         // Metode kosong sisa generate otomatis dikosongkan
