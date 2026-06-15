@@ -1,4 +1,5 @@
 ﻿using EcoDrive_vol2.Context;
+using EcoDrive_vol2.Models.Transaksi;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,6 +10,18 @@ namespace EcoDrive_vol2.Service
     public class TopUpCustomerService
     {
         private readonly TopUpContext _topUpContext = new TopUpContext(); //ENCAP
+
+        public void BuatTopUp(int idCustomer, int jumlah)
+        {
+            TopupSaldo baru = new TopupSaldo(idCustomer, jumlah);
+            _topUpContext.SimpanTransaksiTopUp(baru);
+        }
+
+        public void SimpanTopUp(TopupSaldo dataTopup)
+        {
+            if (dataTopup.JumlahTopup <= 0) throw new ArgumentException("Jumlah tidak valid.");
+            _topUpContext.InsertTopUpLangsung(dataTopup.IdCustomer, (decimal)dataTopup.JumlahTopup);
+        }
 
         public decimal AmbilSaldoUser(int idUser)
         {

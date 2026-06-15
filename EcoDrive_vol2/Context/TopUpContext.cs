@@ -1,11 +1,14 @@
-﻿using EcoDrive_vol2.Helpers;
+﻿using EcoDrive_vol2.AbstractandInterface.Interface;
+using EcoDrive_vol2.Helpers;
+using EcoDrive_vol2.Models.Admin;
+using EcoDrive_vol2.Models.Transaksi;
 using Npgsql;
 using System;
 using System.Data;
 
 namespace EcoDrive_vol2.Context
 {
-    public class TopUpContext
+    public class TopUpContext : ITopup
     {
         public decimal GetSaldo(int idUser)
         {
@@ -82,6 +85,19 @@ namespace EcoDrive_vol2.Context
                 throw new Exception("Error di TopUpContext (InsertTopUpLangsung): " + ex.Message);
             }
         }
+
+        public void SimpanTransaksiTopUp(TopupSaldo data)
+        {
+            using var conn = DatabaseHelper.GetConnection();
+            string query = "INSERT INTO topup_saldo (id_user, jumlah_topup, status_topup) VALUES (@id, @jml, 'pending')";
+
+            conn.Open();
+            using var cmd = new NpgsqlCommand(query, conn);
+            cmd.Parameters.AddWithValue("@id", data.IdCustomer);
+            cmd.Parameters.AddWithValue("@jml", data.JumlahTopup);
+            cmd.ExecuteNonQuery();
+        }
+
         public void InsertTopUpPending(int idUser, decimal nominal)
         {
             using var conn = DatabaseHelper.GetConnection();
@@ -150,6 +166,7 @@ namespace EcoDrive_vol2.Context
                 throw new Exception("Gagal memproses minta batal: " + ex.Message);
             }
         }
+
         public int GetIdUserByUsername(string username)
         {
             using var conn = DatabaseHelper.GetConnection();
@@ -166,6 +183,12 @@ namespace EcoDrive_vol2.Context
             {
                 throw new Exception("Error di Context (GetIdUserByUsername): " + ex.Message);
             }
+        }
+
+        public List<TopUp> GetAllTopup()
+        {
+            List<TopUp> list = new List<TopUp>();
+            return list;
         }
     }
 }
