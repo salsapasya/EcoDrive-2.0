@@ -93,6 +93,8 @@ namespace EcoDrive_vol2.Models.Vehicles
 
         public OptionStatus StatusKendaraan { get; set; }
 
+        public string Status { get; set; }
+
 
         public string Tipe  //ENCAP
         {
