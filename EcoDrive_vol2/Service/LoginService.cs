@@ -29,25 +29,6 @@ namespace EcoDrive_vol2.Service
             return _userContext.GetIdUser(username);
         }
 
-        public DataTable AmbilDaftarTopUpAdmin(string statusFilter = "")
-        {
-            return _userContext.GetDaftarTopUpFromView(statusFilter);
-        }
-        public void KonfirmasiTopUp(int idTopup, int idUser)
-        {
-            if (idTopup <= 0) throw new ArgumentException("ID Top Up tidak valid!");
-            if (idUser <= 0) throw new ArgumentException("ID User tidak valid!");
-
-            _userContext.KonfirmasiTopUp(idTopup, idUser);
-        }
-
-        public void TolakTopUp(int idTopup)
-        {
-            if (idTopup <= 0) throw new ArgumentException("ID Top Up tidak valid!");
-
-            _userContext.TolakTopUp(idTopup);
-        }
-
         public Users Login(string username, string password)
         {
             var loggedInUser = _loginContext.Login(username, password);

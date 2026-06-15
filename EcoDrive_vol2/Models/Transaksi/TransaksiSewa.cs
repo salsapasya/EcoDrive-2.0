@@ -47,6 +47,8 @@ namespace EcoDrive_vol2.Models.Transaksi
             TanggalSewa = DateTime.Now;
             TanggalKembali = DateTime.Now.AddDays(durasiSewa);
         }
+        
+        // OOP (POLIMORFISME) = menggunakan override untuk memodifikasi dari kelas abstrak
         public override void HitungBiaya()
         {
             DurasiSewa = (TanggalKembali - TanggalSewa).Days;
@@ -54,6 +56,15 @@ namespace EcoDrive_vol2.Models.Transaksi
                 DurasiSewa = 1; // Minimal 1 hari sewa
             TotalBiaya = DurasiSewa * HargaPerHari;
         }
+        // ENCAPSULATION LOGIC: Fungsi pembantu mandiri khusus transaksi sewa
+        public bool CekBelumKembali()
+        {
+            return StatusPengembalian.ToString().ToLower().Replace("_", " ") == "belum kembali";
+        }
 
+        public string FormatStatus()
+        {
+            return StatusPengembalian.ToString().ToLower().Replace("_", " ").ToUpper();
+        }
     }
 }

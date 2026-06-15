@@ -7,11 +7,11 @@ using System.Text;
 
 namespace EcoDrive_vol2.Service
 {
-    public class PendapatanService : IPendapatanService
+    public class AdPendapatanService : IPendapatanService
     {
         private readonly AdPendapatanContext _context;
 
-        public PendapatanService()
+        public AdPendapatanService()
         {
             _context = new AdPendapatanContext();
         }
@@ -22,6 +22,15 @@ namespace EcoDrive_vol2.Service
         public List<RincianPendapatanModel> GetRincianPendapatanByBulanTahun(int bulan, int tahun)
         {
             return _context.GetRincianPendapatanByBulanTahun(bulan, tahun);
+        }
+        public int HitungIndexBulanSistem()
+        {
+            string[] namaBulan = { "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                           "Juli", "Agustus", "September", "Oktober", "November", "Desember" };
+            string bulanSekarang = namaBulan[DateTime.Now.Month - 1];
+
+            // Mengembalikan nilai indeks berbasis array bulan untuk dicocokkan ComboBox
+            return Array.IndexOf(namaBulan, bulanSekarang);
         }
     }
 }

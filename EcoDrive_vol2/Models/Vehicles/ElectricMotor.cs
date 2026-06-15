@@ -4,20 +4,20 @@ using EcoDrive_vol2.Models.Enums;
 
 namespace EcoDrive_vol2.Models.Vehicles
 {
-    public class ElectricMotor : Kendaraan, IChargeable //INHERITANCE KARENA ADA TANDA : BERATI TU NUNJUKIN KL INI ANAK DARI KENDARAAN  //ABSTRAC(IChargerable)
+    // OOP (Inheritance): ElectricMotor turunan dari Kendaraan
+    // OOP (Interface): Mengikat kontrak dengan IChargeable
+    public class ElectricMotor : Kendaraan, IChargeable 
     {
-        public bool RequiresHelmet { get; set; }
-
+        // IMPLEMENTASI INTERFACE ICHARGEABLE
         public void Plugin()
         {
-            StatusKendaraan = OptionStatus.dalam_perbaikan;
+            // Status diwarisi dari Kendaraan.cs
+            Status = "mengisi daya";
         }
 
         public void Unplug()
         {
-            StatusKendaraan = OptionStatus.tersedia;
+            Status = "selesai";
         }
     }
 }
-
-//BISA DIKASI OVERRIDE KL BEDA RUMUS BIAYANYA SM YG ELECTRIC CAR

@@ -123,10 +123,57 @@ namespace EcoDrive_vol2.Views
                     // Simpan objek model data ke dalam Tag baris (Sama fungsinya seperti DataBoundItem di contohmu)
                     dgvTransaksi.Rows[dgvTransaksi.Rows.Count - 1].Tag = item;
                 }
+                AturVisibilitasKolom(filterMode);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error Memuat Data : " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void AturVisibilitasKolom(string filterMode)
+        {
+            int idxTglSewa = 8;
+            int idxTglKembali = 9;
+            int idxTglCharging = 10;
+            int idxNamaStation = 11;
+
+            if (filterMode == "Sewa")
+            {
+                // Jika tombol Sewa diklik = Tampilkan kolom sewa, sembunyikan kolom charging
+                dgvTransaksi.Columns[idxTglSewa].Visible = true;
+                dgvTransaksi.Columns[idxTglKembali].Visible = true;
+
+                dgvTransaksi.Columns[idxTglCharging].Visible = false;
+                dgvTransaksi.Columns[idxNamaStation].Visible = false;
+
+                // Sembunyikan tombol aksi konfirmasi charging 
+                if (dgvTransaksi.Columns.Contains("btnKonfirmasi")) dgvTransaksi.Columns["btnKonfirmasi"].Visible = false;
+                if (dgvTransaksi.Columns.Contains("btnSelesai")) dgvTransaksi.Columns["btnSelesai"].Visible = true;
+            }
+            else if (filterMode == "Charging")
+            {
+                // Jika tombol Charging diklik = Sembunyikan kolom sewa, tampilkan kolom charging
+                dgvTransaksi.Columns[idxTglSewa].Visible = false;
+                dgvTransaksi.Columns[idxTglKembali].Visible = false;
+
+                dgvTransaksi.Columns[idxTglCharging].Visible = true;
+                dgvTransaksi.Columns[idxNamaStation].Visible = true;
+
+                // Sembunyikan tombol aksi penyelesaian sewa
+                if (dgvTransaksi.Columns.Contains("btnKonfirmasi")) dgvTransaksi.Columns["btnKonfirmasi"].Visible = true;
+                if (dgvTransaksi.Columns.Contains("btnSelesai")) dgvTransaksi.Columns["btnSelesai"].Visible = false;
+            }
+            else
+            {
+                // Jika tombol Semua diklik = Tampilkan seluruh kolom tanpa terkecuali
+                dgvTransaksi.Columns[idxTglSewa].Visible = true;
+                dgvTransaksi.Columns[idxTglKembali].Visible = true;
+                dgvTransaksi.Columns[idxTglCharging].Visible = true;
+                dgvTransaksi.Columns[idxNamaStation].Visible = true;
+
+                if (dgvTransaksi.Columns.Contains("btnKonfirmasi")) dgvTransaksi.Columns["btnKonfirmasi"].Visible = true;
+                if (dgvTransaksi.Columns.Contains("btnSelesai")) dgvTransaksi.Columns["btnSelesai"].Visible = true;
             }
         }
 

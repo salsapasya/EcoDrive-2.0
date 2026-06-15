@@ -6,18 +6,14 @@ namespace EcoDrive_vol2.Models.Vehicles
 {
     public class ElectricCar : Kendaraan, IChargeable  //INHERITANCE KARENA ADA TANDA : BERATI TU NUNJUKIN KL INI ANAK DARI KENDARAAN //ABSTRAC(IChargerable)
     {
-        public int PassengerLimit { get; set; }
-
-        public decimal Biaya { get; set; }
-
         public void Plugin()
         {
-            StatusKendaraan = OptionStatus.dalam_perbaikan;
+            Status = "mengisi daya";
         }
 
         public void Unplug()
         {
-            StatusKendaraan = OptionStatus.tersedia;
+            Status = "selesai";
         }
     }
 }

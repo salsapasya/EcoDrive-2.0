@@ -97,18 +97,14 @@ namespace EcoDrive_vol2.Views.Customer
                     Location = new Point(15, 45),
                     Size = new Size(350, 40)
                 };
-                string statusFormat = sewa.StatusPengembalian.ToString().ToLower().Replace("_", " ");
-                Color warnaStatus = Color.Red;
-                string iconStatus = "🔴";
 
-                if (statusFormat == "menunggu konfirmasi")
-                {
-                    warnaStatus = Color.Orange;
-                    iconStatus = "🕒";
-                }
+                // OOP (ENCAPSULATION) = menggunakan () untuk memanggil method encap dari model
+                Color warnaStatus = sewa.CekBelumKembali() ? Color.Red : Color.Orange;
+                string iconStatus = sewa.CekBelumKembali() ? "🔴" : "🕒";
+
                 Label lblStatus = new Label
                 {
-                    Text = $"{iconStatus} STATUS: {statusFormat.ToUpper()}",
+                    Text = $"{iconStatus} STATUS: {sewa.FormatStatus()}",
                     Font = new Font("Segoe UI", 9, FontStyle.Bold),
                     ForeColor = warnaStatus,
                     Location = new Point(15, 95),
@@ -122,7 +118,7 @@ namespace EcoDrive_vol2.Views.Customer
                     Font = new Font("Segoe UI", 9, FontStyle.Bold),
                     FlatStyle = FlatStyle.Flat
                 };
-                if (statusFormat == "belum kembali")
+                if (sewa.CekBelumKembali())
                 {
                     btnAksi.Text = "🔁 Kembalikan Sewa";
                     btnAksi.BackColor = hijauUtama;
