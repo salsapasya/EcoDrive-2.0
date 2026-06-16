@@ -4,7 +4,7 @@ using EcoDrive_vol2.Context.Admin;
 
 namespace EcoDrive_vol2.Controllers.Admin
 {
-    internal class AdDashboardController
+    public class AdDashboardController
     {
         private readonly DashboardContext _dashboardContext;
         private readonly AdPendapatanContext _pendapatanDb;
