@@ -11,6 +11,12 @@ namespace EcoDrive_vol2.Service
     {
         private readonly TopUpContext _topUpContext = new TopUpContext(); //ENCAP
 
+        public void ProsesTopupSaldo(int idUser, decimal jumlah)
+        {
+            if (jumlah <= 0) throw new ArgumentException("Jumlah top up harus lebih besar dari 0!");
+            _topUpContext.InsertTopUpLangsung(idUser, jumlah);
+        }
+
         public void BuatTopUp(int idCustomer, int jumlah)
         {
             TopupSaldo baru = new TopupSaldo(idCustomer, jumlah);

@@ -18,12 +18,6 @@ namespace EcoDrive_vol2.Service
             return _userContext.GetSaldo(idUser);
         }
 
-        public void ProsesTopupSaldo(int idUser, decimal jumlah)
-        {
-            if (jumlah <= 0) throw new ArgumentException("Jumlah top up harus lebih besar dari 0!");
-            _userContext.TopupSaldo(idUser, jumlah);
-        }
-
         public int AmbilIdUser(string username)
         {
             return _userContext.GetIdUser(username);

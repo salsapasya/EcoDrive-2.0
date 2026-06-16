@@ -15,6 +15,7 @@ namespace EcoDrive_vol2.Models.Transaksi
         public int IdTopupsaldo { get; set; }
         public int IdCustomer { get; set; }
         public int JumlahTopup { get; set; }
+        public decimal Saldo { get; set; }
         public TopupStatus StatusTopup { get; set; }
     }
 }
