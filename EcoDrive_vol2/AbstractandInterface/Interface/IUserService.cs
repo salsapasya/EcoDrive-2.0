@@ -7,7 +7,6 @@ namespace EcoDrive_vol2.AbstractandInterface.Interface
 {
     public interface IUserService
     {
-        List<Users> GetAllUsers();
-        void AddUser(Users user);
+        // Define user-related service methods here (kept empty if not used)
     }
 }

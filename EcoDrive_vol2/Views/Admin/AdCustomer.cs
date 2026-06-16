@@ -14,33 +14,27 @@ namespace EcoDrive_vol2.Views
         private DataTable dtCustomer;
         private string filterAktif = "";
 
-        // Daftarkan Service Pengolah Logika Kelola Akun Customer
         private readonly CustomerManagementService _customerService = new CustomerManagementService();
 
-        // 🎨 PALET WARNA MODERN DASHBOARD (Sesuai Referensi Grid)
-        private readonly Color COLOR_PRIMARY = Color.FromArgb(76, 175, 80);        // Hijau EcoDrive
-        private readonly Color COLOR_HEADER_BG = Color.FromArgb(253, 253, 240);    // Krem Sangat Terang (Header)
-        private readonly Color COLOR_TEXT_DARK = Color.FromArgb(47, 47, 47);       // Abu Gelap/Hitam Tulisan Utama
-        private readonly Color COLOR_TEXT_MUTED = Color.FromArgb(115, 115, 115);   // Abu-abu Elegan untuk Sub-info
-        private readonly Color COLOR_GRID_LINE = Color.FromArgb(238, 238, 238);    // Garis tipis antar baris
+        private readonly Color COLOR_PRIMARY = Color.FromArgb(76, 175, 80);       
+        private readonly Color COLOR_TEXT_DARK = Color.FromArgb(47, 47, 47);     
+        private readonly Color COLOR_TEXT_MUTED = Color.FromArgb(140, 140, 140);   
+        private readonly Color COLOR_CARD_BORDER = Color.FromArgb(230, 235, 230);
+        private readonly Color BG_BADGE_ACTIVE = Color.FromArgb(232, 245, 233);   
+        private readonly Color FG_BADGE_ACTIVE = Color.FromArgb(56, 142, 60);     
+        private readonly Color BG_BADGE_INACTIVE = Color.FromArgb(255, 235, 235); 
+        private readonly Color FG_BADGE_INACTIVE = Color.FromArgb(211, 47, 47); 
 
-        // Warna Status Badge (Pill)
-        private readonly Color BG_BADGE_ACTIVE = Color.FromArgb(200, 230, 201);   // Hijau Muda Pastel
-        private readonly Color FG_BADGE_ACTIVE = Color.FromArgb(56, 142, 60);     // Hijau Tua Text
-        private readonly Color BG_BADGE_INACTIVE = Color.FromArgb(255, 205, 210); // Merah Muda Pastel
-        private readonly Color FG_BADGE_INACTIVE = Color.FromArgb(211, 47, 47);   // Merah Tua Text
-
-        // Warna Latar Belakang Avatar Bulat (Bervariasi per baris agar estetik)
         private readonly Color[] AVATAR_COLORS = new Color[] {
-            Color.FromArgb(232, 245, 233), // Hijau Soft
-            Color.FromArgb(225, 245, 254), // Biru Soft
-            Color.FromArgb(255, 243, 224), // Oranye Soft
-            Color.FromArgb(243, 229, 245)  // Ungu Soft
+            Color.FromArgb(232, 245, 233), 
+            Color.FromArgb(225, 245, 254), 
+            Color.FromArgb(255, 243, 224), 
+            Color.FromArgb(243, 229, 245)  
         };
 
         public AdCustomer()
         {
-            InitializeComponent();
+            InitializeComponent(); 
             context = new UserContext();
 
             this.Load += AdCustomer_Load;
@@ -50,90 +44,14 @@ namespace EcoDrive_vol2.Views
             btnAktif.Click += FilterButton_Click;
             btnNonAktif.Click += FilterButton_Click;
 
-            // Daftarkan event penggambaran kustom untuk elemen visual tertentu (Avatar & Status)
-            dgvCustomer.CellPainting += dgvCustomer_CellPainting;
+            dgvCustomer.CellPainting += DgvCustomer_CellPainting;
             dgvCustomer.CellMouseClick += dgvCustomer_CellMouseClick;
         }
 
         private void AdCustomer_Load(object sender, EventArgs e)
         {
-            SetupDataGridViewStyle();
             UpdateFilterButtonVisuals();
             RefreshDataDariDatabase();
-        }
-
-        /// <summary>
-        /// Mengatur pembagian section kolom secara rapi, berjarak ideal, dan terstruktur
-        /// </summary>
-        private void SetupDataGridViewStyle()
-        {
-            dgvCustomer.BackgroundColor = Color.White;
-            dgvCustomer.BorderStyle = BorderStyle.None;
-            dgvCustomer.RowHeadersVisible = false;
-            dgvCustomer.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvCustomer.AllowUserToAddRows = false;
-            dgvCustomer.AllowUserToResizeRows = false;
-            dgvCustomer.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-            // Mengatur tinggi baris agar lega untuk menampung dua tingkat info (Nama & ID/Username)
-            dgvCustomer.RowTemplate.Height = 70;
-            dgvCustomer.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
-            dgvCustomer.GridColor = COLOR_GRID_LINE;
-            dgvCustomer.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
-
-            // Styling Header Berwarna Krem Lembut sesuai Gambar Referensi
-            dgvCustomer.EnableHeadersVisualStyles = false;
-            dgvCustomer.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dgvCustomer.ColumnHeadersDefaultCellStyle.BackColor = COLOR_HEADER_BG;
-            dgvCustomer.ColumnHeadersDefaultCellStyle.ForeColor = COLOR_TEXT_DARK;
-            dgvCustomer.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI", 9.75f, FontStyle.Bold);
-            dgvCustomer.ColumnHeadersHeight = 45;
-
-            // Styling Default Cell text umum
-            dgvCustomer.DefaultCellStyle.SelectionBackColor = Color.FromArgb(248, 249, 248);
-            dgvCustomer.DefaultCellStyle.SelectionForeColor = COLOR_TEXT_DARK;
-            dgvCustomer.DefaultCellStyle.ForeColor = COLOR_TEXT_MUTED;
-            dgvCustomer.DefaultCellStyle.Font = new Font("Segoe UI", 9.5f, FontStyle.Regular);
-
-            // 🏛️ STRUKTURISASI ULANG KOMPONEN PER KOLOM (Disesuaikan penuh secara sinkron)
-            dgvCustomer.Columns.Clear();
-            dgvCustomer.Columns.Add("id_raw", "ID Murni"); // Kolom bantu tersembunyi
-            dgvCustomer.Columns["id_raw"].Visible = false;
-
-            // Daftarkan seluruh kolom secara berurutan agar tidak terjadi crash / data bergeser
-            dgvCustomer.Columns.Add("profil_customer", "Pelanggan");
-            dgvCustomer.Columns.Add("username", "Username");
-            dgvCustomer.Columns.Add("telepon", "No. HP");
-            dgvCustomer.Columns.Add("saldo", "Saldo");
-            dgvCustomer.Columns.Add("status", "Status");
-
-            // Tombol Kelola Akun berbentuk Kapsul Hijau
-            DataGridViewButtonColumn btnKolomAksi = new DataGridViewButtonColumn();
-            btnKolomAksi.Name = "btnAksi";
-            btnKolomAksi.HeaderText = "Aksi";
-            btnKolomAksi.Text = "Kelola ⚙️";
-            btnKolomAksi.UseColumnTextForButtonValue = true;
-            btnKolomAksi.FlatStyle = FlatStyle.Flat;
-            btnKolomAksi.DefaultCellStyle.BackColor = COLOR_PRIMARY;
-            btnKolomAksi.DefaultCellStyle.ForeColor = Color.White;
-            btnKolomAksi.DefaultCellStyle.SelectionBackColor = Color.FromArgb(60, 143, 63);
-            btnKolomAksi.DefaultCellStyle.Font = new Font("Segoe UI", 9f, FontStyle.Bold);
-            dgvCustomer.Columns.Add(btnKolomAksi);
-
-            // 📐 Pengaturan Proporsi Lebar Section Kolom (Total yang pas dan seimbang)
-            dgvCustomer.Columns["profil_customer"].Width = 230;
-            dgvCustomer.Columns["username"].Width = 140;
-            dgvCustomer.Columns["telepon"].Width = 140;
-            dgvCustomer.Columns["saldo"].Width = 140;
-            dgvCustomer.Columns["status"].Width = 110;
-            dgvCustomer.Columns["btnAksi"].Width = 110;
-
-            // Penyelarasan Posisi Konten Data (Alignment)
-            dgvCustomer.Columns["saldo"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dgvCustomer.Columns["status"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dgvCustomer.Columns["btnAksi"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dgvCustomer.Columns["status"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dgvCustomer.Columns["btnAksi"].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
         }
 
         private void RefreshDataDariDatabase()
@@ -163,7 +81,6 @@ namespace EcoDrive_vol2.Views
 
             if (!string.IsNullOrEmpty(keyword))
             {
-                // Memperbaiki string kustom ekspresi filter agar tidak error compile
                 string searchExpr = $"(Convert(id_user, 'System.String') LIKE '%{keyword}%' " +
                                     $"OR nama_user LIKE '%{keyword}%' " +
                                     $"OR username LIKE '%{keyword}%' " +
@@ -198,17 +115,11 @@ namespace EcoDrive_vol2.Views
                 string saldoText = "Rp " + saldo.ToString("N0");
 
                 string status = row["status_akun"]?.ToString()?.Trim().ToLower() ?? "aktif";
-                status = (status == "aktif") ? "Active" : "Inactive";
+                status = (status == "aktif" || status == "active") ? "Active" : "Inactive";
 
-                // Memasukkan data HARUS BERURUTAN persis dengan skema dgvCustomer.Columns.Add di atas!
-                dgvCustomer.Rows.Add(
-                    rawId,              // id_raw (Hidden)
-                    $"{nama}|{idFormatted}", // profil_customer (Dipecah di CellPainting)
-                    username,           // username
-                    noHp,               // telepon
-                    saldoText,          // saldo
-                    status              // status
-                );
+                string combinedCardData = $"{nama}|{idFormatted}|{username}|{noHp}|{saldoText}|{status}";
+
+                dgvCustomer.Rows.Add(rawId, combinedCardData);
             }
         }
 
@@ -223,7 +134,7 @@ namespace EcoDrive_vol2.Views
 
             if (btnKlik == btnSemua) filterAktif = "";
             else if (btnKlik == btnAktif) filterAktif = "aktif";
-            else if (btnKlik == btnNonAktif) filterAktif = "non aktif";
+            else if (btnKlik == btnNonAktif) filterAktif = "diblokir";
 
             UpdateFilterButtonVisuals();
             ApplyFilterDanPencarian();
@@ -240,33 +151,44 @@ namespace EcoDrive_vol2.Views
 
             if (filterAktif == "") { btnSemua.BackColor = COLOR_PRIMARY; btnSemua.ForeColor = Color.White; }
             else if (filterAktif == "aktif") { btnAktif.BackColor = COLOR_PRIMARY; btnAktif.ForeColor = Color.White; }
-            else if (filterAktif == "non aktif") { btnNonAktif.BackColor = COLOR_PRIMARY; btnNonAktif.ForeColor = Color.White; }
+            else if (filterAktif == "diblokir") { btnNonAktif.BackColor = COLOR_PRIMARY; btnNonAktif.ForeColor = Color.White; }
         }
 
-        /// <summary>
-        /// 🎨 CUSTOM CELL PAINTING: Menggambar elemen grafis Avatar Bulat dan Status Badge agar presisi di jalurnya
-        /// </summary>
-        private void dgvCustomer_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        private void DgvCustomer_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
-            if (e.RowIndex < 0) return;
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
 
-            // 1. MENGGAMBAR SECTION PROFIL CUSTOMER (Avatar + Nama + ID Bertingkat)
-            if (dgvCustomer.Columns[e.ColumnIndex].Name == "profil_customer")
+            if (dgvCustomer.Columns[e.ColumnIndex].Name == "colCard")
             {
-                e.Paint(e.CellBounds, DataGridViewPaintParts.Background | DataGridViewPaintParts.Border);
+                e.Paint(e.CellBounds, DataGridViewPaintParts.Background);
 
                 if (e.Value != null)
                 {
-                    string[] stringParts = e.Value.ToString().Split('|');
-                    string namaPelanggan = stringParts[0];
-                    string detailID = stringParts.Length > 1 ? stringParts[1] : "";
+                    string[] split = e.Value.ToString().Split('|');
+                    string namaPelanggan = split[0];
+                    string detailID = split.Length > 1 ? split[1] : "";
+                    string username = split.Length > 2 ? split[2] : "";
+                    string noHp = split.Length > 3 ? split[3] : "";
+                    string saldoText = split.Length > 4 ? split[4] : "Rp 0";
+                    string statusText = split.Length > 5 ? split[5] : "Active";
 
                     e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
 
-                    // A. Gambar Avatar Lingkaran
-                    int avatarSize = 40;
-                    int avatarX = e.CellBounds.X + 12;
-                    int avatarY = e.CellBounds.Y + (e.CellBounds.Height - avatarSize) / 2;
+                    int margin = 6;
+                    Rectangle rectCard = new Rectangle(e.CellBounds.X + margin, e.CellBounds.Y + margin,
+                                                       e.CellBounds.Width - (margin * 2), e.CellBounds.Height - (margin * 2));
+
+                    using (GraphicsPath pathCard = GetRoundRectPath(rectCard, 8))
+                    using (SolidBrush brushWhite = new SolidBrush(Color.White))
+                    using (Pen penBorder = new Pen(COLOR_CARD_BORDER, 1f))
+                    {
+                        e.Graphics.FillPath(brushWhite, pathCard);
+                        e.Graphics.DrawPath(penBorder, pathCard);
+                    }
+
+                    int avatarSize = 44;
+                    int avatarX = rectCard.X + 16;
+                    int avatarY = rectCard.Y + (rectCard.Height - avatarSize) / 2;
                     Rectangle rectAvatar = new Rectangle(avatarX, avatarY, avatarSize, avatarSize);
 
                     Color bgAvatar = AVATAR_COLORS[e.RowIndex % AVATAR_COLORS.Length];
@@ -276,78 +198,62 @@ namespace EcoDrive_vol2.Views
                     {
                         e.Graphics.FillEllipse(brushAvatar, rectAvatar);
                     }
-
-                    Font fontInisial = new Font("Segoe UI", 10, FontStyle.Bold);
+                    Font fontInisial = new Font("Segoe UI", 10f, FontStyle.Bold);
                     TextRenderer.DrawText(e.Graphics, inisial, fontInisial, rectAvatar, FG_BADGE_ACTIVE,
                         TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
 
-                    // B. Tulis Nama Pelanggan (Bold & Gelap)
-                    Font fontNama = new Font("Segoe UI", 10, FontStyle.Bold);
-                    int textStartX = avatarX + avatarSize + 12;
-                    Point posNama = new Point(textStartX, e.CellBounds.Y + 15);
+                    int textStartX = avatarX + avatarSize + 16;
+                    Font fontNama = new Font("Segoe UI", 11f, FontStyle.Bold);
+                    Point posNama = new Point(textStartX, rectCard.Y + 24);
                     TextRenderer.DrawText(e.Graphics, namaPelanggan, fontNama, posNama, COLOR_TEXT_DARK);
 
-                    // C. Tulis Sub-Info ID di bawah Nama (Abu-abu Muted)
-                    Font fontSub = new Font("Segoe UI", 8.5f, FontStyle.Regular);
-                    Point posSub = new Point(textStartX, e.CellBounds.Y + 37);
-                    TextRenderer.DrawText(e.Graphics, detailID, fontSub, posSub, COLOR_TEXT_MUTED);
-                }
-                e.Handled = true;
-            }
+                    Font fontSub = new Font("Segoe UI", 9f, FontStyle.Regular);
+                    Point posSub = new Point(textStartX, rectCard.Y + 50);
+                    TextRenderer.DrawText(e.Graphics, detailID + "  •  @" + username, fontSub, posSub, COLOR_TEXT_MUTED);
 
-            // 2. MENGGAMBAR PILL BADGE ELEGAN DI KOLOM STATUS (Tidak akan bergeser lagi)
-            if (dgvCustomer.Columns[e.ColumnIndex].Name == "status")
-            {
-                e.Paint(e.CellBounds, DataGridViewPaintParts.Background | DataGridViewPaintParts.Border);
+                    int infoX = textStartX + 260;
+                    Font fontInfoTitle = new Font("Segoe UI", 8.5f, FontStyle.Regular);
+                    Font fontInfoValue = new Font("Segoe UI", 10f, FontStyle.Bold);
 
-                if (e.Value != null)
-                {
-                    string statusText = e.Value.ToString();
+                    TextRenderer.DrawText(e.Graphics, "NOMOR TELEPON", fontInfoTitle, new Point(infoX, rectCard.Y + 24), COLOR_TEXT_MUTED);
+                    TextRenderer.DrawText(e.Graphics, noHp, fontInfoValue, new Point(infoX, rectCard.Y + 46), COLOR_TEXT_DARK);
+
+                    int saldoX = infoX + 180;
+                    TextRenderer.DrawText(e.Graphics, "SALDO DOMPET", fontInfoTitle, new Point(saldoX, rectCard.Y + 24), COLOR_TEXT_MUTED);
+                    TextRenderer.DrawText(e.Graphics, saldoText, fontInfoValue, new Point(saldoX, rectCard.Y + 46), COLOR_PRIMARY);
+
                     Color bgBadge = (statusText == "Active") ? BG_BADGE_ACTIVE : BG_BADGE_INACTIVE;
                     Color fgBadge = (statusText == "Active") ? FG_BADGE_ACTIVE : FG_BADGE_INACTIVE;
 
-                    e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                    int badgeW = 76;
+                    int badgeH = 26;
+                    int badgeX = rectCard.Right - badgeW - 150; 
+                    int badgeY = rectCard.Y + (rectCard.Height - badgeH) / 2;
+                    Rectangle rectBadge = new Rectangle(badgeX, badgeY, badgeW, badgeH);
 
-                    int badgeWidth = 75;
-                    int badgeHeight = 24;
-                    int badgeX = e.CellBounds.X + (e.CellBounds.Width - badgeWidth) / 2;
-                    int badgeY = e.CellBounds.Y + (e.CellBounds.Height - badgeHeight) / 2;
-                    Rectangle rectBadge = new Rectangle(badgeX, badgeY, badgeWidth, badgeHeight);
-
-                    using (GraphicsPath path = GetRoundRectPath(rectBadge, 11))
+                    using (GraphicsPath pathBadge = GetRoundRectPath(rectBadge, 13))
                     using (SolidBrush brushBg = new SolidBrush(bgBadge))
                     {
-                        e.Graphics.FillPath(brushBg, path);
+                        e.Graphics.FillPath(brushBg, pathBadge);
                         Font fontBadge = new Font("Segoe UI", 8.5f, FontStyle.Bold);
                         TextRenderer.DrawText(e.Graphics, statusText, fontBadge, rectBadge, fgBadge,
                             TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
                     }
-                }
-                e.Handled = true;
-            }
 
-            // 3. MENGGAMBAR KAPSUL TOMBOL AKSI
-            if (dgvCustomer.Columns[e.ColumnIndex].Name == "btnAksi")
-            {
-                e.Paint(e.CellBounds, DataGridViewPaintParts.Background | DataGridViewPaintParts.Border);
-                e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                    int btnW = 100;
+                    int btnH = 32;
+                    int btnX = rectCard.Right - btnW - 20;
+                    int btnY = rectCard.Y + (rectCard.Height - btnH) / 2;
+                    Rectangle rectBtn = new Rectangle(btnX, btnY, btnW, btnH);
 
-                int btnW = 95;
-                int btnH = 28;
-                int btnX = e.CellBounds.X + (e.CellBounds.Width - btnW) / 2;
-                int btnY = e.CellBounds.Y + (e.CellBounds.Height - btnH) / 2;
-                Rectangle rectBtn = new Rectangle(btnX, btnY, btnW, btnH);
-
-                bool isSelected = dgvCustomer.Rows[e.RowIndex].Selected;
-                Color currentBtnBg = isSelected ? Color.FromArgb(60, 143, 63) : COLOR_PRIMARY;
-
-                using (GraphicsPath path = GetRoundRectPath(rectBtn, 8))
-                using (SolidBrush brush = new SolidBrush(currentBtnBg))
-                {
-                    e.Graphics.FillPath(brush, path);
-                    Font fontBtn = new Font("Segoe UI", 8.5f, FontStyle.Bold);
-                    TextRenderer.DrawText(e.Graphics, "Kelola", fontBtn, rectBtn, Color.White,
-                        TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+                    using (GraphicsPath pathBtn = GetRoundRectPath(rectBtn, 6))
+                    using (SolidBrush brushBtn = new SolidBrush(COLOR_PRIMARY))
+                    {
+                        e.Graphics.FillPath(brushBtn, pathBtn);
+                        Font fontBtn = new Font("Segoe UI", 9f, FontStyle.Bold);
+                        TextRenderer.DrawText(e.Graphics, "Kelola ⚙️", fontBtn, rectBtn, Color.White,
+                            TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
+                    }
                 }
                 e.Handled = true;
             }
@@ -365,52 +271,68 @@ namespace EcoDrive_vol2.Views
             return path;
         }
 
-        /// <summary>
-        /// MANAJEMEN AKSI: Membuka drop-down menu interaktif saat tombol Kelola diklik
-        /// </summary>
         private void dgvCustomer_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (e.RowIndex < 0) return;
+            if (e.RowIndex < 0 || e.ColumnIndex != 1) return;
 
-            if (dgvCustomer.Columns[e.ColumnIndex].Name != "btnAksi")
-                return;
-
-            string idRaw = dgvCustomer.Rows[e.RowIndex].Cells["id_raw"].Value?.ToString() ?? "0";
+            string idRaw = dgvCustomer.Rows[e.RowIndex].Cells["colId"].Value?.ToString() ?? "0";
             int idUser = int.TryParse(idRaw, out int parsed) ? parsed : 0;
 
-            string fullCellInfo = dgvCustomer.Rows[e.RowIndex].Cells["profil_customer"].Value?.ToString() ?? "";
-            string namaCustomer = fullCellInfo.Split('|')[0];
+            string fullCellInfo = dgvCustomer.Rows[e.RowIndex].Cells["colCard"].Value?.ToString() ?? "";
+            string[] split = fullCellInfo.Split('|');
+            if (split.Length < 6) return;
 
-            ShowCustomerMenu(idUser, namaCustomer);
+            string namaCustomer = split[0];
+            string currentStatus = split[5];
+
+            var rowBounds = dgvCustomer.GetRowDisplayRectangle(e.RowIndex, true);
+            int margin = 6;
+            int cardRight = rowBounds.X + margin + (dgvCustomer.Width - 35) - (margin * 2);
+            int btnW = 100;
+            int btnX = cardRight - btnW - 20;
+
+            // Periksa apakah X kursor tik masuk ke dalam hit-box tombol "Kelola ⚙️"
+            if (e.X >= (btnX - rowBounds.X) && e.X <= (btnX - rowBounds.X + btnW))
+            {
+                ShowCustomerMenu(idUser, namaCustomer, currentStatus);
+            }
         }
 
-        private void ShowCustomerMenu(int idUser, string namaCustomer)
+        private void ShowCustomerMenu(int idUser, string namaCustomer, string currentStatus)
         {
             ContextMenuStrip menu = new ContextMenuStrip();
             menu.RenderMode = ToolStripRenderMode.System;
             menu.BackColor = Color.White;
             menu.ShowImageMargin = false;
 
-            ToolStripLabel lblNama = new ToolStripLabel(namaCustomer);
+            ToolStripLabel lblNama = new ToolStripLabel("  " + namaCustomer);
             lblNama.Font = new Font("Segoe UI", 10, FontStyle.Bold);
             lblNama.ForeColor = COLOR_TEXT_DARK;
 
-            ToolStripLabel lblId = new ToolStripLabel($"ID Customer : {idUser}");
+            ToolStripLabel lblId = new ToolStripLabel("  ID Customer : " + idUser);
+            lblId.Font = new Font("Segoe UI", 8.5f, FontStyle.Regular);
             lblId.ForeColor = COLOR_TEXT_MUTED;
 
             menu.Items.Add(lblNama);
             menu.Items.Add(lblId);
             menu.Items.Add(new ToolStripSeparator());
 
-            menu.Items.Add("✅ Aktifkan Akun", null, (s, e) => UbahStatusKeAktif(idUser));
-            menu.Items.Add("⛔ Nonaktifkan Akun", null, (s, e) => UbahStatusKeNonAktif(idUser));
+            // Menu Status pintar bertukar opsi secara otomatis berdasarkan kondisi data real-time
+            if (currentStatus == "Active")
+            {
+                menu.Items.Add("⛔  Blokir Akun", null, (s, e) => UbahStatusKeBlokir(idUser));
+            }
+            else
+            {
+                menu.Items.Add("✅  Aktifkan Akun", null, (s, e) => UbahStatusKeAktif(idUser));
+            }
+
             menu.Items.Add(new ToolStripSeparator());
-            menu.Items.Add("🗑 Hapus Customer", null, (s, e) => HapusCustomer(idUser, namaCustomer));
+            menu.Items.Add("🗑  Hapus Customer", null, (s, e) => HapusCustomer(idUser, namaCustomer));
 
             menu.Show(Cursor.Position);
         }
 
-        // --- CORE BACKEND DATABASE OPERATION ---
         private void UbahStatusKeAktif(int idUser)
         {
             try
@@ -422,12 +344,12 @@ namespace EcoDrive_vol2.Views
             catch (Exception ex) { MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
         }
 
-        private void UbahStatusKeNonAktif(int idUser)
+        private void UbahStatusKeBlokir(int idUser)
         {
             try
             {
-                _customerService.AktifkanCustomer(idUser);
-                MessageBox.Show("Status customer berhasil diubah menjadi Inactive", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                _customerService.BlokirCustomer(idUser);
+                MessageBox.Show("Status customer berhasil diblokir (Inactive)", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 RefreshDataDariDatabase();
             }
             catch (Exception ex) { MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); }
@@ -435,7 +357,7 @@ namespace EcoDrive_vol2.Views
 
         private void HapusCustomer(int idUser, string nama)
         {
-            DialogResult hasil = MessageBox.Show($"Yakin ingin menghapus customer {nama}?", "Konfirmasi Hapus", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult hasil = MessageBox.Show($"Yakin ingin menghapus customer {nama}?", "Konfirmasi Hapus", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (hasil == DialogResult.Yes)
             {
                 try
@@ -448,14 +370,7 @@ namespace EcoDrive_vol2.Views
             }
         }
 
-        private void btnTambah_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void mainPanel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
+        private void btnTambah_Click(object sender, EventArgs e) { }
+        private void mainPanel_Paint(object sender, PaintEventArgs e) { }
     }
 }
