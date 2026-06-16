@@ -7,8 +7,6 @@ namespace EcoDrive_vol2.AbstractandInterface.Interface
     {
         decimal AmbilSaldoUser(int idUser);
 
-        void ProsesTopupSaldo(int idUser, decimal jumlah);
-
         int AmbilIdUser(string username);
 
         Users Login(string username, string password);
