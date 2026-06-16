@@ -11,7 +11,6 @@ namespace EcoDrive_vol2.Service
     {
         private readonly UserContext _context = new UserContext();
 
-        // Pindahkan logika mengubah status menjadi AKTIF dari View ke Service
         public void AktifkanCustomer(int idUser)
         {
             if (idUser <= 0) throw new ArgumentException("ID Customer tidak valid!");
@@ -19,12 +18,10 @@ namespace EcoDrive_vol2.Service
             Users user = _context.GetAllUsers().Find(u => u.IdUser == idUser);
             if (user == null) throw new Exception("Customer tidak ditemukan!");
 
-            // Mengubah status memanfaatkan tipe data Enum secara aman
             user.StatusAkun = StatusAkun.aktif;
             _context.UpdateUser(user);
         }
 
-        // LOGIKA DIBENERIN: Mengubah status menjadi DIBLOKIR (karena non_aktif tidak ada di Enum)
         public void BlokirCustomer(int idUser)
         {
             if (idUser <= 0) throw new ArgumentException("ID Customer tidak valid!");
@@ -32,16 +29,14 @@ namespace EcoDrive_vol2.Service
             Users user = _context.GetAllUsers().Find(u => u.IdUser == idUser);
             if (user == null) throw new Exception("Customer tidak ditemukan!");
 
-            user.StatusAkun = StatusAkun.diblokir; // Menggunakan status yang benar
+            user.StatusAkun = StatusAkun.diblokir; 
             _context.UpdateUser(user);
         }
 
-        // Pindahkan logika HAPUS customer dari View ke Service
         public void HapusCustomerDariDatabase(int idUser)
         {
             if (idUser <= 0) throw new ArgumentException("ID Customer tidak valid!");
 
-            // Cek dulu apakah user memang eksis sebelum dihapus
             Users user = _context.GetAllUsers().Find(u => u.IdUser == idUser);
             if (user == null) throw new Exception("Data customer sudah tidak ada di database!");
 
