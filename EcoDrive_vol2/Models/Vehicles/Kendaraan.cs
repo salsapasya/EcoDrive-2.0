@@ -20,7 +20,9 @@ namespace EcoDrive_vol2.Models.Vehicles
 
         public KendaraanTipe TipeKendaraan { get; set; }
 
-        // Backing field removed; use strongly-typed enum property for status
+        public OptionStatus StatusKendaraan { get; set; }
+
+        public string Status { get; set; }
 
         public bool IsDeleted { get; set; }
 
@@ -89,12 +91,6 @@ namespace EcoDrive_vol2.Models.Vehicles
                 _namaKendaraan = value.Trim();
             }
         }
-
-
-        public OptionStatus StatusKendaraan { get; set; }
-
-        public string Status { get; set; }
-
 
         public string Tipe  //ENCAP
         {
