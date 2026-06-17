@@ -161,7 +161,7 @@ namespace EcoDrive_vol2.Views
             };
             Button btnSewa = new Button 
             { 
-                Text = isReady ? "Sewa ➔" : "Kosong", 
+                Text = isReady ? "Sewa ➔" : "Tidak Tersedia", 
                 Size = new Size(110, 30), 
                 Location = new Point(145, 120), 
                 BackColor = isReady ? Color.FromArgb(76, 175, 80) : Color.FromArgb(240, 240, 240), 
@@ -196,9 +196,9 @@ namespace EcoDrive_vol2.Views
                     _cusRentalController.ValidasiKesiapanSewa(dataKendaraan);
                     TampilkanPopUpDetail(dataKendaraan);
                 }
-                catch (InvalidOperationException ex) when (ex.Message == "STOK_HABIS")
+                catch (InvalidOperationException ex)
                 {
-                    MessageBox.Show("Maaf, stok unit ini sedang kosong.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(ex.Message, "Tidak Tersedia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 catch (Exception ex)
                 {

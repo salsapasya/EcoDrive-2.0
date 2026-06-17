@@ -21,16 +21,17 @@ namespace EcoDrive_vol2.Controllers.Customer
                 throw new Exception("Gagal mengambil data sewa aktif: " + ex.Message);
             }
         }
-        public void AjukanPengembalian(int idTransaksiSewa)
+        public void AjukanPengembalian(int idTransaksiSewa, int idUser, string platNomor)
         {
             try
             {
-                _service.ProsesAjukanPengembalian(idTransaksiSewa);
+                _service.ProsesAjukanPengembalian(idTransaksiSewa, idUser, platNomor);
 
             }
             catch (Exception ex)
             {
-                throw new Exception("Gagal mengajukan pengembalian: " + ex.Message);
+                // message aslinya dari Service
+                throw new Exception(ex.Message);
             }
         }
     }

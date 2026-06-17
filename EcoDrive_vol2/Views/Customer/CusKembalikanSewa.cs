@@ -130,9 +130,19 @@ namespace EcoDrive_vol2.Views.Customer
                         DialogResult res = MessageBox.Show("Apakah Anda yakin ingin mengembalikan kendaraan ini?", "Konfirmasi", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                         if (res == DialogResult.Yes)
                         {
-                            _controller.AjukanPengembalian(sewa.IdTransaksiSewa);
-                            MessageBox.Show("Pengembalian diajukan! Silakan serah terima fisik kendaraan ke admin.", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            LoadDaftarSewaAktif(); // Re-render card list
+                            try
+                            {
+                                // Panggil controller dengan melempar idTransaksiSewa, idUser, dan NomorPlatKendaraan
+                                _controller.AjukanPengembalian(sewa.IdTransaksiSewa, idUser, sewa.NomorPlatKendaraan);
+
+                                MessageBox.Show("Pengembalian diajukan! Silakan serah terima fisik kendaraan ke admin.", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                LoadDaftarSewaAktif(); // Re-render card list
+                            }
+                            catch (Exception ex)
+                            {
+                                // Menangkap exception dari Service jika kendaraan masih charging
+                                MessageBox.Show(ex.Message, "Pengembalian Ditolak", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
                         }
                     };
                 }

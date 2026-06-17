@@ -39,6 +39,12 @@ namespace EcoDrive_vol2.Controllers.Customer
             {
                 throw new Exception("STOK_HABIS|Maaf, stok unit ini sedang kosong.");
             }
+            // Validasi status kendaraan wajib 'tersedia'
+            if (kendaraan.StatusKendaraan != OptionStatus.tersedia)
+            {
+                string statusTeks = kendaraan.StatusKendaraan.ToString().Replace("_", " ");
+                throw new InvalidOperationException($"Maaf, kendaraan tidak bisa disewa karena saat ini berstatus {statusTeks}.");
+            }
         }
 
         // Memindahkan pengondisian enum tipe kendaraan

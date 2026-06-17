@@ -8,6 +8,6 @@ namespace EcoDrive_vol2.AbstractandInterface.Interface
     public interface IPengembalianService
     {
         List<TransaksiSewa> AmbilSewaAktifUser(int idUser);
-        void ProsesAjukanPengembalian(int idTransaksiSewa);
+        void ProsesAjukanPengembalian(int idTransaksiSewa, int idUser, string platNomor);
     }
 }
