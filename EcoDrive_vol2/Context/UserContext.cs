@@ -2,14 +2,17 @@
 using EcoDrive_vol2.Models.Enums;
 using EcoDrive_vol2.Models.Users;
 using Npgsql;
+using OpenTK.Graphics.ES10;
 using System;
 using System.Collections.Generic;
 using System.Data;
 
 namespace EcoDrive_vol2.Context
 {
+    //ENCAP: mangatur akses data user(update/delete)
     public class UserContext
     {
+        //ABSTRAK:UI cuma butuh data
         public List<Users> GetAllUsers()
         {
             List<Users> usersList = new List<Users>();
@@ -27,6 +30,7 @@ namespace EcoDrive_vol2.Context
                 {
                     string rawStatus = reader["status_akun"].ToString().Trim().ToLower().Replace(" ", "_");
 
+                    //INHERITANCE: mapping ke model 'users', untuk jadi blueprint yg bisa di reuse di fitur lain
                     Users user = new Users()
                     {
                         IdUser = Convert.ToInt32(reader["id_user"]),
@@ -49,6 +53,7 @@ namespace EcoDrive_vol2.Context
             return usersList;
         }
 
+        //ENCAP: validasi input parameter sebelum query eksekusi
         public void AddUser(Users user)
         {
             using var conn = DatabaseHelper.GetConnection();
@@ -96,6 +101,7 @@ namespace EcoDrive_vol2.Context
             }
         }
 
+        //POLIMOR: method CRUD supaya Ui bisa manggil tanpa harus tau perubahan skema tabel di database 
         public void UpdateUser(Users user)
         {
             using var conn = DatabaseHelper.GetConnection();
@@ -154,6 +160,7 @@ namespace EcoDrive_vol2.Context
             }
         }
 
+        //ABSTRAK: UI cukup manggil GetSaldo nnti bakalan dapet hasil nominal
         public decimal GetSaldo(int idUser)
         {
             using var conn = DatabaseHelper.GetConnection();
@@ -168,6 +175,7 @@ namespace EcoDrive_vol2.Context
             return Convert.ToDecimal(result);
         }
 
+        //ENCAP: aturan bisnis(saldo+jumlah) di handle disini
         public void TopupSaldo(int idUser, decimal jumlah)
         {
             using var conn = DatabaseHelper.GetConnection();
@@ -207,6 +215,79 @@ namespace EcoDrive_vol2.Context
 
             int count = Convert.ToInt32(cmd.ExecuteScalar());
             return count > 0;
+        }
+
+        public DataTable GetDaftarTopUpFromView(string statusFilter)
+        {
+            DataTable dt = new DataTable();
+            using var conn = DatabaseHelper.GetConnection();
+
+            string query = "SELECT * FROM view_admin_topup";
+
+            if (!string.IsNullOrEmpty(statusFilter))
+            {
+                query += " WHERE status = LOWER(@status)";
+            }
+
+            using var cmd = new NpgsqlCommand(query, conn);
+            if (!string.IsNullOrEmpty(statusFilter))
+            {
+                cmd.Parameters.AddWithValue("@status", statusFilter);
+            }
+
+            try
+            {
+                conn.Open();
+                using var reader = cmd.ExecuteReader();
+                dt.Load(reader);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error saat mengambil data dari view_admin_topup: " + ex.Message);
+            }
+
+            return dt;
+        }
+
+        //ABSTRAK: menggunakan store procedure buat logika transaksi di proses di database
+        public void KonfirmasiTopUp(int idTopup, int idUser)
+        {
+            using var conn = DatabaseHelper.GetConnection();
+
+            try
+            {
+                conn.Open();
+                string query = "SELECT fn_konfirmasi_topup(@idTopup, @idUser)";
+
+                using var cmd = new NpgsqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@idTopup", idTopup);
+                cmd.Parameters.AddWithValue("@idUser", idUser);
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Gagal memproses konfirmasi top up di database: " + ex.Message);
+            }
+        }
+
+        public void TolakTopUp(int idTopup)
+        {
+            using var conn = DatabaseHelper.GetConnection();
+
+            try
+            {
+                conn.Open();
+                string query = "SELECT fn_tolak_topup(@idTopup)";
+
+                using var cmd = new NpgsqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@idTopup", idTopup);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Gagal memproses penolakan top up di database: " + ex.Message);
+            }
         }
 
         public DataTable GetAllCustomersForGrid()

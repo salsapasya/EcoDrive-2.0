@@ -9,6 +9,7 @@ namespace EcoDrive_vol2.Service
 {
     public class TopUpCustomerService
     {
+        //ENCAP: data context bersifat private
         private readonly TopUpContext _topUpContext = new TopUpContext(); //ENCAP
 
         public void ProsesTopupSaldo(int idUser, decimal jumlah)
@@ -23,6 +24,7 @@ namespace EcoDrive_vol2.Service
             _topUpContext.SimpanTransaksiTopUp(baru);
         }
 
+        //ABSTRAK: buat jembatan 
         public void SimpanTopUp(TopupSaldo dataTopup)
         {
             if (dataTopup.JumlahTopup <= 0) throw new ArgumentException("Jumlah tidak valid.");
@@ -53,6 +55,7 @@ namespace EcoDrive_vol2.Service
             _topUpContext.InsertTopUpPending(idUser, nominal);
         }
 
+        //ABSTRAK: ngubah proses yg rumit
         public void ProsesBayarDariRiwayat(int idTopup, int idUser, decimal nominal)
         {
             if (idTopup <= 0 || idUser <= 0) throw new ArgumentException("Data transaksi cacat.");

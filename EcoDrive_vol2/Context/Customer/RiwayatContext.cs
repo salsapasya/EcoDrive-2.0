@@ -7,6 +7,7 @@ using System.Text;
 
 namespace EcoDrive_vol2.Context.Customer
 {
+    //ABSTRAK: pake view_riwayat_customer buat nyederhanain data yg kompleks
     public class RiwayatContext
     {
         public DataTable GetRiwayatSewa(int idUser)
