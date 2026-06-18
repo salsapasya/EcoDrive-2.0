@@ -6,10 +6,11 @@ using EcoDrive_vol2.AbstractandInterface.Interface;
 
 namespace EcoDrive_vol2.Service
 {
-    // Penerapan Polymorphism: Implementasi interface ILoginService untuk menyediakan layanan login dan manajemen saldo
+    //Polymorphism: mengimplementasikan ILoginService untuk kontrak agar fitur login bisa dikembangkan tanpa merusak komponen lain
     public class LoginService : ILoginService
     {
-        // Abstraction
+        // Abstraction: buat nyembunyiin detail operasional dari UI
+        //ENCAP: objek usercontext sama logincontext dibuat private readonly biar gabisa diakses dari kelas luar
         private readonly UserContext _userContext = new UserContext();
         private readonly LoginContext _loginContext = new LoginContext();
 
@@ -18,6 +19,7 @@ namespace EcoDrive_vol2.Service
             return _userContext.GetSaldo(idUser);
         }
 
+        //ENCAP: validasi bisnis 'if (jumlah <= 0')
         public void ProsesTopupSaldo(int idUser, decimal jumlah)
         {
             if (jumlah <= 0) throw new ArgumentException("Jumlah top up harus lebih besar dari 0!");
@@ -50,6 +52,7 @@ namespace EcoDrive_vol2.Service
 
         public Users Login(string username, string password)
         {
+            //ABSTRAK: cukup panggil method, dapet objek user atau exception
             var loggedInUser = _loginContext.Login(username, password);
 
             if (loggedInUser == null)

@@ -8,8 +8,10 @@ using System.Data;
 
 namespace EcoDrive_vol2.Context
 {
+    //POLIMOR: mengimplementasikan ITopup
     public class TopUpContext : ITopup
     {
+        //ENCAP: method buat bungks query sql
         public decimal GetSaldo(int idUser)
         {
             using var conn = DatabaseHelper.GetConnection();
@@ -55,6 +57,7 @@ namespace EcoDrive_vol2.Context
             return dt;
         }
 
+        //ABSTRAK: menyembunyikan kompleksitas transaksi(insert&update) biar Ui cm panggil 1 fungsi aja
         public void InsertTopUpLangsung(int idUser, decimal nominal)
         {
             using var conn = DatabaseHelper.GetConnection();
