@@ -97,6 +97,11 @@ namespace EcoDrive_vol2.Services
                 throw new Exception("Kendaraan tidak ditemukan.");
             }
 
+            if (dataLama.StatusKendaraan == OptionStatus.disewa && kendaraan.StatusKendaraan != OptionStatus.disewa)
+            {
+                throw new Exception("Status tidak dapat diubah karena kendaraan masih dalam status disewa oleh pelanggan.");
+            }
+
             if (kendaraan.NomorPlatKendaraan != dataLama.NomorPlatKendaraan)
             {
                 throw new Exception("Nomor plat tidak dapat diubah.");
