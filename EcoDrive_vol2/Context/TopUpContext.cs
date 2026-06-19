@@ -9,7 +9,7 @@ using System.Data;
 namespace EcoDrive_vol2.Context
 {
     //POLIMOR: mengimplementasikan ITopup
-    public class TopUpContext : ITopup
+    public class TopUpContext 
     {
         //ENCAP: method buat bungks query sql
         public decimal GetSaldo(int idUser)
