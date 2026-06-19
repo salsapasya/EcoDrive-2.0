@@ -21,7 +21,7 @@ namespace EcoDrive_vol2.Service
         }
 
         // OOP (Polimorfisme & Class Object): Menerima satu objek utuh 
-        public void ProsesSewaKendaraan(TransaksiSewa transaksi)
+        public void ProsesSewaKendaraan(TransaksiSewa transaksi) //asosiasi
         {
             decimal saldoSaatIni = _userContext.GetSaldo(transaksi.IdUser);
 

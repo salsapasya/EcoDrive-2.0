@@ -14,9 +14,11 @@ namespace EcoDrive_vol2.Views
 {
     public partial class CusKendaraan : Form
     {
+        // composisi
         private readonly CusKendaraanController kendaraanController = new CusKendaraanController();
         private readonly CusRentalController _cusRentalController = new CusRentalController();
 
+        // agregasi
         private List<Kendaraan> _masterListKendaraan = new List<Kendaraan>();
         private List<Kendaraan> _filteredListKendaraan = new List<Kendaraan>();
         private string _kategoriAktif = "Semua";

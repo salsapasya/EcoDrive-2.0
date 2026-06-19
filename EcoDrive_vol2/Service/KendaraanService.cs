@@ -122,6 +122,18 @@ namespace EcoDrive_vol2.Services
 
         public void DeleteKendaraan(int id)
         {
+            Kendaraan dataKendaraan = context.GetById(id);
+
+            if (dataKendaraan == null)
+            {
+                throw new Exception("Kendaraan tidak ditemukan atau sudah dihapus.");
+            }
+
+            if (dataKendaraan.StatusKendaraan == OptionStatus.disewa)
+            {
+                throw new Exception("Kendaraan tidak dapat dihapus karena saat ini sedang aktif disewa oleh pelanggan!");
+            }
+
             context.DeleteKendaraan(id);
         }
     }

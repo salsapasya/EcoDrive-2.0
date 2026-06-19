@@ -33,7 +33,7 @@ namespace EcoDrive_vol2.Controllers.Customer
         }
 
         // Memindahkan urusan validasi kelayakan klik tombol sewa dari View
-        public void ValidasiKesiapanSewa(Kendaraan kendaraan)
+        public void ValidasiKesiapanSewa(Kendaraan kendaraan) // asosiasi
         {
             if (kendaraan.StokKendaraan <= 0)
             {
@@ -81,20 +81,6 @@ namespace EcoDrive_vol2.Controllers.Customer
         }
 
         // OOP: Menerima objek utuh dari View dan meneruskannya ke Service
-        public void KonfirmasiSewa(int idUser, int idKendaraan, int durasiSewa, decimal hargaPerHari)
-        {
-            // Proses instansiasi 'new' dipindah ke sini agar View bersih dari logika model
-            EcoDrive_vol2.Models.Transaksi.TransaksiSewa sewaBaru = new EcoDrive_vol2.Models.Transaksi.TransaksiSewa(
-                idUser,
-                idKendaraan,
-                durasiSewa,
-                hargaPerHari
-             );
-
-            // Oper objek yang sudah jadi ke Service
-            _rentalService.ProsesSewaKendaraan(sewaBaru);
-        }
-
         // Overload: menerima objek TransaksiSewa langsung dari View
         public void KonfirmasiSewa(EcoDrive_vol2.Models.Transaksi.TransaksiSewa sewaBaru)
         {
